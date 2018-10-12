@@ -39,23 +39,37 @@ rectangle "coole Box"{
     (Etikett drucken) as et_dr
     (Bestellvorgang erfassen)
     (Waren und/oder Geldbewegung\narchivieren)
-    (einfache Stornierung) as l_st
-    (globale Stornierung) as g_st
     (Stornierung archivieren)
+    (Ware einkaufen)
+    (günstigsten Anbieter wählen)
+
 
     rectangle "Kassensystem"{
             (Bargeld einzahlen) as bg_ez
             (Bargeld auszahlen) as bg_az
             (Bargeld wechseln) as bg_we
+            (Wechselgeld berechnen) as we_br
+
+            (einfache Stornierung) as l_st
+            (globale Stornierung) as g_st
 
 
             ku -- bg_ez
 
             vp -- bg_we
             vp -- bg_az
+            vp -- l_st
+
+
+            sys -- we_br
 
             bg_ez <.. bg_we: <<include>>
             bg_ez <.. bg_az: <<include>>
+            bg_az ..> we_br: <<include>>
+            bg_we ..> we_br: <<include>>
+            we_br ..> bg_ez: <<include>>
+            l_st <.. g_st: <<extend>>
+
         }
 
 
@@ -67,8 +81,7 @@ rectangle "coole Box"{
     vp -- inv
     vp -- et_dr
     vp -- eg_nkd
-    vp -- l_st
-    vp -- g_st
+
 
 
     '
