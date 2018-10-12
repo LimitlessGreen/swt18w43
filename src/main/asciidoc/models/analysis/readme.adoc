@@ -5,4 +5,4 @@ In diesem Ordner sind alle in der Analysephase erstellten Diagramme als Bild und
 ---
 
 ## Anwendungsfalldiagramm
-image::UseCase.png[]
+image::UseCase.svg[]
