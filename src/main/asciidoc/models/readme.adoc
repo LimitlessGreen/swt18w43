@@ -4,3 +4,9 @@ In diesem Ordner sollen die erstellten Diagramme (Bilder) sowie das zugehörige 
 Achten Sie auf eine Benennung, welche die Art des Diagramms beinhaltet.
 
 Die erstellten Diagramme können somit einfach in der Dokumentation referenziert werden.
+
+---
+
+Für die Diagramme verwenden wir PlantUML. Da GitHub keine native Unterstützung dafür bietet, muss nach einer Änderung die
+*start_rendering.sh* (in diesem Verzeichniss) ausgeführt werden.
+Eine umfangreiche Dokumentation für PlantUML ist link:./PlantUML_Language_Reference_Guide.pdf[HIER] zu finden.
