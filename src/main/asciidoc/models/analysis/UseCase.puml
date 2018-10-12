@@ -1,20 +1,53 @@
 @startuml
-:Main Admin: as Admin
-(Use the application) as (Use)
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+skinparam titleBorderColor blue
+skinparam titleBackgroundColor Chartreuse
 
-User -> (Start)
-User --> (Use)
+title Anwendungsfall - Diagramm
 
-Admin ---> (Use)
 
-note right of Admin : This is an example.
+' === Kunden === '
+:Kunde: as ku
+:Normalkunde: as nku
+:Personal: as pku
+:Großhandelsabnehmer: as gha
+:Hauskunde: as hku
 
-note right of (Use)
-A note can also
-be on several lines
-end note
+left to right direction
+nku --> ku
+pku --> ku
+gha --> ku
+hku --> ku
 
-note "This note is connected\nto several objects." as N2
-(Start) .. N2
-N2 .. (Use)
+
+' === Personal === '
+:Verkaufspersonal: as vp
+:Geschäftsleitung: as gl
+
+' === Sonstiges === '
+:System:
+
+' === Y === '
+rectangle "coole Box"{
+    (Inventur)
+    (Bezahlen)
+    '(Pfand auszahlen)
+    (Produkt tauschen)
+    (Großkundendatenbank\nimportieren)
+    (Verkaufspreis kalkulieren)
+    (Eingabe von\nNormalkundendaten)
+    (Etikett drucken)
+    (Bestellvorgang erfassen)
+    (Bargelt auszahlen)
+    (Bargelt wechseln)
+    (Waren und/oder Geldbewegung\narchivieren)
+    (einfache Stornierung)
+    (globale Stornierung)
+    (Stornierung archivieren)
+
+
+
+}
+
 @enduml
