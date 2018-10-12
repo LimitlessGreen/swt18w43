@@ -26,25 +26,58 @@ hku --> ku
 :Geschäftsleitung: as gl
 
 ' === Sonstiges === '
-:System:
+:System: as sys
 
 ' === Y === '
 rectangle "coole Box"{
-    (Inventur)
-    (Bezahlen)
+    (Inventur) as inv
     '(Pfand auszahlen)
     (Produkt tauschen)
-    (Großkundendatenbank\nimportieren)
-    (Verkaufspreis kalkulieren)
-    (Eingabe von\nNormalkundendaten)
-    (Etikett drucken)
+    (Großkundendatenbank\nimportieren) as grokudb_imp
+    (Verkaufspreis kalkulieren) as vp_calc
+    (Eingabe von\nNormalkundendaten) as eg_nkd
+    (Etikett drucken) as et_dr
     (Bestellvorgang erfassen)
-    (Bargeld auszahlen)
-    (Bargeld wechseln)
     (Waren und/oder Geldbewegung\narchivieren)
-    (einfache Stornierung)
-    (globale Stornierung)
+    (einfache Stornierung) as l_st
+    (globale Stornierung) as g_st
     (Stornierung archivieren)
+
+    rectangle "Kassensystem"{
+            (Bargeld einzahlen) as bg_ez
+            (Bargeld auszahlen) as bg_az
+            (Bargeld wechseln) as bg_we
+
+
+            ku -- bg_ez
+
+            vp -- bg_we
+            vp -- bg_az
+
+            bg_ez <.. bg_we: <<include>>
+            bg_ez <.. bg_az: <<include>>
+        }
+
+
+    '
+
+
+
+    '
+    vp -- inv
+    vp -- et_dr
+    vp -- eg_nkd
+    vp -- l_st
+    vp -- g_st
+
+
+    '
+    gl -- grokudb_imp
+
+    '
+    sys -- vp_calc
+
+
 
 
 
