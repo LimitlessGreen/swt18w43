@@ -1,3 +1,8 @@
 = Artefaktsammlung der Analysephase
 
 In diesem Ordner sind alle in der Analysephase erstellten Diagramme als Bild und zusätzlich das zugrundeliegende Modell zu hinterlegen.
+
+---
+
+## Anwendungsfalldiagramm
+image::UseCase.png[]
