@@ -1,0 +1,81 @@
+= Protokoll Gruppe 43
+
+Treffen am 15.10.2018
+
+Ort:      APB 1. Etage +
+Beginn:   07:30 Uhr +
+Ende:     09:10 Uhr
+
+__Schriftführer:__ Lukas Petzold
+
+*Nächstes Treffen:* +
+22.10.2018, 07:30 Uhr, APB Foyer
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor, Kunde)
+- Adrian Kulisch
+- Franziska Kiel
+- Josefin Hübner
+- Jairus Behrisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Zwischenstand wird Freitags an den Tutor geschrieben
+- Protokolle werden auf den Master-Branch gepusht
+- keine Datenbankschemata in Analyse notwendig
+- Entscheidung zwischen QR-Code und Barcode noch ausstehend
+
+== Festgelegte Anforderungen an Software
+- Abweichen vom BNN-Format ist in Ordnung (dient als Orientierung)
+- Wichtige Infos für Produkte: siehe Etikett, Lieferant, Preis
+- Optionen für Datenbanken müssen beinhalten:
+* Sortieren
+* Entfernen
+* Hinzufügen
+* Suche
+- Software dient für den Einkauf von Kunden im Laden (kein Onlineshop)
+- Hauskunden sind angemeldete Normalkunden
+- Terminkalender mit den Anmeldungen von Hauskunden (Datum + Uhrzeit)
+- Archivieren von Änderungen durch ein Log
+- In der Datenbank wird der Bestand von Produkten angezeigt
+- Der Verkaufspreis für Produkte wird durch einen Prozentsatz berechnet (Manager kann diesen ändern) -> Profit
+- Es können 999 Produkte im Laden ausgestellt werden, Es können mehr im Lager sein
+- Die Merkliste ist unser Warenkorb
+- Produkte werden aus dem Bestand entfernt, sobald sie im Warenkorb sind
+- Globale Berechnung bedeutet: Der ganze Warenkorb wird berechnet und nicht jedes Proukt einzeln
+- Im Warenkorb werden die Produkte nach Kategorie sortiert
+- Pro Produkt wird ein Etikett erstellt
+- Man kann für alle Produkte auf einmal die Etiketten drucken lassen
+- Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
+- Steuerabgaben werden extra berechnet -> nicht in den Profit
+- Mehrwertsteuer wird ganz zum Schluss berechnet
+- statistische Auswertung von Verkäufen in Tabelle und Diagrammen
+- einfache Stornierung: 1 Produkt wird zurückgegeben
+- globale Stornierung: alle Produkte werden zurückgegeben
+- Vorlieben von Kunden über Produkte werden gespeichert
+- nach Inventur muss die Menge von Produkten im Lager geändert werden können
+- Wirtschaftsjahranfang/ende ist uns überlassen
+- Inventur muss mit Finanzen verknüpft sein
+- Übersicht von bestellten Lieferungen von Händlern
+- Falls ein Lieferant nicht mehr liefert, muss der Preis eines Produktes aktualisiert werden
+- Es gibt eine Mindestbestellmenge bei Händlern
+- Lieferungen können Probleme haben, z.B. nicht ankommen
+
+- Kann-Kriterien:
+* Ablaufdatum für Produkte
+* Sonderaktionen
+* Zurückhalten von Waren bei globalen Stornierungen falls Wunsch vom Kunden
+* Mindestbestellwert
+
+== Aufgaben für nächste Woche
+- CRC-Kartenmethode
+- Analysemodelle erstellen:
+* Kontextdiagram
+* Top-Level Architektur
+* Use-Case Diagram
+* Klassendiagram
+* Sequenzdiagramme für wichtige use-cases erstellen
+- Features im Videoshop einbinden
