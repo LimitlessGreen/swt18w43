@@ -1,0 +1,24 @@
+|===
+|Berechtigung |Manager |Mitarbeiter
+
+|**Einkaufsdatenbank**
+|JA
+|NEIN
+
+
+|**Lieferantendatenbank**
+|JA
+|Nur Name & Ort
+
+
+|**Kundendatei**
+|JA
+|Alles sehen, nur Normalkunde eintragen
+
+
+|**Verkaufsdatenbank**
+|Auswählen was reinkommt, kann Lagerbestand ändern
+|Nur einsehen
+
+
+|===
