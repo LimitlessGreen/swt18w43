@@ -7,5 +7,17 @@ In diesem Ordner sind alle in der Analysephase erstellten Diagramme als Bild und
 ## CRC Karten
 *link:http://st.inf.tu-dresden.de/files/teaching/ss18/st/OOSE/OOSE_CRC_R-CRC.pdf[Zum Nachlesen]*
 
+## Kontextdiagramm
+*link:http://st.inf.tu-dresden.de/files/teaching/ss14/st/slides/32-st-context-model-features-2x2.pdf[Zum Nachlesen]*
+
+## Toplevel Architektur
+*link:http://st.inf.tu-dresden.de/files/teaching/ss14/st/slides/32-st-context-model-features-2x2.pdf[Zum Nachlesen]*
+
 ## Anwendungsfalldiagramm
 image::UseCase.svg[]
+
+## GUI Entwurf
+link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
+
+## Analyseklassendiagramm
+link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
