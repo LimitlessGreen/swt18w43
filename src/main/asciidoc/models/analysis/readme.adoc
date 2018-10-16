@@ -17,7 +17,8 @@ In diesem Ordner sind alle in der Analysephase erstellten Diagramme als Bild und
 image::UseCase.svg[]
 
 ## GUI Entwurf
-link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
+*link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
 
 ## Analyseklassendiagramm
-link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
+*link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
+image::ClassDiagramm.svg[]
