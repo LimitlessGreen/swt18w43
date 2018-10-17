@@ -1,0 +1,25 @@
+== CRC
+## Template
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Klassenname
+2+|Ober- und Unterklasse
+|Verantwortlichkeiten
+|Mithelfer
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Klassenname
+
+|Definition
+
+|Attribute
+|==========================
+
+## Verkäufer
+

@@ -24,7 +24,7 @@ image::UseCase.svg[]
 ## Klassenanalysediagramm
 *link:https://st.inf.tu-dresden.de/Lehre/WS08-09/st1/Vorlesungen/21-datadriven-analysis-with-uml-1x2.pdf[Zum Nachlesen]*
 
-image::ClassAnalysisDiagramm.svg[]
+image::ClassAnalysisDiagram.svg[]
 
 ## Sequenzdiagramme
 

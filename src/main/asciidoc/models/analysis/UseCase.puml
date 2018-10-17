@@ -3,6 +3,8 @@ skinparam titleBorderRoundCorner 15
 skinparam titleBorderThickness 2
 skinparam titleBorderColor blue
 skinparam titleBackgroundColor Chartreuse
+skinparam handwritten true
+
 
 title Anwendungsfall - Diagramm
 
