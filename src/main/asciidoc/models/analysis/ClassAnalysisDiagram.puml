@@ -1,0 +1,156 @@
+@startuml
+'skinparam handwritten true
+hide circle
+
+skinparam class {
+	'BackgroundColor Lavender
+	BackgroundColor #GreenYellow/LightGoldenRodYellow
+    BorderColor Black
+    ArrowColor  Black
+}
+
+
+class Person{
+    name
+    adresse
+    email
+    phoneNr
+}
+
+class Staff{
+    '== attributes =='
+    username
+    password
+
+    '=== methods ===='
+    login()
+}
+
+class Distributor{
+    '== attributes =='
+    companyname
+    address
+    contactPartner
+    minimumOrderQuantity
+    paymentMethods
+    taxNumber
+}
+
+class Customer{
+    preferences
+    discount
+    id
+    getCatalog()
+    setDiscount()
+    getDiscount()
+}
+
+class Manager{
+    resetLogin()
+    addLogin()
+    orderProducts()
+}
+
+
+Customer ^-- Staff
+Person ^-- Customer
+
+
+Staff ^-- Manager
+Staff ^-- SalesStaff
+
+Customer ^-- NormalCustomer
+Customer ^-- HouseCustomer
+Customer ^-- MajorCustomer
+
+
+class Product{
+    '== attributes =='
+    description
+    bnnInfo
+    ean
+    quantityStored
+    quantityDisplayed
+    price
+
+    getPrice()
+    getProductInfo()
+
+}
+
+class ProductList{
+    profitValue
+
+    setProfitValue()
+    getProfitValue()
+    getValueOfStoredProducts()
+}
+
+
+ProductList -left- Product
+
+class CashRegister{
+    calculatePrice()
+    giveChange()
+    cancelAll()
+    cancelProduct()
+    enterCustomerId()
+
+}
+
+Log -- CashRegister
+Log -left- Customer
+
+class ShoppingCart{
+    addProduct()
+}
+
+CashRegister -right- ShoppingCart
+ShoppingCart -- ProductList
+
+class Calendar{
+    addAppointment()
+    editAppointment()
+    deleteAppointment()
+}
+
+class OrderAssistant{
+    getLowestPriceForProduct()
+    order()
+}
+
+class LabelGenerator{
+    printLabelAll()
+    printLabelProduct()
+    generateBarCode()
+}
+
+Product -- LabelGenerator
+
+class Statistic{
+    sales
+    purchases
+    time
+    soldWares
+    purchasedWares
+    stolenProducts
+
+    getStatics()
+}
+
+class Log{
+    getSales()
+    getPurchases()
+    getTime()
+    getSoldWares()
+    getPurchasedWares()
+    getCustomerPreferences()
+    getStolenProducts()
+}
+
+Log -- Statistic
+
+Product -- Distributor
+ProductList -- OrderAssistant
+
+@enduml
