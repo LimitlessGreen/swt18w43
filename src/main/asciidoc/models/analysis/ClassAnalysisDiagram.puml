@@ -9,7 +9,20 @@ skinparam class {
     ArrowColor  Black
 }
 
+class Database{
+    sort()
+    add()
+    delete()
+    search()
+}
+
 rectangle UserResort {
+
+class CustomerList{
+    addCustomer()
+    deleteCustomer()
+    setCustomerPermissions()
+}
 
 class Person{
     name
@@ -23,6 +36,7 @@ class Customer{
     preferences
     discount
     id
+    permissions
     getCatalog()
     setDiscount()
     getDiscount()
@@ -56,7 +70,9 @@ class Staff{
     login()
 }
 
-Manager -- Calendar
+Manager "1" --> "1" Calendar
+CustomerList "1" -- "0..*" Customer
+Database ^-- CustomerList
 
 }
 
@@ -96,14 +112,11 @@ rectangle ProductResort{
     }
 
     class ProductList{
-        profitValue
-
-        setProfitValue()
-        getProfitValue()
-        getValueOfStoredProducts()
+        addProduct()
+        deleteProduct()
     }
 
-    class Inventory {
+    class DistributorList{
 
     }
 
@@ -119,7 +132,7 @@ rectangle ProductResort{
 
     class Distributor{
         '== attributes =='
-        companyname
+        companyName
         address
         contactPartner
         minimumOrderQuantity
@@ -127,23 +140,50 @@ rectangle ProductResort{
         taxNumber
     }
 
-    OrderableProducts -- Distributor
+    OrderableProducts "1" -left-o "1" DistributorList
+    DistributorList "1" o-- "0..*" Distributor
 
-    class OrderAssistant{
-        getLowestPriceForProduct()
-        order()
-    }
-
-    OrderAssistant -- Manager
-    OrderAssistant -- OrderableProducts
+    Database ^-- DistributorList
 
 
-    ProductList -- Product
-    Product -- LabelGenerator
+
+
+    ProductList -up-^ Database
+    ProductList "1" o-- "0..*" Product
+    Product "1..*" *-- "1" LabelGenerator
     ProductList ^-- OrderableProducts
-    ProductList ^-- Inventory
-    Product -- Distributor
 
+    Product "1..*" *-- "1" Distributor
+
+    rectangle InventoryResort{
+
+        class Order{
+            id
+            arrived
+            content
+
+            placeContentInInventory()
+        }
+
+        class OrderAssistant{
+            getLowestPriceForProduct()
+            order()
+        }
+
+        class Inventory {
+            profitValue
+
+            setProfitValue()
+            getProfitValue()
+            getValueOfStoredProducts()
+        }
+
+        Order -up-> Inventory
+        OrderableProducts <-- OrderAssistant
+        ProductList ^-- Inventory
+        OrderAssistant <-- Manager
+
+    }
 
 }
 
@@ -170,16 +210,15 @@ rectangle DataResort {
         getStolenProducts()
     }
 
-    Log -right- Statistic
+    Log "1" *-left- "1" Statistic
 
 
-    Log -right- Customer
+    Log -right-> Customer
 
-    Log -- Product
 
 }
 
-rectangle CashierResort {
+rectangle FinancesResort {
     class CashRegister{
         calculatePrice()
         giveChange()
@@ -191,14 +230,19 @@ rectangle CashierResort {
 
 
 
+
     class ShoppingCart{
         addProduct()
+        deleteProduct()
     }
-    Log -- CashRegister
 
-    CashRegister -down- ShoppingCart
-    ShoppingCart -- Product
+    Log <-- CashRegister
+
+    CashRegister "1" *-down- "1" ShoppingCart
+    ShoppingCart "1" --* "1..*" Product
+
 
 
 }
+
 @enduml
