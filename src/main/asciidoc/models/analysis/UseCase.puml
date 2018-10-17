@@ -3,7 +3,7 @@ skinparam titleBorderRoundCorner 15
 skinparam titleBorderThickness 2
 skinparam titleBorderColor blue
 skinparam titleBackgroundColor Chartreuse
-skinparam handwritten true
+'skinparam handwritten true
 
 
 title Anwendungsfall - Diagramm
@@ -34,6 +34,10 @@ hku --> ku
 rectangle "coole Box"{
     (Inventur) as inv
     '(Pfand auszahlen)
+    (per EMail anmelden) as anm
+    (Account erstellen) as acc
+    (Termin eintragen) as date
+    
     (Produkt tauschen)
     (Großkundendatenbank\nimportieren) as grokudb_imp
     (Verkaufspreis kalkulieren) as vp_calc
@@ -55,6 +59,9 @@ rectangle "coole Box"{
             (einfache Stornierung) as l_st
             (globale Stornierung) as g_st
 
+            gl -- date
+            gl -- acc
+            ku -- anm
 
             ku -- bg_ez
 
