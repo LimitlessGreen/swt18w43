@@ -9,6 +9,7 @@ skinparam class {
     ArrowColor  Black
 }
 
+rectangle UserResort {
 
 class Person{
     name
@@ -17,24 +18,6 @@ class Person{
     phoneNr
 }
 
-class Staff{
-    '== attributes =='
-    username
-    password
-
-    '=== methods ===='
-    login()
-}
-
-class Distributor{
-    '== attributes =='
-    companyname
-    address
-    contactPartner
-    minimumOrderQuantity
-    paymentMethods
-    taxNumber
-}
 
 class Customer{
     preferences
@@ -52,7 +35,6 @@ class Manager{
 }
 
 
-Customer ^-- Staff
 Person ^-- Customer
 
 
@@ -62,51 +44,29 @@ Staff ^-- SalesStaff
 Customer ^-- NormalCustomer
 Customer ^-- HouseCustomer
 Customer ^-- MajorCustomer
+Customer ^-- Staff
 
 
-class Product{
+class Staff{
     '== attributes =='
-    description
-    bnnInfo
-    ean
-    quantityStored
-    quantityDisplayed
-    price
+    username
+    password
 
-    getPrice()
-    getProductInfo()
+    '=== methods ===='
+    login()
+}
+
+Manager -- Calendar
 
 }
 
-class ProductList{
-    profitValue
-
-    setProfitValue()
-    getProfitValue()
-    getValueOfStoredProducts()
-}
 
 
-ProductList -left- Product
 
-class CashRegister{
-    calculatePrice()
-    giveChange()
-    cancelAll()
-    cancelProduct()
-    enterCustomerId()
 
-}
 
-Log -- CashRegister
-Log -left- Customer
 
-class ShoppingCart{
-    addProduct()
-}
 
-CashRegister -right- ShoppingCart
-ShoppingCart -- ProductList
 
 class Calendar{
     addAppointment()
@@ -114,43 +74,131 @@ class Calendar{
     deleteAppointment()
 }
 
-class OrderAssistant{
-    getLowestPriceForProduct()
-    order()
+
+
+
+
+
+
+rectangle ProductResort{
+    class Product{
+        '== attributes =='
+        description
+        bnnInfo
+        ean
+        quantityStored
+        quantityDisplayed
+        price
+
+        getPrice()
+        getProductInfo()
+
+    }
+
+    class ProductList{
+        profitValue
+
+        setProfitValue()
+        getProfitValue()
+        getValueOfStoredProducts()
+    }
+
+    class Inventory {
+
+    }
+
+    class OrderableProducts{
+
+    }
+
+    class LabelGenerator{
+        printLabelAll()
+        printLabelProduct()
+        generateBarCode()
+    }
+
+    class Distributor{
+        '== attributes =='
+        companyname
+        address
+        contactPartner
+        minimumOrderQuantity
+        paymentMethods
+        taxNumber
+    }
+
+    OrderableProducts -- Distributor
+
+    class OrderAssistant{
+        getLowestPriceForProduct()
+        order()
+    }
+
+    OrderAssistant -- Manager
+    OrderAssistant -- OrderableProducts
+
+
+    ProductList -- Product
+    Product -- LabelGenerator
+    ProductList ^-- OrderableProducts
+    ProductList ^-- Inventory
+    Product -- Distributor
+
+
 }
 
-class LabelGenerator{
-    printLabelAll()
-    printLabelProduct()
-    generateBarCode()
+rectangle DataResort {
+
+    class Statistic{
+        sales
+        purchases
+        time
+        soldWares
+        purchasedWares
+        stolenProducts
+
+        getStatics()
+    }
+
+    class Log{
+        getSales()
+        getPurchases()
+        getTime()
+        getSoldWares()
+        getPurchasedWares()
+        getCustomerPreferences()
+        getStolenProducts()
+    }
+
+    Log -right- Statistic
+
+
+    Log -right- Customer
+
+    Log -- Product
+
 }
 
-Product -- LabelGenerator
+rectangle CashierResort {
+    class CashRegister{
+        calculatePrice()
+        giveChange()
+        cancelAll()
+        cancelProduct()
+        enterCustomerId()
 
-class Statistic{
-    sales
-    purchases
-    time
-    soldWares
-    purchasedWares
-    stolenProducts
+    }
 
-    getStatics()
+
+
+    class ShoppingCart{
+        addProduct()
+    }
+    Log -- CashRegister
+
+    CashRegister -down- ShoppingCart
+    ShoppingCart -- Product
+
+
 }
-
-class Log{
-    getSales()
-    getPurchases()
-    getTime()
-    getSoldWares()
-    getPurchasedWares()
-    getCustomerPreferences()
-    getStolenProducts()
-}
-
-Log -- Statistic
-
-Product -- Distributor
-ProductList -- OrderAssistant
-
 @enduml
