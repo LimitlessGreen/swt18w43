@@ -1,32 +1,27 @@
 @startuml
 skinparam componentStyle uml2
 'skinparam linetype ortho
-skinparam handwritten true
+'skinparam handwritten true
+skinparam componentStyle uml2
 
-(Pro-\nzess) as proc
-rectangle "Komponente1" as k1
-rectangle "Komponente2" as k2
-rectangle "Komponente3" as k3
-rectangle "Komponente4" as k4
-rectangle "Komponente5" as k5
-rectangle "Komponente6" as k6
 
-proc -up-> k2: Datenfluss1
-proc <-up- k2: Datenfluss2
 
-proc -up-> k1: Datenfluss3
-proc <-up- k1: Datenfluss4
+component [ShopManagementSystem] <<component>> as proc
+rectangle "Manager" as k1
+rectangle "Staff" as k2
+rectangle "NormalCustomer" as k3
+rectangle "HouseCustomer" as k4
+rectangle "Major Customer" as k5
 
-proc -right-> k3: Datenfluss5
-proc <-right- k3: Datenfluss6
+proc #-0)- k2
 
-proc -down-> k4: Datenfluss7
-proc <-down- k4: Datenfluss8
+proc #-0)- k1
 
-proc -down-> k5: Datenfluss9
-proc <-down- k5: Datenfluss10
+proc #-0)- k3
 
-proc -left-> k6: Datenfluss11
-proc <-left- k6: Datenfluss12
+proc #-0)- k4
+
+proc #-0)- k5
+
 
 @enduml
