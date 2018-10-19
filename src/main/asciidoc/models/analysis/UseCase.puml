@@ -4,10 +4,14 @@ skinparam titleBorderThickness 2
 skinparam titleBorderColor blue
 skinparam titleBackgroundColor Chartreuse
 'skinparam handwritten true
-skinparam groupInheritance 3
+'skinparam groupInheritance 3
 skinparam linetype ortho
 
-
+skinparam package {
+    FontColor Grey
+    BorderColor Green
+    shadowing false
+}
 
 title Anwendungsfall - Diagramm
 
@@ -33,7 +37,7 @@ hku --> ku
 database "System" as sys
 
 ' === Y === '
-rectangle "coole Warenwirtschaftssystembox"{
+'rectangle "coole Warenwirtschaftssystembox"{
     '(Pfand auszahlen)
 
     package "Accountverwaltung"{
@@ -99,10 +103,10 @@ rectangle "coole Warenwirtschaftssystembox"{
 
         }
 
-    package --- {
-        :i_i_i_i: as a
-        a .. a
-    }
+    'package --- {
+    '    :i_i_i_i: as a
+    '    a .. a
+    '}
 
 
     package "Inventur"{
@@ -148,7 +152,7 @@ rectangle "coole Warenwirtschaftssystembox"{
         (Produkt von der Verkaufsdatenbank löschen)
 
         gl -- Produktverwaltung
-    }
+    '}
 
 
 
