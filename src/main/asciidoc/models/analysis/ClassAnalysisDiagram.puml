@@ -1,5 +1,5 @@
 @startuml
-'skinparam linetype ortho
+skinparam linetype ortho
 'skinparam groupInheritance 3
 'skinparam handwritten true
 hide circle
@@ -11,6 +11,12 @@ skinparam class {
     ArrowColor  Black
 }
 
+skinparam package {
+    FontColor Grey
+    BorderColor Green
+    shadowing false
+}
+
 class Database{
     sort()
     add()
@@ -18,7 +24,7 @@ class Database{
     search()
 }
 
-rectangle UserResort {
+package UserResort {
 
 class CustomerList{
     addCustomer()
@@ -98,7 +104,7 @@ class Calendar{
 
 
 
-rectangle ProductResort{
+package ProductResort{
     class Product{
         '== attributes =='
         description
@@ -157,7 +163,7 @@ rectangle ProductResort{
 
     Product "1..*" *-- "1" Distributor
 
-    rectangle InventoryResort{
+    package InventoryResort{
 
         class Order{
             id
@@ -189,7 +195,7 @@ rectangle ProductResort{
 
 }
 
-rectangle DataResort {
+package DataResort {
 
     class Statistic{
         sales

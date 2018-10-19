@@ -4,6 +4,9 @@ skinparam titleBorderThickness 2
 skinparam titleBorderColor blue
 skinparam titleBackgroundColor Chartreuse
 'skinparam handwritten true
+skinparam groupInheritance 3
+skinparam linetype ortho
+
 
 
 title Anwendungsfall - Diagramm
@@ -12,29 +15,28 @@ title Anwendungsfall - Diagramm
 ' === Kunden === '
 :Kunde: as ku
 :Normalkunde: as nku
-:Personal: as pku
 :Großhandelsabnehmer: as gha
 :Hauskunde: as hku
 
-left to right direction
-nku --> ku
-pku --> ku
-gha --> ku
-hku --> ku
-
+'left to right direction
 
 ' === Personal === '
 :Verkaufspersonal: as vp
 :Geschäftsleitung: as gl
 
+nku --> ku
+vp --> ku
+gha --> ku
+hku --> ku
+
 ' === Sonstiges === '
-:System: as sys
+database "System" as sys
 
 ' === Y === '
 rectangle "coole Box"{
     (Inventur) as inv
     '(Pfand auszahlen)
-    (per EMail anmelden) as anm
+
     (Account erstellen) as acc
     (Termin eintragen) as date
     
@@ -47,10 +49,13 @@ rectangle "coole Box"{
     (Waren und/oder Geldbewegung\narchivieren)
     (Stornierung archivieren)
     (Ware einkaufen)
-    (günstigsten Anbieter wählen)
+    (günstigsten Anbieter wählen) as gaw
+    (Warenscanvorgang abschließen)
+    
 
 
-    rectangle "Kassensystem"{
+
+    package "Kassensystem"{
             (Bargeld einzahlen) as bg_ez
             (Bargeld auszahlen) as bg_az
             (Bargeld wechseln) as bg_we
@@ -59,15 +64,20 @@ rectangle "coole Box"{
             (einfache Stornierung) as l_st
             (globale Stornierung) as g_st
 
+            (Artikel zu Warenkorb hinzufügen) as azw
+
+            vp -- Kassensystem
+
             gl -- date
             gl -- acc
-            ku -- anm
+
+
 
             ku -- bg_ez
 
-            vp -- bg_we
-            vp -- bg_az
-            vp -- l_st
+            'vp -- bg_we
+            'vp -- bg_az
+            'vp -- l_st
 
 
             sys -- we_br
@@ -78,8 +88,14 @@ rectangle "coole Box"{
             bg_we ..> we_br: <<include>>
             we_br ..> bg_ez: <<include>>
             l_st <.. g_st: <<extend>>
+            l_st ..> azw: <<include>>
 
         }
+
+    package --- {
+        :i_i_i_i: as a
+        a .. a
+    }
 
 
     '
