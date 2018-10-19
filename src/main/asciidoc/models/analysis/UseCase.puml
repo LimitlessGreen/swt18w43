@@ -18,77 +18,84 @@ title Anwendungsfall - Diagramm
 :Großhandelsabnehmer: as gha
 :Hauskunde: as hku
 
-'left to right direction
+left to right direction
 
 ' === Personal === '
 :Verkaufspersonal: as vp
 :Geschäftsleitung: as gl
 
 nku --> ku
-vp --> ku
-gha --> ku
+vp --> hku
+gha --> hku
 hku --> ku
 
 ' === Sonstiges === '
 database "System" as sys
 
 ' === Y === '
-rectangle "coole Box"{
-    (Inventur) as inv
+rectangle "coole Warenwirtschaftssystembox"{
     '(Pfand auszahlen)
 
-    (Account erstellen) as acc
+    package "Accountverwaltung"{
+        (Account erstellen) as acc
+        (Account löschen) as accdel
+
+    }
+
     (Termin eintragen) as date
     
-    (Produkt tauschen)
-    (Großkundendatenbank\nimportieren) as grokudb_imp
-    (Verkaufspreis kalkulieren) as vp_calc
-    (Eingabe von\nNormalkundendaten) as eg_nkd
     (Etikett drucken) as et_dr
-    (Bestellvorgang erfassen)
-    (Waren und/oder Geldbewegung\narchivieren)
+        (Waren und/oder Geldbewegung\narchivieren)
     (Stornierung archivieren)
-    (Ware einkaufen)
-    (günstigsten Anbieter wählen) as gaw
-    (Warenscanvorgang abschließen)
-    
+
 
 
 
     package "Kassensystem"{
-            (Bargeld einzahlen) as bg_ez
-            (Bargeld auszahlen) as bg_az
-            (Bargeld wechseln) as bg_we
+            (Barzahlung) as bg_ez
+            (Rückgeld geben) as bg_az
             (Wechselgeld berechnen) as we_br
+            (Summenberechnung der Grundpreise) as sdg
+            (Rabattberechnung) as rab
+            (Mehrwehrtsteuerberechnung) as mwst
+            (Endpreis ausgeben) as epa
 
             (einfache Stornierung) as l_st
             (globale Stornierung) as g_st
 
             (Artikel zu Warenkorb hinzufügen) as azw
+            (Produkt einscannen) as scan
 
             vp -- Kassensystem
 
             gl -- date
             gl -- acc
+            gl -- accdel
 
+            gl --> vp
 
 
             ku -- bg_ez
 
-            'vp -- bg_we
             'vp -- bg_az
             'vp -- l_st
 
 
             sys -- we_br
 
-            bg_ez <.. bg_we: <<include>>
             bg_ez <.. bg_az: <<include>>
             bg_az ..> we_br: <<include>>
-            bg_we ..> we_br: <<include>>
             we_br ..> bg_ez: <<include>>
             l_st <.. g_st: <<extend>>
-            l_st ..> azw: <<include>>
+            l_st ..> scan: <<include>>
+            azw ..> scan: <<include>>
+            sdg ..> azw: <<include>>
+            rab ..> sdg: <<include>>
+            mwst ..> rab: <<include>>
+            epa ..> mwst: <<include>>
+
+
+
 
         }
 
@@ -98,22 +105,53 @@ rectangle "coole Box"{
     }
 
 
-    '
+    package "Inventur"{
+        (Bestand erfassen)
+        (abweichenden Bestand festgestellt) as abf
+        (Manager benachrichtigen) as glb
+        (Bestand berichtigen) as bb
+
+        sys -- abf
+        sys -- glb
+        gl -- bb
+    }
+
+
+    package "Bestellung"{
+        (Bestellung abschicken) as ba
+        (günstigsten Preis finden) as gpf
+        (Bestellung erstellen) as bers
+        (Bestellung empfangen) as bempf
+        (Bestellung inventarisieren) as binvent
+
+        gpf <.. bers: <<include>>
+        ba <.. gpf: <<include>>
+        bempf <.. binvent: <<include>>
+        sys -- binvent
+    }
+
+
+    package "Händlerverwaltung"{
+        (Händler hinzufügen)
+        (Händler löschen)
+        (Händlerdaten bearbeiten)
+
+        gl -- Händlerverwaltung
+    }
+
+    package "Produktverwaltung"{
+        (Produkt hinzufügen)
+        (Produkt löschen)
+        (Produktdaten bearbeiten)
+        (Großhändlerproduktbestellliste \nimportieren)
+        (Produkt zur Verkaufsdatenbank hinzufügen)
+        (Produkt von der Verkaufsdatenbank löschen)
+
+        gl -- Produktverwaltung
+    }
 
 
 
-    '
-    vp -- inv
-    vp -- et_dr
-    vp -- eg_nkd
-
-
-
-    '
-    gl -- grokudb_imp
-
-    '
-    sys -- vp_calc
 
 
 
