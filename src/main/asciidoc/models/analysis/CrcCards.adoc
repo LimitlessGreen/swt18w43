@@ -21,5 +21,272 @@
 |Attribute
 |==========================
 
-## Verkäufer
+## Customer
 
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Customer
+2+|Person; NormalCustomer, HouseCustomer
+|getDiscount
+|Log, CustomerList
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Customer
+
+|Superclass for every possible person who buys something in our store
+
+|preferences +
+id +
+discount +
+permissions
+|==========================
+
+## Person
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Person
+2+|- ; Customer
+|
+|
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Person
+
+|Superclass for all People who represented in the system
+
+|name +
+email +
+address +
+phoneNr
+|==========================
+
+## Manager
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Manager
+2+|Staff
+|resetLogin +
+addLogin +
+orderProducts
+|OrderAssistant +
+Calendar
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Manager
+
+|Person with full access to system
+
+|
+|==========================
+
+## Calendar
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Calendar
+2+|
+|addAppointment +
+editAppointment +
+deleteAppointment
+|Manager
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Calendar
+
+|provides the necessary information for appointments
+
+|
+|==========================
+
+## Product
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Product
+2+|
+|getPrice +
+getProductInfo
+|ProductList +
+ShoppingCart +
+Distributor +
+LabelGenerator
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Product
+
+|trivial
+
+|description +
+bnninfo +
+ean +
+quantityStored +
+quantityDisplayed +
+price
+|==========================
+
+## ShoppingCart
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|ShoppingCart
+2+|
+|addProduct +
+deleteProduct +
+calculatePrice +
+giveChange +
+cancelAll +
+cancelProduct +
+enterCustomerId
+|Product +
+Log
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|ShoppingCart
+
+|virtual shoppingcart where products get saved
+
+|
+|==========================
+
+## OrderAssistant
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|OrderAssistant
+2+|
+|order +
+getLowestPriceForProduct
+|Orderable Products +
+Manager
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|OrderAssistant
+
+|System that organizes the process of buying new products for the best price
+
+|
+|==========================
+
+## Distributor
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Distributor
+2+|
+|
+|DistributorList +
+Product
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Distributor
+
+|trivial
+
+|companyName +
+address +
+contactPartner +
+minimunOrderQuantity +
+paymentMethods +
+taxNumber
+|==========================
+
+## LabelGenerator
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|LabelGenerator
+2+|
+|printLabelAll +
+printLabelProduct +
+generateBarCode
+|Product
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|LabelGenerator
+
+|Generates the labels for products
+
+|Attribute
+|==========================
+
+## Log
+
+### Front
+
+[width="50%",cols="2,3",]
+|==========================
+2+|Log
+2+|
+|getStatics +
+ getSales +
+ getPurchases +
+ getTime +
+ getSoldWares +
+ getPurchasedWares +
+ getCustomerPreferences +
+ getStolenProducts
+|Mithelfer +
+ShoppingCart
+|==========================
+
+### Back
+[width="50%"]
+|==========================
+|Log
+
+|Saving of all the data of product and money transactions and the statistical evaluation
+
+|sales +
+purchases +
+time +
+soldWares +
+purchasedWares +
+stolenProducts
+|==========================

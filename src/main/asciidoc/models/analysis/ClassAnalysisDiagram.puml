@@ -24,7 +24,7 @@ class Database{
     search()
 }
 
-package UserResort {
+package UserDepartment {
 
 class CustomerList{
     addCustomer()
@@ -61,12 +61,12 @@ Person ^-- Customer
 
 
 Staff ^-- Manager
-Staff ^-- SalesStaff
+
 
 Customer ^-- NormalCustomer
 Customer ^-- HouseCustomer
-Customer ^-- MajorCustomer
-Customer ^-- Staff
+HouseCustomer ^-- MajorCustomer
+HouseCustomer ^-- Staff
 
 
 class Staff{
@@ -76,6 +76,7 @@ class Staff{
 
     '=== methods ===='
     login()
+    addNormalCustomer()
 }
 
 Manager "1" --> "1" Calendar
@@ -83,13 +84,6 @@ CustomerList "1" -- "0..*" Customer
 Database ^-- CustomerList
 
 }
-
-
-
-
-
-
-
 
 
 class Calendar{
@@ -104,7 +98,7 @@ class Calendar{
 
 
 
-package ProductResort{
+package ProductDepartment{
     class Product{
         '== attributes =='
         description
@@ -161,9 +155,9 @@ package ProductResort{
     Product "1..*" *-- "1" LabelGenerator
     ProductList ^-- OrderableProducts
 
-    Product "1..*" *-- "1" Distributor
+    Product "1..*" --* "1" Distributor
 
-    package InventoryResort{
+    package InventoryDepartment{
 
         class Order{
             id
@@ -195,9 +189,10 @@ package ProductResort{
 
 }
 
-package DataResort {
+package DataDepartment {
 
-    class Statistic{
+
+    class Log{
         sales
         purchases
         time
@@ -206,9 +201,6 @@ package DataResort {
         stolenProducts
 
         getStatics()
-    }
-
-    class Log{
         getSales()
         getPurchases()
         getTime()
@@ -218,35 +210,27 @@ package DataResort {
         getStolenProducts()
     }
 
-    Log "1" *-left- "1" Statistic
-
 
     Log -right-> Customer
 
 
 }
 
-rectangle FinancesResort {
-    class CashRegister{
-        calculatePrice()
-        giveChange()
-        cancelAll()
-        cancelProduct()
-        enterCustomerId()
-
-    }
-
-
+package FinancesDepartment {
 
 
     class ShoppingCart{
         addProduct()
         deleteProduct()
+        calculatePrice()
+        giveChange()
+        cancelAll()
+        cancelProduct()
+        enterCustomerId()
     }
 
-    Log <-- CashRegister
+    Log <-- ShoppingCart
 
-    CashRegister "1" *-down- "1" ShoppingCart
     ShoppingCart "1" --* "1..*" Product
 
 
