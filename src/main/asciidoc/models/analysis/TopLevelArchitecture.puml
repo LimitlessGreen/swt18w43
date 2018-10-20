@@ -1,0 +1,35 @@
+@startuml
+
+skinparam componentStyle uml2
+'skinparam linetype ortho
+'skinparam handwritten true
+'skinparam componentStyle uml2
+skinparam monochrome true
+skinparam rectangleFontStyle bold
+skinparam Padding 50
+
+left to right direction
+
+rectangle InventoryManagementSystem {
+    rectangle ProductDepartment {
+        rectangle InventoryDepartment
+    }
+    rectangle FinancesDepartment
+    rectangle DataDepartment
+    rectangle UserDepartment
+}
+
+:Staff:
+:Manager:
+:Customer:
+
+Manager -(0-# UserDepartment
+Manager -(0-# DataDepartment
+Manager -(0-# FinancesDepartment
+Manager -(0-# ProductDepartment
+Manager -(0-# InventoryDepartment
+Staff -(0-# UserDepartment
+Staff -(0-# FinancesDepartment
+Customer -(0-# FinancesDepartment
+
+@enduml

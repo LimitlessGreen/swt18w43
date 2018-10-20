@@ -6,7 +6,7 @@ skinparam componentStyle uml2
 
 
 
-component [ShopManagementSystem] <<component>> as proc
+component [InventoryManagementSystem] <<component>> as proc
 rectangle "Manager" as k1
 rectangle "Staff" as k2
 rectangle "NormalCustomer" as k3
