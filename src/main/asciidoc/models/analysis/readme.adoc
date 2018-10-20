@@ -15,6 +15,8 @@ image::ContextDiagram.svg[]
 ## Toplevel Architektur
 *link:http://st.inf.tu-dresden.de/files/teaching/ss14/st/slides/32-st-context-model-features-2x2.pdf[Zum Nachlesen]*
 
+image::TopLevelArchitecture.svg[]
+
 ## Anwendungsfalldiagramm
 image::UseCase.svg[]
 
