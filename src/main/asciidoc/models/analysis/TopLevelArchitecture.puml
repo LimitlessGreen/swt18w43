@@ -4,13 +4,18 @@ skinparam componentStyle uml2
 'skinparam linetype ortho
 'skinparam handwritten true
 'skinparam componentStyle uml2
-skinparam monochrome true
+'skinparam monochrome true
 skinparam rectangleFontStyle bold
-skinparam Padding 50
+'skinparam Padding 0
+skinparam rectangleBackgroundColor 	#GreenYellow/LightGoldenRodYellow
+skinparam ArrowFontColor black
+skinparam ArrowColor darkgreen
+skinparam ActorBorderColor black
+skinparam ActorBackgroundColor white
 
 left to right direction
 
-rectangle InventoryManagementSystem {
+rectangle Bioladen {
     rectangle ProductDepartment {
         rectangle InventoryDepartment
     }
@@ -23,13 +28,13 @@ rectangle InventoryManagementSystem {
 :Manager:
 :Customer:
 
-Manager -(0-# UserDepartment
-Manager -(0-# DataDepartment
-Manager -(0-# FinancesDepartment
-Manager -(0-# ProductDepartment
-Manager -(0-# InventoryDepartment
-Staff -(0-# UserDepartment
-Staff -(0-# FinancesDepartment
-Customer -(0-# FinancesDepartment
+Manager -up-#UserDepartment: add all Customers
+Manager -up-# DataDepartment: get Statistics
+Manager -up-# FinancesDepartment: operate cash register
+Manager -up-# ProductDepartment: change database entries
+Manager -up-# InventoryDepartment: order product
+Staff --# UserDepartment: add NormalCustomers
+Staff --# FinancesDepartment: operate cash register
+Customer --# FinancesDepartment: gives money
 
 @enduml

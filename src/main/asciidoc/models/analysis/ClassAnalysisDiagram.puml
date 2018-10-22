@@ -79,19 +79,13 @@ class Staff{
     addNormalCustomer()
 }
 
-Manager "1" --> "1" Calendar
+
 CustomerList "1" -- "0..*" Customer
 Database ^-- CustomerList
 
+Staff --> FinancesDepartment
+
 }
-
-
-class Calendar{
-    addAppointment()
-    editAppointment()
-    deleteAppointment()
-}
-
 
 
 
@@ -200,7 +194,7 @@ package DataDepartment {
         purchasedWares
         stolenProducts
 
-        getStatics()
+
         getSales()
         getPurchases()
         getTime()
@@ -210,7 +204,11 @@ package DataDepartment {
         getStolenProducts()
     }
 
+    class Statistic{
+        getStatics()
+    }
 
+    Log "1" *-- "1" Statistic
     Log -right-> Customer
 
 

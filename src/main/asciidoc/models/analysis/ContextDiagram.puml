@@ -4,6 +4,22 @@ skinparam componentStyle uml2
 'skinparam handwritten true
 skinparam componentStyle uml2
 
+skinparam rectangle {
+    fontStyle bold
+	BackgroundColor #GreenYellow/LightGoldenRodYellow
+
+}
+
+skinparam component {
+    fontStyle bold
+	BackgroundColor #GreenYellow/LightGoldenRodYellow
+    BorderColor darkgreen
+}
+
+skinparam Arrow {
+    Color darkgreen
+}
+
 
 
 

@@ -13,20 +13,38 @@ skinparam package {
     shadowing false
 }
 
-title Anwendungsfall - Diagramm
+skinparam usecase {
+    Bordercolor darkgreen
+  	BackgroundColor #GreenYellow/LightGoldenRodYellow
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam database{
+    backgroundcolor white
+}
+
+skinparam Arrow{
+    Color darkgreen
+}
+
+title Use-Case diagram
 
 
-' === Kunden === '
-:Kunde: as ku
-:Normalkunde: as nku
-:Großhandelsabnehmer: as gha
-:Hauskunde: as hku
+' === Customer === '
+:Customer: as ku
+:NormalCustomer: as nku
+:MajorCustomer: as gha
+:HouseCustomer: as hku
 
 left to right direction
 
-' === Personal === '
-:Verkaufspersonal: as vp
-:Geschäftsleitung: as gl
+' === Staff === '
+:Staff: as vp
+:Manager: as gl
 
 nku --> ku
 vp --> hku
@@ -37,42 +55,43 @@ hku --> ku
 database "System" as sys
 
 ' === Y === '
-'rectangle "coole Warenwirtschaftssystembox"{
+rectangle "coole Bioladenbox"{
     '(Pfand auszahlen)
 
-    package "Accountverwaltung"{
-        (Account erstellen) as acc
-        (Account löschen) as accdel
+    package "UserDepartment"{
+        (add Account) as acc
+        (delete Account) as accdel
 
     }
 
-    (Termin eintragen) as date
-    
-    (Etikett drucken) as et_dr
-        (Waren und/oder Geldbewegung\narchivieren)
-    (Stornierung archivieren)
 
 
+    package "DataDepartment"{
+        (print label) as et_dr
+            (log money and product tranfers) -- sys
+            (log cancellation) -- sys
+
+            et_dr -- sys
+    }
 
 
-    package "Kassensystem"{
-            (Barzahlung) as bg_ez
-            (Rückgeld geben) as bg_az
-            (Wechselgeld berechnen) as we_br
-            (Summenberechnung der Grundpreise) as sdg
-            (Rabattberechnung) as rab
-            (Mehrwehrtsteuerberechnung) as mwst
-            (Endpreis ausgeben) as epa
+    package "FinancesDepartment"{
+            (cash payment) as bg_ez
+            (give change) as bg_az
+            (calculate change) as we_br
+            (sum calculation of base prices) as sdg
+            (calculate discount) as rab
+            (calculate MwSt) as mwst
+            (print final price) as epa
 
-            (einfache Stornierung) as l_st
-            (globale Stornierung) as g_st
+            (basic cancellation) as l_st
+            (global cancellation) as g_st
 
-            (Artikel zu Warenkorb hinzufügen) as azw
-            (Produkt einscannen) as scan
+            (add item to shopping cart) as azw
+            (scan product) as scan
 
-            vp -- Kassensystem
+            vp -- FinancesDepartment
 
-            gl -- date
             gl -- acc
             gl -- accdel
 
@@ -109,11 +128,11 @@ database "System" as sys
     '}
 
 
-    package "Inventur"{
-        (Bestand erfassen)
-        (abweichenden Bestand festgestellt) as abf
-        (Manager benachrichtigen) as glb
-        (Bestand berichtigen) as bb
+    package "InventoryDepartment"{
+        (record inventory)
+        (divergent inventory was found) as abf
+        (notify manager) as glb
+        (adjust inventory) as bb
 
         sys -- abf
         sys -- glb
@@ -121,12 +140,12 @@ database "System" as sys
     }
 
 
-    package "Bestellung"{
-        (Bestellung abschicken) as ba
-        (günstigsten Preis finden) as gpf
-        (Bestellung erstellen) as bers
-        (Bestellung empfangen) as bempf
-        (Bestellung inventarisieren) as binvent
+    package "Order"{
+        (send order) as ba
+        (find lowest price) as gpf
+        (create order) as bers
+        (receive order) as bempf
+        (place content of \norder in inventory) as binvent
 
         gpf <.. bers: <<include>>
         ba <.. gpf: <<include>>
@@ -135,24 +154,24 @@ database "System" as sys
     }
 
 
-    package "Händlerverwaltung"{
-        (Händler hinzufügen)
-        (Händler löschen)
-        (Händlerdaten bearbeiten)
+    package "DistributorDepartment"{
+        (add distributor)
+        (delete distributor)
+        (edit distributor info)
 
-        gl -- Händlerverwaltung
+        gl -- DistributorDepartment
     }
 
-    package "Produktverwaltung"{
-        (Produkt hinzufügen)
-        (Produkt löschen)
-        (Produktdaten bearbeiten)
-        (Großhändlerproduktbestellliste \nimportieren)
-        (Produkt zur Verkaufsdatenbank hinzufügen)
-        (Produkt von der Verkaufsdatenbank löschen)
+    package "ProductDepartment"{
+        (add product)
+        (delete product)
+        (edit product info)
+        (import major customer \nproduct list)
+        (add product to \nsale database)
+        (delete product from \nsale database)
 
-        gl -- Produktverwaltung
-    '}
+        gl -- ProductDepartment
+    }
 
 
 
