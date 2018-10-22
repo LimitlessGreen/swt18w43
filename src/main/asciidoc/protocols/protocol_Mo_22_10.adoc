@@ -38,6 +38,7 @@ __Teilnehmer:__
 
 == Aktueller Stand
 - Analysemodelle bis auf Sequenzdiagramme
+- Analysemodelle müssen allerdings noch überarbeitet werden
 
 == Planung des nächsten Sprints
 *Issue referenziert die Issue ID von GitHub*
@@ -58,7 +59,7 @@ __Teilnehmer:__
 - Hauskunden sind Kunden mit Kundenkarte
 - Es ist keine automatische Inventur notwendig
 - Es ist kein Terminkalender mehr notwendig
-- Es gibt einen online Merkzettel für Kunden (kein Warenkorb)
+- Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
 
 == Videoshop Features
 - Pdf Rechnung: Adrian
