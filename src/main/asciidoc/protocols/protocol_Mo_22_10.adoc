@@ -1,0 +1,68 @@
+= Protokoll Gruppe 43
+
+Treffen am 22.10.2018
+
+Ort:      APB 1. Etage +
+Beginn:   07:30 Uhr +
+Ende:     09:00 Uhr
+
+__Schriftführer:__ Lisa Riedel, Lukas Petzold
+
+*Nächstes Treffen:* +
+29.10.2028, 09:20 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor)
+- Jairus Behrisch
+- Josefin Hübner
+- Adrian Kulisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Model Branch wird auf Master gemerged
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#2 bis #6     |Analysemodelle       |WIP      |
+|===
+
+
+== Aktueller Stand
+- Analysemodelle bis auf Sequenzdiagramme
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#3    |Contextdiagram     |Kantenbeschriftung, Major Customer entfernen   |alle                |open
+|#4    |Top-Level Architecture  |Kantenbeschriftung    |alle    |open
+|#5    |Use-Case diagram |fehlende Dinge verbinden, Staff/ HouseCustomer erstellen |alle |open
+|#6    |Classdiagram |Statstics wieder rein, Kasse vllt., Mitarbeiter -> ShoppingCart |alle |open
+|#7    |Sequenzdiagram |Pfand einbringen |alle |open
+|===
+
+
+== Veränderte Anforderungen
+- Hauskunden sind Kunden mit Kundenkarte
+- Es ist keine automatische Inventur notwendig
+- Es ist kein Terminkalender mehr notwendig
+- Es gibt einen online Merkzettel für Kunden (kein Warenkorb)
+
+== Videoshop Features
+- Pdf Rechnung: Adrian
+- Bug Fixing: Josefin
+- Statistik: Jairus
+- Artikelsuche: Lisa
+- Warenkorb bearbeiten: Lukas
