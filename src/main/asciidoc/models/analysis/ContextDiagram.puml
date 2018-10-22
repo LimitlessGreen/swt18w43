@@ -6,22 +6,22 @@ skinparam componentStyle uml2
 
 
 
-component [InventoryManagementSystem] <<component>> as proc
+
+component [Bioladen] <<component>> as proc
+
 rectangle "Manager" as k1
 rectangle "Staff" as k2
 rectangle "NormalCustomer" as k3
 rectangle "HouseCustomer" as k4
-rectangle "Major Customer" as k5
 
-proc #-0)- k2
+proc #-0)- k2: add NormalCustomer,\noperate cash register
 
-proc #-0)- k1
+proc #-0)- k1: order Products, \nadd all Customers, \nchange database entries
 
-proc #-0)- k3
+proc #-0)- k3: take products and \ngive money
 
-proc #-0)- k4
+proc #-0)- k4: take products and \ngive money
 
-proc #-0)- k5
 
 
 @enduml
