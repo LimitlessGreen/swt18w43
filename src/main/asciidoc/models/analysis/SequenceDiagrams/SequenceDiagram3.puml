@@ -1,0 +1,29 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
+Manager -> CustomerList: add Customer
+activate Manager
+activate CustomerList
+Manager <- CustomerList: Request kind customer
+Manager -> CustomerList: Response kind customer
+
+
+@enduml

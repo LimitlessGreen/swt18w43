@@ -1,5 +1,24 @@
 @startuml
 
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
 Customer -> Staff: buys milk in a bottle
 activate Staff
 activate Customer
@@ -8,8 +27,8 @@ activate ShoppingCart
 ShoppingCart -> Product: Price Request
 activate Product
 ShoppingCart <- Product: Price Response
-ShoppingCart -> Product: Kategory Request
-ShoppingCart <- Product: Kategory Response
+ShoppingCart -> Product: Category Request
+ShoppingCart <- Product: Category Response
 deactivate Product
 ShoppingCart -> Staff: successfully added product
 Customer -> Staff: gives empty bottle
@@ -17,8 +36,8 @@ Staff -> ShoppingCart: add empty bottle
 ShoppingCart -> Product: Price Request
 activate Product
 ShoppingCart <- Product: Price Response
-ShoppingCart -> Product: Kategory Request
-ShoppingCart <- Product: Kategory Response
+ShoppingCart -> Product: Category Request
+ShoppingCart <- Product: Category Response
 deactivate Product
 ShoppingCart -> Staff: successfully added product
 Customer <- Staff: Id Request

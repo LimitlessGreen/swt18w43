@@ -39,9 +39,9 @@ PlantUML version 1.2018.12(Sun Oct 21 12:15:15 CEST 2018)
 (GPL source distribution)
 Java Runtime: OpenJDK Runtime Environment
 JVM: OpenJDK 64-Bit Server VM
-Java Version: 10.0.2+13-Ubuntu-1ubuntu0.18.04.1
+Java Version: 10.0.2+13-Debian-1
 Operating System: Linux
-OS Version: 4.15.0-33-generic
+OS Version: 4.18.0-parrot10-amd64
 Default Encoding: UTF-8
 Language: en
 Country: US

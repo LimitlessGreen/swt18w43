@@ -1,5 +1,5 @@
 @startuml
-skinparam linetype ortho
+'skinparam linetype ortho
 'skinparam groupInheritance 3
 'skinparam handwritten true
 hide circle
@@ -18,23 +18,22 @@ skinparam package {
 }
 
 class Database{
-    sort()
+    getSorted()
     add()
     delete()
-    search()
+    getSearched()
+    getFiltered()
 }
 
 package UserDepartment {
 
-class CustomerList{
-    addCustomer()
-    deleteCustomer()
-    setCustomerPermissions()
+class UserList{
+    setUserType()
 }
 
 class Person{
     name
-    adresse
+    address
     email
     phoneNr
 }
@@ -52,7 +51,6 @@ class Customer{
 
 class Manager{
     resetLogin()
-    addLogin()
     orderProducts()
 }
 
@@ -80,10 +78,10 @@ class Staff{
 }
 
 
-CustomerList "1" -- "0..*" Customer
-Database ^-- CustomerList
+UserList "1" o-- "0..*" Customer: users
+Database ^-- UserList
 
-Staff --> FinancesDepartment
+
 
 }
 
@@ -108,8 +106,7 @@ package ProductDepartment{
     }
 
     class ProductList{
-        addProduct()
-        deleteProduct()
+
     }
 
     class DistributorList{
@@ -124,6 +121,8 @@ package ProductDepartment{
         printLabelAll()
         printLabelProduct()
         generateBarCode()
+        generateQRCode()
+        setup()
     }
 
     class Distributor{
@@ -136,7 +135,7 @@ package ProductDepartment{
         taxNumber
     }
 
-    OrderableProducts "1" -left-o "1" DistributorList
+    OrderableProducts "n" -- "1" DistributorList
     DistributorList "1" o-- "0..*" Distributor
 
     Database ^-- DistributorList
@@ -146,10 +145,12 @@ package ProductDepartment{
 
     ProductList -up-^ Database
     ProductList "1" o-- "0..*" Product
-    Product "1..*" *-- "1" LabelGenerator
+    Product "n" *-- "1" LabelGenerator
     ProductList ^-- OrderableProducts
 
     Product "1..*" --* "1" Distributor
+
+
 
     package InventoryDepartment{
 
@@ -169,15 +170,13 @@ package ProductDepartment{
         class Inventory {
             profitValue
 
-            setProfitValue()
-            getProfitValue()
             getValueOfStoredProducts()
         }
 
         Order -up-> Inventory
         OrderableProducts <-- OrderAssistant
         ProductList ^-- Inventory
-        OrderAssistant <-- Manager
+        OrderAssistant "0,1" o-- "1" Manager
 
     }
 
@@ -191,21 +190,15 @@ package DataDepartment {
         purchases
         time
         soldWares
-        purchasedWares
+        purchasedProducts
         stolenProducts
 
 
-        getSales()
-        getPurchases()
-        getTime()
-        getSoldWares()
-        getPurchasedWares()
-        getCustomerPreferences()
-        getStolenProducts()
     }
 
     class Statistic{
         getStatics()
+        generateDiagram()
     }
 
     Log "1" *-- "1" Statistic
@@ -240,5 +233,7 @@ package FinancesDepartment {
 
 
 }
+Staff "n" o-- "0,1" CashierSystem
+Inventory --> OrderableProducts: uses referenced \nelements of
 
 @enduml

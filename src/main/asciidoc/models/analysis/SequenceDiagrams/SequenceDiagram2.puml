@@ -1,0 +1,56 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
+Manager -> OrderAssistant: chooses product
+activate Manager
+activate OrderAssistant
+OrderAssistant -> OrderableProducts: Request for prices for product
+activate OrderableProducts
+OrderableProducts -> Product: Request for price
+activate Product
+OrderableProducts <- Product: Response price
+OrderAssistant <- OrderableProducts: Response prices for product
+
+Manager <- OrderAssistant: Request quantity
+Manager -> OrderAssistant: Response quantity
+OrderAssistant -> OrderableProducts: Request minimum order quantity
+OrderableProducts -> Product: Request minimum order quantity
+Product -> OrderableProducts: Response minimum order quantity
+deactivate Product
+OrderableProducts -> OrderAssistant: Response minimum order quantity
+deactivate OrderableProducts
+
+OrderAssistant -> OrderAssistant: checks if order quantity > minimum order quantity
+activate OrderAssistant
+OrderAssistant -> OrderAssistant: chooses lowest price
+activate OrderAssistant
+Manager <- OrderAssistant: Request Confirmation
+Manager -> OrderAssistant: Response Confirmation
+OrderAssistant -> Distributor: Request EMail
+activate Distributor
+OrderAssistant <- Distributor: Response EMail
+deactivate Distributor
+OrderAssistant -> Distributor: sends order
+deactivate OrderAssistant
+deactivate OrderAssistant
+deactivate OrderAssistant
+
+@enduml
