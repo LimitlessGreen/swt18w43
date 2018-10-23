@@ -30,4 +30,4 @@ image::ClassAnalysisDiagram.svg[]
 
 ## Sequenzdiagramme
 
-image::SequenceDiagram.svg[]
+image::SequenceDiagrams/SequenceDiagram1.svg[]
