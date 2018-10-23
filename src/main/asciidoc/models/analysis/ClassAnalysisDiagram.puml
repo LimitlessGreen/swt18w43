@@ -220,6 +220,10 @@ package FinancesDepartment {
     class ShoppingCart{
         addProduct()
         deleteProduct()
+
+    }
+
+    class CashierSystem{
         calculatePrice()
         giveChange()
         cancelAll()
@@ -228,6 +232,8 @@ package FinancesDepartment {
     }
 
     Log <-- ShoppingCart
+
+    ShoppingCart "1" *-- "1" CashierSystem
 
     ShoppingCart "1" --* "1..*" Product
 

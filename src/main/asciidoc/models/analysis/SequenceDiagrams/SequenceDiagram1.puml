@@ -1,0 +1,36 @@
+@startuml
+
+Customer -> Staff: buys milk in a bottle
+activate Staff
+activate Customer
+ShoppingCart <- Staff: add milk
+activate ShoppingCart
+ShoppingCart -> Product: Price Request
+activate Product
+ShoppingCart <- Product: Price Response
+ShoppingCart -> Product: Kategory Request
+ShoppingCart <- Product: Kategory Response
+deactivate Product
+ShoppingCart -> Staff: successfully added product
+Customer -> Staff: gives empty bottle
+Staff -> ShoppingCart: add empty bottle
+ShoppingCart -> Product: Price Request
+activate Product
+ShoppingCart <- Product: Price Response
+ShoppingCart -> Product: Kategory Request
+ShoppingCart <- Product: Kategory Response
+deactivate Product
+ShoppingCart -> Staff: successfully added product
+Customer <- Staff: Id Request
+Customer -> Staff: Id Response
+Staff -> CashierSystem: enters id
+activate CashierSystem
+Staff -> CashierSystem: Scan finished
+CashierSystem -> ShoppingCart: Product Request
+CashierSystem <- ShoppingCart: Product Response
+deactivate ShoppingCart
+CashierSystem -> CashierSystem: Sum of base prices
+activate CashierSystem
+CashierSystem -> CashierSystem: add Pfand
+
+@enduml
