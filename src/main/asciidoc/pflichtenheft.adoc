@@ -48,10 +48,14 @@ Welche realen und juristischen Personen(-gruppen) haben Einfluss auf die Anforde
 == Systemgrenze und Top-Level-Architektur
 
 === Kontextdiagramm
-Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme. Die Grafik kann auch informell gehalten sein. Überlegen Sie sich dann geeignete Symbole. Die Grafik kann beispielsweise mit Visio erstellt werden. Wenn nötig, erläutern Sie diese Grafik.
+Das link:++https://github.com/st-tu-dresden-praktikum/swt18w43/blob/model/src/main/asciidoc/models/analysis/ContextDiagram.svg++[Kontextdiagramm] zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme. Die Grafik kann auch informell gehalten sein. Überlegen Sie sich dann geeignete Symbole. Die Grafik kann beispielsweise mit Visio erstellt werden. Wenn nötig, erläutern Sie diese Grafik.
+
+image::models/analysis/ContextDiagram.svg[]
 
 === Top-Level-Architektur
-Dokumentieren Sie ihre Top-Level-Architektur mit Hilfe eines Komponentendiagramm.
+Dokumentieren Sie ihre link:++https://github.com/st-tu-dresden-praktikum/swt18w43/blob/model/src/main/asciidoc/models/analysis/TopLevelArchitecture.svg++[Top-Level-Architektur] mit Hilfe eines Komponentendiagramm.
+
+image::models/analysis/TopLevelArchitecture.svg[]
 
 == Anwendungsfälle
 
@@ -69,7 +73,9 @@ Weitere relevante Spalten können bei Bedarf ergänzt werden.
 |===
 
 === Überblick Anwendungsfalldiagramm
-Anwendungsfall-Diagramm, das alle Anwendungsfälle und alle Akteure darstellt
+link:++https://github.com/st-tu-dresden-praktikum/swt18w43/blob/model/src/main/asciidoc/models/analysis/UseCase.svg++[Anwendungsfall-Diagramm], das alle Anwendungsfälle und alle Akteure darstellt
+
+image::models/analysis/UseCase.svg[]
 
 === Anwendungsfallbeschreibungen
 Dieser Unterabschnitt beschreibt die Anwendungsfälle. In dieser Beschreibung müssen noch nicht alle Sonderfälle und Varianten berücksichtigt werden. Schwerpunkt ist es, die wichtigsten Anwendungsfälle des Systems zu finden. Wichtig sind solche Anwendungsfälle, die für den Auftraggeber, den Nutzer den größten Nutzen bringen.
@@ -117,7 +123,9 @@ Für jeden Dialog:
 == Datenmodell
 
 === Überblick: Klassendiagramm
-UML-Analyseklassendiagramm
+link:++https://github.com/st-tu-dresden-praktikum/swt18w43/blob/model/src/main/asciidoc/models/analysis/ClassAnalysisDiagram.svg++[UML-Analyseklassendiagramm]
+
+image::models/analysis/ClassAnalysisDiagram.svg[]
 
 === Klassen und Enumerationen
 Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
