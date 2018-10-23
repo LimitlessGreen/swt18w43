@@ -27,6 +27,12 @@
 | Jairus, Lukas
 | Inhaltsverzeichnis hinzugefügt
 
+|0.1.2
+| ...
+| 23.10.2018
+| Jairus, Lukas
+| Diagramme hinzugefügt
+
 |===
 
 toc::[]
