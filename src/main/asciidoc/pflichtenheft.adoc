@@ -1,16 +1,37 @@
+:doctype: book
+:toc:
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:toc-placement!:
+:sectanchors:
+:numbered:
+
+
+
 = Pflichtenheft
-:project_name: Projektname
+:project_name: Bioladen
 == __{project_name}__
 
 [options="header"]
 [cols="1, 1, 1, 1, 4"]
 |===
 |Version | Status      | Bearbeitungsdatum   | Autoren(en) |  Vermerk
-|0.1     | In Arbeit   | 10.10.2017          | Autor       | Initiale Version
+
+|0.1
+| In Arbeit
+| 10.10.2017
+| Autor
+| Initiale Version
+
+|0.1.1
+| ...
+| 23.10.2018
+| Jairus, Lukas
+| Inhaltsverzeichnis hinzugefügt
+
 |===
 
-== Inhaltsverzeichnis
-Dieses Dokument benötigt ein Inhaltsverzeichnis. Es existieren mehrere Einbindungsmöglichkeiten.
+toc::[]
 
 == Zusammenfassung
 Eine kurze Beschreibung des Dokuments. Wenige Absätze.
