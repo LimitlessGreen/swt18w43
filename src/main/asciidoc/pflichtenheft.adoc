@@ -5,12 +5,10 @@
 :toc-placement!:
 :sectanchors:
 :numbered:
-
-
-
-= Pflichtenheft
 :project_name: Bioladen
-== __{project_name}__
+
+
+= Pflichtenheft __{project_name}__
 
 [options="header"]
 [cols="1, 1, 1, 1, 4"]
