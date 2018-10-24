@@ -251,6 +251,7 @@ Hinweis : von unten nach oben lesen ;)
 Hier ist ein Entwurf für die Etiketten:
 
 image::testLabel.svg[]
+Hinweis: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 
 === Überblick: Dialoglandkarte
