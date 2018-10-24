@@ -244,7 +244,9 @@ Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein m
 In diesem Kapitel soll ein Entwurf der Navigationsmöglichkeiten und Dialoge des Systems erstellt werden.
 Idealerweise entsteht auch ein grafischer Prototyp, welcher dem Kunden zeigt, wie sein System visuell umgesetzt werden soll.
 Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
-https://1drv.ms/w/s!AnyG-2ZA6Ixuiw4RiBQc7CAjk4TH
+https://1drv.ms/w/s!AnyG-2ZA6Ixuiw4RiBQc7CAjk4TH   (Word Dokument)
+https://1drv.ms/b/s!AnyG-2ZA6IxuixLLSx2VpPFZBMky   (PDF)
+Hinweis : von unten nach oben lesen ;)
 
 Hier ist ein Entwurf für die Etiketten:
 
