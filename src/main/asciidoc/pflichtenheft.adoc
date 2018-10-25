@@ -332,7 +332,7 @@ image::GUI_Entwurf/statistik.PNG[Statistik, 100%, 100%, pdfwidth=100%, title= "S
 
 [[testlabel_image]]
 image::testLabel.svg[Label, 50%, 50%, pdfwidth=50%, title= "Entwurf eine Etikette für {project_name}", align=center]
-NOTE: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
+TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 
 === Überblick: Dialoglandkarte
