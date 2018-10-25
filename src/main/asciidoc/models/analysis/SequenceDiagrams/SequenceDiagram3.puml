@@ -19,11 +19,29 @@ skinparam sequence{
     LifeLineBorderColor black
 }
 
-Manager -> CustomerList: add Customer
+Manager -> UserList: add Customer
+'For Major Customer
 activate Manager
-activate CustomerList
-Manager <- CustomerList: Request kind customer
-Manager -> CustomerList: Response kind customer
-
+activate UserList
+Manager <- UserList: Request type customer
+Manager -> UserList: Response type customer
+UserList -> Person: Add new person
+Person -> UserList: Request name
+UserList -> Manager: Request name
+UserList <- Manager: Response name
+UserList -> Person: Response name
+Person -> UserList: Request address
+UserList -> Manager: Request address
+UserList <- Manager: Response address
+UserList -> Person: Response address
+Person -> UserList: Request email
+UserList -> Manager: Request email
+UserList <- Manager: Response email
+UserList -> Person: Response email
+Person -> UserList: Request phoneNr
+UserList -> Manager: Request phoneNr
+UserList <- Manager: Response phoneNr
+UserList -> Person: Response phoneNr
+Person -> UserList: gets added as a new user
 
 @enduml
