@@ -77,91 +77,8 @@ In dem Pflichtenheft finden Sie die Aufgabenstellung sowie wichtige Modelle sowi
 Außerdem werden die Anforderungen und die Ziele der Software hier spezifiziert.
 
 == Aufgabenstellung und Zielsetzung
-Für die Abwicklung unserer Geschäftsvorgänge ist ein Warenwirtschaftssystem zu
-erstellen, welches verschiedene Datenbanken miteinander verknüpft.  +
 
-So soll eine Einkaufsdatenbank alle lieferbaren Produkte unserer Zulieferer beinhalten.
-Grundlage bildet dabei das BNN-Format, welches alle wichtigen Informationen zu den
-Produkten vorsieht. Die entsprechenden Kataloge (mit bis zu 10000 Artikeln) können
-durch Import von Listen der Grosshändler in die Datenbank gelangen. Beachten Sie
-bitte, dass mehrere Grosshändler die gleichen Produkte führen, oft mit differierenden
-Preisen. Da wir auch Produkte anbieten, die von Grosshändlern stammen, welche keine
-Produktkataloge im BNN-Format zur Verfügung stellen, muss die manuelle Eingabe
-weiterer Artikel mit für uns wesentlichen Produktinformationen möglich sein. Der
-gesamte Bereich der Einkaufsdatenbank ist vor Einsichtnahme durch das
-Verkaufspersonal zu schützen. +
-
-Für die Organisation unserer Einkäufe und die Herstellung von Transparenz für die
-Kunden ist eine Lieferantendatenbank notwendig. Diese bietet uns die Möglichkeit auf
-Adressen, Telefonnummern, Ansprechpartner, Mindestbestellwerte, Zahlungsmodi,
-Steuernummern usw. zurückzugreifen. Der Zugriff auf die Lieferantendatenbank ist für
-das Verkaufspersonal nur eingeschränkt zu ermöglichen (Lieferantenname, Ort). +
-
-Da wir eine Vielzahl Kunden bedienen, die unterschiedliche Konditionen erhalten,
-benötigt unser Warenwirtschaftssystem auch eine Kundendatei. Diese soll die
-Zuordnung der Kunden zu Gruppen ermöglichen (Normalkunden, Personal,
-Großhandelsabnehmer, Hauskunden). Ferner soll die Kundendatei für Marketingzwecke
-e-mail-Adressen, Wohn- bzw. Geschäftsadresse, Telefonnummern und die Vorliebe für
-bestimmte Produkte bereithalten. Die Eingabe von Normalkundendaten ist für das
-Verkaufspersonal möglich. Alle anderen Kundenzuordnungen erfolgen durch die
-Geschäftsleitung. +
-
-Kernstück des Warenwirtschaftssystems ist die Verkaufsdatenbank. Die von uns für den
-Verkauf aus der Einkaufsdatenbank ausgewählten Artikel finden hier ihren Platz.
-Beachten Sie bitte, dass diese zur Verarbeitung des alltäglichen Verkaufs nicht alle
-lieferbaren Produkte umfassen muss. Priorität hat der schnelle Zugriff auf die Artikel (bis
-zu 999). Für die Verkaufsdatenbank müssen die Preise für unterschiedliche
-Kundengruppen kalkuliert werden. Für die Zeitersparnis bei der Kalkulation der
-Verkaufspreise soll global kalkuliert werden können. Ferner soll die Kalkulation für
-unterschiedliche Warengruppen und einzelne Artikel möglich sein. Als geeignet für
-letztere erweist sich eine Darstellung in einer Merkliste, in die die zu kalkulierenden
-Artikel vor der Kalkulation nach unterschiedlichen Gesichtspunkten sortiert werden, um
-anschliessend wiederum global kalkuliert werden zu können. Die Auswahl der Artikel für
-die Verkaufsdatenbank und die Kalkulation bleibt der Geschäftsleitung vorbehalten. Im
-Handel allgemein und auch bei uns sind ausgewählte Produkte in Pfandartikeln verpackt.
-Im Verkauf müssen also bestimmte Produkte mit Pfandartikeln verknüpft werden. +
-
-Da wir der Preisauszeichnungspflicht unterworfen sind, soll unser
-Warenwirtschaftssystem den Etikettendruck unterstützen. Ferner dienen Etiketten zurErfassung von Bestellvorgängen. Folgende Angaben sind dabei unabdingbar:
-Produktname, Produktgrösse, Preis (für auszuwählende Kundengruppe),
-Grundpreiseinheit, Grundpreis und EAN (Barcode). Nützlich sind Angaben, wie
-Anbauverband (Bioland, Naturland, GÄA usw.), Lieferant, Sollstückzahl). +
-
-Der wesentliche Bestandteil unseres Geschäftes besteht im Tausch von Produkten
-gegen Bargeld mit unseren Kunden. Diese wählen einen Artikel aus, der durch den
-Verkauf in deren Besitz übergeht. Entsprechend muss der jeweilige Artikel aus unserem
-Bestand ausgebucht werden. Gleichzeitig bekommen wir dafür Bargeld, welches
-unterschiedlichen Mehrwertsteuersätzen unterworfen ist. Auch dieses muss (nach
-Steuersätzen getrennt) verbucht werden. Die Kassierfunktion unserer Warenwirtschaft
-soll so einzelne oder mehrere Artikel erfassen. Dabei ist jede Waren- oder
-Geldbewegung zu archivieren und einer einfachen statistischen Auswertung zugänglich
-zu machen. Beachten Sie bitte, dass die Kassierfunktion sowohl die Addition von
-Artikelwerten als auch die Subtraktion von zurückgegebenen Pfandwerten ermöglichen
-muss. Auch die Multiplikation von Artikeln (etwa 6*Milch) sollte möglich sein. Nach
-Eingabe aller vom Kunden gewünschter Artikel, wird der Verkaufsvorgang mit der
-Bezahlung abgeschlossen. Um das Verkaufspersonal zu entlasten, ist es notwendig, die
-Wechselgeldsumme unter Zuhilfenahme der vom Kunden übergebenen Summe durch
-die Kasse zu berechnen und anzuzeigen. Wird innerhalb eines unabgeschlossenen
-Verkaufsvorganges eine Rückbuchung vorgenommen, so handelt es sich dabei um eine
-einfache Stornierung. Eine globale Stornierung — etwa, weil ein Kunde kein Geld bei
-sich hat — sollte ebenfalls schnell möglich sein. Jegliche Stornierungen müssen
-archiviert werden. +
-
-Für die Feststellung der sich im Laden befindlichen Werte sind Inventuren notwendig.
-Ein Wertvergleich von eingekaufter Ware, die bei Lieferung eingebucht wird, verkaufter
-Ware und bei der Inventur vorhandener Ware liefert Inventurdifferenzen, die
-aussagekräftig für Diebstahlsaufkommen sind. Zudem ist die Feststellung des
-Warenwertes zum Wechsel des Wirtschaftsjahres vorgeschrieben. +
-
-Der Bestellvorgang erfolgt für alle im Laden befindlichen Artikel auf einmal.
-Anschliessend werden die Bestellungen für die einzelnen Anbieter ausgegeben. Die
-Einkaufshilfe unseres Warenwirtschaftssystems ermöglicht es für gleiche Produkte von
-unterschiedlichen Grosshändlern den günstigsten Anbieter auszuwählen. +
-
-Als Zusatzaufgabe möchten wir wesentliche Erfassungen (Einbuchung bei
-Wareneingang, Kassierfunktion, Inventuren) über einen Barcodescanner realisiert
-wissen.
-
+include::aufgabenstellung.adoc[]
 
 Ziele der Software:
 
@@ -332,7 +249,7 @@ image::GUI_Entwurf/statistik.PNG[Statistik, 100%, 100%, pdfwidth=100%, title= "S
 
 [[testlabel_image]]
 image::testLabel.svg[Label, 50%, 50%, pdfwidth=50%, title= "Entwurf eine Etikette für {project_name}", align=center]
-Hinweis: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
+NOTE: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 
 === Überblick: Dialoglandkarte
@@ -376,3 +293,4 @@ Beispiel: Was bedeutet "Kunde"? Ein Nutzer des Systems? Der Kunde des Projektes 
 
 == Offene Punkte
 Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.
+
