@@ -245,35 +245,35 @@ In diesem Kapitel soll ein Entwurf der Navigationsmöglichkeiten und Dialoge des
 Idealerweise entsteht auch ein grafischer Prototyp, welcher dem Kunden zeigt, wie sein System visuell umgesetzt werden soll.
 Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
 
-image::GUI_Entwurf/startseite.png[]
+image::GUI_Entwurf/startseite.PNG[]
 
-image::GUI_Entwurf/produktuebersicht_kunde.png[]
+image::GUI_Entwurf/produktuebersicht_kunde.PNG[]
 
-image::GUI_Entwurf/produktinfo.png[]
+image::GUI_Entwurf/produktinfo.PNG[]
 
-image::GUI_Entwurf/merkliste.png[]
+image::GUI_Entwurf/merkliste.PNG[]
 
-image::GUI_Entwurf/loginstart.png[]
+image::GUI_Entwurf/loginstart.PNG[]
 
-image::GUI_Entwurf/login.png[]
+image::GUI_Entwurf/login.PNG[]
 
-image::GUI_Entwurf/produktuebersicht.png[]
+image::GUI_Entwurf/produktuebersicht.PNG[]
 
-image::GUI_Entwurf/verwaltung.png[]
+image::GUI_Entwurf/verwaltung.PNG[]
 
-image::GUI_Entwurf/user_hinzufuegen.png[]
+image::GUI_Entwurf/user_hinzufuegen.PNG[]
 
-image::GUI_Entwurf/user_verwalten.png[]
+image::GUI_Entwurf/user_verwalten.PNG[]
 
-image::GUI_Entwurf/bnn.png[]
+image::GUI_Entwurf/bnn.PNG[]
 
-image::GUI_Entwurf/produkt_manuell.png[]
+image::GUI_Entwurf/produkt_manuell.PNG[]
 
-image::GUI_Entwurf/kasse.png[]
+image::GUI_Entwurf/kasse.PNG[]
 
-image::GUI_Entwurf/bestellung.png[]
+image::GUI_Entwurf/bestellung.PNG[]
 
-image::GUI_Entwurf/statistik.png[]
+image::GUI_Entwurf/statistik.PNG[]
 
 
 
