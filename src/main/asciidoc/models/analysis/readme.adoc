@@ -30,6 +30,11 @@ image::ClassAnalysisDiagram.svg[]
 
 ## Sequenzdiagramme
 
-image::SequenceDiagrams/SequenceDiagram1.svg[]
-image::SequenceDiagrams/SequenceDiagram2.svg[]
-image::SequenceDiagrams/SequenceDiagram3.svg[]
+[[Sequenzdiagramm1]]
+image::SequenceDiagrams/SequenceDiagram1.svg[title="Sequenzdiagramm für den Verkauf von Produkten mit Pfand"]
+
+[[Sequenzdiagramm2]]
+image::SequenceDiagrams/SequenceDiagram2.svg[title="Sequenzdiagramm für eine Bestellung vom Manager bei einem Großhändler"]
+
+[[Sequenzdiagramm3]]
+image::SequenceDiagrams/SequenceDiagram3.svg[title="Sequenzdiagramm für das Hinzufügen eines Großhändlers als neuen Kunden"]
