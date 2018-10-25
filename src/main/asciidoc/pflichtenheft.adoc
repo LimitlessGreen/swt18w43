@@ -244,9 +244,38 @@ Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein m
 In diesem Kapitel soll ein Entwurf der Navigationsmöglichkeiten und Dialoge des Systems erstellt werden.
 Idealerweise entsteht auch ein grafischer Prototyp, welcher dem Kunden zeigt, wie sein System visuell umgesetzt werden soll.
 Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
-https://1drv.ms/w/s!AnyG-2ZA6Ixuiw4RiBQc7CAjk4TH   (Word Dokument)
-https://1drv.ms/b/s!AnyG-2ZA6IxuixLLSx2VpPFZBMky   (PDF)
-Hinweis : von unten nach oben lesen ;)
+
+image::GUI_Entwurf/startseite.png[]
+
+image::GUI_Entwurf/produktuebersicht_kunde.png[]
+
+image::GUI_Entwurf/produktinfo.png[]
+
+image::GUI_Entwurf/merkliste.png[]
+
+image::GUI_Entwurf/loginstart.png[]
+
+image::GUI_Entwurf/login.png[]
+
+image::GUI_Entwurf/produktuebersicht.png[]
+
+image::GUI_Entwurf/verwaltung.png[]
+
+image::GUI_Entwurf/user_hinzufuegen.png[]
+
+image::GUI_Entwurf/user_verwalten.png[]
+
+image::GUI_Entwurf/bnn.png[]
+
+image::GUI_Entwurf/produkt_manuell.png[]
+
+image::GUI_Entwurf/kasse.png[]
+
+image::GUI_Entwurf/bestellung.png[]
+
+image::GUI_Entwurf/statistik.png[]
+
+
 
 Hier ist ein Entwurf für die Etiketten:
 
