@@ -31,3 +31,5 @@ image::ClassAnalysisDiagram.svg[]
 ## Sequenzdiagramme
 
 image::SequenceDiagrams/SequenceDiagram1.svg[]
+image::SequenceDiagrams/SequenceDiagram2.svg[]
+image::SequenceDiagrams/SequenceDiagram3.svg[]
