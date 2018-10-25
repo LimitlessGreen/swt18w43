@@ -214,15 +214,13 @@ Weitere relevante Spalten können bei Bedarf ergänzt werden.
 |Kunden | Kunden interagieren mit dem System nur über die firmeneigene Website. Sie können die Produktliste der im Laden verfügbaren Produkte einsehen und sich zu den einzelnen Produkten
 Produktinformationen anschauen. Sie können sich außerdem eine Merkliste erstellen, in der sie alle Produkte in der gewünschten Menge angeben können und das System ihnen
  einen daraufhin kalkulierten Gesamtpreis zurück gibt.
-|Personal| Das Personal interagiert mit dem System über die Kassenterminals im Bioladen. Es kann Waren zum Warenkorb hinzufügen und einen Gesamtpreis berechnen. Um das Wechselgeld für
-den Kunden leichter bestimmen zu können, gibt der Verkäufer den genauen erhaltenen Betrag an und das System gibt ihm den Wechselgeldbetrag zurück. Das Personal kann außerdem über das
-Terminal neue Hauskunden zum System hinzufügen. Es hat beschränkten Zugriff auf die Lieferantendatenbank (Lieferantenname, Ort) und kann einfache und globale Stornierungen im
-Verkaufsvorgang durchführen.
+|Personal (Staff)| Das Personal interagiert mit dem System über die Kassenterminals im Bioladen. Es kann Waren zum Warenkorb hinzufügen und einen Gesamtpreis berechnen. Außerdem kann es Geld
+kassieren und erfährt durch das System, wie viel Rückgeld der Kunde bekommt. Es kann außerdem Hauskunden zum System hinzufügen. Es hat außerdem beschränkten Zugriff auf die Lieferantendatenbank
+(Lieferantenname, Ort). Das Personal kann außerdem einfache und globale Stornierungen vornehmen.
 |Manager | Der Manager hat zusätzlich zu den Berechtigungen des Personals noch einige verwaltungstechnische Möglichkeiten. Er hat Zugriff auf einen Bestellassistenten, der ihm hilft
-den günstigsten Preis für zu bestellende Produkte zu finden und ihn beim Bestellvorgang unterstützt. Er bekommt außerdem eine Übersicht über die im Lager und im Laden gelagerten Produkte
-und kann für die Inventur eine Liste bereitstellen. Wenn es bei dieser zu Abweichungen vom tatsächlichen Bestand kommt, kann er Diesen aktualisieren. Er kann zusätzlich zu den
-Hauskunden auch Großkunden und Personal verwalten (Neue hinzufügen, Daten aktualisieren, Kunden/Personal löschen). Um einen Überblick über den Erfolg des Bioladens zu ermöglichen, erhält er
-Zugriff auf die Verkaufszahlen, die ihm auch inform von Statistiken zur Verfügung stehen. Darüber hinaus kann er eine Gewinnspanne festlegen.
+den günstigsten Preis für zu bestellende Produkte zu finden und beim Bestellvorgang unterstützt. Er bekommt außerdem eine Übersicht über die im Lager und im Laden gelagerten Produkte
+und kann für die Inventur eine Liste bereitstellen. Wenn es bei dieser zu Abweichungen vom tatsächlichen Bestand kommt, kann er diesen aktualisieren. Er kann zusätzlich zu den
+Hauskunden auch Großkunden und Personal verwalten (Neue hinzufügen, Daten aktualisieren, Kunden/Personal löschen).
 
 |===
 
@@ -258,45 +256,58 @@ Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein m
 
 == GUI Prototyp
 
-In diesem Kapitel soll ein Entwurf der Navigationsmöglichkeiten und Dialoge des Systems erstellt werden.
-Idealerweise entsteht auch ein grafischer Prototyp, welcher dem Kunden zeigt, wie sein System visuell umgesetzt werden soll.
+In diesem Kapitel befindet sich ein visueller Entwurf der Anwendnung, der die Navigations- und Dialog-Möglichkeiten darstellt
+
 Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
 
-image::GUI_Entwurf/startseite.PNG[]
+[[start_image]]
+image::GUI_Entwurf/startseite.PNG[startseite, 100%, 100%, pdfwidth=100%, title= "Startseite von {project_name}", align=center]
 
-image::GUI_Entwurf/produktuebersicht_kunde.PNG[]
+[[produktuebersicht_image]]
+image::GUI_Entwurf/produktuebersicht_kunde.PNG[Produktübersicht, 100%, 100%, pdfwidth=100%, title= "Produktübersicht von {project_name} aus Sicht des Kunden", align=center]
 
-image::GUI_Entwurf/produktinfo.PNG[]
+[[produktinfo_image]]
+image::GUI_Entwurf/produktinfo.PNG[Produktinfo, 100%, 100%, pdfwidth=100%, title= "Produktinformationen für die einzelnen Produkte in {project_name}", align=center]
 
-image::GUI_Entwurf/merkliste.PNG[]
+[[merkliste_image]]
+image::GUI_Entwurf/merkliste.PNG[Merkliste, 100%, 100%, pdfwidth=100%, title= "Merkliste in {project_name}", align=center]
 
-image::GUI_Entwurf/loginstart.PNG[]
+[[login_image]]
+image::GUI_Entwurf/loginstart.PNG[Login, 100%, 100%, pdfwidth=100%, title= "Loginseiten für Personal in {project_name}", align=center]
 
-image::GUI_Entwurf/login.PNG[]
+[[erfolgreicherlogin_image]]
+image::GUI_Entwurf/login.PNG[Mangaer eingeloggt, 100%, 100%, pdfwidth=100%, title= "erfolgreicher Login für Manager in {project_name}", align=center]
 
-image::GUI_Entwurf/produktuebersicht.PNG[]
+[[produktuebersichtmanager_image]]
+image::GUI_Entwurf/produktuebersicht.PNG[Produktübersicht, 100%, 100%, pdfwidth=100%, title= "Produktübersicht aus Sicht des Managers in {project_name}", align=center]
 
-image::GUI_Entwurf/verwaltung.PNG[]
+[[verwaltung_image]]
+image::GUI_Entwurf/verwaltung.PNG[Verwaltung, 100%, 100%, pdfwidth=100%, title= "Verwaltungsübersicht in {project_name}", align=center]
 
-image::GUI_Entwurf/user_hinzufuegen.PNG[]
+[[userhin_image]]
+image::GUI_Entwurf/user_hinzufuegen.PNG[Userhinzufuegen, 100%, 100%, pdfwidth=100%, title= "neue Kundenkatei in {project_name} anlegen", align=center]
 
-image::GUI_Entwurf/user_verwalten.PNG[]
+[[userver_image]]
+image::GUI_Entwurf/user_verwalten.PNG[Userverwalten, 100%, 100%, pdfwidth=100%, title= "Nutzer verwalten in {project_name}", align=center]
 
-image::GUI_Entwurf/bnn.PNG[]
+[[bnn_image]]
+image::GUI_Entwurf/bnn.PNG[BNN, 100%, 100%, pdfwidth=100%, title= "Ganze Listen im BNN-Format importieren in {project_name}", align=center]
 
-image::GUI_Entwurf/produkt_manuell.PNG[]
+[[produktmanuell_image]]
+image::GUI_Entwurf/produkt_manuell.PNG[Produktmanuell, 100%, 100%, pdfwidth=100%, title= "Produkte manuell in die Datenbank hinzufügen in {projec_name}", align=center]
 
-image::GUI_Entwurf/kasse.PNG[]
+[[kasse_image]]
+image::GUI_Entwurf/kasse.PNG[Kasse, 100%, 100%, pdfwidth=100%, title= "Kassiersystem in {project_name}", align=center]
 
-image::GUI_Entwurf/bestellung.PNG[]
+[[bestellung_image]]
+image::GUI_Entwurf/bestellung.PNG[Bestellung, 100%, 100%, pdfwidth=100%, title= "Bestellsystem in {project_name}", align=center]
 
-image::GUI_Entwurf/statistik.PNG[]
+[[statistik_image]]
+image::GUI_Entwurf/statistik.PNG[Statistik, 100%, 100%, pdfwidth=100%, title= "Statistikübersicht in {project_name}", align=center]
 
 
-
-Hier ist ein Entwurf für die Etiketten:
-
-image::testLabel.svg[]
+[[testlabel_image]]
+image::testLabel.svg[Label, 50%, 50%, pdfwidth=50%, title= "Entwurf eine Etikette für {project_name}", align=center]
 Hinweis: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 
