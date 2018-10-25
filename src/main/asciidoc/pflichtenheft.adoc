@@ -39,6 +39,11 @@
 |Lukas
 |Zusammenfassung, Aufgabenstellung, Produktnutzung, Interessengruppen, testLabel
 
+|0.2
+|...
+|25.10.2018
+|Josi
+|Akteure hinzugefügt
 |===
 
 toc::[]
@@ -206,7 +211,17 @@ Weitere relevante Spalten können bei Bedarf ergänzt werden.
 [cols="1,4"]
 |===
 |Name |Beschreibung
-|...  |...
+|Kunden | Kunden interagieren mit dem System nur über die firmeneigene Website. Sie können die Produktliste der im Laden verfügbaren Produkte einsehen und sich zu den einzelnen Produkten
+Produktinformationen anschauen. Sie können sich außerdem eine Merkliste erstellen, in der sie alle Produkte in der gewünschten Menge angeben können und das System ihnen
+ einen daraufhin kalkulierten Gesamtpreis zurück gibt.
+|Personal (Staff)| Das Personal interagiert mit dem System über die Kassenterminals im Bioladen. Es kann Waren zum Warenkorb hinzufügen und einen Gesamtpreis berechnen. Außerdem kann es Geld
+kassieren und erfährt durch das System, wie viel Rückgeld der Kunde bekommt. Es kann außerdem Hauskunden zum System hinzufügen. Es hat außerdem beschränkten Zugriff auf die Lieferantendatenbank
+(Lieferantenname, Ort). Das Personal kann außerdem einfache und globale Stornierungen vornehmen.
+|Manager | Der Manager hat zusätzlich zu den Berechtigungen des Personals noch einige verwaltungstechnische Möglichkeiten. Er hat Zugriff auf einen Bestellassistenten, der ihm hilft
+den günstigsten Preis für zu bestellende Produkte zu finden und beim Bestellvorgang unterstützt. Er bekommt außerdem eine Übersicht über die im Lager und im Laden gelagerten Produkte
+und kann für die Inventur eine Liste bereitstellen. Wenn es bei dieser zu Abweichungen vom tatsächlichen Bestand kommt, kann er diesen aktualisieren. Er kann zusätzlich zu den
+Hauskunden auch Großkunden und Personal verwalten (Neue hinzufügen, Daten aktualisieren, Kunden/Personal löschen).
+
 |===
 
 === Überblick Anwendungsfalldiagramm
