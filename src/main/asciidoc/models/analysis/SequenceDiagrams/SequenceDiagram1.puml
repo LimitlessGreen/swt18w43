@@ -50,6 +50,16 @@ CashierSystem <- ShoppingCart: Product Response
 deactivate ShoppingCart
 CashierSystem -> CashierSystem: Sum of base prices
 activate CashierSystem
-CashierSystem -> CashierSystem: add Pfand
+CashierSystem -> CashierSystem: Calculate with discount
+activate CashierSystem
+CashierSystem -> CashierSystem: Calculate with MwSt.
+activate CashierSystem
+CashierSystem -> CashierSystem: add/substract Pfand
+activate CashierSystem
+deactivate CashierSystem
+deactivate CashierSystem
+deactivate CashierSystem
+deactivate CashierSystem
+deactivate CashierSystem
 
 @enduml
