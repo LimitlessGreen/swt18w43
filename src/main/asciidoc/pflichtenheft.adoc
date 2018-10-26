@@ -62,11 +62,18 @@ endif::[]
 |Lukas
 |Zusammenfassung, Aufgabenstellung, Produktnutzung, Interessengruppen, testLabel
 
-|0.2
+|0.2.1
 |...
 |25.10.2018
 |Josi
 |Akteure hinzugefügt
+
+
+|0.2.2
+|...
+|26.10.2018
+|Lukas
+|Muss- und Kannkriterien
 |===
 
 toc::[]
@@ -262,10 +269,39 @@ Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem ein
 == Funktionale Anforderungen
 
 === Muss-Kriterien
-Was das zu erstellende Programm auf alle Fälle leisten muss.
+- Funktionen in Datenbanken müssen beinhalten:
+    * Sortieren
+    * Entfernen
+    * Hinzufügen
+    * Suche
+- Einkäufe, Verkäufe und sonstiges müssen in einem Log archiviert werden
+- Der Bestand von Produkten im Laden muss dem Manager angezeigt werden
+- Es werden die Vorlieben von Hauskunden (Kunden mit Kundenkarte) gespeichert
+- Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
+- Es können nur 999 Produkte im Laden ausgestellt werden
+- Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
+- Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
+- Produkte müssen aus dem Bestand entfernt werden, sobald sie im Warenkorb sind
+- Der endgültige Preis an der Kasse wird global kalkuliert
+- Die Produkte im Warenkorb müssen nach Kategorien sortiert werden
+- Pro Produkt muss ein Etikett erstellt werden
+- Man kann für alle Produkte auf einmal die Etikette drucken lassen
+- Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
+- Steuerabgaben werden extra berechnet -> nicht in den Profit
+- Es muss eine statistische Auswertung von Verkäufen etc. in Tabellen und Diagrammen geben
+- Es muss eine einfache und eine globale Stornierung möglich sein
+- Nach der Inventur muss der Lagerbestand wenn nötig angepasst werden können
+- Es muss nach Ende eines Wirtschaftsjahres der Warenwert festgestellt werden können
+- Es muss eine Übersicht von den bestellten Lieferungen geben
+- Falls ein Lieferant nicht mehr liefert, müssen diese Produkte angepasst werden können
+- Die Mindestbestellmenge bei Händlern muss implementiert werden
+- Es kann sein, dass Lieferungen Probleme haben und nicht ankommen. Die muss abgefangen werden
 
 === Kann-Kriterien
-Anforderungen die das Programm leisten können soll, aber für den korrekten Betrieb entbehrlich sind.
+- Es gibt ein Ablaufdatum für Produkte
+- Es kann Sonderaktionen geben
+- Bei einer globalen Stornierung können die Produkte für den Kunden zurückgehalten werden
+- Es gibt außerdem einen Mindestbestellwert bei Händlern
 
 == Nicht-Funktionale Anforderungen
 
