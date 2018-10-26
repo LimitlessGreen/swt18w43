@@ -29,7 +29,7 @@ endif::[]
 :numbered:
 
 // -- Variables
-:project_name: Bioladen
+:project_name: Bioladen :seedling:
 
 = Pflichtenheft __{project_name}__
 
@@ -318,7 +318,7 @@ image::GUI_Entwurf/user_verwalten.PNG[Userverwalten, 100%, 100%, pdfwidth=100%, 
 image::GUI_Entwurf/bnn.PNG[BNN, 100%, 100%, pdfwidth=100%, title= "Ganze Listen im BNN-Format importieren in {project_name}", align=center]
 
 [[produktmanuell_image]]
-image::GUI_Entwurf/produkt_manuell.PNG[Produktmanuell, 100%, 100%, pdfwidth=100%, title= "Produkte manuell in die Datenbank hinzufügen in {projec_name}", align=center]
+image::GUI_Entwurf/produkt_manuell.PNG[Produktmanuell, 100%, 100%, pdfwidth=100%, title= "Produkte manuell in die Datenbank hinzufügen in {project_name}", align=center]
 
 [[kasse_image]]
 image::GUI_Entwurf/kasse.PNG[Kasse, 100%, 100%, pdfwidth=100%, title= "Kassiersystem in {project_name}", align=center]
