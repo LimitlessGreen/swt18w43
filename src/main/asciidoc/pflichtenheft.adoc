@@ -285,42 +285,330 @@ Für komplexere Anwendungsfälle ein UML-Sequenzdiagramm ergänzen.
 Einfache Anwendungsfälle mit einem Absatz beschreiben.
 Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
 
+image::models/analysis/SequenceDiagrams/SequenceDiagram1.svg[title="Einkauf mit Pfandrückgabe"]
+
+[options="header"]
+[cols="^1h,3"]
+|===
+
+|Name
+|Einkauf mit Pfandrückgabe
+
+|Beschreibung
+|Ein Kunde sollte einkaufen können und das Wechselgeld dabei erhalten. Außerdem muss der Einkauf geloggt werden
+
+|Akteure
+|Kunde, Verkaufspersonal
+
+|Auslöser
+|Kunde geht mit seinen Produkten zur Kasse
+
+|Vorbedingungen
+|Kunde hat sich Produkte ausgesucht, die er kaufen möchte
+
+|Wichtigste Schritte
+|1. Kunden ID wird eingegeben +
+2. Waren werden eingescannt +
+3. Alles wird geloggt +
+4. Gesamtpreis wird berechnet +
+5. Wechselgeld wird berechnet
+
+|Erweitert
+|Nur von Kunden mit Kundenkarte (Hauskunden) werden die Vorlieben gespeichert -> geloggt
+
+|Funktionale Anforderung
+|#F002, #F004, #F009, #F010, #F011, #F013, #F023
+
+|===
+
+
+
+image::models/analysis/SequenceDiagrams/SequenceDiagram2.svg[title="Erstellen von Merklisten"]
+
+[options="header"]
+[cols="^1h,3"]
+|===
+
+|Name
+|Erstellen von Merklisten
+
+|Beschreibung
+|Ein Kunde ist in der Lage online eine Merkliste zu erstellen. Dabei wird der Gesamtpreis der Artikel angezeigt. -> Allerdings ohne Bestellfunktion
+
+|Akteure
+|Kunde
+
+|Auslöser
+|Kunde fügt online ein Produkt seinem Merkzettel hinzu
+
+|Vorbedingungen
+|Kunde ist auf der Website
+
+|Wichtigste Schritte
+|1. Produkt hinzufügen +
+2. Berechnung von allen Artikeln im Warenkorb +
+3. Ausgeben der Summe der Preise von Artikeln im Warenkorb
+
+|Erweitert
+|keine
+
+|Funktionale Anforderung
+|#F008
+
+|===
+
+
+
+image::models/analysis/SequenceDiagrams/SequenceDiagram3.svg[title="Nachbestellen mit OrderAssistant"]
+
+[options="header"]
+[cols="^1h,3"]
+|===
+
+|Name
+|Nachbestellen mit OrderAssistant
+
+|Beschreibung
+|Der Manager bestellt Produkte über den Einkaufsassistenten
+
+|Akteure
+|Manager
+
+|Auslöser
+|Manager klickt auf den Reiter Bestellung und füllt Felder mit Produktnamen und Anzahl aus
+
+|Vorbedingungen
+|Der Manager ist eingeloggt
+
+|Wichtigste Schritte
+|1. Manager gibt Produkte und Anzahl ein +
+2. Mindestbestellmenge wird überprüft und der günstigste Preis ausgegeben
+3. Manager sucht sich das Angebot seiner Wahl aus
+4. Einkaufshilfe sendet E-Mails an die Großhändler
+
+|Erweitert
+|Nur der Manager kann diese Funktion nach dem Einloggen benutzen
+
+|Funktionale Anforderung
+|#F001, #F021
+
+|===
+
+
+
+image::models/analysis/SequenceDiagrams/SequenceDiagram4.svg[title="Hinzufügen von Produkten zur OrderableProducts Liste"]
+
+[options="header"]
+[cols="^1h,3"]
+|===
+
+|Name
+|Hinzufügen von Produkten zur OrderableProducts Liste
+
+|Beschreibung
+|Der Manager möchte neue Produkte hinzufügen über eine BNN-Liste und manuell
+
+|Akteure
+|Manager
+
+|Auslöser
+|Manager klickt auf "BNN Listen importieren" oder "Produkt manuell hinzufügen" im Verwaltungs-Reiter
+
+|Vorbedingungen
+|Der Manager ist eingeloggt
+
+|Wichtigste Schritte
+|1. Der Manager gibt eine BNN-Liste ein +
+2. Der Manager gibt ein Produkt manuell ein +
+3. Das Produkt wird zur Datenbank hinzugefügt
+
+|Erweitert
+|Nur der Manager kann diese Funktion nach dem Einloggen nutzen
+
+|Funktionale Anforderung
+|#F001, #F022
+
+|===
+
+
+
+image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen von Kunden und das Bearbeiten des Kundentyps"]
+
+[options="header"]
+[cols="^1h,3"]
+|===
+
+|Name
+|Hinzufügen eines Kunden und das Bearbeiten des Kundentyps
+
+|Beschreibung
+|Der Manager fügt einen neuen Kunden hinzu und legt dessen Typ fest
+
+|Akteure
+|Manager
+
+|Auslöser
+|Der Manager klickt auf "User hinzufügen" im Verwaltungs-Reiter
+
+|Vorbedingungen
+|Der Manager ist eingeloggt
+
+|Wichtigste Schritte
+|1. Manager gibt die Daten des neuen Kunden ein +
+2. Manager legt den Typ des Kunden fest
+
+|Erweitert
+|Nur der Manager kann diese Funktion nach dem Einloggen nutzen
+
+|Funktionale Anforderung
+|#F001
+
+|===
+
+
+
 == Funktionale Anforderungen
 
 === Muss-Kriterien
-- Funktionen in Datenbanken müssen beinhalten:
-    * Sortieren
-    * Entfernen
-    * Hinzufügen
-    * Suche
-- Einkäufe, Verkäufe und sonstiges müssen in einem Log archiviert werden
-- Der Bestand von Produkten im Laden muss dem Manager angezeigt werden
-- Es werden die Vorlieben von Hauskunden (Kunden mit Kundenkarte) gespeichert
-- Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
-- Es können nur 999 Produkte im Laden ausgestellt werden
-- Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
-- Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
-- Produkte müssen aus dem Bestand entfernt werden, sobald sie im Warenkorb sind
-- Der endgültige Preis an der Kasse wird global kalkuliert
-- Die Produkte im Warenkorb müssen nach Kategorien sortiert werden
-- Pro Produkt muss ein Etikett erstellt werden
+
+[options="header"]
+[cols="^1h,1,3"]
+|===
+
+|ID
+|Name
+|Beschreibung
+
+|#F001
+|Funktionen der Datenbank
+|- Sortieren +
+- Suche +
+- Hinzufügen +
+- Entfernen
+
+|#F002
+|Archivierung
+|Einkäufe, Verkäufe, Stornierungen, etc. müssen in einem Log archiviert werden
+
+|#F003
+|Bestand anzeigen
+|Der aktuelle Bestand von Produkten im Lager muss dem Manager angezeigt werden
+
+|#F004
+|Speicherung von Vorlieben
+|Es werden die Vorlieben von Hauskunden (Kunden mit Kundenkarte gespeichert)
+
+|#F005
+|Gewinnprozentsatz
+|Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
+
+|#F006
+|Ausstellungsfläche
+|Es können nur 999 Produkte im Laden ausgestellt werden
+
+|#F007
+|Größe Einkaufsdatenbank
+|Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
+
+|#F008
+|Online Merkzettel
+|Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
+
+|#F009
+|Entfernen von Produkten aus dem Inventar
+|Produkte müssen aus dem Bestand entfernt werden, sobald sie im Warenkorb sind
+
+|#F010
+|Preiskalkulation
+|Der endgültige Preis wird an der Kasse global kalkuliert
+
+|#F011
+|Sortierung im Warenkorb
+|Die Produkte im Warenkorb müssen nach Kategorien sortiert werden
+
+|#F012
+|Etiketterstellung
+|- Pro Produkt muss ein Etikett erstellt werden +
 - Man kann für alle Produkte auf einmal die Etikette drucken lassen
-- Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
-- Steuerabgaben werden extra berechnet -> nicht in den Profit
-- Es muss eine statistische Auswertung von Verkäufen etc. in Tabellen und Diagrammen geben
-- Es muss eine einfache und eine globale Stornierung möglich sein
-- Nach der Inventur muss der Lagerbestand wenn nötig angepasst werden können
-- Es muss nach Ende eines Wirtschaftsjahres der Warenwert festgestellt werden können
-- Es muss eine Übersicht von den bestellten Lieferungen geben
-- Falls ein Lieferant nicht mehr liefert, müssen diese Produkte angepasst werden können
-- Die Mindestbestellmenge bei Händlern muss implementiert werden
+
+|#F013
+|Informationen im Warenkorb
+|Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
+
+|#F014
+|Steuerabgaben
+|Steuerabgaben werden extra berechnet -> nicht in den Profit
+
+|#F015
+|Statistik
+|Es muss eine statistische Auswertung von Verkäufen etc. in Tabellen und Diagrammen geben
+
+|#F016
+|Stornierungen
+|Es muss eine einfache und eine globale Stornierung an der Kasse möglich sein
+
+|#F017
+|Inventur
+|Nach der Inventur muss der Lagerbestand wenn nötig angepasst werden können
+
+|#F018
+|Wirtschaftsjahr
+|Es muss nach Ende eines Wirtschaftsjahres der Warenwert festgestellt werden können
+
+|#F019
+|Lieferungsübersicht
+|Es muss eine Übersicht von den bestellten Lieferungen geben
+
+|#F020
+|Lieferprobleme
+|- Falls ein Lieferant nicht mehr liefert, müssen diese Produkte angepasst werden können +
 - Es kann sein, dass Lieferungen Probleme haben und nicht ankommen. Die muss abgefangen werden
 
+|#F021
+|Mindestbestellmenge
+|Es gibt eine Mindestbestellmenge für jedes Produkt bei Händlern
+
+|#F022
+|Produkte hinzufügen
+|- Produkte können manuell hinzugefügt werden +
+- Produkte können über eine BNN-Liste importiert werden
+
+|#F023
+|Pfand
+|Kunden können Pfand abgeben
+
+|===
+
+
+
+
 === Kann-Kriterien
-- Es gibt ein Ablaufdatum für Produkte
-- Es kann Sonderaktionen geben
-- Bei einer globalen Stornierung können die Produkte für den Kunden zurückgehalten werden
-- Es gibt außerdem einen Mindestbestellwert bei Händlern
+
+[options="header"]
+[cols="^1h,1,3"]
+|===
+
+|ID
+|Name
+|Beschreibung
+
+|#F101
+|Ablaufdatum
+|Es gibt ein Ablaufdatum für Produkte
+
+|#F102
+|Sonderaktionen
+|Es kann Sonderaktionen geben
+
+|#F103
+|Zurückhalten bei Stornierung
+|Bei einer globalen Stornierung können die Produkte für den Kunden zurückgehalten werden
+
+|#F104
+|Mindestbestellwert
+|Es gibt außerdem einen Mindestbestellwert bei Händlern
+
+|===
 
 == Nicht-Funktionale Anforderungen
 
