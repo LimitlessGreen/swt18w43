@@ -31,10 +31,17 @@ image::ClassAnalysisDiagram.svg[]
 ## Sequenzdiagramme
 
 [[Sequenzdiagramm1]]
-image::SequenceDiagrams/SequenceDiagram1.svg[title="Sequenzdiagramm für den Verkauf von Produkten mit Pfand"]
+image::SequenceDiagrams/SequenceDiagram1.svg[title="Sequenzdiagramm für den Einkauf mit Pfandrückgabe"]
 
 [[Sequenzdiagramm2]]
-image::SequenceDiagrams/SequenceDiagram2.svg[title="Sequenzdiagramm für eine Bestellung vom Manager bei einem Großhändler"]
+image::SequenceDiagrams/SequenceDiagram2.svg[title="Sequenzdiagramm für das Erstellen von Merklisten"]
 
 [[Sequenzdiagramm3]]
-image::SequenceDiagrams/SequenceDiagram3.svg[title="Sequenzdiagramm für das Hinzufügen eines Großhändlers als neuen Kunden"]
+image::SequenceDiagrams/SequenceDiagram3.svg[title="Sequenzdiagramm für das Nachbestellen mit dem OrderAssistent"]
+
+[[Sequenzdiagramm4]]
+image::SequenceDiagrams/SequenceDiagram4.svg[title="Sequenzdiagramm für das Hinzufügen von Produkten zur OrderableProducts Liste"]
+
+[[Sequenzdiagramm5]]
+image::SequenceDiagrams/SequenceDiagram5.svg[title="Sequenzdiagramm für das Hinzufügen von Kunden und das Bearbeiten des Kundentyps"]
+
