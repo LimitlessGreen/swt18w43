@@ -90,7 +90,13 @@ endif::[]
 |...
 |27.10.2018
 |Lisa
-|Dialoglandkart und Beschreibung ; Klasse & Enumerations
+|Dialoglandkarte und Beschreibung ; Klasse & Enumerations
+
+|0.2.6
+|...
+|27.10.2018
+|Lukas
+|Muss- und Kannkriterien, Anwendungsfallbeschreibungen
 
 
 |===
@@ -847,11 +853,11 @@ Hinweis: für einfaches Verständis befinden sich hinter den englischsprachigen 
 |ProductList (Produktliste) |Überklasse für Inventar und bestellbare Produkte, erbt von der Datenbank 
 |Datebase (Datenbank )   |implementiert die  Suche und die eigentliche Datenbank 
 |Inventory (Inventar)  |speichert die gelagerten Produkte 
-|LabelGenerator(Etikettengenerator)  |erstellt Etiketten für Produkte, sowie Barcodes und QRCodes 
+|LabelGenerator (Etikettengenerator)  |erstellt Etiketten für Produkte, sowie Barcodes und QRCodes
 |Distributor (Großhändler)  |einzelne Firma von den der {project_name} Produkte beziehen kann 
 |DistributorList (Großhändler Liste)  |beinhaltet alle Großhändler 
 |Order (Bestellung)  | speichert alle Bestellung und deren Status 
-|OrderAssistant (Bestelungsassistant)  |hilft den Manager den günstigste Angebot bei den bestellbaren Produkten zu finden |
+|OrderAssistant (Bestellungsassistent)  |hilft den Manager den günstigste Angebot bei den bestellbaren Produkten zu finden |
 |===
 
 == Akzeptanztestfälle
