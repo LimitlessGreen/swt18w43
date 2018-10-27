@@ -11,6 +11,11 @@ skinparam participant{
     FontStyle bold
 }
 
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
 skinparam arrow{
     Color darkgreen
 }
@@ -19,38 +24,52 @@ skinparam sequence{
     LifeLineBorderColor black
 }
 
-Manager -> OrderAssistant: chooses product
-activate Manager
-activate OrderAssistant
-OrderAssistant -> OrderableProducts: Request for prices for product
-activate OrderableProducts
-OrderableProducts -> Product: Request for price
-activate Product
-OrderableProducts <- Product: Response price
-OrderAssistant <- OrderableProducts: Response prices for product
+autonumber
 
-Manager <- OrderAssistant: Request quantity
-Manager -> OrderAssistant: Response quantity
-OrderAssistant -> OrderableProducts: Request minimum order quantity
-OrderableProducts -> Product: Request minimum order quantity
-Product -> OrderableProducts: Response minimum order quantity
-deactivate Product
-OrderableProducts -> OrderAssistant: Response minimum order quantity
-deactivate OrderableProducts
+actor Customer
+participant ShoppingCart
+participant Inventory
+participant "Milk \n(Product)" as Product1
+participant "Empty Bottle \n(Product) " as Product2
 
-OrderAssistant -> OrderAssistant: checks if order quantity > minimum order quantity
-activate OrderAssistant
-OrderAssistant -> OrderAssistant: chooses lowest price
-activate OrderAssistant
-Manager <- OrderAssistant: Request Confirmation
-Manager -> OrderAssistant: Response Confirmation
-OrderAssistant -> Distributor: Request EMail
-activate Distributor
-OrderAssistant <- Distributor: Response EMail
-deactivate Distributor
-OrderAssistant -> Distributor: sends order
-deactivate OrderAssistant
-deactivate OrderAssistant
-deactivate OrderAssistant
+activate Customer
+activate Product1
+activate Product2
+activate Inventory
+
+
+
+activate ShoppingCart
+
+
+!definelong shop(p,n)
+
+
+    Customer -> ShoppingCart: add n
+    ShoppingCart -> Inventory: Price Request for n
+    Inventory -> p: Price Request
+    Inventory <- p: Price Response
+    Inventory -> ShoppingCart: Price Response for n
+
+    ShoppingCart -> Inventory: Category Request for n
+    Inventory -> p: Category Request
+    Inventory <- p: Category Response
+    Inventory -> ShoppingCart: Category Response for n
+
+    ShoppingCart -> ShoppingCart: calculate basic sum
+    ShoppingCart -> Customer: print sum
+
+
+
+!enddefinelong
+
+shop(Product1, Milk)
+
+shop(Product2, Chocolate)
+
+
+
+deactivate ShoppingCart
+
 
 @enduml

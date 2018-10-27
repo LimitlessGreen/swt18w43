@@ -1,0 +1,44 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+autonumber
+hide footbox
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+    padding 30
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+actor Manager
+
+activate Manager
+activate UserList
+activate Customer
+
+Manager -> UserList: add Customer
+UserList -> Customer: initialize (with name, \naddress, email, phoneNr)
+UserList <-- Customer
+Manager <-- UserList
+Manager -> Customer: set customer type
+Manager <-- Customer
+
+
+
+@enduml

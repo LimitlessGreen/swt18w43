@@ -19,47 +19,92 @@ skinparam sequence{
     LifeLineBorderColor black
 }
 
-Customer -> Staff: buys milk in a bottle
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+autonumber
+
+actor HouseCustomer
+actor Staff
+participant ShoppingCart
+participant Inventory
+participant "Milk \n(Product)" as Product1
+participant "Empty Bottle \n(Product) " as Product2
+participant CashierSystem
+participant Log
+
 activate Staff
-activate Customer
-ShoppingCart <- Staff: add milk
+activate HouseCustomer
+activate Product1
+activate Product2
+activate Inventory
+activate Log
+
+
+HouseCustomer <- Staff: Request customer id
+HouseCustomer -> Staff:  customer id
+Staff -> ShoppingCart: set customer id
 activate ShoppingCart
-ShoppingCart -> Product: Price Request
-activate Product
-ShoppingCart <- Product: Price Response
-ShoppingCart -> Product: Category Request
-ShoppingCart <- Product: Category Response
-deactivate Product
-ShoppingCart -> Staff: successfully added product
-Customer -> Staff: gives empty bottle
-Staff -> ShoppingCart: add empty bottle
-ShoppingCart -> Product: Price Request
-activate Product
-ShoppingCart <- Product: Price Response
-ShoppingCart -> Product: Category Request
-ShoppingCart <- Product: Category Response
-deactivate Product
-ShoppingCart -> Staff: successfully added product
-Customer <- Staff: Id Request
-Customer -> Staff: Id Response
-Staff -> CashierSystem: enters id
+
+ShoppingCart -> CashierSystem: initialize with customer id
 activate CashierSystem
+
+CashierSystem --> ShoppingCart
+ShoppingCart --> Staff
+
+!definelong shop(p,n)
+
+
+    HouseCustomer -> Staff: gives n
+    ShoppingCart <- Staff: add n
+    ShoppingCart -> Inventory: Price Request for n
+    Inventory -> p: Price Request
+    Inventory <- p: Price Response
+    Inventory -> ShoppingCart: Price Response for n
+
+    ShoppingCart -> Inventory: Category Request for n
+    Inventory -> p: Category Request
+    Inventory <- p: Category Response
+    Inventory -> ShoppingCart: Category Response for n
+
+    ShoppingCart -> CashierSystem: add product price
+    CashierSystem -> Inventory: remove n from display inventory
+    Inventory -> p: remove one displayed
+    Inventory <-- p
+    Inventory --> CashierSystem
+    CashierSystem -> Log: log removal
+    Log --> CashierSystem
+    CashierSystem --> ShoppingCart
+
+    ShoppingCart --> Staff
+
+!enddefinelong
+
+shop(Product1, Milk)
+
+shop(Product2, "Empty Bottle")
+
+|||
 Staff -> CashierSystem: Scan finished
 CashierSystem -> ShoppingCart: Product Request
 CashierSystem <- ShoppingCart: Product Response
 deactivate ShoppingCart
 CashierSystem -> CashierSystem: Sum of base prices
-activate CashierSystem
 CashierSystem -> CashierSystem: Calculate with discount
-activate CashierSystem
 CashierSystem -> CashierSystem: Calculate with MwSt.
-activate CashierSystem
 CashierSystem -> CashierSystem: add/substract Pfand
-activate CashierSystem
+CashierSystem -> Staff: send total
+Staff -> HouseCustomer: tell total
+HouseCustomer -> Staff: give money
+Staff -> CashierSystem: enter given money
+CashierSystem -> CashierSystem: calculate change
+CashierSystem -> Log: log transaction
+CashierSystem <-- Log
+CashierSystem -> Staff: send change amount
 deactivate CashierSystem
-deactivate CashierSystem
-deactivate CashierSystem
-deactivate CashierSystem
-deactivate CashierSystem
+Staff -> HouseCustomer: give change
+
 
 @enduml

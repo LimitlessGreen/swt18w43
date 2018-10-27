@@ -1,0 +1,52 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+autonumber
+hide footbox
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
+actor Manager
+participant OrderableProducts
+
+activate OrderableProducts
+activate Manager
+
+Manager -> OrderableProducts: read BNN
+OrderableProducts -> Product1: add product (initialize)
+activate Product1
+Product1 -> OrderableProducts: add to list
+|||
+OrderableProducts -> Product2: add product (initialize)
+activate Product2
+Product2 -> OrderableProducts: add to list
+
+
+
+Manager -> OrderableProducts: manually add product
+OrderableProducts -> Product3: add product (initialize)
+activate Product3
+Product3 -> OrderableProducts: add to list
+
+
+@enduml
