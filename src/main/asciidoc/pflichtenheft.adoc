@@ -90,7 +90,7 @@ endif::[]
 |...
 |27.10.2018
 |Lisa
-|Dialoglandkart und Beschreibung
+|Dialoglandkart und Beschreibung ; Klasse & Enumerations
 
 
 |===
@@ -536,13 +536,34 @@ link:++https://github.com/st-tu-dresden-praktikum/swt18w43/blob/model/src/main/a
 image::models/analysis/ClassAnalysisDiagram.svg[]
 
 === Klassen und Enumerationen
-Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
+Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt. +
+Hinweis: für einfaches Verständis befinden sich hinter den englischsprachigen Begriffe die deutsche Übersetzung
 
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="header"]
 |===
-|Klasse/Enumeration |Beschreibung |
-|…                  |…            |
+|Klasse/Enumeration |Beschreibung 
+|Person                 |allgemeine Klasse für alle Person       
+|Customer (Kunde)              |eine Art von Person      
+|HouseCustomer (Hauskunde)        |eine spezielle Art vom Kunde , welche das Sytem nutzen (bekommen eigene Rabatte)  
+|NormalCustomer (Normaler Kunde)                  |Art vom Kunden, welche auch als Laufkundschaft bezeichnet wird 
+|MajorCustomer (Großabnehmer)        |Hauskunden, die große Menge an Produkten kaufen und daher einen anderen Rabatt bekommen         
+|Staff (Personal )                  |Hauskunden mit Logindaten (eingeschränkte Zugriffsrechte) und Mitarbeiterrabatt (Hauskunden weil sie auch als Kunden einkaufen dürfen)
+|Manager (Geschäftsleitung )                |Personal mit vollem Zugriff auf das System 
+|UserList (Nutzerliste )                 |Übersicht aller gespreicherten Kunden und dessen Art
+|Log    |speichert alle Verkäufe (Waren, Zeit etc.) und liefert damit alle für die Statistik benötigte Daten
+|Statistic (Statistik )                 |gibt den Manager eine Übersicht über Gewinn, Wert der gelagerten Waren und verschiedener anderen Statistik in Diagramm 
+|ShoppingCart (Einkaufswagen)   |dient zum hinzufügen von Waren , wird als  Merkliste genutzt und kann einfache summen daher berechnen
+|CashierSystem (Kassen System)  |berechnet für das Verkaufspersonal den Gesamtpreis ( mit MWST und Rabatt), welche im Einkaufswagen liegen
+|Product (Produkt)   |ein Teil der Produktliste, welche zum Einkaufswagen hinzugefügt werden kann
+|ProductList (Produktliste) |Überklasse für Inventar und bestellbare Produkte, erbt von der Datenbank 
+|Datebase (Datenbank )   |implementiert die  Suche und die eigentliche Datenbank 
+|Inventory (Inventar)  |speichert die gelagerten Produkte 
+|LabelGenerator(Etikettengenerator)  |erstellt Etiketten für Produkte, sowie Barcodes und QRCodes 
+|Distributor (Großhändler)  |einzelne Firma von den der {project_name} Produkte beziehen kann 
+|DistributorList (Großhändler Liste)  |beinhaltet alle Großhändler 
+|Order (Bestellung)  | speichert alle Bestellung und deren Status 
+|OrderAssistant (Bestelungsassistant)  |hilft den Manager den günstigste Angebot bei den bestellbaren Produkten zu finden |
 |===
 
 == Akzeptanztestfälle
