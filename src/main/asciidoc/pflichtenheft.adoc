@@ -404,49 +404,63 @@ und keine lange Wartezeiten an der Kasse auftreten.
 
 In diesem Kapitel befindet sich ein visueller Entwurf der Anwendnung, der die Navigations- und Dialog-Möglichkeiten darstellt
 
-Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
+HINWEIS: Es handelt sich hier nur um einen Prototyp, daher können einige Funktionen und Layouts angepasst werden.
 
 [[start_image]]
 image::GUI_Entwurf/startseite.PNG[startseite, 100%, 100%, pdfwidth=100%, title= "Startseite von {project_name}", align=center]
 
+
 [[produktuebersicht_image]]
 image::GUI_Entwurf/produktuebersicht_kunde.PNG[Produktübersicht, 100%, 100%, pdfwidth=100%, title= "Produktübersicht von {project_name} aus Sicht des Kunden", align=center]
+
 
 [[produktinfo_image]]
 image::GUI_Entwurf/produktinfo.PNG[Produktinfo, 100%, 100%, pdfwidth=100%, title= "Produktinformationen für die einzelnen Produkte in {project_name}", align=center]
 
+
 [[merkliste_image]]
 image::GUI_Entwurf/merkliste.PNG[Merkliste, 100%, 100%, pdfwidth=100%, title= "Merkliste in {project_name}", align=center]
+
 
 [[login_image]]
 image::GUI_Entwurf/loginstart.PNG[Login, 100%, 100%, pdfwidth=100%, title= "Loginseiten für Personal in {project_name}", align=center]
 
+
 [[erfolgreicherlogin_image]]
 image::GUI_Entwurf/login.PNG[Mangaer eingeloggt, 100%, 100%, pdfwidth=100%, title= "erfolgreicher Login für Manager in {project_name}", align=center]
+
 
 [[produktuebersichtmanager_image]]
 image::GUI_Entwurf/produktuebersicht.PNG[Produktübersicht, 100%, 100%, pdfwidth=100%, title= "Produktübersicht aus Sicht des Managers in {project_name}", align=center]
 
+
 [[verwaltung_image]]
 image::GUI_Entwurf/verwaltung.PNG[Verwaltung, 100%, 100%, pdfwidth=100%, title= "Verwaltungsübersicht in {project_name}", align=center]
+
 
 [[userhin_image]]
 image::GUI_Entwurf/user_hinzufuegen.PNG[Userhinzufuegen, 100%, 100%, pdfwidth=100%, title= "neue Kundenkatei in {project_name} anlegen", align=center]
 
+
 [[userver_image]]
 image::GUI_Entwurf/user_verwalten.PNG[Userverwalten, 100%, 100%, pdfwidth=100%, title= "Nutzer verwalten in {project_name}", align=center]
+
 
 [[bnn_image]]
 image::GUI_Entwurf/bnn.PNG[BNN, 100%, 100%, pdfwidth=100%, title= "Ganze Listen im BNN-Format importieren in {project_name}", align=center]
 
+
 [[produktmanuell_image]]
 image::GUI_Entwurf/produkt_manuell.PNG[Produktmanuell, 100%, 100%, pdfwidth=100%, title= "Produkte manuell in die Datenbank hinzufügen in {project_name}", align=center]
+
 
 [[kasse_image]]
 image::GUI_Entwurf/kasse.PNG[Kasse, 100%, 100%, pdfwidth=100%, title= "Kassiersystem in {project_name}", align=center]
 
+
 [[bestellung_image]]
 image::GUI_Entwurf/bestellung.PNG[Bestellung, 100%, 100%, pdfwidth=100%, title= "Bestellsystem in {project_name}", align=center]
+
 
 [[statistik_image]]
 image::GUI_Entwurf/statistik.PNG[Statistik, 100%, 100%, pdfwidth=100%, title= "Statistikübersicht in {project_name}", align=center]
@@ -454,20 +468,52 @@ image::GUI_Entwurf/statistik.PNG[Statistik, 100%, 100%, pdfwidth=100%, title= "S
 
 [[testlabel_image]]
 image::testLabel.svg[Label, 50%, 50%, pdfwidth=50%, title= "Entwurf eine Etikette für {project_name}", align=center]
+
+
 TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 
 === Überblick: Dialoglandkarte
-Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird.
-//Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
+Übersichtsdiagramm, von welcher Seite man welche erreichen kann. Dabei wurde sich am GUI-Entwurf orientiert.
+In diesem Diagramm wurden farbliche Pfeile benutz um den Zugriff darzustellen. Orange steht hierbei nur die Zugriffmöglichenkeiten als Kunden; Blau die des Verkaufspersonal und grün ist der volle Zugriff, der für den Manager vorhergesehen ist. Bitte beachten Sie hierbei die Vererbungen dabei ( z.B Manager kann alles machen, was das Verkaufspersonal kann)
+//Für jeden Dialog: Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?- Maskenentwürfe (Screenshot, Mockup)-Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)-Evtl. Maskendetails, spezielle Widgets
+
+
+[[dialog_image]]
+image::models/analysis/guidiagramm.svg[Karte, 100%, 100%, pdfwidth=100%, title= "Dialoglandkarte  {project_name}", align=center]
+
 
 === Dialogbeschreibung
-Für jeden Dialog:
-
-1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
-2. Maskenentwürfe (Screenshot, Mockup)
-3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
-4. Evtl. Maskendetails, spezielle Widgets
+[options="header"]
+[cols="1,2,3"]
+|===
+|Figure |Name  |Beschreibung  
+|1  |Startseite des {project_name}  |Mithilfe der Navigationsleiste erreicht man die Produktübersicht, Merkliste und den Login für das Personal. Des Weiteren befindet sich nochmals ein größerer Button in der Mitte der Startseite, welche einen auch zur Produktübersicht bringt (für die intuitive Bedienung)
+|2  |Produktübersicht für den Kunden  |Dort erhält der Kunde eine Übersicht, von allen Produkten, die zum Verkauf stehen. Mithilfe eines “Such”-Feldes, kann er nach speziellen Produkten su-chen. Außerdem kann er nach Kategorien und Preis sortieren. Mithilfe einer Checkbox, kann er gewünschte Artikel zur Merkliste hinzufügen (genaueres dazu bei Fig. 4). Klickt man links auf den Namen des Produktes, so kommt man zu der Produktinfo (siehe Fig. 3)+
+Die Produktübersicht für das Personal (wenn dieser sich angemeldet hat) ent-hält außerdem die Option Label für Produkte zu drucken. Die Anzahl der Label kann man in kleine Felder (direkt hinter den Produkten) eingeben. Klickt das Personal auf den Button “alle”, so wird für jedes Produkt in der Liste die Anzahl der Labels auf 1 gesetzt. Mit dem Button “Auswahl drucken” wird die derzeitige Auswahl als PDF Datei generiert.
+|3  |Produktinfo |Auf dieser Seite werden genauer Produktinformationen zu dem zuvor ange-klickten Produkt angezeigt. Mithilfe eines Buttons kann man jederzeit zur Pro-duktübersicht (2) zurückkehren.
+|4  |Merkliste  |Hier erhält man eine Übersicht von allen Produkten, welche zuvor auf die Merkliste gesetzt wurden. Sollte diese leer sein, so befindet sich ein Informati-onstext auf dieser Seite, dass keine Produkte auf der Liste hinzugefügt worden.  Durch einen Klick auf den Button “Zurück zur Übersicht” kommt er, wie durch einen Klick auf die Navigationsleiste “Produktübersicht” zur “Produktübersicht”
+In der Spalte Anzahl, kann der Nutzer die Anzahl seiner Produkte erhöhen. Es wird daraufhin eine Summe berechnet (evtl. Erst durch Hilfe des Buttons “Aktu-alisieren” aktualisiert). Sollte der Kunde ein Produkt komplett von der Merkliste streichen wollen, so kann er es mithilfe „von Merkliste entfernen“.
+|5  |Login |Hier kann sich das Personal mit Hilfe seiner Daten in das System einloggen. Sollte dabei ein Fehler auftreten (Benutzer oder Passwort falsch), so erscheint eine Fehlermeldung unter den Eingabefeldern.
+|6  |Erfolgreicher Login  |Sollte der Login erfolgreich sein, so wird die Person mit ihrem Namen begrüßt. Außerdem kann man sich nun auch ausloggen bzw. abmelden. In diesem Bei-spiel hat sich der Manager angemeldet. Daher hat er nun Zugriff zusätzlich auf Produktübersicht, Verwaltung, Kasse, Bestellung und Statistik in der Navigations-leiste. Sollte sich das Verkaufspersonal angemeldet haben, so hat dieser nur Zugriff auf Kasse und eingeschränkten Zugriff bei Verwaltung und Produktüber-sicht (mehr dazu unter Figure 8 und 7 ).
+Loggt man per Navigationsleiste aus, so kommt man wieder zur Figure 1.
+|7  |Produktübersicht im eingeloggten Zustand  |In der erweiterten Produktübersicht (hier aus Sicht des Managers) bleiben fast alle Features von Figure 2 erhalten, nur die Merkliste fällt weg. Für den Mana-gers kommt die Möglichkeit hinzu alle möglichen Produkte zu sehen und aus-zuwählen, welche Produkte für den Kunden sichtbar sind bzw. verkauft werden sollen. Dafür muss aber die Produkte im Lager vorhanden sein, deshalb kann der Manager den Lagebestand auch einsehen. Wie das Personal, hat der Mana-ger die Möglichkeit Labels zu generieren und die Kunden Produktinfos einzu-sehen (mehr dazu in Figure 2).
+|8  |Verwaltungs-übersicht  |Dieses Bild zeigt einen Entwurf für die Verwaltungsübersicht für Personen und Produkten. Als Manager hat man vollen Zugriff auf die Verwaltung, d.h.  alle Optionen die in Figure 8 zu sehen sind. Die hier weißen dargestellten Buttons bringen den Manager zu der jeweilen Seite.
+Das Verkaufspersonal sieht auf dieser Seite jedoch nur die Buttons: „User hin-zufügen“ und „Großhändler verwalten“.
+|9  |Nutzer hinzufügen  |Auf dieser Seite kann das Personal neue Kundenkarteien erstellen.
+Dafür sind die Eingaben: Geschlecht / Anrede , Vorname, Nachname, E-Mail, Telefonnummer und Kundenart. Wurde alles ausgefüllt, kann das Personal den Account mit dem Button „Account erstellen“. Danach werden die Textfelder zur Eingabe geleert.
+Das Verkaufspersonal kann jedoch nur Hauskunden erstellen.
+Diese Seite ist außerdem ähnlich zum „Großkunden hinzufügen“ und wurde deshalb nicht in einem extra Entwurf behandelt. Bei Großhändler fällt die Aus-wahlmöglichkeit der Kundenart weg.
+Mit dem Button „Zurück zur Übersicht“ gelangt man wieder zur Figure 8.
+|10 |Nutzer verwalten  |Der Manager hat hier die Möglichkeit alle Kundenkarteien zu sehen, zu sortie-ren nach verschiedenen Kriterien, diese zu löschen und das Passwort beim entsprechenden Personal zurückzusetzen, sollte dieser sein Passwort verges-sen haben. Ferner wird die User-ID links auch zu sehen sein.
+Mit dem Button „Zurück zur Übersicht“ gelangt man wieder zur Figure 8.
+|11 |BNN Listen im-portieren  |Sollte der Manger Produktlisten vom Großhändler bekommen, so kann er hier die Dateien importieren. 
+|12 |Produkte manu-ell hinzufügen  |Ist keine BNN Liste vorhanden, kann der Manager Produkte mithilfe von Eingabefelder, wie auf dem Bild zu sehen, manuell eingeben und mit dem Button „Hinzufügen“ zur Produktdatenbank hinzufügen. Danach werden die Eingabefelder wieder geleert um eine schnellere manuelle Eingabe zu ermöglichen. 
+|13 |Kasse  |Hier kann das Personal die Produkte, welche der Kunde kaufen möchte, abre-chen und damit vom Lagerbestand abziehen.
+Links befindet sich dafür ein Eingabefeld für den Produktcode, darunter dafür ein Zahlenfeld. Rechts erhält das Personal eine Übersicht, über alle bereits hinzugefügten Waren. Mengen können direkt hinter den Produkten erhöht werden und gelöscht (einfach storniert) werden. Sollten alle Produkte gelöscht werden bzw. eine globale Stornierung erwünscht sein, gibt es dafür den Button „alles Löschen“. Die Kunden-ID kann auch mithilfe eines Eingabefeldes einge-geben werden. Unten rechts wird der Gesamtpreis ausgegeben. Mithilfe eines weiteren Eingabefeldes kann des erhaltenen Bargeldes eingeben werden vo-rauf daneben das entsprechende Rückgeld ausgegeben. 
+|14 |Bestellsystem  |Mithilfe von zwei Eingabefeldern für Produktname und Menge, kann der Mana-ger nach Produkten suchen, die er Bestellen möchte. Nach der Eingabe werden die Such-Ergebnisse unterhalt in einer Tabelle ausgeben. Daraus kann sich der Manager seine gewünschten Produkte auswählen und zur Bestellübersicht hinzufügen. Mit dem Button „Bestellen“ werden die einzelnen Bestellungen an die Händler gesendet. 
+|15 |Statistik  |Hier wird der Jahresumsatz, Gesamtlagerwert und weitere visuelle Statistiken für den Manager angezeigt.
+|===
 
 == Datenmodell
 
