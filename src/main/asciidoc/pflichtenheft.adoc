@@ -68,18 +68,30 @@ endif::[]
 |Josi
 |Akteure hinzugefügt
 
-
 |0.2.2
+|...
+|25.10.2018
+|Lisa
+|GUI vollständig
+
+|0.2.3
 |...
 |26.10.2018
 |Lukas
 |Muss- und Kannkriterien
 
-|0.2.3
+|0.2.4
 |...
 |27.10.2018
 |Lukas
 |Nicht-Funktionale Anforderungen
+
+|0.2.5
+|...
+|27.10.2018
+|Lisa
+|Dialoglandkart und Beschreibung
+
 
 |===
 
