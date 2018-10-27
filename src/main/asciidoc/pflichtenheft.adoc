@@ -74,6 +74,13 @@ endif::[]
 |26.10.2018
 |Lukas
 |Muss- und Kannkriterien
+
+|0.2.3
+|...
+|27.10.2018
+|Lukas
+|Nicht-Funktionale Anforderungen
+
 |===
 
 toc::[]
@@ -307,12 +314,91 @@ Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem ein
 
 === Qualitätsziele
 
-Dokumentieren Sie in einer Tabelle die Qualitätsziele, welche das System erreichen soll, sowie deren Priorität.
+In der nachfolgenden Tabelle wird dokumentiert, welche Qualitätsziele von der Software erfüllt werden müssen.
+Außerdem wird die Priorität der einzelnen Ziele festgehalten. (1 - unwichtig  ->  5 - sehr wichtig)
+
+[options="header"]
+[cols="2h,^1,^1,^1,^1,^1"]
+|===
+|Qualitätsziel
+|1
+|2
+|3
+|4
+|5
+
+|Wartbarkeit (Maintainability)
+|
+|
+|X
+|
+|
+
+|Erweiterbarkeit (Extensibility)
+|
+|
+|
+|
+|X
+
+|Benutzbarkeit (Usability)
+|
+|
+|X
+|
+|
+
+|Anpassbarkeit (Scalability)
+|X
+|
+|
+|
+|
+
+|Zuverlässigkeit (Reliability)
+|
+|
+|
+|
+|X
+
+|Sicherheit (Security)
+|
+|
+|
+|X
+|
+
+|Geschwindigkeit (Performance)
+|
+|
+|
+|X
+|
+
+|===
 
 === Konkrete Nicht-Funktionale Anforderungen
 
-Beschreiben Sie Nicht-Funktionale Anforderungen, welche dazu dienen, die zuvor definierten Qualitätsziele zu erreichen.
-Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein muss.
+[options="header"]
+[cols="1,2"]
+|===
+
+|Name
+|Beschreibung
+
+|Verfügbarkeit
+|Das System sollte möglichst zu den Ladenzeiten immer verfügbar sein, damit Verkäufe durch die Kasse abgeschlossen werden können.
+
+|Sicherheit
+|Die Passwörter der Mitarbeiter (vor allem vom Manager) sollten gesichert sein (nur in Hash Werten gespeichert).
+
+|Geschwindigkeit
+|Das System sollte möglichst schnell sein, damit die vielen Produkte dem Nutzer in annehmbarer Zeit präsentiert werden können
+und keine lange Wartezeiten an der Kasse auftreten.
+
+|===
+
 
 == GUI Prototyp
 
