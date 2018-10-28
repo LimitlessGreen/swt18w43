@@ -730,7 +730,8 @@ und keine lange Wartezeiten an der Kasse auftreten.
 
 In diesem Kapitel befindet sich ein visueller Entwurf der Anwendnung, der die Navigations- und Dialog-Möglichkeiten darstellt
 
-HINWEIS: Es handelt sich hier nur um einen Prototyp, daher können einige Funktionen und Layouts angepasst werden.
+HINWEIS: Es handelt sich hier nur um einen Prototyp, daher können einige Funktionen und Layouts angepasst werden. + 
+Die orangenen Sprechblasen sind Anmerkungen und werden später nicht zu sehen sein.
 
 [[start_image]]
 image::GUI_Entwurf/startseite.PNG[startseite, 100%, 100%, pdfwidth=100%, title= "Startseite von {project_name}", align=center]
