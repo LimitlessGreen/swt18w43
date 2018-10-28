@@ -109,7 +109,6 @@ endif::[]
 |28.10.2018
 |Josi
 |Akzeptanztestfälle
-|===
 
 |0.2.9
 |...
