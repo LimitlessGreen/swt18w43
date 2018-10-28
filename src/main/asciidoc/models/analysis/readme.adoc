@@ -45,3 +45,8 @@ image::SequenceDiagrams/SequenceDiagram4.svg[title="Sequenzdiagramm für das Hin
 [[Sequenzdiagramm5]]
 image::SequenceDiagrams/SequenceDiagram5.svg[title="Sequenzdiagramm für das Hinzufügen von Kunden und das Bearbeiten des Kundentyps"]
 
+## GUI Diagramm V1
+image::guidiagramm.svg[]
+
+## GUI Diagramm V2
+image::guidiagrammV2.svg[]
