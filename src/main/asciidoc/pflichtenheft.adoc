@@ -98,6 +98,11 @@ endif::[]
 |Lukas
 |Muss- und Kannkriterien, Anwendungsfallbeschreibungen
 
+|0.2.7
+|...
+|28.10.2018
+|Lukas
+|Glossar
 
 |===
 
@@ -792,7 +797,7 @@ image::models/analysis/guidiagramm.svg[Karte, 100%, 100%, pdfwidth=100%, title= 
 === Dialogbeschreibung
 Hinweis: Die Spalte Figure bezieht sich auf die GUI
 [options="header"]
-[cols="1,2,3"]
+[cols="^1h-,2,3"]
 |===
 |Figure |Name  |Beschreibung  
 |1  |Startseite des {project_name}  |Mithilfe der Navigationsleiste erreicht man die Produktübersicht, Merkliste und den Login für das Personal. Des Weiteren befindet sich nochmals ein größerer Button in der Mitte der Startseite, welche einen auch zur Produktübersicht bringt (für die intuitive Bedienung)
@@ -865,11 +870,65 @@ Mithilfe von Akzeptanztests wird geprüft, ob die Software die funktionalen Erwa
 Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumenten (z.B. im Test-Plan) referenzieren zu können.
 
 == Glossar
-Sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten Stakeholder essentiell ist, sollten hier aufgeführt werden.
-Insbesondere Begriffe der zu implementierenden Domäne wurden bereits beschrieben, jedoch gibt es meist mehr Begriffe, die einer Beschreibung bedürfen. +
-Beispiel: Was bedeutet "Kunde"? Ein Nutzer des Systems? Der Kunde des Projektes (Auftraggeber)?
+Das Glossar beinhaltet eine Liste mit Begriffen, die in diesem Projekt benutzt werden.
+Dies wird erstellt um Missverständnissen vorzubeugen.
+
+:domain_ref: Siehe <<Klassen und Enumerationen>>
+
+[options="header"]
+[cols="^1h,3"]
+|===
+
+|Begriff
+|Beschreibung
+
+|Kunde
+|Ein Kunde ist eine Person, welche bei uns im Laden einkauft und die Website anschauen kann +
+{domain_ref}
+
+|Manager
+|Der Manager ist eine Person, welche vollen Zugriff auf das System hat und administrative Aufgaben ausführen kann +
+{domain_ref}
+
+|Produkt
+|Produkte werden verkauft, vom Manager von Großhändlern/Lieferanten eingekauft und auf der Website angezeigt +
+{domain_ref}
+
+|Bestellung
+|Eine Bestellung wird vom Manager getätigt und an die Großhändler/Lieferanten gesendet, welche uns dann die Produkte senden +
+{domain_ref}
+
+|Großhändler
+|Ein Großhändler bietet uns Produkte zum Kauf an +
+{domain_ref}
+
+|Lieferant
+|Wird teilweise als Synonym für Großhändler genutzt
+
+|Inventar
+|Der Inventar zeigt an, wie viele Produkte sich momentan in unserem Lager befinden +
+{domain_ref}
+
+|Ausstellungsfläche
+|Die Ausstellungsfläche gibt an, wie viele Produkte im Laden zum Verkauf angeboten werden (max. 999) +
+{domain_ref}
+
+|Personal
+|Das Personal/Verkaufspersonal bedient die Kasse +
+{domain_ref}
+
+|System
+|Allgemeiner Begriff für das Softwaresystem, welches implementiert wird
+
+|Warenkorb
+|Im Warenkorb werden die Produkte gespeichert, welche ein Kunde an der Kasse kaufen möchte +
+{domain_ref}
+
+|Merkliste
+|Die Merkliste ist der Warenkorb auf der Website online, welche allerdings nicht zum Verkauf benutzt wird
+
+|BNN Liste
+|BNN Listen beinhalten Produkte nach dem BNN Standard, welche von unserem System eingelesen werden können
 
 
-== Offene Punkte
-Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.
-
+|===
