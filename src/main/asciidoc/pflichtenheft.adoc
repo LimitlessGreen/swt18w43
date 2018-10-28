@@ -807,7 +807,7 @@ In diesem Diagramm wurden farbliche Pfeile benutz um den Zugriff darzustellen. O
 
 
 [[dialog_image]]
-image::models/analysis/guidiagramm.svg[Karte, 100%, 100%, pdfwidth=100%, title= "Dialoglandkarte  {project_name}", align=center]
+image::models/analysis/guidiagrammV2.svg[Karte, 100%, 100%, pdfwidth=100%, title= "Dialoglandkarte  {project_name}", align=center]
 
 
 === Dialogbeschreibung
