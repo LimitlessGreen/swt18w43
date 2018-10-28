@@ -111,6 +111,13 @@ endif::[]
 |Akzeptanztestfälle
 |===
 
+|0.2.9
+|...
+|28.10.2018
+|Jairus
+|Überarbeitete Dialoglandkarte
+|===
+
 toc::[]
 
 == Zusammenfassung
