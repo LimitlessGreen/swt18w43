@@ -13,20 +13,21 @@ skinparam note {
 start
 repeat
 :Startseite;
+repeat
 fork
     :Login;
 
     while (Login erfolgreich?) is (nein)
     :Login erneut eingeben;
+
     endwhile (ja)
 
     repeat
     :Startseite
     (privilegiert);
+    repeat
+
     fork
-        :Startseite
-        (privilegiert);
-    fork again
         :Produktkatalog;
     fork again
         :Kasse;
@@ -96,10 +97,10 @@ fork
 
     endfork
     repeat while
+    repeat while
     :Logout;
 
 fork again
-    repeat
 
     fork
     :Produktübersicht
@@ -113,10 +114,11 @@ fork again
     fork again
 
     endfork
-    repeat while
+
 
 fork again
 endfork
+repeat while
 repeat while
 
 :<U+1F4A3><U+1F698><U+1F4A5>**CRASH**<U+1F4A3><U+1F698><U+1F4A5>;
