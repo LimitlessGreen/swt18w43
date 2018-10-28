@@ -1,0 +1,110 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+autonumber
+
+actor HouseCustomer
+actor Staff
+participant ShoppingCart
+participant Inventory
+participant "Milk \n(Product)" as Product1
+participant "Empty Bottle \n(Product) " as Product2
+participant CashierSystem
+participant Log
+
+activate Staff
+activate HouseCustomer
+activate Product1
+activate Product2
+activate Inventory
+activate Log
+
+
+HouseCustomer <- Staff: Request customer id
+HouseCustomer -> Staff:  customer id
+Staff -> ShoppingCart: set customer id
+activate ShoppingCart
+
+ShoppingCart -> CashierSystem: initialize with customer id
+activate CashierSystem
+
+CashierSystem --> ShoppingCart
+ShoppingCart --> Staff
+
+!definelong shop(p,n)
+
+
+    HouseCustomer -> Staff: gives n
+    ShoppingCart <- Staff: add n
+    ShoppingCart -> Inventory: Price Request for n
+    Inventory -> p: Price Request
+    Inventory <- p: Price Response
+    Inventory -> ShoppingCart: Price Response for n
+
+    ShoppingCart -> Inventory: Category Request for n
+    Inventory -> p: Category Request
+    Inventory <- p: Category Response
+    Inventory -> ShoppingCart: Category Response for n
+
+    ShoppingCart -> CashierSystem: add product price
+    CashierSystem -> Inventory: remove n from display inventory
+    Inventory -> p: remove one displayed
+    Inventory <-- p
+    Inventory --> CashierSystem
+    CashierSystem -> Log: log removal
+    Log --> CashierSystem
+    CashierSystem --> ShoppingCart
+
+    ShoppingCart --> Staff
+
+!enddefinelong
+
+shop(Product1, Milk)
+
+shop(Product2, "Empty Bottle")
+
+|||
+Staff -> CashierSystem: Scan finished
+CashierSystem -> ShoppingCart: Product Request
+CashierSystem <- ShoppingCart: Product Response
+deactivate ShoppingCart
+CashierSystem -> CashierSystem: Sum of base prices
+CashierSystem -> CashierSystem: Calculate with discount
+CashierSystem -> CashierSystem: Calculate with MwSt.
+CashierSystem -> CashierSystem: add/substract Pfand
+CashierSystem -> Staff: send total
+Staff -> HouseCustomer: tell total
+HouseCustomer -> Staff: give money
+Staff -> CashierSystem: enter given money
+CashierSystem -> CashierSystem: calculate change
+CashierSystem -> Log: log transaction
+CashierSystem <-- Log
+CashierSystem -> Staff: send change amount
+deactivate CashierSystem
+Staff -> HouseCustomer: give change
+
+
+@enduml

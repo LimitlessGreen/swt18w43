@@ -1,0 +1,185 @@
+@startuml
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 2
+skinparam titleBorderColor blue
+skinparam titleBackgroundColor Chartreuse
+'skinparam handwritten true
+'skinparam groupInheritance 3
+skinparam linetype ortho
+
+skinparam package {
+    FontColor Grey
+    BorderColor Green
+    shadowing false
+}
+
+skinparam usecase {
+    Bordercolor darkgreen
+  	BackgroundColor #GreenYellow/LightGoldenRodYellow
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam database{
+    backgroundcolor white
+}
+
+skinparam Arrow{
+    Color darkgreen
+}
+
+title Use-Case diagram
+
+
+' === Customer === '
+:Customer: as ku
+:NormalCustomer: as nku
+:MajorCustomer: as gha
+:HouseCustomer: as hku
+
+left to right direction
+
+' === Staff === '
+:Staff: as vp
+:Manager: as gl
+
+nku --> ku
+vp --> hku
+gha --> hku
+hku --> ku
+
+' === Sonstiges === '
+database "System" as sys
+
+' === Y === '
+rectangle "coole Bioladenbox"{
+    '(Pfand auszahlen)
+
+    package "UserDepartment"{
+        (add Account) as acc
+        (delete Account) as accdel
+
+    }
+
+
+
+    package "DataDepartment"{
+        (print label) as et_dr
+            (log money and product tranfers) -- sys
+            (log cancellation) -- sys
+
+            et_dr -- sys
+    }
+
+
+    package "FinancesDepartment"{
+            (cash payment) as bg_ez
+            (give change) as bg_az
+            (calculate change) as we_br
+            (sum calculation of base prices) as sdg
+            (calculate discount) as rab
+            (calculate MwSt) as mwst
+            (print final price) as epa
+
+            (basic cancellation) as l_st
+            (global cancellation) as g_st
+
+            (add item to shopping cart) as azw
+            (scan product) as scan
+
+            vp -- FinancesDepartment
+
+            gl -- acc
+            gl -- accdel
+
+            gl --> vp
+
+
+            ku -- bg_ez
+
+            'vp -- bg_az
+            'vp -- l_st
+
+
+            sys -- we_br
+
+            bg_ez <.. bg_az: <<include>>
+            bg_az ..> we_br: <<include>>
+            we_br ..> bg_ez: <<include>>
+            l_st <.. g_st: <<extend>>
+            l_st ..> scan: <<include>>
+            azw ..> scan: <<include>>
+            sdg ..> azw: <<include>>
+            rab ..> sdg: <<include>>
+            mwst ..> rab: <<include>>
+            epa ..> mwst: <<include>>
+
+
+
+
+        }
+
+    'package --- {
+    '    :i_i_i_i: as a
+    '    a .. a
+    '}
+
+
+    package "InventoryDepartment"{
+        (record inventory)
+        (divergent inventory was found) as abf
+        (notify manager) as glb
+        (adjust inventory) as bb
+
+        sys -- abf
+        sys -- glb
+        gl -- bb
+    }
+
+
+    package "Order"{
+        (send order) as ba
+        (find lowest price) as gpf
+        (create order) as bers
+        (receive order) as bempf
+        (place content of \norder in inventory) as binvent
+
+        gpf <.. bers: <<include>>
+        ba <.. gpf: <<include>>
+        bempf <.. binvent: <<include>>
+        sys -- binvent
+    }
+
+
+    package "DistributorDepartment"{
+        (add distributor)
+        (delete distributor)
+        (edit distributor info)
+
+        gl -- DistributorDepartment
+    }
+
+    package "ProductDepartment"{
+        (add product)
+        (delete product)
+        (edit product info)
+        (import major customer \nproduct list)
+        (add product to \nsale database)
+        (delete product from \nsale database)
+
+        gl -- ProductDepartment
+    }
+
+
+
+
+
+
+
+
+}
+
+@enduml

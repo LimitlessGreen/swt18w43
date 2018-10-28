@@ -1,0 +1,40 @@
+@startuml
+
+skinparam componentStyle uml2
+'skinparam linetype ortho
+'skinparam handwritten true
+'skinparam componentStyle uml2
+'skinparam monochrome true
+skinparam rectangleFontStyle bold
+'skinparam Padding 0
+skinparam rectangleBackgroundColor 	#GreenYellow/LightGoldenRodYellow
+skinparam ArrowFontColor black
+skinparam ArrowColor darkgreen
+skinparam ActorBorderColor black
+skinparam ActorBackgroundColor white
+
+left to right direction
+
+rectangle Bioladen {
+    rectangle ProductDepartment {
+        rectangle InventoryDepartment
+    }
+    rectangle FinancesDepartment
+    rectangle DataDepartment
+    rectangle UserDepartment
+}
+
+:Staff:
+:Manager:
+:Customer:
+
+Manager -up-#UserDepartment: add all Customers
+Manager -up-# DataDepartment: get Statistics
+Manager -up-# FinancesDepartment: operate cash register
+Manager -up-# ProductDepartment: change database entries
+Manager -up-# InventoryDepartment: order product
+Staff --# UserDepartment: add NormalCustomers
+Staff --# FinancesDepartment: operate cash register
+Customer --# FinancesDepartment: gives money
+
+@enduml

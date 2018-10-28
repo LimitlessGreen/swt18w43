@@ -1,0 +1,121 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
+skinparam note{
+    BorderColor darkgreen
+    BackgroundColor white
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+autonumber
+
+actor Manager
+participant OrderAssistant
+participant OrderableProducts
+participant Product1
+participant Product2
+actor Distributor1
+actor Distributor2
+
+
+activate Manager
+activate OrderableProducts
+activate Product1
+activate Product2
+activate Distributor1
+activate Distributor2
+activate OrderAssistant
+
+!define wrong(p) ...                                                                                                     wrong products...
+
+!definelong checkProducts(p)
+
+    OrderAssistant -> p: get price
+    OrderAssistant <-- p
+    OrderAssistant -> OrderAssistant: calculate price for quantity
+    OrderAssistant -> p: get minimum order quantity
+    OrderAssistant <-- p
+    OrderAssistant -> OrderAssistant: check minimum order quantity \nand annotate
+    OrderAssistant -> p: get distributor
+    OrderAssistant <-- p
+
+!enddefinelong
+
+
+Manager -> OrderAssistant: enter name and quantity of product
+OrderAssistant -> OrderableProducts: search by product name
+activate OrderableProducts
+group search algorithm of database
+    wrong()
+    OrderableProducts -> Product1: get name
+    OrderableProducts <-- Product1
+    OrderableProducts -> OrderableProducts: add to result list
+    wrong()
+    OrderableProducts -> Product2: get name
+    OrderableProducts <-- Product2
+    OrderableProducts -> OrderableProducts: add to result list
+    wrong()
+end
+OrderAssistant <- OrderableProducts: return result list
+deactivate OrderableProducts
+|||
+
+autonumber 10.1
+checkProducts(Product1)
+|||
+autonumber 11.1
+checkProducts(Product2)
+
+|||
+
+autonumber 12
+
+OrderAssistant -> OrderAssistant: calculated lowest price \nand annotate
+
+OrderAssistant -> Manager: return list with calculated \nprices and annotations
+
+Manager --> Manager: opt.: adjust quantity \n→ (recalculation by OrderAssistant)
+
+Manager -> OrderAssistant: chooses preferred distributor \noffering for product
+OrderAssistant -> OrderAssistant: add to order list
+OrderAssistant --> Manager:
+
+...
+hnote over Manager, OrderAssistant: redo for all products to be ordered
+...
+
+autonumber
+
+Manager -> OrderAssistant: finish order
+OrderAssistant -> OrderAssistant: create orders by distributors
+OrderAssistant -> Distributor1: send email
+OrderAssistant <-- Distributor1
+OrderAssistant -> Distributor2: send email
+OrderAssistant <-- Distributor2
+Manager <-- OrderAssistant
+
+deactivate OrderAssistant
+
+@enduml

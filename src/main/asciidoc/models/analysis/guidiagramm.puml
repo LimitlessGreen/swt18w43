@@ -1,0 +1,124 @@
+@startuml
+
+skinparam componentStyle uml2
+skinparam linetype ortho
+'skinparam handwritten true
+skinparam groupInheritance 3
+
+skinparam rectangle {
+    fontStyle bold
+	BackgroundColor #GreenYellow/LightGoldenRodYellow
+
+}
+
+skinparam component {
+    fontStyle bold
+	BackgroundColor #GreenYellow/LightGoldenRodYellow
+    BorderColor darkgreen
+}
+
+skinparam Arrow {
+    Color darkgreen
+}
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+:Manager: as m
+:Verkäufer: as v
+:Kunde: as k
+m -[#black]-|> v
+v -[#black]-|> k
+package "BioLaden"{
+
+
+    rectangle Startseite
+    rectangle Produktübersicht as püb{
+        rectangle "Name, \nKategorie, \nPreis" as pkat
+        rectangle "Label drucken" as plab
+        rectangle "zur Merkliste \nhinzufügen" as addmerk
+        rectangle "Lager, \nzum Shop hinzufügen," as shop
+    }
+    rectangle Merkliste as merk
+    rectangle Produktinfo as pinf
+    rectangle Login as log
+    rectangle "Startseite Login" as stlog
+    rectangle Verwaltung as ver{
+        rectangle "User hinzufügen" as vuadd
+        rectangle "User verwalten" as vuver
+        rectangle "Großhändler hinzufügen" as vgadd
+        rectangle "Großhändler verwalten" as vgver
+        rectangle "BNN Listen \nimportieren" as vbnn
+        rectangle "Produkte manuell \nhinzufügen" as vpadd
+    }
+    rectangle "User hinzufügen" as uadd
+    rectangle "Großhändler \nhinzufügen" as gadd
+    rectangle "User verwalten" as uver
+    rectangle "Großhändler \nverwalten" as gver
+    rectangle "BNN Listen \nimportieren" as bnn
+    rectangle "Produkte manuell \nhinzufügen" as padd
+    rectangle Kasse as kas
+    rectangle Bestellung as best
+    rectangle Statistik as stats
+    rectangle Logout as lout
+
+
+    m --> Startseite
+    v -[#blue]-> Startseite
+    k -[#orange]-> Startseite
+    Startseite <-[#orange]-> püb
+    püb -[#orange]->pkat
+    püb <-[#orange]-> addmerk
+    püb <-[#orange]-> log
+    log -[#blue]-> stlog: Login erfolgreich
+    log -[#orange]-> log: Login \nfehlgeschlagen
+    stlog --> lout
+    stlog <--> püb
+    püb <-[#blue]-> plab
+    püb <-[#blue]-> pkat
+    stlog <--> stats
+    stlog <--> best
+    stlog <-[#blue]-> kas
+    stlog <--> ver
+    stlog <-[#blue]-> ver
+    ver <-[#blue]-> vgver
+    ver <-[#blue]-> vuadd
+    vuadd -[#blue]-> uadd : nur Hauskunden
+    vgver -[#blue]-> gver : nur Name und Ort einsehen
+    lout -[#blue]-> Startseite
+    püb --> lout
+    püb <-[#blue]-> kas
+    püb <--> stats
+    ver <-[#blue]-> püb
+    ver -[#blue]-> lout
+    püb <--> best
+    stats --> lout
+    best --> lout
+    kas -[#blue]-> lout
+    kas <--> best
+    kas <--> stats
+    stats <--> best
+    pkat -[#orange]-> pinf
+    pinf --> püb
+    pinf -[#orange]-> pkat
+    püb <-[#orange]-> merk
+    vuadd --> uadd
+    uadd -[#blue]-> ver
+    vuver --> uver
+    uver --> ver
+    vgadd --> gadd
+    gadd --> ver
+    vgver --> gver
+    gver -[#blue]-> ver
+    vbnn --> bnn
+    bnn  --> ver
+    vpadd --> padd
+    padd --> ver
+    kas <-[#blue]-> ver
+
+}
+
+
+
+
+@enduml

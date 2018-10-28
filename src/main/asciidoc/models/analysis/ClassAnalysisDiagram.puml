@@ -1,0 +1,244 @@
+@startuml
+'skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam class {
+	'BackgroundColor Lavender
+	BackgroundColor #GreenYellow/LightGoldenRodYellow
+    BorderColor Black
+    ArrowColor  Black
+}
+
+skinparam package {
+    FontColor Grey
+    BorderColor Green
+    shadowing false
+}
+
+class Database{
+    getSorted()
+    add()
+    delete()
+    getSearched()
+    getFiltered()
+}
+
+package UserDepartment {
+
+class UserList{
+    setUserType()
+}
+
+class Person{
+    name
+    address
+    email
+    phoneNr
+}
+
+
+class Customer{
+    preferences
+    discount
+    id
+    permissions
+    getCatalog()
+    setDiscount()
+    getDiscount()
+}
+
+class Manager{
+    resetLogin()
+    orderProducts()
+}
+
+
+Person ^-- Customer
+
+
+Staff ^-- Manager
+
+
+Customer ^-- NormalCustomer
+Customer ^-- HouseCustomer
+HouseCustomer ^-- MajorCustomer
+HouseCustomer ^-- Staff
+
+
+class Staff{
+    '== attributes =='
+    username
+    password
+
+    '=== methods ===='
+    login()
+    addNormalCustomer()
+}
+
+
+UserList "1" o-- "0..*" Customer: users
+Database ^-- UserList
+
+
+
+}
+
+
+
+
+
+
+package ProductDepartment{
+    class Product{
+        '== attributes =='
+        description
+        bnnInfo
+        ean
+        quantityStored
+        quantityDisplayed
+        price
+
+        getPrice()
+        getProductInfo()
+
+    }
+
+    class ProductList{
+
+    }
+
+    class DistributorList{
+
+    }
+
+    class OrderableProducts{
+        readBnn()
+    }
+
+    class LabelGenerator{
+        printLabelAll()
+        printLabelProduct()
+        generateBarCode()
+        generateQRCode()
+        setup()
+    }
+
+    class Distributor{
+        '== attributes =='
+        companyName
+        address
+        contactPartner
+        minimumOrderQuantity
+        paymentMethods
+        taxNumber
+
+        sendEmail()
+    }
+
+    OrderableProducts "n" -- "1" DistributorList
+    DistributorList "1" o-- "0..*" Distributor
+
+    Database ^-- DistributorList
+
+
+
+
+    ProductList -up-^ Database
+    ProductList "1" o-- "0..*" Product
+    Product "n" *-- "1" LabelGenerator
+    ProductList ^-- OrderableProducts
+
+    Product "1..*" --* "1" Distributor
+
+
+
+    package InventoryDepartment{
+
+        class Order{
+            id
+            arrived
+            content
+
+            placeContentInInventory()
+        }
+
+        class OrderAssistant{
+            getLowestPriceForProduct()
+            order()
+        }
+
+        class Inventory {
+            profitValue
+
+            getValueOfStoredProducts()
+        }
+
+        Order -up-> Inventory
+        OrderableProducts <-- OrderAssistant
+        ProductList ^-- Inventory
+        OrderAssistant "0,1" o-- "1" Manager
+
+    }
+
+}
+
+package DataDepartment {
+
+
+    class Log{
+        sales
+        purchases
+        time
+        soldWares
+        purchasedProducts
+        stolenProducts
+
+
+    }
+
+    class Statistic{
+        getStatics()
+        generateDiagram()
+    }
+
+    Log "1" *-- "1" Statistic
+    Log -right-> Customer
+
+
+}
+
+package FinancesDepartment {
+
+
+    class ShoppingCart{
+        addProduct()
+        deleteProduct()
+        basicSum()
+
+    }
+
+    class CashierSystem{
+        calculatePrice()
+        giveChange()
+        cancelAll()
+        cancelProduct()
+        enterCustomerId()
+    }
+
+    Log <-- ShoppingCart
+
+    ShoppingCart "1" *-- "1" CashierSystem
+
+    ShoppingCart "1" --* "1..*" Product
+
+
+
+}
+Staff "n" o-- "0,1" CashierSystem
+Inventory --> OrderableProducts: uses referenced \nelements of
+Manager -up-> OrderableProducts: adds/removes products
+Distributor "n" *-down- "1" Person: Contact person
+
+@enduml

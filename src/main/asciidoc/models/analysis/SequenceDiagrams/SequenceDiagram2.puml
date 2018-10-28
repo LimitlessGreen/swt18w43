@@ -1,0 +1,75 @@
+@startuml
+
+skinparam linetype ortho
+'skinparam groupInheritance 3
+'skinparam handwritten true
+hide circle
+
+skinparam participant{
+    BorderColor darkgreen
+    BackgroundColor white
+    FontStyle bold
+}
+
+skinparam Actor{
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam arrow{
+    Color darkgreen
+}
+
+skinparam sequence{
+    LifeLineBorderColor black
+}
+
+autonumber
+
+actor Customer
+participant ShoppingCart
+participant Inventory
+participant "Milk \n(Product)" as Product1
+participant "Empty Bottle \n(Product) " as Product2
+
+activate Customer
+activate Product1
+activate Product2
+activate Inventory
+
+
+
+activate ShoppingCart
+
+
+!definelong shop(p,n)
+
+
+    Customer -> ShoppingCart: add n
+    ShoppingCart -> Inventory: Price Request for n
+    Inventory -> p: Price Request
+    Inventory <- p: Price Response
+    Inventory -> ShoppingCart: Price Response for n
+
+    ShoppingCart -> Inventory: Category Request for n
+    Inventory -> p: Category Request
+    Inventory <- p: Category Response
+    Inventory -> ShoppingCart: Category Response for n
+
+    ShoppingCart -> ShoppingCart: calculate basic sum
+    ShoppingCart -> Customer: print sum
+
+
+
+!enddefinelong
+
+shop(Product1, Milk)
+
+shop(Product2, Chocolate)
+
+
+
+deactivate ShoppingCart
+
+
+@enduml
