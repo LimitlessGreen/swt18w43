@@ -1,9 +1,9 @@
 @startuml
 
 skinparam componentStyle uml2
-'skinparam linetype ortho
+skinparam linetype ortho
 'skinparam handwritten true
-skinparam componentStyle uml2
+skinparam groupInheritance 3
 
 skinparam rectangle {
     fontStyle bold

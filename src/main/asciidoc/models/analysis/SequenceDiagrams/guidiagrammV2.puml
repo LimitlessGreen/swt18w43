@@ -1,0 +1,130 @@
+@startuml
+
+skinparam activity {
+    BackgroundColor #GreenYellow/LightGoldenRodYellow
+    BorderColor Black
+    ArrowColor  Black
+}
+skinparam note {
+    BackgroundColor white
+    BorderBolor Black
+}
+
+start
+repeat
+:Startseite;
+fork
+    :Login;
+
+    while (Login erfolgreich?) is (nein)
+    :Login erneut eingeben;
+    endwhile (ja)
+
+    repeat
+    :Startseite
+    (privilegiert);
+    fork
+        :Startseite
+        (privilegiert);
+    fork again
+        :Produktkatalog;
+    fork again
+        :Kasse;
+    fork again
+        :Statistik;
+        note
+            nur Manager
+        end note
+
+    fork again
+        repeat
+        :Verwaltung;
+        note
+            Alles auser
+            User hinzufügen
+            und Großhändler verwalten
+            nur Manager
+        end Note
+        fork
+            :User
+            hinzufügen;
+            note
+                Verkaufspersonal
+                kann nur
+                Hauskunden
+                hinzufügen
+            end note
+        fork again
+            :User
+            Verwalten;
+        fork again
+            :Großhändler
+            hinzufügen;
+        fork again
+            :Großhändler
+            verwalten;
+            Note
+                Verkaufspersonal
+                kann nur
+                Ort und Name einsehen
+            end Note
+        fork again
+            :BNN Listen
+            importieren;
+        fork again
+            :Produkt manuell
+            hinzufügen;
+        fork again
+        endfork
+
+    repeat while
+    fork again
+        :Produktübersicht;
+        note
+            Nur Manager kann
+            Lagerbestand einsehen
+            und Produkte zum Shop hinzufügen
+        end note
+    fork again
+        :Bestellung;
+        note
+        nur Manager
+        end Note
+
+    fork again
+        'line only'
+
+    endfork
+    repeat while
+    :Logout;
+
+fork again
+    repeat
+
+    fork
+    :Produktübersicht
+    (nur lesen);
+    note right
+        Für "normale" Benutzer
+        ohne Anmeldung
+    end note
+    fork again
+    :Merkliste;
+    fork again
+
+    endfork
+    repeat while
+
+fork again
+endfork
+repeat while
+
+:💣🚘💥**CRASH**💣🚘💥;
+end
+
+
+
+
+
+
+@enduml
