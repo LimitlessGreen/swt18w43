@@ -802,7 +802,7 @@ TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 === Überblick: Dialoglandkarte
 Übersichtsdiagramm, von welcher Seite man welche erreichen kann. Dabei wurde sich am GUI-Entwurf orientiert.
-In diesem Diagramm wurden farbliche Pfeile benutz um den Zugriff darzustellen. Orange steht hierbei nur die Zugriffmöglichenkeiten als Kunden; Blau die des Verkaufspersonal und grün ist der volle Zugriff, der für den Manager vorhergesehen ist. Bitte beachten Sie hierbei die Vererbungen ( z.B Manager kann alles machen, was das Verkaufspersonal auch kann usw.).
+
 //Für jeden Dialog: Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?- Maskenentwürfe (Screenshot, Mockup)-Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)-Evtl. Maskendetails, spezielle Widgets
 
 
@@ -811,7 +811,7 @@ image::models/analysis/guidiagrammV2.svg[Karte, 100%, 100%, pdfwidth=100%, title
 
 
 === Dialogbeschreibung
-Hinweis: Die Spalte Figure bezieht sich auf die GUI
+TIP: Die Spalte Figure bezieht sich auf die GUI
 [options="header"]
 [cols="^1h,2,3"]
 |===
@@ -852,7 +852,7 @@ image::models/analysis/ClassAnalysisDiagram.svg[]
 
 === Klassen und Enumerationen
 Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt. +
-Hinweis: für einfaches Verständis befinden sich hinter den englischsprachigen Begriffe die deutsche Übersetzung
+TIP: für einfaches Verständis befinden sich hinter den englischsprachigen Begriffe die deutsche Übersetzung
 
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="header"]
