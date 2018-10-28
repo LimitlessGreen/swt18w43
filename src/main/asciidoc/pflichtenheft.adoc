@@ -797,7 +797,7 @@ image::models/analysis/guidiagramm.svg[Karte, 100%, 100%, pdfwidth=100%, title= 
 === Dialogbeschreibung
 Hinweis: Die Spalte Figure bezieht sich auf die GUI
 [options="header"]
-[cols="^1h-,2,3"]
+[cols="^1h,2,3"]
 |===
 |Figure |Name  |Beschreibung  
 |1  |Startseite des {project_name}  |Mithilfe der Navigationsleiste erreicht man die Produktübersicht, Merkliste und den Login für das Personal. Des Weiteren befindet sich nochmals ein größerer Button in der Mitte der Startseite, welche einen auch zur Produktübersicht bringt (für die intuitive Bedienung)
