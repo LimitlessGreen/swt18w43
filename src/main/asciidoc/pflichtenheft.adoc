@@ -778,7 +778,7 @@ image::GUI_Entwurf/statistik.PNG[Statistik, 100%, 100%, pdfwidth=100%, title= "S
 
 
 [[testlabel_image]]
-image::testLabel.svg[Label, 50%, 50%, pdfwidth=50%, title= "Entwurf eine Etikette für {project_name}", align=center]
+image::testLabel.svg[Label, , 300px, pdfwidth=50%, title= "Entwurf eine Etikette für {project_name}", align=center]
 
 
 TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
