@@ -15,3 +15,7 @@ It contains the following features:
 == How to package the application?
 
 * Run `mvn clean package`. The packaged application (a JAR in `target/`) can be run with `java -jar $jarName`.
+
+== Analysemodelle
+
+https://github.com/st-tu-dresden-praktikum/swt18w43/blob/master/src/main/asciidoc/models/analysis/readme.adoc
