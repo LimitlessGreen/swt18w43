@@ -1,4 +1,4 @@
-= Kickstart
+= Bioladen
 
 The kickstart module is a template project to bootstrap the Java project in the Software Engineering lab.
 The project is supposed to be copied into the group's repository to get it started easily.
