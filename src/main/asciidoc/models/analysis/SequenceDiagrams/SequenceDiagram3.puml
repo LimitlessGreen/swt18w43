@@ -67,17 +67,9 @@ activate OrderAssistant
 Manager -> OrderAssistant: enter name and quantity of product
 OrderAssistant -> OrderableProducts: search by product name
 activate OrderableProducts
-group search algorithm of database
-    wrong()
-    OrderableProducts -> Product1: get name
-    OrderableProducts <-- Product1
-    OrderableProducts -> OrderableProducts: add to result list
-    wrong()
-    OrderableProducts -> Product2: get name
-    OrderableProducts <-- Product2
-    OrderableProducts -> OrderableProducts: add to result list
-    wrong()
-end
+
+OrderableProducts -> OrderableProducts: search in database
+
 OrderAssistant <- OrderableProducts: return result list
 deactivate OrderableProducts
 |||

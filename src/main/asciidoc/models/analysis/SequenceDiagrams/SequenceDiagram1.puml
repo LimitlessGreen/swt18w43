@@ -74,7 +74,7 @@ ShoppingCart --> Staff
     Inventory -> p: remove one displayed
     Inventory <-- p
     Inventory --> CashierSystem
-    CashierSystem -> Log: log removal
+    CashierSystem -> Log: log the removal \nfrom the inventory
     Log --> CashierSystem
     CashierSystem --> ShoppingCart
 

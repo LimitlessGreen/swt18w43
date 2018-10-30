@@ -115,6 +115,14 @@ endif::[]
 |28.10.2018
 |Jairus
 |Überarbeitete Dialoglandkarte
+
+
+|1.0
+|abgeschlossen
+|30.10.2018
+|Lukas
+|Einige kleine Verbesserungen
+
 |===
 
 toc::[]
@@ -253,10 +261,15 @@ Die Priorität 1-5 (niedrig-hoch) soll bei sich überschneidenden Zielen eine En
 |Name  |Priorität  |Beschreibung  |Ziele
 |Manager des Bioladens  |5  |Der primäre Kunde des Projekts  | - Mehr Kunden anlocken +
 - Vereinfacht den Prozess von Bestellungen, Inventur, Verkaufen, Nutzerverwaltung, etc.
+
+|Mitarbeiter |3 |Die Mitarbeiter im Laden -> Verkaufspersonal |- einfach zu bedienende Oberfläche der Kasse
+
 |Kunden |3 |Sehen das System nur im Internet. Agieren sonst nicht direkt mit System. | - Gute Benutzer Erfahrung +
 - Einfach zu bedienende Oberfläche im Browser
+
 |Entwickler |3 |Leute, die das System entwicklen | - Einfache Erweiterbarkeit +
 - Wenig Wartungsaufwand
+
 |===
 
 == Systemgrenze und Top-Level-Architektur
@@ -512,7 +525,11 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |Beschreibung
 
 |#F001
-|Funktionen der Datenbank
+|Funktionen von Listen mit Daten: +
+- Inventory +
+- OrderableProducts +
+- UserList +
+- DistributorList
 |- Sortieren +
 - Suche +
 - Hinzufügen +
@@ -552,7 +569,7 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 
 |#F010
 |Preiskalkulation
-|Der endgültige Preis wird an der Kasse global kalkuliert
+|Der endgültige Preis wird an der Kasse global kalkuliert. Dabei gibt es einen Rabatt für verschiedene Kundengruppen
 
 |#F011
 |Sortierung im Warenkorb
@@ -573,7 +590,13 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 
 |#F015
 |Statistik
-|Es muss eine statistische Auswertung von Verkäufen etc. in Tabellen und Diagrammen geben
+|Es muss eine statistische Auswertung in Tabellen und Diagrammen geben von: +
+- Umsatz +
+- Anzahl Verkäufe pro Tag +
+- Diebstahl +
+- Lagerbestand +
+- Produktanteile +
+- Neuanmeldungen Kunden
 
 |#F016
 |Stornierungen
@@ -609,6 +632,11 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |Pfand
 |Kunden können Pfand abgeben
 
+|#F024
+|Anzahl ändern im Warenkorb
+|Im Warenkorb muss die Anzahl einfach geändert werden können +
+-> z.B. 6 mal ein Produkt
+
 |===
 
 
@@ -639,6 +667,14 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |#F104
 |Mindestbestellwert
 |Es gibt außerdem einen Mindestbestellwert bei Händlern
+
+|#F105
+|Produktvorschläge
+|Es gibt Vorschläge für neue Produkte aufgrund von kürzlich gekauften
+
+|#F106
+|EMail Versand
+|Der OrderAssistant kann automatisch EMails versenden
 
 |===
 
@@ -720,7 +756,8 @@ Außerdem wird die Priorität der einzelnen Ziele festgehalten. (1 - unwichtig  
 |Beschreibung
 
 |Verfügbarkeit
-|Das System sollte möglichst zu den Ladenzeiten immer verfügbar sein, damit Verkäufe durch die Kasse abgeschlossen werden können.
+|Das System sollte möglichst immer verfügbar sein, damit Verkäufe durch die Kasse abgeschlossen werden können und der Kunde online die Website sehen kann.
+Dabei sollte das System mindestens 99,5% der Zeit verfügbar sein.
 
 |Sicherheit
 |Die Passwörter der Mitarbeiter (vor allem vom Manager) sollten gesichert sein (nur in Hash Werten gespeichert).

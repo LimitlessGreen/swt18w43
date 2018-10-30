@@ -32,7 +32,7 @@ participant OrderableProducts
 activate OrderableProducts
 activate Manager
 
-Manager -> OrderableProducts: read BNN
+Manager -> OrderableProducts: read BNN-list
 OrderableProducts -> Product1: add product (initialize)
 activate Product1
 Product1 -> OrderableProducts: add to list
