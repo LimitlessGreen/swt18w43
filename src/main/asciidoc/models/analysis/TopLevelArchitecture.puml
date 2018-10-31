@@ -27,6 +27,9 @@ rectangle Bioladen {
 :Staff:
 :Manager:
 :Customer:
+:NormalCustomer: --> Customer
+:HouseCustomer: --> Customer
+:MajorCustomer: --> HouseCustomer
 
 Manager -up-#UserDepartment: add all Customers
 Manager -up-# DataDepartment: get Statistics
