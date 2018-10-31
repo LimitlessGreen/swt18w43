@@ -117,11 +117,17 @@ endif::[]
 |Überarbeitete Dialoglandkarte
 
 
-|1.0
-|abgeschlossen
+|0.9
+|...
 |30.10.2018
 |Lukas
 |Einige kleine Verbesserungen
+
+|1.0
+|abgeschlossen
+|31.10.2018
+|Lukas, Lisa, Adrian, Jairus
+|Akzeptanztestfälle für Fehlerfälle
 
 |===
 
@@ -930,58 +936,71 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 
 :uc_ref: Siehe <<Anwendungsfallbeschreibungen>>
 
+[width="99%",cols="1,4",options="header"]
 |===
 |*ID* |*[AT0010]*
 |Anwendungsfall |Einkauf mit Pfandrückgabe {uc_ref} 1
 |Voraussetzung |Kunde sucht sich ein Produkt aus und geht zur Kasse
 |Ereignis | Kunde gibt Kassierer Kundenkarte
 |erwartetes Ergebnis | ID des Kunden wird gesetzt
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* |*[AT0011]*
 |Anwendungsfall |Einkauf mit Pfandrückgabe {uc_ref} 1
 |Voraussetzung |Kunde sucht sich ein Produkt aus und geht zur Kasse
 |Ereignis | Kassierer scannt Produkt
 |erwartetes Ergebnis | Kasse zeigt Preis für das Produkt und entsprechende Kategorie an, Produkt wird aus dem Bestand entfernt
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* |*[AT0012]*
 |Anwendungsfall |Einkauf mit Pfandrückgabe {uc_ref} 1
 |Voraussetzung |Kunde sucht sich ein Produkt aus und geht zur Kasse
 |Ereignis | Kunde gibt Pfandflasche zurück
 |erwartetes Ergebnis | Kasse zieht Pfandbetrag von Gesamtbetrag ab
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* |*[AT0013]*
 |Anwendungsfall |Einkauf mit Pfandrückgabe {uc_ref} 1
 |Voraussetzung |alle Waren des Kunden wurden eingescannt und alle Pfandflaschen zurückgegeben
 |Ereignis | Kassierer beendet das Scannen
 |erwartetes Ergebnis | System berechnet Gesamtbetrag, zieht Rabatte ab, kalkuliert MwSt., subtrahiert Pfand von Endpreis, Kasse zeigt Ergebnis an
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* |*[AT0014]*
 |Anwendungsfall |Einkauf mit Pfandrückgabe {uc_ref} 1
 |Voraussetzung |Gesamtbetrag des Einkaufes wurde dem Kunden genannt
 |Ereignis | Kassierer gibt vom Kunden erhaltenen Betrag an
 |erwartetes Ergebnis | System zieht vom erhaltenen Betrag den zu Zahlenden Betrag ab, Kasse zeigt Rückgeldbetrag an, Transaktion wird geloggt
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* |*[AT0015]*
 |Anwendungsfall |Einkauf mit Pfandrückgabe {uc_ref} 1
 |Voraussetzung |Rückgeld wurde ausgezahlt
 |Ereignis | Kassierer beendet Einkaufsvorgang
 |erwartetes Ergebnis | aktualisierte Vorlieben werden für Kundenkarte gespeichert, MwSt. wird von Gesamteinnahme gesondert, Einkauf wird geloggt
 |===
-
+[width="99%",cols="1,4",options="header"]
 |===
 |*ID* |*[AT0020]*
 |Anwendungsfall |erstellen einer Merkliste auf der Website {uc_ref} 2
 |Voraussetzung |Kunde besucht Website
 |Ereignis | Kunde fügt Produkt seiner Merkliste hinzu
 |erwartetes Ergebnis | Produkt wird Merkliste hinzugefügt, Preis wird angezeigt, Produkt wird unter entsprechende Kategorie geschrieben
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* |*[AT0021]*
 |Anwendungsfall |erstellen einer Merkliste auf der Website {uc_ref} 2
 |Voraussetzung |Kunde hat alle gewünschten Produkte zur Merkliste hinzugefügt
 |Ereignis | Kunde drückt "aktualisieren"-Button
 |erwartetes Ergebnis | Summe der Preise in der Merkliste wird addiert und ausgegeben, Anzahl aller Artikel in der Merkliste wird berechnet und ausgegeben
 |===
-
+[width="99%",cols="1,4",options="header"]
 |===
 |*ID* | *[AT0030]*
 |Anwendungsfall | Nachbestellen mit OrderAssistant {uc_ref} 3
@@ -989,20 +1008,26 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 |Ereignis | Manager gibt Name und Anzahl des gewünschten Produktes an
 |erwartetes Ergebnis | System sucht Produkte mit eingegebenem Namen und gibt eine Liste zurück, OrderAssistent berechnet Preise für gewünschte Menge, Orderassistent ermittelt
 Mindestbestellmenge und Händler, OrderAssistant zeigt alle Produkte samt Händler und Mindestbestellmenge an, die für die Bestellung infrage kommen und gibt Empfehlung dazu
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* | *[AT0031]*
 |Anwendungsfall | Nachbestellen mit OrderAssistant {uc_ref} 3
 |Voraussetzung |Manager hat ein Ergebnis vom OrderAssistant vorgeschlagen bekommen
 |Ereignis | Manager ändert Anzahl gewünschten Produktes
 |erwartetes Ergebnis | OrderAssistant aktualisiert gewünschte Menge, berechnet Preis für gewünschte Menge neu, vergleicht erneut mit Mindestbestellmenge,
 zeigt aktualisierte Liste mit möglichen Produkten samt Händler und Mindestbestellmenge an und gibt eine neue Empfehlung dazu
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* | *[AT0032]*
 |Anwendungsfall | Nachbestellen mit OrderAssistant {uc_ref} 3
 |Voraussetzung |Manager hat ein Ergebnis vom OrderAssistant vorgeschlagen bekommen
 |Ereignis | Manager wählt bevorzugten Händler aus
 |erwartetes Ergebnis | OrderAssistent fügt gewähltes Produkt in gewünschter Menge zur Bestelliste hinzu
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* | *[AT0033]*
 |Anwendungsfall | Nachbestellen mit OrderAssistant {uc_ref} 3
 |Voraussetzung |Manager hat alle gewünschten Produkte zur Bestellliste hinzugefügt
@@ -1010,33 +1035,139 @@ zeigt aktualisierte Liste mit möglichen Produkten samt Händler und Mindestbest
 |erwartetes Ergebnis | OrderAssistent ordnet Bestellungen nach Händler, OrderAssistent sendet an jeden Händler, bei dem etwas bestellt wird, eine Email mit den
 gewünschten Produkten
 |===
-
+[width="99%",cols="1,4",options="header"]
 |===
 |*ID* | *[AT0040]*
 |Anwendungsfall | Hinzufügen von Produkten zur OrderableProducts Liste {uc_ref} 4
 |Voraussetzung |Manager hat Produktliste von einem Händler in BNN-Format, Manager ist auf Verwaltungsseite
 |Ereignis | Manager wählt Produktliste aus und klickt auf "importieren"
 |erwartetes Ergebnis | Produkte werden einzeln initialisiert und zur Einkaufsdatenbank hinzugefügt
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* | *[AT0041]*
 |Anwendungsfall | Hinzufügen von Produkten zur OrderableProducts Liste {uc_ref} 4
 |Voraussetzung |Manager ist auf Verwaltungsseite
 |Ereignis | Manager klickt auf "Produkt manuell hinzufügen" und gibt alle Daten zum Produkt an
 |erwartetes Ergebnis | Produkt wird initialisiert und zur Einkaufsdatenbank hinzugefügt
 |===
-
+[width="99%",cols="1,4",options="header"]
 |===
 |*ID* | *[AT0050]*
 |Anwendungsfall | Hinzufügen von Kunden und bearbeiten des Kundentyps {uc_ref} 5
 |Voraussetzung |Manager ist auf User-Verwaltungsseite
 |Ereignis | Manager klickt auf "User hinzufügen", gibt die geforderten Daten an und klickt auf "Account erstellen"
 |erwartetes Ergebnis | User wird erstellt und samt Name, Adresse, Emailadresse, Telefonnummer in Kundenkartei abgespeichert
-
+|===
+[width="99%",cols="1,4",options="header"]
+|===
 |*ID* | *[AT0051]*
 |Anwendungsfall | Hinzufügen von Kunden und bearbeiten des Kundentyps {uc_ref} 5
 |Voraussetzung |Manager ist auf User-Verwaltungsseite und hat bereits einen neuen User erstellt
 |Ereignis | Manager klickt "Kundentyp festlegen" und wählt aus, was für ein Kunde der User ist (Großkunde, Hauskunde, etc.)
 |erwartetes Ergebnis | Dem User wird ein Kundentyp zugeordnet und eine ID wird erstellt
+|===
+
+=== Fehlerfälle
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATF010]
+
+|Anwendungsfall
+|Manager will sich einloggen
+
+|Voraussetzung
+|Manager befindet sich auf der Login Seite
+
+|Ereignis
+|Manager gibt falsches Passwort ein
+
+|erwartetes Ergebnis
+|Manager wird nicht eingeloggt -> Fehlermeldung erscheint
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATF020]
+
+|Anwendungsfall
+|Verkaufspersonal gibt Produkt ID in das Kassensystem ein
+
+|Voraussetzung
+|Verkaufspersonal ist eingeloggt und befindet sich auf der Seite des Kassensystems
+
+|Ereignis
+|Verkaufspersonal gibt falsche Produkt ID ein
+
+|erwartetes Ergebnis
+|Fehlermeldung: Es wurde kein Produkt gefunden oder ein falsches Produkt hinzugefügt
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATF030]
+
+|Anwendungsfall
+|Manager importiert eine BNN-Liste
+
+|Voraussetzung
+|Manager ist eingeloggt und befindet sich auf der Produkt hinzufügen Seite
+
+|Ereignis
+|Manager wählt falsche Datei aus
+
+|erwartetes Ergebnis
+|Fehlermeldung: Liste kann nicht importiert werden
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATF031]
+
+|Anwendungsfall
+|Manager fügt neues Produkt manuell hinzu
+
+|Voraussetzung
+|Manager ist eingeloggt und befindet sich auf der Produkthinzufügen Seite
+
+|Ereignis
+|Manager gibt falschen Wert für ein Eingabefeld ein
+
+|erwartetes Ergebnis
+|Wert wird nicht akzeptiert, Fehlermeldung -> Nicht zulässigen Wert eingegeben
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATF040]
+
+|Anwendungsfall
+|Manager fügt Artikel zur Ausstellungsfläche hinzu
+
+|Voraussetzung
+|Manager ist eingeloggt und befindet sich auf der Produktübersicht Seite
+
+|Ereignis
+|Manager wählt Produkt aus, welches im Lager nicht verfügbar ist
+
+|erwartetes Ergebnis
+|Produkt wird nicht hinzugefügt, Fehlermeldung -> Produkt nicht verfügbar
+
 |===
 
 == Glossar
