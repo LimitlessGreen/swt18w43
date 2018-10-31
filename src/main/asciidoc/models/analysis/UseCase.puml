@@ -109,11 +109,11 @@ rectangle "coole Bioladenbox"{
             bg_ez <.. bg_az: <<include>>
             bg_az ..> we_br: <<include>>
             we_br ..> bg_ez: <<include>>
-            l_st <.. g_st: <<extend>>
-            l_st ..> scan: <<include>>
-            azw ..> scan: <<include>>
-            sdg ..> azw: <<include>>
-            rab ..> sdg: <<include>>
+            l_st <.left. g_st: <<extend>>
+            l_st .right.> scan: <<include>>
+            azw .left.> scan: <<include>>
+            sdg .left.> azw: <<include>>
+            rab .left.> sdg: <<include>>
             mwst ..> rab: <<include>>
             epa ..> mwst: <<include>>
 

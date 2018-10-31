@@ -1,0 +1,110 @@
+@startuml
+
+skinparam class {
+	BackgroundColor #LightCoral/LightPink
+    BorderColor Black
+    ArrowColor  Black
+}
+
+skinparam package {
+    FontColor Grey
+    BorderColor DarkMagenta
+}
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+
+    package org.salespointframework.useraccount {
+        class UserAccount <<Entity>>{
+            -userAccountIdentifier : UserAccountIdentifier
+            -password : Password
+            -firstname : String
+            -lastname : String
+            -email : String
+            -roles : Set<Role>
+            -enable : boolean
+
+            UserAccount()
+            UserAccount(UserAccountIdentifier, String, Role...)
+            UserAccount(UserAccountIdentifier, String, String, String, String, Collection<Role>)
+            +getID() : UserAccountIdentifier
+            +getUserName() : String
+            +add(Role) : boolean
+            +remove(Role) : boolean
+            +hasRole() : boolean
+            +getRoles() : Streamable<Role>
+        }
+
+        class Role <<Object>>{
+            -name : String
+
+            +{static} of(String) : Role
+        }
+
+        interface UserRepository <<Repository>> {
+            save(UserAccount) : UserAccount
+            saveAll(Iterable<UserAccount>) : Iterable<UserAccount>
+            findById(UserAccountIdentifier) : Optional<UserAccount>
+            existsById(UserAccountIdentifier) : boolean
+            findAll() : Iterable<UserAccount>
+            findAllById(Iterable<UserAccountIdentifier>) : Iterable<UserAccount>
+            count() : long
+            deleteById(UserAccountIdentifier) : void
+            delete(UserAccount) : void
+            deleteAll(Iterable<UserAccount>) : void
+            deleteAll() : void
+            findByEnabledTrue() : Streamable<UserAccount>
+            findByEnabledFalse() : Streamable<UserAccount>
+        }
+
+        interface UserAccountManager <<Service>>
+
+    }
+
+}
+
+
+
+rectangle Bioladen {
+
+    package bioladen.user {
+
+        class UserManagement <<Service>> {
+            login(LoginForm) : User
+        }
+    }
+
+}
+
+
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+
+    package org.springframework.data.repository {
+        interface CrudRepository <T, ID>{
+            <S extends T> save(S) : S
+            <S extends T> saveAll(Iterable<S​>) : Iterable<S>
+            findById(ID) : Optional<T>
+            existsById(ID) : boolean
+            findAll() : Iterable<T>
+            findAllById(Iterable<ID>) : Iterable<T>
+            count() : long
+            deleteById(ID) : void
+            delete(T) : void
+            deleteAll(Iterable<? extends T>) : void
+            deleteAll() : void
+        }
+    }
+
+}
+
+
+
+UserRepository "1" *-- "0..*" UserAccount
+UserRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
+UserManagement "1" --> "1" UserAccountManager: \n\nUSER_ACCOUNTS
+UserManagement "1" --> "1" UserRepository
+
+@enduml
