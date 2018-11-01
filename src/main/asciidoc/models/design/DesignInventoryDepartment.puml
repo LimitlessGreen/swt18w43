@@ -1,26 +1,171 @@
 @startuml
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+skinparam class {
+	BackgroundColor #LightCoral/LightPink
+    BorderColor Black
+    ArrowColor  Black
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+skinparam package {
+    FontColor Grey
+    BorderColor DarkMagenta
 }
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+
+    namespace org.salespointframework.catalog {
+        interface Catalog <T extends Product> <<Repository>> {
+
+        }
+
+        class Product <<Entity>> {
+            -productIdentifier : ProductIdentifier
+            -name : String
+            -price : MonetaryAmount
+            -categories : Set<String>
+            -metric : Metric
+
+            +Product(String, MonetaryAmount)
+            +Product(String, MonetaryAmount, Metric)
+            +getId() : ProductIdentifier
+            +getCategories() : Streamable<String>
+            +addCategory(String) : boolean
+            +removeCategory(String) : boolean
+            +supports(Quantity) : boolean
+            +verify(Quantity) : void
+            +createQuantity(double) : Quantity
+            +createQuantity(long) : Quantity
+        }
+
+    }
+
+    package org.salespointframework.time {
+        interface BusinessTime <<Service>> {
+
+        }
+    }
+
+    package org.salespointframework.inventory {
+        interface Inventory <T extends InventoryItem> <<Repository>> {
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(InventoryItemIdentifier) : Optional<T>
+            +existsById(InventoryItemIdentifier) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<InventoryItemIdentifier>) : Iterable<T>
+            +count() : long
+            +deleteById(InventoryItemIdentifier) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
+        }
+
+    }
+}
+
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+
+    namespace org.springframework.data.repository {
+        interface CrudRepository <T, ID>{
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(ID) : Optional<T>
+            +existsById(ID) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<ID>) : Iterable<T>
+            +count() : long
+            +deleteById(ID) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
+        }
+    }
+}
+
+rectangle Bioladen {
+
+    namespace bioladen.catalog {
+
+        interface ProductCatalog <<Repository>> {
+
+        }
+
+        class Product <<Entity>> extends org.salespointframework.catalog.Product {
+            -productIdentifier : ProductIdentifier
+            -name : String
+            -price : MonetaryAmount
+            -categories : Set<String>
+            -metric : Metric
+            ..
+            -distributorSpecificValues : Map<Distributor, DistributorSpecificValue>
+            -unit : Quantity
+            -inventoryAmount : long
+            -displayedAmount : long
+            __
+            +Product(String, MonetaryAmount)
+            +Product(String, MonetaryAmount, Metric)
+            +getId() : ProductIdentifier
+            +getCategories() : Streamable<String>
+            +addCategory(String) : boolean
+            +removeCategory(String) : boolean
+            +supports(Quantity) : boolean
+            +verify(Quantity) : void
+            +createQuantity(double) : Quantity
+            +createQuantity(long) : Quantity
+            ..
+            +getDistributorSpecificValues() : Map<Distributor, DistributorSpecificValue>
+            +getUnit() : Unit
+            +getInventoryAmount() : long
+            +getDisplayedAmount() : long
+            +addDistributorSpecificValue(DistributorSpecificValue) : boolean
+            +setUnit(Quantity) : void
+            +setInventoryAmount(long) : void
+            +setDisplayedAmount(long) : void
+            +setPrice(MonetaryAmount) : void
+        }
+
+        class DistributorSpecificValue <<Entity>>{
+            -price : MonetaryAmount
+            -minimumOrderAmount : long
+        }
+
+
+
+        Product --* ProductCatalog
+
+
+    }
+
+    package bioladen.catalog.web {
+        class CatalogController {
+
+        }
+    }
+
+    namespace bioladen.distributor {
+        class Distributor {
+            -name : String
+            -email : String
+            -contactName : String
+            -phoneNr : String
+        }
+    }
+
+}
+
+CatalogController --> bioladen.catalog.ProductCatalog
+CatalogController --> BusinessTime
+CatalogController --> Inventory
+org.salespointframework.catalog.Catalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, ProductIdentifier>
+Inventory --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, InventoryItemIdentifier>
+bioladen.catalog.Product --> bioladen.catalog.DistributorSpecificValue
+org.salespointframework.catalog.Catalog <|-- bioladen.catalog.ProductCatalog: <<binds>>\n<Product>
+bioladen.distributor.Distributor *-- bioladen.catalog.Product
 
 @enduml

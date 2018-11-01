@@ -1,0 +1,49 @@
+@startuml
+
+skinparam class {
+	BackgroundColor #LightCoral/LightPink
+    BorderColor Black
+    ArrowColor  Black
+}
+
+skinparam package {
+    FontColor Grey
+    BorderColor DarkMagenta
+}
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+    package org.salespointframework.order {
+        interface OrderManager {
+
+        }
+
+        class Order {
+
+        }
+
+        class Cart {
+
+        }
+
+        class CartItem {
+
+        }
+
+        together {
+        class OrderLine {
+
+        }
+        }
+
+        enum OrderStatus {
+
+        }
+
+    }
+
+}
+
+@enduml

@@ -26,9 +26,9 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             -roles : Set<Role>
             -enable : boolean
 
-            UserAccount()
-            UserAccount(UserAccountIdentifier, String, Role...)
-            UserAccount(UserAccountIdentifier, String, String, String, String, Collection<Role>)
+            +UserAccount()
+            +UserAccount(UserAccountIdentifier, String, Role...)
+            +UserAccount(UserAccountIdentifier, String, String, String, String, Collection<Role>)
             +getID() : UserAccountIdentifier
             +getUserName() : String
             +add(Role) : boolean
@@ -44,23 +44,29 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         }
 
         interface UserRepository <<Repository>> {
-            save(UserAccount) : UserAccount
-            saveAll(Iterable<UserAccount>) : Iterable<UserAccount>
-            findById(UserAccountIdentifier) : Optional<UserAccount>
-            existsById(UserAccountIdentifier) : boolean
-            findAll() : Iterable<UserAccount>
-            findAllById(Iterable<UserAccountIdentifier>) : Iterable<UserAccount>
-            count() : long
-            deleteById(UserAccountIdentifier) : void
-            delete(UserAccount) : void
-            deleteAll(Iterable<UserAccount>) : void
-            deleteAll() : void
-            findByEnabledTrue() : Streamable<UserAccount>
-            findByEnabledFalse() : Streamable<UserAccount>
+            +save(UserAccount) : UserAccount
+            +saveAll(Iterable<UserAccount>) : Iterable<UserAccount>
+            +findById(UserAccountIdentifier) : Optional<UserAccount>
+            +existsById(UserAccountIdentifier) : boolean
+            +findAll() : Iterable<UserAccount>
+            +findAllById(Iterable<UserAccountIdentifier>) : Iterable<UserAccount>
+            +count() : long
+            +deleteById(UserAccountIdentifier) : void
+            +delete(UserAccount) : void
+            +deleteAll(Iterable<UserAccount>) : void
+            +deleteAll() : void
+            +findByEnabledTrue() : Streamable<UserAccount>
+            +findByEnabledFalse() : Streamable<UserAccount>
         }
 
         interface UserAccountManager <<Service>>
 
+    }
+
+    package org.salespointframework.time {
+        interface BusinessTime <<Service>> {
+
+        }
     }
 
 }
@@ -72,7 +78,7 @@ rectangle Bioladen {
     package bioladen.user {
 
         class UserManagement <<Service>> {
-            login(LoginForm) : User
+            +login(LoginForm) : User
         }
     }
 
@@ -84,17 +90,17 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
     package org.springframework.data.repository {
         interface CrudRepository <T, ID>{
-            <S extends T> save(S) : S
-            <S extends T> saveAll(Iterable<S​>) : Iterable<S>
-            findById(ID) : Optional<T>
-            existsById(ID) : boolean
-            findAll() : Iterable<T>
-            findAllById(Iterable<ID>) : Iterable<T>
-            count() : long
-            deleteById(ID) : void
-            delete(T) : void
-            deleteAll(Iterable<? extends T>) : void
-            deleteAll() : void
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(ID) : Optional<T>
+            +existsById(ID) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<ID>) : Iterable<T>
+            +count() : long
+            +deleteById(ID) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
         }
     }
 
@@ -106,5 +112,6 @@ UserRepository "1" *-- "0..*" UserAccount
 UserRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
 UserManagement "1" --> "1" UserAccountManager: \n\nUSER_ACCOUNTS
 UserManagement "1" --> "1" UserRepository
+UserManagement --> BusinessTime
 
 @enduml
