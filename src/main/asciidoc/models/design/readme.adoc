@@ -1,3 +1,30 @@
+:toc:
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:toc-placement!:
+
 = Artefaktsammlung der Entwurfsphase
 
 In diesem Ordner sind alle in der Entwurfsphase erstellten Diagramme als Bild und zusätzlich das zugrundeliegende Modell zu hinterlegen.
+
+toc::[]
+
+== DataDepartment
+
+image::DesignDataDepartment.svg[]
+
+== FinancesDepartment
+
+image::DesignFinancesDepartment.svg[]
+
+== InventoryDepartment
+
+image::DesignInventoryDepartment.svg[]
+
+== ProductDepartment
+
+image::DesignProductDepartment.svg[]
+
+== UserDepartment
+
+image::DesignUserDepartment.svg[]
