@@ -28,3 +28,7 @@ image::DesignProductDepartment.svg[]
 == UserDepartment
 
 image::DesignUserDepartment.svg[]
+
+== OrderDepartment
+
+image::DesignOrderDepartment.svg[]
