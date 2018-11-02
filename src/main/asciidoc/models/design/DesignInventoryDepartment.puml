@@ -50,22 +50,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         }
     }
 
-    package org.salespointframework.inventory {
-        interface Inventory <T extends InventoryItem> <<Repository>> {
-            <S extends T> +save(S) : S
-            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
-            +findById(InventoryItemIdentifier) : Optional<T>
-            +existsById(InventoryItemIdentifier) : boolean
-            +findAll() : Iterable<T>
-            +findAllById(Iterable<InventoryItemIdentifier>) : Iterable<T>
-            +count() : long
-            +deleteById(InventoryItemIdentifier) : void
-            +delete(T) : void
-            +deleteAll(Iterable<? extends T>) : void
-            +deleteAll() : void
-        }
 
-    }
 }
 
 
@@ -90,23 +75,26 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 rectangle Bioladen {
 
-    namespace bioladen.catalog {
+    namespace bioladen.product {
 
         interface ProductCatalog <<Repository>> {
 
         }
 
-        class Product <<Entity>> extends org.salespointframework.catalog.Product {
-            -productIdentifier : ProductIdentifier
+        interface DistributorProductCatalog <<Repository>> {
+
+        }
+
+        class DistributorProduct <<Entity>> extends org.salespointframework.catalog.Product {
+            -id : ProductIdentifier
             -name : String
             -price : MonetaryAmount
             -categories : Set<String>
             -metric : Metric
             ..
-            -distributorSpecificValues : Map<Distributor, DistributorSpecificValue>
             -unit : Quantity
-            -inventoryAmount : long
-            -displayedAmount : long
+            -distributor : Distributor
+            -minimumOrderAmount : long
             __
             +Product(String, MonetaryAmount)
             +Product(String, MonetaryAmount, Metric)
@@ -119,53 +107,66 @@ rectangle Bioladen {
             +createQuantity(double) : Quantity
             +createQuantity(long) : Quantity
             ..
-            +getDistributorSpecificValues() : Map<Distributor, DistributorSpecificValue>
             +getUnit() : Unit
             +getInventoryAmount() : long
             +getDisplayedAmount() : long
-            +addDistributorSpecificValue(DistributorSpecificValue) : boolean
             +setUnit(Quantity) : void
             +setInventoryAmount(long) : void
             +setDisplayedAmount(long) : void
             +setPrice(MonetaryAmount) : void
         }
 
-        class DistributorSpecificValue <<Entity>>{
-            -price : MonetaryAmount
-            -minimumOrderAmount : long
+        class Product <<Entity>> {
+            -unit : Quantity
+            -inventoryAmount : long
+            -displayedAmount : long
+            -distributorProducts : List<DistributorProducts>
+
+            +getUnit() : Unit
+            +getInventoryAmount() : long
+            +getDisplayedAmount() : long
+            +setUnit(Quantity) : void
+            +setInventoryAmount(long) : void
+            +setDisplayedAmount(long) : void
+            +setPrice(MonetaryAmount) : void
+            +verify() : boolean
         }
 
+        class Distributor <<Entity>> {
+        -name : String
+        -email : String
+        -contactName : String
+        -phoneNr : String
+         }
 
 
-        Product --* ProductCatalog
+
+
+        Product "0..*" o-- "0..*" DistributorProduct
+        DistributorProduct "0..*" --* "1" DistributorProductCatalog
+        Product "0..*" --* "1" ProductCatalog
 
 
     }
 
-    package bioladen.catalog.web {
-        class CatalogController {
+    package bioladen.product.web {
+        class CatalogController <<Controller>> {
 
         }
     }
 
-    namespace bioladen.distributor {
-        class Distributor {
-            -name : String
-            -email : String
-            -contactName : String
-            -phoneNr : String
-        }
-    }
+
+
+
 
 }
 
-CatalogController --> bioladen.catalog.ProductCatalog
+CatalogController "1" *-- "1" bioladen.product.ProductCatalog
+CatalogController "1" *-- "1" bioladen.product.DistributorProductCatalog
 CatalogController --> BusinessTime
-CatalogController --> Inventory
 org.salespointframework.catalog.Catalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, ProductIdentifier>
-Inventory --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, InventoryItemIdentifier>
-bioladen.catalog.Product --> bioladen.catalog.DistributorSpecificValue
-org.salespointframework.catalog.Catalog <|-- bioladen.catalog.ProductCatalog: <<binds>>\n<Product>
-bioladen.distributor.Distributor *-- bioladen.catalog.Product
+org.salespointframework.catalog.Catalog <|-- bioladen.product.ProductCatalog: <<binds>>\n<Product>
+org.salespointframework.catalog.Catalog <|-- bioladen.product.DistributorProductCatalog: <<binds>>\n<DistributorProduct>
+bioladen.product.Distributor "1" *-- "0..*" bioladen.product.DistributorProduct
 
 @enduml

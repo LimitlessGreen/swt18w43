@@ -15,32 +15,161 @@ skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
-    package org.salespointframework.order {
-        interface OrderManager {
-
+    namespace org.salespointframework.order {
+        interface OrderManager <T extends Order> <<Service>>{
+            +cancelOrder(T) : boolean
+            +completeOrder(T) : void
+            +contains(OrderIdentifier) : boolean
+            +findBy(OrderStatus) : Streamable<T>
+            +get(OrderIdentifier) : Optional<T>
+            +save(T) : T
         }
 
-        class Order {
+        class Order <<Entity>>{
+            -orderIdentifier : OrderIdentifier
+            -paymentMethod : PaymentMethod
+            -userAccount : UserAccount
+            -dateCreated : LocalDateTime
+            -orderStatus : OrderStatus
+            -orderLines : Set<OrderLine>
+            -chargeLines : Set<ChargeLines>
 
+            +Order(UserAccount)
+            +add(ChargeLine) : void
+            +remove(ChargeLine) : void
+            +getChargeLines() : Streamable<ChargeLine>
+            +getChargeLinesPrice() : MonetaryAmount
+            +add(OrderLine) : void
+            +remove(OrderLine) : void
+            +getOrderLines() : Streamable<OrderLine>
+            +getOrderedLinesPrice() : MonetaryAmount
+            +getDateCreated() : LocalDateTime
+            +getId() : OrderIdentifier
+            +getOrderStatus() : OrderStatus
+            +getTotalPrice() : MonetaryAmount
+            +isOpen() : boolean
+            +isPaid() : boolean
+            +isCompleted() : boolean
+            +isCancelled() : boolean
+            +complete() : Order
+            +cancel() : void
+            +getNumberOfLineItems() : int
+            +markPaid() : Order
+            -assertOrderIsOpen() : void
         }
 
-        class Cart {
-
+        class Cart <<Entity>>{
+            +addItemTo(Order) : Order
+            +addOrUpdateItem(Product, long) : CartItem
+            +addOrUpdateItem(Product, Quantity) : CartItem+
+            +clear() : void
+            +createOrderFor(UserAccount) : Order
+            +getItem(String) : Optional<CartItem>
+            +getPrice() : MonetaryAmount
+            +isEmpty() : boolean
+            +iterator() : Iterator<CartItem>
+            +removeItem(String) : Optional<CartItem>
+            +sumUp(Iterable<? extends Priced> priced)
         }
 
-        class CartItem {
-
+        class CartItem <<Entity>>{
+            +getID() : String
+            +getPrice() : MonetaryAmount
+            +getProduct() : Product
+            +getProductName() : String
+            +getQuantity() : Quantity
+            +hashCode() : int
+            +sumUp(Iterable<? extends Priced>) : MonetaryAmount
         }
 
-        together {
-        class OrderLine {
-
+        class OrderLine <<Entity>> {
+            +getId() : OrderLineIdentifier
+            +getPrice() : MonetaryAmount
+            +getProductIdentifier() : ProductIdentifier
+            +getProductName() : String
+            +getQuantity() : Quantity
+            +sumUp(Iterable<? extends Priced>) : MonetaryAmount
         }
+
+        class ChargeLine <<Entity>> {
+            getId() : ChargeLineIdentifier
+            sumUp(Iterable<? extends Priced>) : MonetaryAmount
         }
 
         enum OrderStatus {
+            CANCELLED
+            COMPLETED
+            OPEN
+            PAID
+
+            {static} valueOf(String) : OrderStatus
+            {static} values() : OrderStatus[]
+        }
+
+
+        Order --> OrderStatus
+        Order --> OrderLine
+        Order --> ChargeLine
+
+    }
+
+}
+
+
+
+rectangle Bioladen {
+    namespace bioladen.order {
+        class Order <<Entity>> extends org.salespointframework.order.Order {
+            -distributor : Distributor
+
+            +Order(UserAccount, Distributor)
+        }
+
+        class OrderAssistant <<Service>> {
+            -productsToBeOrdered : Map<DistributorProduct, long>
+
+            +getAvailable(Product, long) :
+        }
+
+        enum AvailabilityFlag {
+            UNDER_MINIMUM_ORDER_AMOUNT(CHEAPEST)
+            OVER_MINIMUM_ORDER_AMOUNT
 
         }
+
+    }
+
+    namespace bioladen.product {
+
+        interface ProductCatalog <<Repository>> {
+
+        }
+
+        interface DistributorProductCatalog <<Repository>> {
+
+        }
+
+        class DistributorProduct <<Entity>> {
+
+        }
+
+        class Product <<Entity>> {
+
+        }
+
+        class Distributor <<Entity>> {
+
+        }
+
+
+
+        Product "0..*" o-- "0..*" DistributorProduct
+        DistributorProduct "0..*" --* "1" DistributorProductCatalog
+        Product "0..*" --* "1" ProductCatalog
+
+
+        bioladen.order.OrderAssistant "1" *-- "1" DistributorProductCatalog
+
 
     }
 
