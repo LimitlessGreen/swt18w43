@@ -17,10 +17,6 @@ image::DesignDataDepartment.svg[]
 
 image::DesignFinancesDepartment.svg[]
 
-== InventoryDepartment
-
-image::DesignInventoryDepartment.svg[]
-
 == ProductDepartment
 
 image::DesignProductDepartment.svg[]
