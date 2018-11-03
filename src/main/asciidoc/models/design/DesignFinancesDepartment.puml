@@ -15,45 +15,63 @@ skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
 
-rectangle salespoint-framework-7.0.0.RELEASE.jar {
-    namespace org.salespointframework.order {
-        class Cart <<Entity>>{
-            +addItemTo(Order) : Order
-            +addOrUpdateItem(Product, long) : CartItem
-            +addOrUpdateItem(Product, Quantity) : CartItem+
-            +clear() : void
-            +createOrderFor(UserAccount) : Order
-            +getItem(String) : Optional<CartItem>
-            +getPrice() : MonetaryAmount
-            +isEmpty() : boolean
-            +iterator() : Iterator<CartItem>
-            +removeItem(String) : Optional<CartItem>
-            +sumUp(Iterable<? extends Priced> priced)
-        }
-
-        class CartItem <<Entity>>{
-            +getID() : String
-            +getPrice() : MonetaryAmount
-            +getProduct() : Product
-            +getProductName() : String
-            +getQuantity() : Quantity
-            +hashCode() : int
-            +sumUp(Iterable<? extends Priced>) : MonetaryAmount
-        }
-
-    }
-}
-
-
 rectangle Bioladen {
     namespace bioladen.finances {
 
-        class CashierSystem <<Entity>> {
+        class CashierSystem <<Entity>> extends WatchList {
+            -user : UserAccount
+            +CashierSystem(UserAccount)
+            +add(Product) : boolean
+            +remove(Product) : boolean
+            +clear() : boolean
+            +getSums() : MonetaryAmount[]
+            +getDiscountSums() : MonetaryAmount[]
+            +getMwStSums() : MonetaryAmount[]
+            +getSum() : MonetaryAmount
+            +calculateChange(MonetaryAmount) : MonetaryAmount
+
+
+        }
+        class WatchList <<Entity>> {
+            -user : UserAccount
+            -productList : Map<Product, Amount>
+            +ShoppingCart(UserAccount)
+            +add(Product) : boolean
+            +remove(Product) : boolean
+            +clear() : boolean
+            +getSum() : MonetaryAmount
+
 
         }
 
+
     }
 
+}
+
+rectangle money-api-1.0.3.jar {
+    namespace javax.money {
+        class MonetaryAmount{
+
+        }
+        bioladen.finances.CashierSystem -right-> MonetaryAmount
+        bioladen.finances.WatchList -right-> MonetaryAmount
+    }
+
+}
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+
+    namespace org.salespointframework.useraccount {
+
+        class UserAccount <<Entity>>{
+
+        }
+
+        bioladen.finances.WatchList -left-> UserAccount
+        bioladen.finances.CashierSystem -left-> UserAccount
+    }
+    
 }
 
 

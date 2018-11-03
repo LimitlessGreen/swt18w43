@@ -14,24 +14,169 @@ skinparam package {
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
-rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
+rectangle JavaSE-1.8{
+    namespace java.lang {
+
+    }
 }
 
 
 rectangle Bioladen {
-    namespace bioladen.data {
+    namespace bioladen.data.log {
 
         class Log {
+            -log(LogLevel, Order) : boolean
+            -log(LogLevel, Sale) : boolean
+            -log(LogLevel, Cancellation) : boolean
+            -log(LogLevel, LogInventory) : boolean
+            -log(LogLevel, User) : boolean
+            +info(Object, String) : boolean
+            +warning(Object, String) : boolean
+            +error(Object, String) : boolean
+            +getLog() : Iterable<LogEntry>
+            +getLog()
+            -publishLogEvent()
+        }
+
+        class LogEntry {
+            logLevel : LogLevel
+            thrownBy : String
+            logTime : LocalDateTime
+            content : Object
+        }
+
+
+
+        enum LogLevel {
+            INFO
+            WARNING
+            ERROR
+        }
+
+
+        class LogExplorer{
+            +filterBy(Duration) : LogExplorer
+            +filterBy(LogLevel) : LogExplorer
+            +filterBy(ThrownBy) : LogExplorer
+        }
+
+        class LogFilter <<static>> extends java.lang.Iterable  {
+            +filterBy(LogFilter, Duration) : LogFilter
+            +filterBy(LogFilter, LogLevel) : LogFilter
+            +filterBy(LogFilter, ThrownBy) : LogFilter
+        }
+
+
+        LogEntry "1" --> "1" LogLevel
+        LogEntry "0..*" --* "1" Log
+        LogFilter <-- LogExplorer
+        LogExplorer <|-- Log
+
+    }
+
+    namespace bioladen.data.statistic {
+       class StatisticController {
 
         }
 
-        class Statistic {
+        abstract class Chart <<static, final>>{
+            {abstract} CHART_TYPE : String
+            TEMPLATE : String
+            TEMPLATE_DATASET : String
+            generateChart(title : String, labels : List<T>, data : List<T>) : String
+            generateChart(title : String, dataset : Map<T,S>) : String
+            generateChart(title : String, labels : List<List<T>>, data : List<List<T>>) : String
+            generateChart(title : String, datasets : List<Map<T,S>>) : String
+            generateChart(title : String, labels : List<T>, data : List<T>, color : Color) : String
+            generateChart(title : String, dataset : Map<T,S>, color : Color) : String
+            generateChart(title : String, labels : List<List<T>>, data : List<List<T>>, colors : List<Color>) : String
+            generateChart(title : String, datasets : List<Map<T,S>>, colors : List<Color>) : String
+        }
+
+        class BarChart extends bioladen.data.statistic.Chart {
+            CHART_TYPE : String
+        }
+
+        class LineChart extends bioladen.data.statistic.Chart {
+            CHART_TYPE : String
+        }
+
+        class PieChart extends bioladen.data.statistic.Chart {
+            CHART_TYPE : String
+        }
+
+        class Statistic <<Service>>{
 
         }
+
+        PieChart <-- StatisticController
+        LineChart <-- StatisticController
+        BarChart <-- StatisticController
+        StatisticController --> Statistic
+        Statistic --* bioladen.data.log.Log
+
+
+
+    }
+
+    namespace bioladen.event {
+        class LogEvent {
+            +LogEvent()
+
+        }
+
+        class LogEventListener {
+            +onApplicationEvent(LogEvent) : void
+        }
+
+        LogEventListener -- bioladen.data.statistic.Statistic
+    }
+
+
+    bioladen.event.LogEvent <-- bioladen.data.log.Log
+
+}
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+    namespace org.salespointframework.time {
+
+        interface BusinessTime <<Service>> {
+
+        }
+
+        BusinessTime <-right- bioladen.data.log.LogEntry
+    }
+}
+
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+    namespace org.springframework.context{
+
+        class ApplicationEvent {
+            {static} - serialVersionUID : long
+            - timestamp : long
+            + ApplicationEvent(Object)
+            + getTimestamp() : long
+        }
+
+        interface ApplicationEventPublisher {
+            publishEvent(ApplicationEvent) : void
+            publishEvent(Object) : void
+        }
+
+        interface ApplicationListener <E extends ApplicationEvent>{
+            onApplicationEvent(E) : void
+        }
+
+        ApplicationEvent <-- ApplicationListener: <<binds>>\n ApplicationEvent
+        ApplicationEventPublisher --> ApplicationEvent
     }
 
 }
+
+bioladen.event.LogEvent --|> org.springframework.context.ApplicationEvent
+bioladen.event.LogEventListener --|> org.springframework.context.ApplicationListener
 
 
 @enduml

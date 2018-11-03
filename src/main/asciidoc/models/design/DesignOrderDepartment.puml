@@ -107,10 +107,11 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         }
 
 
-        Order --> OrderStatus
-        Order --> OrderLine
-        Order --> ChargeLine
-
+        Order "1" --> "1" OrderStatus
+        Order "1" --> "1..*" OrderLine
+        Order "1" --> "1..*" ChargeLine
+        Cart "1" *-- "0..*" CartItem
+        Order "0..*" o-- "1" OrderManager
     }
 
     namespace org.salespointframework.support {
@@ -121,6 +122,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         class RecordingMailSender {
 
         }
+
     }
 
 }
@@ -146,7 +148,8 @@ rectangle Bioladen {
             OVER_MINIMUM_ORDER_AMOUNT
 
         }
-
+        org.salespointframework.support.ConsoleWritingMailSender <-- bioladen.order.OrderAssistant
+        OrderAssistant "1" o-- "1" Order
     }
 
     namespace bioladen.product {
