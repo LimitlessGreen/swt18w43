@@ -113,6 +113,16 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
     }
 
+    namespace org.salespointframework.support {
+        class ConsoleWritingMailSender {
+
+        }
+
+        class RecordingMailSender {
+
+        }
+    }
+
 }
 
 

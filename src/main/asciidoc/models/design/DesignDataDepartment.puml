@@ -14,6 +14,24 @@ skinparam package {
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+
+}
+
+
+rectangle Bioladen {
+    namespace bioladen.data {
+
+        class Log {
+
+        }
+
+        class Statistic {
+
+        }
+    }
+
+}
 
 
 @enduml

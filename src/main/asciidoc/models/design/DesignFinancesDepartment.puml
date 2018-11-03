@@ -15,5 +15,46 @@ skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
 
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+    namespace org.salespointframework.order {
+        class Cart <<Entity>>{
+            +addItemTo(Order) : Order
+            +addOrUpdateItem(Product, long) : CartItem
+            +addOrUpdateItem(Product, Quantity) : CartItem+
+            +clear() : void
+            +createOrderFor(UserAccount) : Order
+            +getItem(String) : Optional<CartItem>
+            +getPrice() : MonetaryAmount
+            +isEmpty() : boolean
+            +iterator() : Iterator<CartItem>
+            +removeItem(String) : Optional<CartItem>
+            +sumUp(Iterable<? extends Priced> priced)
+        }
+
+        class CartItem <<Entity>>{
+            +getID() : String
+            +getPrice() : MonetaryAmount
+            +getProduct() : Product
+            +getProductName() : String
+            +getQuantity() : Quantity
+            +hashCode() : int
+            +sumUp(Iterable<? extends Priced>) : MonetaryAmount
+        }
+
+    }
+}
+
+
+rectangle Bioladen {
+    namespace bioladen.finances {
+
+        class CashierSystem <<Entity>> {
+
+        }
+
+    }
+
+}
+
 
 @enduml
