@@ -25,7 +25,7 @@ rectangle JavaSE-1.8{
 rectangle Bioladen {
     namespace bioladen.data.log {
 
-        class Log {
+        class Log <<Entity>> {
             -log(LogLevel, Order) : boolean
             -log(LogLevel, Sale) : boolean
             -log(LogLevel, Cancellation) : boolean
@@ -39,7 +39,7 @@ rectangle Bioladen {
             -publishLogEvent()
         }
 
-        class LogEntry {
+        class LogEntry <<Entity>> {
             logLevel : LogLevel
             thrownBy : String
             logTime : LocalDateTime
@@ -55,7 +55,7 @@ rectangle Bioladen {
         }
 
 
-        class LogExplorer{
+        class LogExplorer <<Entity>> {
             +filterBy(Duration) : LogExplorer
             +filterBy(LogLevel) : LogExplorer
             +filterBy(ThrownBy) : LogExplorer
@@ -94,15 +94,15 @@ rectangle Bioladen {
             generateChart(title : String, datasets : List<Map<T,S>>, colors : List<Color>) : String
         }
 
-        class BarChart extends bioladen.data.statistic.Chart {
+        class BarChart <<Entity>> extends bioladen.data.statistic.Chart {
             CHART_TYPE : String
         }
 
-        class LineChart extends bioladen.data.statistic.Chart {
+        class LineChart <<Entity>> extends bioladen.data.statistic.Chart {
             CHART_TYPE : String
         }
 
-        class PieChart extends bioladen.data.statistic.Chart {
+        class PieChart <<Entity>> extends bioladen.data.statistic.Chart  {
             CHART_TYPE : String
         }
 
@@ -110,31 +110,31 @@ rectangle Bioladen {
 
         }
 
-        PieChart <-- StatisticController
-        LineChart <-- StatisticController
-        BarChart <-- StatisticController
-        StatisticController --> Statistic
-        Statistic --* bioladen.data.log.Log
+        PieChart "0..*" <-- "1" StatisticController
+        LineChart "0..*" <-- "1" StatisticController
+        BarChart "0..*" <-- "1" StatisticController
+        StatisticController "1" --> "1" Statistic
+        Statistic "1" --* "1" bioladen.data.log.Log
 
 
 
     }
 
     namespace bioladen.event {
-        class LogEvent {
+        class LogEvent <<Entity>> {
             +LogEvent()
 
         }
 
-        class LogEventListener {
+        class LogEventListener <<Service>> {
             +onApplicationEvent(LogEvent) : void
         }
 
-        LogEventListener -- bioladen.data.statistic.Statistic
+        LogEventListener "0..*" <-- "1" bioladen.data.statistic.Statistic
     }
 
 
-    bioladen.event.LogEvent <-- bioladen.data.log.Log
+    bioladen.event.LogEvent "0..*" <-- "1" bioladen.data.log.Log
 
 }
 
@@ -153,24 +153,24 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
     namespace org.springframework.context{
 
-        class ApplicationEvent {
+        class ApplicationEvent <<Entity>>{
             {static} - serialVersionUID : long
             - timestamp : long
             + ApplicationEvent(Object)
             + getTimestamp() : long
         }
 
-        interface ApplicationEventPublisher {
+        interface ApplicationEventPublisher <<Service>>{
             publishEvent(ApplicationEvent) : void
             publishEvent(Object) : void
         }
 
-        interface ApplicationListener <E extends ApplicationEvent>{
+        interface ApplicationListener <E extends ApplicationEvent> <<Service>>{
             onApplicationEvent(E) : void
         }
 
-        ApplicationEvent <-- ApplicationListener: <<binds>>\n ApplicationEvent
-        ApplicationEventPublisher --> ApplicationEvent
+        ApplicationEvent "*" <-- "1" ApplicationListener: <<binds>>\n ApplicationEvent
+        ApplicationEventPublisher "1" --> "*" ApplicationEvent
     }
 
 }

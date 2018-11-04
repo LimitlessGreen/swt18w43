@@ -138,9 +138,9 @@ rectangle Bioladen {
         }
 
         class OrderAssistant <<Service>> {
-            -productsToBeOrdered : Map<DistributorProduct, long>
+            -productsToBeOrdered : Map<DistributorProduct, Amount>
 
-            +getAvailable(Product, long) :
+            +getAvailable(Product, Amount) :
         }
 
         enum AvailabilityFlag {
@@ -184,6 +184,13 @@ rectangle Bioladen {
         bioladen.order.OrderAssistant "1" *-- "1" DistributorProductCatalog
 
 
+    }
+    namespace Amount {
+        class Amount {
+            +of(long) : Amount
+
+        }
+        Amount <-- bioladen.order.OrderAssistant
     }
 
 }

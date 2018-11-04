@@ -94,7 +94,7 @@ rectangle Bioladen {
             ..
             -unit : Quantity
             -distributor : Distributor
-            -minimumOrderAmount : long
+            -minimumOrderAmount : Amount
             __
             +Product(String, MonetaryAmount)
             +Product(String, MonetaryAmount, Metric)
@@ -108,26 +108,26 @@ rectangle Bioladen {
             +createQuantity(long) : Quantity
             ..
             +getUnit() : Unit
-            +getInventoryAmount() : long
-            +getDisplayedAmount() : long
+            +getInventoryAmount() : Amount
+            +getDisplayedAmount() : Amount
             +setUnit(Quantity) : void
-            +setInventoryAmount(long) : void
-            +setDisplayedAmount(long) : void
+            +setInventoryAmount(Amount) : void
+            +setDisplayedAmount(Amount) : void
             +setPrice(MonetaryAmount) : void
         }
 
         class Product <<Entity>> {
             -unit : Quantity
-            -inventoryAmount : long
-            -displayedAmount : long
+            -inventoryAmount : Amount
+            -displayedAmount : Amount
             -distributorProducts : List<DistributorProducts>
 
             +getUnit() : Unit
-            +getInventoryAmount() : long
-            +getDisplayedAmount() : long
+            +getInventoryAmount() : Amount
+            +getDisplayedAmount() : Amount
             +setUnit(Quantity) : void
-            +setInventoryAmount(long) : void
-            +setDisplayedAmount(long) : void
+            +setInventoryAmount(Amount) : void
+            +setDisplayedAmount(Amount) : void
             +setPrice(MonetaryAmount) : void
             +verify() : boolean
         }
@@ -153,6 +153,15 @@ rectangle Bioladen {
         class CatalogController <<Controller>> {
 
         }
+    }
+
+    namespace Amount {
+        class Amount {
+            +of(long) : Amount
+
+        }
+        Amount <-- bioladen.product.Product
+        Amount <-- bioladen.product.DistributorProduct
     }
 
 

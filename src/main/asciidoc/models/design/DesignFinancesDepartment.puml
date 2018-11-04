@@ -68,10 +68,10 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
         }
 
-        bioladen.finances.WatchList -left-> UserAccount
-        bioladen.finances.CashierSystem -left-> UserAccount
+        bioladen.finances.WatchList "1" -left-> "1" UserAccount
+        bioladen.finances.CashierSystem "1" -left-> "1" UserAccount
     }
-    
+
 }
 
 
