@@ -79,6 +79,10 @@ rectangle Bioladen {
 
         class UserManagement <<Service>> {
             +login(LoginForm) : User
+            +logout(LogoutForm) : boolean
+            +resetPassword(ResetForm) : boolean
+            +createUser(UserForm) : boolean
+
         }
     }
 
@@ -108,7 +112,7 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 
 
-UserRepository "1" *-- "0..*" UserAccount
+UserRepository  *--  UserAccount
 UserRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
 UserManagement "1" --> "1" UserAccountManager: \n\nUSER_ACCOUNTS
 UserManagement "1" --> "1" UserRepository

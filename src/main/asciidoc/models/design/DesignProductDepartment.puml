@@ -78,35 +78,19 @@ rectangle Bioladen {
     namespace bioladen.product {
 
         interface ProductCatalog <<Repository>> {
-
+            +findBy(Product) : Streamable<Product>
         }
 
         interface DistributorProductCatalog <<Repository>> {
-
+            +findBy(DistributorProduct) : Streamable<DistributorProduct>
         }
 
         class DistributorProduct <<Entity>> extends org.salespointframework.catalog.Product {
             -id : ProductIdentifier
-            -name : String
-            -price : MonetaryAmount
-            -categories : Set<String>
-            -metric : Metric
-            ..
             -unit : Quantity
             -distributor : Distributor
             -minimumOrderAmount : Amount
-            __
-            +Product(String, MonetaryAmount)
-            +Product(String, MonetaryAmount, Metric)
-            +getId() : ProductIdentifier
-            +getCategories() : Streamable<String>
-            +addCategory(String) : boolean
-            +removeCategory(String) : boolean
-            +supports(Quantity) : boolean
-            +verify(Quantity) : void
-            +createQuantity(double) : Quantity
-            +createQuantity(long) : Quantity
-            ..
+
             +getUnit() : Unit
             +getInventoryAmount() : Amount
             +getDisplayedAmount() : Amount
@@ -133,18 +117,18 @@ rectangle Bioladen {
         }
 
         class Distributor <<Entity>> {
-        -name : String
-        -email : String
-        -contactName : String
-        -phoneNr : String
+            -name : String
+            -email : String
+            -contactName : String
+            -phoneNr : String
          }
 
 
 
 
-        Product "0..*" o-- "0..*" DistributorProduct
-        DistributorProduct "0..*" --* "1" DistributorProductCatalog
-        Product "0..*" --* "1" ProductCatalog
+        Product  o--  DistributorProduct
+        DistributorProduct  --* "1" DistributorProductCatalog
+        Product --* "1" ProductCatalog
 
 
     }
@@ -176,6 +160,6 @@ CatalogController --> BusinessTime
 org.salespointframework.catalog.Catalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, ProductIdentifier>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.ProductCatalog: <<binds>>\n<Product>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.DistributorProductCatalog: <<binds>>\n<DistributorProduct>
-bioladen.product.Distributor "1" *-- "0..*" bioladen.product.DistributorProduct
+bioladen.product.Distributor "1" *--  bioladen.product.DistributorProduct
 
 @enduml

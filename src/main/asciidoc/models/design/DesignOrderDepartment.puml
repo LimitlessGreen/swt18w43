@@ -107,11 +107,11 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         }
 
 
-        Order "1" --> "1" OrderStatus
-        Order "1" --> "1..*" OrderLine
-        Order "1" --> "1..*" ChargeLine
-        Cart "1" *-- "0..*" CartItem
-        Order "0..*" o-- "1" OrderManager
+        Order  -->  OrderStatus
+        Order  -->  OrderLine
+        Order  --> ChargeLine
+        Cart  *--  CartItem
+        Order  o--  OrderManager
     }
 
     namespace org.salespointframework.support {
@@ -154,31 +154,12 @@ rectangle Bioladen {
 
     namespace bioladen.product {
 
-        interface ProductCatalog <<Repository>> {
 
-        }
 
         interface DistributorProductCatalog <<Repository>> {
 
         }
 
-        class DistributorProduct <<Entity>> {
-
-        }
-
-        class Product <<Entity>> {
-
-        }
-
-        class Distributor <<Entity>> {
-
-        }
-
-
-
-        Product "0..*" o-- "0..*" DistributorProduct
-        DistributorProduct "0..*" --* "1" DistributorProductCatalog
-        Product "0..*" --* "1" ProductCatalog
 
 
         bioladen.order.OrderAssistant "1" *-- "1" DistributorProductCatalog
