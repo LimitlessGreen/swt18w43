@@ -1,0 +1,52 @@
+= Protokoll Gruppe 43
+
+Treffen am 05.11.2018
+
+Ort:      APB +
+Beginn:   09:20 Uhr +
+Ende:     10:55 Uhr
+
+__Schriftführer:__ Lisa Riedel
+
+*Nächstes Treffen:* +
+12.11.2018, 09:20 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor)
+- Lisa Riedel
+- Adrian Kulisch
+- Jairus Behrisch
+- Josefin Hübner
+- Lukas Petzold
+
+== Bemerkungen
+- Anwendungsprotoyp bis 16.11.
+- Informationen über 2 Design Diagramme, welche noch nicht besprochen wurden, erhalten wir per EMail
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#12     |Sprint 3       |abgeschlossen      |Einige Verbesserungen in den Diagrammen nötig
+|===
+
+
+== Aktueller Stand
+Der Videoshop Prototyp ist abgeschlossen und die Design Diagramme müssen nun noch überarbeitet werden.
+
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#14     |Sprint 4    |Design Diagramme, Entwicklerdoku und Anwendungsprototyp   |Alle                |offen
+|===
