@@ -18,8 +18,9 @@ skinparam linetype ortho
 rectangle Bioladen {
     namespace bioladen.finances {
 
-        class CashierSystem <<Entity>> extends WatchList {
+        class CashierSystem <<Controller>> extends ShoppingCart {
             -user : UserAccount
+            -userDiscount : Enum
             +CashierSystem(UserAccount)
             +add(Product) : boolean
             +remove(Product) : boolean
@@ -29,10 +30,11 @@ rectangle Bioladen {
             +getMwStSums() : MonetaryAmount[]
             +getSum() : MonetaryAmount
             +calculateChange(MonetaryAmount) : MonetaryAmount
-
-
+            +finishSale() : boolean
+            +publishSaleCreatedEvent(ShoppingCart) : void
         }
-        class WatchList <<Entity>> {
+
+        class ShoppingCart <<Entity>> {
             -user : UserAccount
             -productList : Map<Product, Amount>
             +ShoppingCart(UserAccount)
@@ -44,6 +46,14 @@ rectangle Bioladen {
 
         }
 
+    }
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+
+        bioladen.finances.CashierSystem --> bioladen.event.EntityCreatedEvent
 
     }
 
@@ -55,7 +65,7 @@ rectangle money-api-1.0.3.jar {
 
         }
         bioladen.finances.CashierSystem -right-> MonetaryAmount
-        bioladen.finances.WatchList -right-> MonetaryAmount
+        bioladen.finances.ShoppingCart -right-> MonetaryAmount
     }
 
 }
@@ -68,8 +78,16 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
         }
 
-        bioladen.finances.WatchList "1" -left-> "1" UserAccount
+        bioladen.finances.ShoppingCart "1" -left-> "1" UserAccount
         bioladen.finances.CashierSystem "1" -left-> "1" UserAccount
+    }
+
+    namespace org.salespointframework.context {
+        class ApplicationEvent {
+
+        }
+
+        ApplicationEvent <|-- bioladen.event.EntityCreatedEvent
     }
 
 }

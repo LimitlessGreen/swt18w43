@@ -16,7 +16,7 @@ skinparam linetype ortho
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
-    package org.salespointframework.useraccount {
+    namespace org.salespointframework.useraccount {
         class UserAccount <<Entity>>{
             -userAccountIdentifier : UserAccountIdentifier
             -password : Password
@@ -43,7 +43,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +{static} of(String) : Role
         }
 
-        interface UserRepository <<Repository>> {
+        interface UserAccountRepository <<Repository>> {
             +save(UserAccount) : UserAccount
             +saveAll(Iterable<UserAccount>) : Iterable<UserAccount>
             +findById(UserAccountIdentifier) : Optional<UserAccount>
@@ -63,6 +63,13 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
     }
 
+    namespace org.salespointframework.context {
+        class ApplicationEvent {
+
+        }
+
+    }
+
     package org.salespointframework.time {
         interface BusinessTime <<Service>> {
 
@@ -75,7 +82,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
 rectangle Bioladen {
 
-    package bioladen.user {
+    namespace bioladen.user {
 
         class UserManagement <<Service>> {
             +login(LoginForm) : User
@@ -84,9 +91,25 @@ rectangle Bioladen {
             +createUser(UserForm) : boolean
 
         }
+
+        class UserAccount <<Entity>> {
+            publishUserCreatedEvent(User) : void
+        }
+    }
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+        EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
+
+        EntityCreatedEvent <-- bioladen.user.UserAccount
+
     }
 
 }
+
+
 
 
 
@@ -112,10 +135,12 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 
 
-UserRepository  *--  UserAccount
-UserRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
-UserManagement "1" --> "1" UserAccountManager: \n\nUSER_ACCOUNTS
-UserManagement "1" --> "1" UserRepository
-UserManagement --> BusinessTime
+org.salespointframework.useraccount.UserAccountRepository  *--  org.salespointframework.useraccount.UserAccount
+org.salespointframework.useraccount.UserAccountRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
+bioladen.user.UserManagement "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
+bioladen.user.UserManagement "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
+bioladen.user.UserManagement --> BusinessTime
+
+bioladen.user.UserAccount --|> org.salespointframework.useraccount.UserAccount
 
 @enduml

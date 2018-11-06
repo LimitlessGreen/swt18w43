@@ -129,7 +129,16 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
 
 
+
+namespace org.salespointframework.context {
+        class ApplicationEvent {
+
+        }
+
+    }
+
 rectangle Bioladen {
+
     namespace bioladen.order {
         class Order <<Entity>> extends org.salespointframework.order.Order {
             -distributor : Distributor
@@ -140,7 +149,9 @@ rectangle Bioladen {
         class OrderAssistant <<Service>> {
             -productsToBeOrdered : Map<DistributorProduct, Amount>
 
-            +getAvailable(Product, Amount) :
+            +getAvailable(Product, Amount) : Map<DistributorProduct, Amount>
+            +finishOrder() : boolean
+            +publishOrderCreatedEvent(Order) : void
         }
 
         enum AvailabilityFlag {
@@ -150,6 +161,15 @@ rectangle Bioladen {
         }
         org.salespointframework.support.ConsoleWritingMailSender <-- bioladen.order.OrderAssistant
         OrderAssistant "1" o-- "1" Order
+    }
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+
+        org.salespointframework.context.ApplicationEvent <|-- bioladen.event.EntityCreatedEvent
+        bioladen.order.OrderAssistant --> EntityCreatedEvent
     }
 
     namespace bioladen.product {
@@ -166,6 +186,7 @@ rectangle Bioladen {
 
 
     }
+
     namespace Amount {
         class Amount {
             +of(long) : Amount

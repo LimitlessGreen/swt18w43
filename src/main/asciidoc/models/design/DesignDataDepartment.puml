@@ -24,7 +24,7 @@ rectangle JavaSE-1.8{
 rectangle Bioladen {
     namespace bioladen.data.log {
 
-        class Log <<Entity>> {
+        class Logger <<Service>> {
             -log(LogLevel, Order) : boolean
             -log(LogLevel, Sale) : boolean
             -log(LogLevel, Cancellation) : boolean
@@ -39,18 +39,24 @@ rectangle Bioladen {
         }
 
         class LogEntry <<Entity>> {
-            logLevel : LogLevel
-            thrownBy : String
-            logTime : LocalDateTime
-            content : Object
+            -logLevel : LogLevel
+            -thrownBy : String
+            -logTime : LocalDateTime
+            -content : Object
         }
 
-
+        class EntityCreatedEventListener <<Service>> {
+            -listenOrderEvent(EntityCreatedEvent) : void
+            -listenSaleEvent(EntityCreatedEvent) : void
+            -listenUserEvent(EntityCreatedEvent) : void
+            -listenProductEvent(EntityCreatedEvent) : void
+        }
 
         enum LogLevel {
             INFO
             WARNING
             ERROR
+            ENTITY
         }
 
 
@@ -67,10 +73,26 @@ rectangle Bioladen {
         }
 
 
+
+        class LogEvent <<Entity>> {
+            +LogEvent()
+
+        }
+
+        class LogEventListener <<Service>> {
+            +onApplicationEvent(LogEvent) : void
+        }
+
+
+
+
+
+
+
         LogEntry "1" --> "1" LogLevel
-        LogEntry "0..*" --* "1" Log
+        LogEntry "0..*" --* "1" Logger
         LogFilter <-- LogExplorer
-        LogExplorer <|-- Log
+        LogExplorer <|-- Logger
 
     }
 
@@ -113,27 +135,15 @@ rectangle Bioladen {
         LineChart "0..*" <-- "1" StatisticController
         BarChart "0..*" <-- "1" StatisticController
         StatisticController "1" --> "1" Statistic
-        Statistic "1" --* "1" bioladen.data.log.Log
-
+        Statistic "1" --* "1" bioladen.data.log.Logger
 
 
     }
 
-    namespace bioladen.event {
-        class LogEvent <<Entity>> {
-            +LogEvent()
-
-        }
-
-        class LogEventListener <<Service>> {
-            +onApplicationEvent(LogEvent) : void
-        }
-
-        LogEventListener "0..*" <-- "1" bioladen.data.statistic.Statistic
-    }
 
 
-    bioladen.event.LogEvent "0..*" <-- "1" bioladen.data.log.Log
+
+
 
 }
 
@@ -174,8 +184,10 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 }
 
-bioladen.event.LogEvent --|> org.springframework.context.ApplicationEvent
-bioladen.event.LogEventListener --|> org.springframework.context.ApplicationListener
+bioladen.data.log.LogEvent --|> org.springframework.context.ApplicationEvent
+bioladen.data.log.LogEventListener --|> org.springframework.context.ApplicationListener
+bioladen.data.log.LogEvent "0..*" <-- "1" bioladen.data.log.Logger
+bioladen.data.log.LogEventListener "0..*" <-- "1" bioladen.data.statistic.Statistic
 
 
 @enduml
