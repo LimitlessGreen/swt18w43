@@ -31,10 +31,10 @@ endif::[]
 // -- Variables
 :project_name: Bioladen :seedling:
 
+
+= Entwicklerdokumentation {project_name}
+
 toc::[]
-
-
-= Entwicklerdokumentation
 
 == Einführung und Ziele
 === Aufgabenstellung
