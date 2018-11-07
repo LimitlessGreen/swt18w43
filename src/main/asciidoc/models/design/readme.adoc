@@ -9,6 +9,10 @@ In diesem Ordner sind alle in der Entwurfsphase erstellten Diagramme als Bild un
 
 toc::[]
 
+== PackageDiagram
+
+image::PackageDiagram.svg[]
+
 == DataDepartment
 
 image::DesignDataDepartment.svg[]
