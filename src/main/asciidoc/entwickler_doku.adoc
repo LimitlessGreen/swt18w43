@@ -1,3 +1,39 @@
+// SETTINGS \\
+
+:doctype: book
+
+// -- Table of Contents
+
+:toc:
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:toc-placement!:
+
+// -- Icons
+
+ifdef::env-github[]
+
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+ifdef::env-github[]
+:status:
+:outfilesuffix: .adoc
+endif::[]
+
+:sectanchors:
+:numbered:
+
+// -- Variables
+:project_name: Bioladen :seedling:
+
+toc::[]
+
+
 = Entwicklerdokumentation
 
 == Einführung und Ziele
