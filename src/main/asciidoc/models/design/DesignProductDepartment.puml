@@ -1,20 +1,6 @@
 @startuml
 
-skinparam class {
-	BackgroundColor #LightCoral/LightPink
-    BorderColor Black
-    ArrowColor  Black
-}
-
-skinparam package {
-    FontColor Grey
-    BorderColor DarkMagenta
-}
-
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
-
-
+!include stylesheet.iuml
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
@@ -151,7 +137,7 @@ rectangle Bioladen {
     }
 
 
-    package bioladen.product.web {
+    package bioladen.product  {
         class CatalogController <<Controller>> {
 
         }
@@ -165,6 +151,20 @@ rectangle Bioladen {
         Amount <-- bioladen.product.Product
         Amount <-- bioladen.product.DistributorProduct
     }
+    
+    namespace ressources.templates {
+    
+        VIEW(product.html) {
+
+        }
+
+        VIEW(productlist.html) {
+
+        }
+
+        bioladen.product.CatalogController --> product.html
+        bioladen.product.CatalogController --> productlist.html
+    }
 
 
 
@@ -174,9 +174,9 @@ rectangle Bioladen {
 
 bioladen.product.Distributor --> bioladen.event.EntityCreatedEvent
 
-CatalogController "1" *-- "1" bioladen.product.ProductCatalog
-CatalogController "1" *-- "1" bioladen.product.DistributorProductCatalog
-CatalogController --> BusinessTime
+bioladen.product.CatalogController "1" *-- "1" bioladen.product.ProductCatalog
+bioladen.product.CatalogController "1" *-- "1" bioladen.product.DistributorProductCatalog
+bioladen.product.CatalogController --> BusinessTime
 org.salespointframework.catalog.Catalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, ProductIdentifier>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.ProductCatalog: <<binds>>\n<Product>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.DistributorProductCatalog: <<binds>>\n<DistributorProduct>

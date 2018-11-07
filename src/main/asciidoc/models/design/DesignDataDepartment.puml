@@ -1,18 +1,6 @@
 @startuml
 
-skinparam class {
-	BackgroundColor #LightCoral/LightPink
-    BorderColor Black
-    ArrowColor  Black
-}
-
-skinparam package {
-    FontColor Grey
-    BorderColor DarkMagenta
-}
-
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
+!include stylesheet.iuml
 
 rectangle JavaSE-1.8{
     namespace java.lang {
@@ -97,7 +85,7 @@ rectangle Bioladen {
     }
 
     namespace bioladen.data.statistic {
-       class StatisticController {
+       class StatisticController <<Controller>> {
 
         }
 
@@ -141,7 +129,14 @@ rectangle Bioladen {
     }
 
 
+    namespace ressources.templates {
 
+        VIEW(statistic.html) {
+
+        }
+
+        bioladen.data.statistic.StatisticController --> statistic.html
+    }
 
 
 

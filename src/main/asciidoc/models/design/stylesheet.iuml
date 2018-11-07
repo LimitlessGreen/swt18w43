@@ -1,0 +1,29 @@
+@startuml
+
+!define VIEW(x) file x <<View>> #limegreen/technology
+
+
+skinparam class {
+	BackgroundColor #Silver/white
+	BackgroundColor<<Repository>> #Coral/Lightsalmon
+	BackgroundColor<<Controller>> #Cornflowerblue/Cyan
+    BorderColor Black
+    ArrowColor  Black
+}
+
+skinparam package {
+    FontColor Grey
+    BorderColor Darkgrey
+}
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+legend
+|= | Component |
+|<back:#fe8052>     </back>| Model |
+|<back:#3dd13f>     </back>| View |
+|<back:#5f9aea>     </back>| Controller |
+endlegend
+
+@enduml

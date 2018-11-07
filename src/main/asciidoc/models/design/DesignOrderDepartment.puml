@@ -1,18 +1,25 @@
 @startuml
 
-skinparam class {
-	BackgroundColor #LightCoral/LightPink
-    BorderColor Black
-    ArrowColor  Black
-}
+!include stylesheet.iuml
 
-skinparam package {
-    FontColor Grey
-    BorderColor DarkMagenta
-}
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
+    namespace org.springframework.data.repository {
+        interface CrudRepository <T, ID>{
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(ID) : Optional<T>
+            +existsById(ID) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<ID>) : Iterable<T>
+            +count() : long
+            +deleteById(ID) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
+        }
+    }
+}
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
     namespace org.salespointframework.order {
@@ -106,6 +113,14 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             {static} values() : OrderStatus[]
         }
 
+        interface OrderRepository <T extends Order> <<Repository>> {
+            +findByDateCreatedBetween(LocalDateTime, LocalDateTime) : Streamable<T>
+            +findByOrderStatus(OrderStatus) : Streamable<T>
+            +findByUserAccount(UserAccount) : Streamable<T>
+            +findByUserAccountAndDateCreatedBetween(UserAccount, LocalDateTime, LocalDateTime) : Streamable<T>
+        }
+         OrderRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n <T extends Order, OrderIdentifier>
+
 
         Order  -->  OrderStatus
         Order  -->  OrderLine
@@ -159,8 +174,14 @@ rectangle Bioladen {
             OVER_MINIMUM_ORDER_AMOUNT
 
         }
+        class OrderController <<Controller>>  {
+
+        }
+
         org.salespointframework.support.ConsoleWritingMailSender <-- bioladen.order.OrderAssistant
         OrderAssistant "1" o-- "1" Order
+        OrderController --> Order
+        OrderController --> OrderAssistant
     }
 
     namespace bioladen.event {
@@ -193,6 +214,20 @@ rectangle Bioladen {
 
         }
         Amount <-- bioladen.order.OrderAssistant
+    }
+
+    namespace ressources.templates {
+
+        VIEW(orderassistant.html) {
+
+        }
+
+        VIEW(order.html) {
+
+        }
+
+        bioladen.order.OrderController --> orderassistant.html
+        bioladen.order.OrderController --> order.html
     }
 
 }

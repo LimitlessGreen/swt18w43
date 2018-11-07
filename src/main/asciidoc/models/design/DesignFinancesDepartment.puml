@@ -1,24 +1,12 @@
 @startuml
 
-skinparam class {
-	BackgroundColor #LightCoral/LightPink
-    BorderColor Black
-    ArrowColor  Black
-}
-
-skinparam package {
-    FontColor Grey
-    BorderColor DarkMagenta
-}
-
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
+!include stylesheet.iuml
 
 
 rectangle Bioladen {
     namespace bioladen.finances {
 
-        class CashierSystem <<Controller>> extends ShoppingCart {
+        class CashierSystem <<Controller>>  extends ShoppingCart {
             -user : UserAccount
             -userDiscount : Enum
             +CashierSystem(UserAccount)
@@ -55,6 +43,20 @@ rectangle Bioladen {
 
         bioladen.finances.CashierSystem --> bioladen.event.EntityCreatedEvent
 
+    }
+
+    namespace ressources.templates {
+
+        VIEW(cashiersystem.html) {
+
+        }
+
+        VIEW(watchlist.html) {
+
+        }
+
+        bioladen.finances.CashierSystem --> cashiersystem.html
+        bioladen.finances.CashierSystem --> watchlist.html
     }
 
 }

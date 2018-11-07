@@ -1,23 +1,11 @@
 @startuml
 
-skinparam class {
-	BackgroundColor #LightCoral/LightPink
-    BorderColor Black
-    ArrowColor  Black
-}
-
-skinparam package {
-    FontColor Grey
-    BorderColor DarkMagenta
-}
-
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
+!include stylesheet.iuml
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
     namespace org.salespointframework.useraccount {
-        class UserAccount <<Entity>>{
+        class UserAccount <<Entity>> {
             -userAccountIdentifier : UserAccountIdentifier
             -password : Password
             -firstname : String
@@ -82,9 +70,9 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
 rectangle Bioladen {
 
-    namespace bioladen.user {
+    namespace bioladen.useraccount {
 
-        class UserManagement <<Service>> {
+        class UserAccountController <<Controller>>  {
             +login(LoginForm) : User
             +logout(LogoutForm) : boolean
             +resetPassword(ResetForm) : boolean
@@ -103,7 +91,27 @@ rectangle Bioladen {
         }
         EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
 
-        EntityCreatedEvent <-- bioladen.user.UserAccount
+        EntityCreatedEvent <-- bioladen.useraccount.UserAccount
+
+    }
+
+    namespace ressources.templates {
+
+        VIEW(register.html) {
+
+        }
+
+        VIEW(login.html) {
+
+        }
+
+        VIEW(userlist.html) {
+
+        }
+
+        bioladen.useraccount.UserAccountController --> register.html
+        bioladen.useraccount.UserAccountController --> login.html
+        bioladen.useraccount.UserAccountController --> userlist.html
 
     }
 
@@ -137,10 +145,10 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 org.salespointframework.useraccount.UserAccountRepository  *--  org.salespointframework.useraccount.UserAccount
 org.salespointframework.useraccount.UserAccountRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
-bioladen.user.UserManagement "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
-bioladen.user.UserManagement "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
-bioladen.user.UserManagement --> BusinessTime
+bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
+bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
+bioladen.useraccount.UserAccountController --> BusinessTime
 
-bioladen.user.UserAccount --|> org.salespointframework.useraccount.UserAccount
+bioladen.useraccount.UserAccount --|> org.salespointframework.useraccount.UserAccount
 
 @enduml
