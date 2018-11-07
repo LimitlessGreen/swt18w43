@@ -217,7 +217,7 @@ Kurzer Überblick über Ihre grundlegenden Entscheidungen und Lösungsansätze, 
 
 == Bausteinsicht
 === Package-Diagramm
-image::/models/design/PackageDiagram.svg[]
+image::models/design/PackageDiagram.svg[]
 
 
 == Entwurfsentscheidungen
