@@ -85,8 +85,8 @@ rectangle Bioladen {
     }
 
     namespace bioladen.data.statistic {
-       class StatisticController <<Controller>> {
-
+        class StatisticController <<Controller>> {
+            +statistics() : String
         }
 
         abstract class Chart <<static, final>>{
@@ -124,6 +124,7 @@ rectangle Bioladen {
         BarChart "0..*" <-- "1" StatisticController
         StatisticController "1" --> "1" Statistic
         Statistic "1" --* "1" bioladen.data.log.Logger
+        StatisticController --> bioladen.data.log.Logger
 
 
     }

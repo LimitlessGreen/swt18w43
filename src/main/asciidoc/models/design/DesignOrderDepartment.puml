@@ -119,7 +119,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +findByUserAccount(UserAccount) : Streamable<T>
             +findByUserAccountAndDateCreatedBetween(UserAccount, LocalDateTime, LocalDateTime) : Streamable<T>
         }
-         OrderRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n <T extends Order, OrderIdentifier>
+         OrderRepository -up-|> org.springframework.data.repository.CrudRepository: <<binds>>\n <T extends Order, OrderIdentifier>
 
 
         Order  -->  OrderStatus
@@ -174,14 +174,31 @@ rectangle Bioladen {
             OVER_MINIMUM_ORDER_AMOUNT
 
         }
-        class OrderController <<Controller>>  {
 
+        class OrderAssistantController <<Controller>>  {
+            -orderManager : OrderManager<Order>
+            +OrderAssistantController(OrderManager<Order>)
+            +search(Model) : String
+            +assistant(Model) : String
+            +addProduct(DistributorProduct, Amount, Model) : String
+            +removeProduct(DistributorProduct, Model) : String
+            +initializeOrderAssistant() : OrderAssistant
+        }
+
+        class OrderController <<Controller>> {
+            -orderManager : OrderManager<Order>
+            +OrderController(OrderManager<Order>)
+            +orders(Model) : String
+            +removeOrder(Model) : String
         }
 
         org.salespointframework.support.ConsoleWritingMailSender <-- bioladen.order.OrderAssistant
         OrderAssistant "1" o-- "1" Order
+        OrderAssistantController --> Order
+        OrderAssistantController --> OrderAssistant
+        OrderAssistantController --> org.salespointframework.order.OrderManager
+        OrderController --> org.salespointframework.order.OrderManager
         OrderController --> Order
-        OrderController --> OrderAssistant
     }
 
     namespace bioladen.event {
@@ -226,7 +243,7 @@ rectangle Bioladen {
 
         }
 
-        bioladen.order.OrderController --> orderassistant.html
+        bioladen.order.OrderAssistantController --> orderassistant.html
         bioladen.order.OrderController --> order.html
     }
 

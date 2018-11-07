@@ -20,10 +20,10 @@ skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
 legend
-|= | Component |
-|<back:#fe8052>     </back>| Model |
-|<back:#3dd13f>     </back>| View |
-|<back:#5f9aea>     </back>| Controller |
+| Background | Component |
+|<#fe8052>     | Model |
+|<#3dd13f>     | View |
+|<#5f9aea>     | Controller |
 endlegend
 
 @enduml

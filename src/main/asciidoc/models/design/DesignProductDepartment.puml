@@ -138,9 +138,31 @@ rectangle Bioladen {
 
 
     package bioladen.product  {
-        class CatalogController <<Controller>> {
+        class ProductController <<Controller>> {
+            +ProductController()
+            +productsByName(Model) : String
+            +productsByCategory(Model) : String
+            +productsByPrice(Model) : String
+            +productsByInventoryAmount(Model) : String
+            +productsByDisplayedAmount(Model) : String
+            +addProduct(Model) : String
+            +removeProduct(Model) : String
+            +printLabel(List<Product>, Model) : String
+        }
+        
+        class DistributorController <<Controller>> {
+        
+        }
+        
+        interface DistributorRepository <<Repository>> {
+        
+        }
+
+        class DistributorProductController <<Controller>> {
 
         }
+        
+        ProductController --> Product
     }
 
     namespace Amount {
@@ -162,8 +184,9 @@ rectangle Bioladen {
 
         }
 
-        bioladen.product.CatalogController --> product.html
-        bioladen.product.CatalogController --> productlist.html
+        bioladen.product.ProductController --> product.html
+        bioladen.product.ProductController --> productlist.html
+
     }
 
 
@@ -174,9 +197,8 @@ rectangle Bioladen {
 
 bioladen.product.Distributor --> bioladen.event.EntityCreatedEvent
 
-bioladen.product.CatalogController "1" *-- "1" bioladen.product.ProductCatalog
-bioladen.product.CatalogController "1" *-- "1" bioladen.product.DistributorProductCatalog
-bioladen.product.CatalogController --> BusinessTime
+
+bioladen.product.ProductController --> BusinessTime
 org.salespointframework.catalog.Catalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, ProductIdentifier>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.ProductCatalog: <<binds>>\n<Product>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.DistributorProductCatalog: <<binds>>\n<DistributorProduct>
