@@ -209,11 +209,14 @@ Die Software wird rund um die Uhr betrieben, um die Website den Kunden zugängli
 
 == Kontextabgrenzung
 === Externe Schnittstellen
-
+QR-Code-Scanner und Websocket
 
 
 == Lösungsstrategie
-Kurzer Überblick über Ihre grundlegenden Entscheidungen und Lösungsansätze, die jeder, der mit der Architektur zu tun hat, verstanden haben sollte.
+- Trennung Product und DistributorProduct
+- Bootstrap als Frontend-Framework
+- Nutzung eines Event-Systems
+- Unit (Grundeinheit) bei Product
 
 == Bausteinsicht
 === Package-Diagramm
@@ -222,15 +225,23 @@ image::models/design/PackageDiagram.svg[]
 
 == Entwurfsentscheidungen
 === Architektur
+image::models/design/DesignDataDepartment.svg[title= "DataDepartment"]
 
+image::models/design/DesignFinancesDepartment.svg[title= "FinancesDepartment"]
+
+image::models/design/DesignUserDepartment.svg[title= "UserDepartment"]
+
+image::models/design/DesignOrderDepartment.svg[title= "OrderDepartment"]
+
+image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 
 
 === Verwendete Muster
-
+MVC Pattern
 
 
 === Persistenz
-
+Persistente Datenbank
 
 
 === Benutzeroberfläche
@@ -304,3 +315,4 @@ TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 [appendix]
 == Glossar
+link:pflichtenheft.adoc[Hier] gehts zum Pflichtenheft
