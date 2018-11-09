@@ -205,7 +205,10 @@ Abwärtskompatibilität kann nicht garantiert werden.
 === Vorgaben zum Betrieb der Software
 Die Software wird rund um die Uhr betrieben, um die Website den Kunden zugänglich zu machen.
 
+Das System wird, wenn es im Einsatz ist, auf einem Server gestartet. In der Entwicklungsphase starten wir das System über "localhost:8080"
 
+Auf den Kassen startet das Verkaufspersonal das Kassensystem über die Website.
+Gleiches gilt für den Manager, wenn dieser auf die Statistik, Datenbanken usw. zugreifen möchte.
 
 == Kontextabgrenzung
 === Externe Schnittstellen
@@ -237,11 +240,12 @@ image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 
 
 === Verwendete Muster
-MVC Pattern
+- MVC Pattern
 
 
 === Persistenz
-Persistente Datenbank
+Wir haben uns für eine persistente Datenbank entschiedenm weil wir eine Vielzahl von Produkten und Kunden
+haben und außerdem für die Statistik Daten dauerhaft abgespeichert werden müssen.
 
 
 === Benutzeroberfläche
