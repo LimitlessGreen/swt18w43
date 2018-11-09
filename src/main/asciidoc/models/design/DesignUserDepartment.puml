@@ -77,6 +77,9 @@ rectangle Bioladen {
             +logout(LogoutForm) : boolean
             +resetPassword(ResetForm) : boolean
             +createUser(UserForm) : boolean
+            +deleteUser(UserForm) : boolean
+            +searchUser(SearchForm) : List<User>
+            +setNewPassword(SetForm) : boolean
 
         }
 
@@ -109,9 +112,15 @@ rectangle Bioladen {
 
         }
 
+        VIEW(useracc.html) {
+
+        }
+
         bioladen.useraccount.UserAccountController --> register.html
         bioladen.useraccount.UserAccountController --> login.html
         bioladen.useraccount.UserAccountController --> userlist.html
+        bioladen.useraccount.UserAccountController --> useracc.html
+        'bioladen.useraccount.UserAccount --> useracc.html
 
     }
 
