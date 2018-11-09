@@ -1218,23 +1218,219 @@ gewünschten Produkten
 |===
 
 |ID
-|[ATUD010]
+|[ATUD011]
 
 |Anwendungsfall
-|
+| neuer Kunde wird erstellt
 
 |Voraussetzung
-|
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
 
 |Ereignis
-|
+| Manager füllt eine Felder aus und klickt auf "hinzufügen". Jedoch ist der Kunde bereits im System
 
 |erwartetes Ergebnis
-|
+| Fehlermeldung, dass die eingegebenen Daten bereits im System sind
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD012]
+
+|Anwendungsfall
+| neuer Kunde oder Mitarbeiter wird erstellt
+
+|Voraussetzung
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+
+|Ereignis
+| Manager füllt eine der Felder nicht aus oder nicht korrekt (z.B beim Namen dürfen keine Zahlen sein)
+
+|erwartetes Ergebnis
+| es wird kein neuer User hinzugefügt und eine Fehlermeldung erscheint, dass das Feld fehlerhaft aufgefüllt
+ist bzw. nicht ausgefüllt wurde
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD013]
+
+|Anwendungsfall
+| neuer Mitarbeiter wird erstellt
+
+|Voraussetzung
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+
+|Ereignis
+| Manager füllt alle Fehlder korrekt aus und wählt als Kundentyp "Mitarbeiter" aus
+
+|erwartetes Ergebnis
+| neuer Mitarbeiter wird erstellt und das Standardpasswort generiert und abgespeichert
 
 |===
 
 
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD021]
+
+|Anwendungsfall
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+
+|Voraussetzung
+| Manager befindet sich auf "User verwalten"
+
+|Ereignis
+| Manager klickt auf auf Passwort zurücksetzten für den entsprechenden Mitarbeiter
+
+|erwartetes Ergebnis
+|Das Passwort des ausgewählten Mitarbeiter wird auf ein Standardpasswort zurückgesetzt
+(z.B Erster Buchstabe und des Vornamen + Nachname ; oder sowas wie 123Bioladen o.ä.)
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD022]
+
+|Anwendungsfall
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+
+|Voraussetzung
+| Manager befindet sich auf "User verwalten"
+
+|Ereignis
+| Manager klickt auf auf Passwort zurücksetzten , jedoch für einen Kunden
+
+|erwartetes Ergebnis
+| Da Kunden keine Zugangsrechte und damit auch kein Nutzeraccount,
+ soll eine Fehlermeldung erscheinen, dass dieser kein Passwort besitzt, welchen zurück gesetzt werden kann.
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD023]
+
+|Anwendungsfall
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+
+|Voraussetzung
+| Manager befindet sich auf "User verwalten"
+
+|Ereignis
+| Manager klickt auf auf Passwort zurücksetzten für den entsprechenden Mitarbeiter,
+ der bereits das Standardpasswort noch hat
+
+|erwartetes Ergebnis
+| Fehlermeldung: das Passwort ist bereits das Standartpasswort
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD031]
+
+|Anwendungsfall
+| Personal möchte ein neues Passwort für seinen Account festlegen
+
+|Voraussetzung
+| er ist eingeloggt und befindet sich auf der Seite seiner Accountinformation
+
+|Ereignis
+| er trägt sein altes Passwort in das vorhergesehene Feld ein und
+trägt zweimal richtig sein neuese Passwort ein und Button zum Passwort ändern wird getätigt
+
+
+|erwartetes Ergebnis
+| Passwort wird erfolgreich geändert
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD032]
+
+|Anwendungsfall
+| Personal möchte ein neues Passwort für seinen Account festlegen
+
+|Voraussetzung
+| er ist eingeloggt und befindet sich auf der Seite seiner Accountinformation
+
+|Ereignis
+| Er trägt sein altes Passwort inkorrekt in das vorhergesehene Feld ein und
+  trägt zweimal richtig sein neuese Passwort ein ODER ein Feld für das neue
+  Passwort stimmt mit dem anderen nicht überein ODER ein oder mehr Felder worden
+  nicht ausgefüllt. +
+  Button zum Passwort ändern wird getätigt
+
+|erwartetes Ergebnis
+| Passwort wird nicht geändert, Fehlermeldung erscheint
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD040]
+
+|Anwendungsfall
+| Manager möchte eine Kunden löschen
+
+|Voraussetzung
+| Manager ist eingeloggt und befindet sich auf "User verwalten"
+
+|Ereignis
+| Manager löscht mit Button den ausgewählten User
+
+|erwartetes Ergebnis
+| User verschwindet aus der Datenbank
+
+|===
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD050]
+
+|Anwendungsfall
+| Manager sucht in der Datenbank nach Kunden
+
+|Voraussetzung
+| Manager ist eingeloggt und befindet sich auf "User verwalten"
+
+|Ereignis
+| Manager tippt einen Namen in das Suchfeld und klickt auf Suchen
+
+|erwartetes Ergebnis
+| Fall 1: der gesuchte Name wird in der Datenbank gefunden und alle Ergebnisse aufgelistet,
+ +
+Fall 2: wenn kein Ergebnis gefunden wird so wird angezeigt, dass keine Kunden unter dieser
+Suchanfrage gefunden worde
+
+|===
+
+Weitere  Akzeptanztestfälle, welche zum UserDepartment gehören, findet man unter den ID'S
+[AT0050],[AT0051] und [ATF010].
 
 === DataDepartment
 [width="99%",cols="1,4",options="header"]
