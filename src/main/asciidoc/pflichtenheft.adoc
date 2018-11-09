@@ -129,6 +129,12 @@ endif::[]
 |Lukas, Lisa, Adrian, Jairus
 |Akzeptanztestfälle für Fehlerfälle
 
+|1.1
+|...
+|09.11.2018
+|Lukas
+|Template für Akzeptanztestfälle für Departments
+
 |===
 
 toc::[]
@@ -1169,6 +1175,125 @@ gewünschten Produkten
 |Produkt wird nicht hinzugefügt, Fehlermeldung -> Produkt nicht verfügbar
 
 |===
+
+
+
+
+=== ProductDepartment
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATPD010]
+
+|Anwendungsfall
+|
+
+|Voraussetzung
+|
+
+|Ereignis
+|
+
+|erwartetes Ergebnis
+|
+
+|===
+
+
+=== UserDepartment
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATUD010]
+
+|Anwendungsfall
+|
+
+|Voraussetzung
+|
+
+|Ereignis
+|
+
+|erwartetes Ergebnis
+|
+
+|===
+
+
+
+=== DataDepartment
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATDD010]
+
+|Anwendungsfall
+|
+
+|Voraussetzung
+|
+
+|Ereignis
+|
+
+|erwartetes Ergebnis
+|
+
+|===
+
+
+
+=== OrderDepartment
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATOD010]
+
+|Anwendungsfall
+|
+
+|Voraussetzung
+|
+
+|Ereignis
+|
+
+|erwartetes Ergebnis
+|
+
+|===
+
+
+
+=== FinancesDepartment
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATFD010]
+
+|Anwendungsfall
+|
+
+|Voraussetzung
+|
+
+|Ereignis
+|
+
+|erwartetes Ergebnis
+|
+
+|===
+
+
+
+
 
 == Glossar
 Das Glossar beinhaltet eine Liste mit Begriffen, die in diesem Projekt benutzt werden.
