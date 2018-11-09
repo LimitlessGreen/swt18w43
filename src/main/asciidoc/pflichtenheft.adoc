@@ -135,6 +135,18 @@ endif::[]
 |Lukas
 |Template für Akzeptanztestfälle für Departments
 
+|1.2
+|...
+|09.11.2018
+|Lukas
+|ATFD
+
+|1.3
+|...
+|09.11.2018
+|Lisa
+|ATUD
+
 |===
 
 toc::[]
@@ -1271,6 +1283,9 @@ gewünschten Produkten
 
 
 === FinancesDepartment
+
+:AT_ref: Siehe <<Akzeptanztestfälle>>
+
 [width="99%",cols="1,4",options="header"]
 |===
 
@@ -1278,21 +1293,146 @@ gewünschten Produkten
 |[ATFD010]
 
 |Anwendungsfall
-|
+|Verkaufspersonal gibt vom Kunden erhaltene Summe ein
 
 |Voraussetzung
-|
+|Scanvorgang abgeschlossen und Kunde bezahlt
 
 |Ereignis
-|
+|Verkaufspersonal gibt Betrag ein, welcher kleiner als Summe der Produkte ist
 
 |erwartetes Ergebnis
-|
+|Fehlermeldung: Nicht genügend Geld vom Kunden erhalten, Summe überprüfen
 
 |===
 
 
+[width="99%",cols="1,4",options="header"]
+|===
 
+|ID
+|[ATFD020]
+
+|Anwendungsfall
+|Verkaufspersonal startet das Kassensystem
+
+|Voraussetzung
+|Verkaufspersonal befindet sich am Rechner für das Kassensystem
+
+|Ereignis
+|Verkaufspersonal gibt ungültigen UserAccount an
+
+|erwartetes Ergebnis
+|Kasse wird nicht gestartet, Fehlermeldung: Ungültiger User
+
+|===
+
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATFD021]
+
+|Anwendungsfall
+|Verkaufspersonal startet das Kassensystem
+
+|Voraussetzung
+|Verkaufspersonal befindet sich am Rechner für das Kassensystem
+
+|Ereignis
+|Verkaufspersonal gibt UserAccount an, welcher bereits in eine Kasse eingeloggt ist
+
+|erwartetes Ergebnis
+|Kasse wird nicht gestartet, Fehlermeldung: User bereits an einer Kasse
+
+|===
+
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATFD030]
+
+|Anwendungsfall
+|Stornierung eines Produktes (einfache Stornierung)
+
+|Voraussetzung
+|Es wurden Produkte an der Kasse eingescannt
+
+|Ereignis
+|Kunde möchte ein Produkt nicht mehr kaufen, Verkaufspersonal löscht Produkt aus Kassensystem
+
+|erwartetes Ergebnis
+|Produkt wird gelöscht, Preis neu berechnet, Produkt wieder Lager hinzugefügt
+
+|===
+
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATFD031]
+
+|Anwendungsfall
+|Stornierung aller Produkte (globale Stornierung)
+
+|Voraussetzung
+|Es wurden Produkte an der Kasse eingescannt
+
+|Ereignis
+|Kunde möchte keine der Produkte mehr kaufen, Verkaufspersonal löscht alle
+
+|erwartetes Ergebnis
+|Alle Produkte werden entfernt, Kassensystem leer, Produkte wieder dem Lager hinzugefügt
+
+|===
+
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATFD040]
+
+|Anwendungsfall
+|Löschen eines Produktes vom online Merkzettel
+
+|Voraussetzung
+|Kunde hat Produkte dem Merkzettel hinzugefügt
+
+|Ereignis
+|Kunde klickt auf Button um ein Produkt zu löschen
+
+|erwartetes Ergebnis
+|Produkt wird vom Merkzettel gelöscht, Preis wird neu berechnet
+
+|===
+
+
+[width="99%",cols="1,4",options="header"]
+|===
+
+|ID
+|[ATFD041]
+
+|Anwendungsfall
+|Löschen von allen Produkten vom online Merkzettel
+
+|Voraussetzung
+|Kunde hat Produkte dem Merkzettel hinzugefügt
+
+|Ereignis
+|Kunde klickt auf Button um gesamtem Merkzettel zu löschen
+
+|erwartetes Ergebnis
+|Alle Produkte vom Merkzettel werden gelöscht, Merkzettel nun leer
+
+|===
+
+Für weitere Akzeptanztestfälle {AT_ref} [AT0010] [AT0011] [AT0012] [AT0013] [AT0014] [AT0015] [AT0020] [AT0021] [ATF020]
 
 
 == Glossar
