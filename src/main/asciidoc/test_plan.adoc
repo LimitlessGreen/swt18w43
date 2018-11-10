@@ -150,11 +150,91 @@ zuständig: Lisa Riedel
 |===
 |ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
 
-|
-|
-|
-|
-|
+|U-U-010
+| neuer Kunde wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt alle Felder aus und klickt auf "hinzufügen".
+| Kunde wird erfolgreich in die Datenbank aufgenommen
+
+|U-U-011
+| neuer Kunde wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt alle Felder aus und klickt auf "hinzufügen". Jedoch ist der Kunde bereits im System
+| Fehlermeldung, dass die eingegebenen Daten bereits im System sind
+
+|U-U-012
+| neuer Kunde oder Mitarbeiter wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt eine der Felder nicht aus oder nicht korrekt (z.B beim Namen dürfen keine Zahlen sein)
+| es wird kein neuer User hinzugefügt und eine Fehlermeldung erscheint, dass das Feld fehlerhaft aufgefüllt
+ist bzw. nicht ausgefüllt wurde
+
+|U-U-013
+| neuer Mitarbeiter wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt alle Fehlder korrekt aus und wählt als Kundentyp "Mitarbeiter" aus
+| neuer Mitarbeiter wird erstellt und das Standardpasswort generiert und abgespeichert
+
+|U-U-020
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+| Manager befindet sich auf "User verwalten"
+| Manager klickt auf auf Passwort zurücksetzten für den entsprechenden Mitarbeiter
+|Das Passwort des ausgewählten Mitarbeiter wird auf ein Standardpasswort zurückgesetzt
+(z.B Erster Buchstabe und des Vornamen + Nachname ; oder sowas wie 123Bioladen o.ä.)
+
+|U-U-021
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+| Manager befindet sich auf "User verwalten"
+| Manager klickt auf auf Passwort zurücksetzten , jedoch für einen Kunden
+| Da Kunden keine Zugangsrechte und damit auch kein Nutzeraccount besitzen,
+ soll eine Fehlermeldung erscheinen, dass dieser kein Passwort besitzt, welchen zurück gesetzt werden kann.
+
+|U-U-022
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+| Manager befindet sich auf "User verwalten"
+| Manager klickt auf auf Passwort zurücksetzten für den entsprechenden Mitarbeiter,
+ der bereits das Standardpasswort noch hat
+| Fehlermeldung: das Passwort ist bereits das Standartpasswort
+
+|U-U-030
+| Personal möchte ein neues Passwort für seinen Account festlegen
+| er ist eingeloggt und befindet sich auf der Seite seiner Accountinformation
+| er trägt sein altes Passwort in das vorhergesehene Feld ein und
+trägt zweimal richtig sein neuese Passwort ein und Button zum Passwort ändern wird getätigt
+| Passwort wird erfolgreich geändert
+
+|U-U-031
+| Personal möchte ein neues Passwort für seinen Account festlegen
+| er ist eingeloggt und befindet sich auf der Seite seiner Accountinformation
+| Er trägt sein altes Passwort inkorrekt in das vorhergesehene Feld ein und
+  trägt zweimal richtig sein neuese Passwort ein ODER ein Feld für das neue
+  Passwort stimmt mit dem anderen nicht überein ODER ein oder mehr Felder worden
+  nicht ausgefüllt. +
+  Button zum Passwort ändern wird getätigt
+| Passwort wird nicht geändert, Fehlermeldung erscheint
+
+|U-U-040
+| Manager möchte eine Kunden löschen
+| Manager ist eingeloggt und befindet sich auf "User verwalten"
+| Manager löscht mit Button den ausgewählten User
+| User verschwindet aus der Datenbank
+
+|U-U-050
+| Manager sucht in der Datenbank nach Kunden
+| Manager ist eingeloggt und befindet sich auf "User verwalten"
+| Manager tippt einen Namen in das Suchfeld und klickt auf Suchen
+| Fall 1: der gesuchte Name wird in der Datenbank gefunden und alle Ergebnisse aufgelistet,
+ +
+Fall 2: wenn kein Ergebnis gefunden wird so wird angezeigt, dass keine Kunden unter dieser
+Suchanfrage gefunden worden
+
+|U-U-60
+|Personal will sich einloggen
+|Personal befindet sich auf der Login Seite
+|Personal gibt falsches Passwort ein
+|Personal wird nicht eingeloggt -> Fehlermeldung erscheint
+
+
 
 |===
 
