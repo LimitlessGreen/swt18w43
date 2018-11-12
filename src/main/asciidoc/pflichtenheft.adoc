@@ -552,19 +552,19 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |Funktionen von Listen mit Daten: +
 - Inventory +
 - OrderableProducts +
-- UserList +
+- UserList :heavy_check_mark: (Login) +
 - DistributorList
 |- Sortieren +
 - Suche +
-- Hinzufügen +
-- Entfernen
+- Hinzufügen :heavy_check_mark: +
+- Entfernen :heavy_check_mark:
 
 |#F002
-|Archivierung
+|Archivierung :heavy_check_mark:
 |Einkäufe, Verkäufe, Stornierungen, etc. müssen in einem Log archiviert werden
 
 |#F003
-|Bestand anzeigen
+|Bestand anzeigen :heavy_check_mark:
 |Der aktuelle Bestand von Produkten im Lager muss dem Manager angezeigt werden
 
 |#F004
@@ -576,23 +576,23 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
 
 |#F006
-|Ausstellungsfläche
+|Ausstellungsfläche :heavy_check_mark:
 |Es können nur 999 Produkte im Laden ausgestellt werden
 
 |#F007
-|Größe Einkaufsdatenbank
+|Größe Einkaufsdatenbank :heavy_check_mark:
 |Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
 
 |#F008
-|Online Merkzettel
+|Online Merkzettel :heavy_check_mark:
 |Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
 
 |#F009
-|Entfernen von Produkten aus dem Inventar
+|Entfernen von Produkten aus dem Inventar :heavy_check_mark:
 |Produkte müssen aus dem Bestand entfernt werden, sobald sie im Warenkorb sind
 
 |#F010
-|Preiskalkulation
+|Preiskalkulation :heavy_check_mark: (vereinfacht)
 |Der endgültige Preis wird an der Kasse global kalkuliert. Dabei gibt es einen Rabatt für verschiedene Kundengruppen
 
 |#F011
@@ -605,7 +605,7 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 - Man kann für alle Produkte auf einmal die Etikette drucken lassen
 
 |#F013
-|Informationen im Warenkorb
+|Informationen im Warenkorb :heavy_check_mark:
 |Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
 
 |#F014
@@ -623,7 +623,7 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 - Neuanmeldungen Kunden
 
 |#F016
-|Stornierungen
+|Stornierungen :heavy_check_mark:
 |Es muss eine einfache und eine globale Stornierung an der Kasse möglich sein
 
 |#F017
@@ -635,7 +635,7 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |Es muss nach Ende eines Wirtschaftsjahres der Warenwert festgestellt werden können
 
 |#F019
-|Lieferungsübersicht
+|Lieferungsübersicht :heavy_check_mark:
 |Es muss eine Übersicht von den bestellten Lieferungen geben
 
 |#F020
@@ -644,16 +644,16 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 - Es kann sein, dass Lieferungen Probleme haben und nicht ankommen. Die muss abgefangen werden
 
 |#F021
-|Mindestbestellmenge
+|Mindestbestellmenge :heavy_check_mark: (Nachbestellen funktioniert)
 |Es gibt eine Mindestbestellmenge für jedes Produkt bei Händlern
 
 |#F022
 |Produkte hinzufügen
-|- Produkte können manuell hinzugefügt werden +
+|- Produkte können manuell hinzugefügt werden :heavy_check_mark: +
 - Produkte können über eine BNN-Liste importiert werden
 
 |#F023
-|Pfand
+|Pfand :heavy_check_mark:
 |Kunden können Pfand abgeben
 
 |#F024
