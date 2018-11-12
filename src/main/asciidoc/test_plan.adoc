@@ -224,7 +224,7 @@ trägt zweimal richtig sein neuese Passwort ein und Button zum Passwort ändern 
 Fall 2: wenn kein Ergebnis gefunden wird so wird angezeigt, dass keine Kunden unter dieser
 Suchanfrage gefunden worden
 
-|U-U-60
+|U-U-060
 |Personal will sich einloggen
 |Personal befindet sich auf der Login Seite
 |Personal gibt falsches Passwort ein
@@ -242,11 +242,72 @@ zuständig: Jairus Behrisch
 |===
 |ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
 
-|
-|
-|
-|
-|
+|D-I-01-A
+|Logeintrag speichern
+|-
+a|* LogLevel: +
+1 aus {INFO, WARNING, ERROR}
+* Message
+|Logeintrag muss in Datenbank stehen
+
+|D-I-01-B
+|~
+|-
+|Loglevel (siehe oben)
+|Fehler: Nachicht fehlt
+
+|D-I-01-C
+|~
+|OrderEvent published
+a|* Loglevel: DATA
+* Order
+|Logeintrag + Order muss in Datenbank stehen
+
+|D-I-01-D
+|~
+|SaleEvent published
+a|* Loglevel: DATA
+* ShoppingCart
+|Logeintrag + ShoppingCart muss in Datenbank stehen
+
+|D-I-01-E
+|~
+|UserEvent published
+a|* Loglevel: DATA
+* User
+|Logeintrag + User muss in Datenbank stehen
+
+|D-I-01-F
+|~
+|ProductEvent published
+a|* Loglevel: DATA
+* Product
+|Logeintrag + Product muss in Datenbank stehen
+
+|D-I-01-G
+|~
+|EntityEvent published
+|Loglevel: DATA
+|Fehler: Entity fehlt
+
+|D-I-02-A
+|Logeintrag lesen
+|Logeintrag gespeichert
+|Aufforderung zum lesen
+|Logeintrag
+
+|D-I-03-A
+|Statistik ausgeben
+|Log mit Dateneinträgen
+|Aufforderung an das Log, die entsprechenden Daten herauszugeben
+|Statistik Werte ausgeben
+
+|D-I-03-B
+|~
+|Log mit Dateneinträgen
+|Aufforderung an das Log, die entsprechenden Daten herauszugeben
+|*erwartete* Statistik Werte ausgeben
+
 
 |===
 
