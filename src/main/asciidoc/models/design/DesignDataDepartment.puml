@@ -2,13 +2,6 @@
 
 !include stylesheet.iuml
 
-rectangle JavaSE-1.8{
-    namespace java.lang {
-        class Iterable <<Java>>
-    }
-}
-
-
 rectangle Bioladen {
     namespace bioladen.data.log {
 
@@ -23,6 +16,9 @@ rectangle Bioladen {
             +error(Object, String) : boolean
             +getLog() : Iterable<LogEntry>
             +getLog()
+            +filterBy(Duration) : Streamable<LogEntry>
+            +filterBy(LogLevel) : Streamable<LogEntry>
+            +filterBy(ThrownBy) : Streamable<LogEntry>
             -publishLogEvent()
         }
 
@@ -44,7 +40,7 @@ rectangle Bioladen {
             INFO
             WARNING
             ERROR
-            ENTITY
+            DATA
         }
 
 
@@ -53,14 +49,6 @@ rectangle Bioladen {
             +filterBy(LogLevel) : LogExplorer
             +filterBy(ThrownBy) : LogExplorer
         }
-
-        class LogFilter <<static>> extends java.lang.Iterable  {
-            +filterBy(LogFilter, Duration) : LogFilter
-            +filterBy(LogFilter, LogLevel) : LogFilter
-            +filterBy(LogFilter, ThrownBy) : LogFilter
-        }
-
-
 
         class LogEvent <<Entity>> {
             +LogEvent()
@@ -79,8 +67,6 @@ rectangle Bioladen {
 
         LogEntry "1" --> "1" LogLevel
         LogEntry "0..*" --* "1" Logger
-        LogFilter <-- LogExplorer
-        LogExplorer <|-- Logger
 
     }
 
