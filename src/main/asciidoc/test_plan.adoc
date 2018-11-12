@@ -258,11 +258,43 @@ zuständig: Adrian Kulisch
 |===
 |ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
 
-|
-|
-|
-|
-|
+ |P-U-00a
+ |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+   * Großhändlerprodukt _nicht_ in Großhändlerproduktdatenbank
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Großhändlerprodukt wird in Großhändlerproduktdatenbank angelegt
+ 
+ |P-U-00b
+ |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+   * Großhändlerprodukt in Großhändlerproduktdatenbank
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Fehlermeldung: „Großhändlerprodukt existiert bereits“
+
+ |P-U-01a/b
+ |Produkte werden aus einer BNN-Datei der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukte über BNN-Datei hinzufügen“
+   * Datei befindet sich an spezifiziertem Ort und ist vollständig im richtigen Format
+ |Dateipfad zu einzulesender BNN-Datei
+a| * Für jedes Produkt in Datei: +
+      a. Ausgabe wie P-U-00a +
+      b. Ausgbae wie P-U-00b
+
+ |P-U-10a
+ |Produkt wird zur Produktliste hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Produkt hinzufügen“
+   * Produkt _nicht_ in Produktliste
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Produkt wird in Produktliste aufgenommen -> Werte werden von Großhändlerprodukt übernommen bzw. genullt
+   * Alle Großhändlerprodukte der Großhändlerproduktdatenbank mit gleichem Namen werden (referenziert) dem angelegten Produkt hinzugefügt 
+ 
+ |P-U-10b
+ |Produkt wird zur Produktliste hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Produkt hinzufügen“
+   * Produkt _nicht_ in Produktliste
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Fehlermeldung: „Produkt ist bereits aufgenommen“
 
 |===
 
