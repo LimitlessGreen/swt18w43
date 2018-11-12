@@ -5,11 +5,11 @@
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
     namespace org.salespointframework.catalog {
-        interface Catalog <T extends Product> <<Repository>> {
+        interface Catalog <T extends Product> <<Salespoint>> {
 
         }
 
-        class Product <<Entity>> {
+        class Product <<Salespoint>> {
             -productIdentifier : ProductIdentifier
             -name : String
             -price : MonetaryAmount
@@ -32,13 +32,13 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
     }
 
     package org.salespointframework.time {
-        interface BusinessTime <<Service>> {
+        interface BusinessTime <<Salespoint>> {
 
         }
     }
 
     namespace org.salespointframework.context {
-            class ApplicationEvent {
+            class ApplicationEvent <<Salespoint>>{
 
             }
 
@@ -50,7 +50,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
     namespace org.springframework.data.repository {
-        interface CrudRepository <T, ID>{
+        interface CrudRepository <T, ID> <<Spring>>{
             <S extends T> +save(S) : S
             <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
             +findById(ID) : Optional<T>

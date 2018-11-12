@@ -4,7 +4,7 @@
 
 rectangle JavaSE-1.8{
     namespace java.lang {
-
+        class Iterable <<Java>>
     }
 }
 
@@ -146,7 +146,7 @@ rectangle Bioladen {
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
     namespace org.salespointframework.time {
 
-        interface BusinessTime <<Service>> {
+        interface BusinessTime <<Salespoint>> {
 
         }
 
@@ -158,19 +158,19 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
     namespace org.springframework.context{
 
-        class ApplicationEvent <<Entity>>{
+        class ApplicationEvent <<Spring>>{
             {static} - serialVersionUID : long
             - timestamp : long
             + ApplicationEvent(Object)
             + getTimestamp() : long
         }
 
-        interface ApplicationEventPublisher <<Service>>{
+        interface ApplicationEventPublisher <<Spring>>{
             publishEvent(ApplicationEvent) : void
             publishEvent(Object) : void
         }
 
-        interface ApplicationListener <E extends ApplicationEvent> <<Service>>{
+        interface ApplicationListener <E extends ApplicationEvent> <<Spring>>{
             onApplicationEvent(E) : void
         }
 

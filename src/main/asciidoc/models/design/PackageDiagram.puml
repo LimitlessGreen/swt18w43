@@ -1,14 +1,14 @@
 @startuml
 
 skinparam class {
-	BackgroundColor #LightCoral/LightPink
+	BackgroundColor #Silver/white
     BorderColor Black
     ArrowColor  Black
 }
 
 skinparam package {
-    FontColor Grey
-    BorderColor DarkMagenta
+    FontColor black
+    BorderColor black
 }
 
 skinparam classAttributeIconSize 0

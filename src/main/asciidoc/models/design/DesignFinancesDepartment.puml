@@ -63,7 +63,7 @@ rectangle Bioladen {
 
 rectangle money-api-1.0.3.jar {
     namespace javax.money {
-        class MonetaryAmount{
+        class MonetaryAmount <<Java>>{
 
         }
         bioladen.finances.CashierSystem -right-> MonetaryAmount
@@ -76,7 +76,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
     namespace org.salespointframework.useraccount {
 
-        class UserAccount <<Entity>>{
+        class UserAccount <<Entity>> <<Salespoint>>{
 
         }
 
@@ -85,7 +85,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
     }
 
     namespace org.salespointframework.context {
-        class ApplicationEvent {
+        class ApplicationEvent <<Salespoint>>{
 
         }
 

@@ -5,7 +5,7 @@
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
     namespace org.salespointframework.useraccount {
-        class UserAccount <<Entity>> {
+        class UserAccount <<Salespoint>> {
             -userAccountIdentifier : UserAccountIdentifier
             -password : Password
             -firstname : String
@@ -25,13 +25,13 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +getRoles() : Streamable<Role>
         }
 
-        class Role <<Object>>{
+        class Role <<Salespoint>>{
             -name : String
 
             +{static} of(String) : Role
         }
 
-        interface UserAccountRepository <<Repository>> {
+        interface UserAccountRepository <<Salespoint>> {
             +save(UserAccount) : UserAccount
             +saveAll(Iterable<UserAccount>) : Iterable<UserAccount>
             +findById(UserAccountIdentifier) : Optional<UserAccount>
@@ -47,19 +47,19 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +findByEnabledFalse() : Streamable<UserAccount>
         }
 
-        interface UserAccountManager <<Service>>
+        interface UserAccountManager <<Salespoint>>
 
     }
 
     namespace org.salespointframework.context {
-        class ApplicationEvent {
+        class ApplicationEvent <<Salespoint>>{
 
         }
 
     }
 
     package org.salespointframework.time {
-        interface BusinessTime <<Service>> {
+        interface BusinessTime <<Salespoint>> {
 
         }
     }
@@ -133,7 +133,7 @@ rectangle Bioladen {
 rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
     package org.springframework.data.repository {
-        interface CrudRepository <T, ID>{
+        interface CrudRepository <T, ID> <<Spring>>{
             <S extends T> +save(S) : S
             <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
             +findById(ID) : Optional<T>

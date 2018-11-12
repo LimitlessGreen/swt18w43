@@ -5,7 +5,7 @@
 rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
     namespace org.springframework.data.repository {
-        interface CrudRepository <T, ID>{
+        interface CrudRepository <T, ID> <<Spring>>{
             <S extends T> +save(S) : S
             <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
             +findById(ID) : Optional<T>
@@ -23,7 +23,7 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
     namespace org.salespointframework.order {
-        interface OrderManager <T extends Order> <<Service>>{
+        interface OrderManager <T extends Order> <<Salespoint>>{
             +cancelOrder(T) : boolean
             +completeOrder(T) : void
             +contains(OrderIdentifier) : boolean
@@ -32,7 +32,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +save(T) : T
         }
 
-        class Order <<Entity>>{
+        class Order <<Salespoint>>{
             -orderIdentifier : OrderIdentifier
             -paymentMethod : PaymentMethod
             -userAccount : UserAccount
@@ -65,7 +65,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             -assertOrderIsOpen() : void
         }
 
-        class Cart <<Entity>>{
+        class Cart <<Salespoint>>{
             +addItemTo(Order) : Order
             +addOrUpdateItem(Product, long) : CartItem
             +addOrUpdateItem(Product, Quantity) : CartItem+
@@ -79,7 +79,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +sumUp(Iterable<? extends Priced> priced)
         }
 
-        class CartItem <<Entity>>{
+        class CartItem <<Salespoint>>{
             +getID() : String
             +getPrice() : MonetaryAmount
             +getProduct() : Product
@@ -89,7 +89,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +sumUp(Iterable<? extends Priced>) : MonetaryAmount
         }
 
-        class OrderLine <<Entity>> {
+        class OrderLine <<Salespoint>> {
             +getId() : OrderLineIdentifier
             +getPrice() : MonetaryAmount
             +getProductIdentifier() : ProductIdentifier
@@ -98,12 +98,12 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             +sumUp(Iterable<? extends Priced>) : MonetaryAmount
         }
 
-        class ChargeLine <<Entity>> {
+        class ChargeLine <<Salespoint>> {
             getId() : ChargeLineIdentifier
             sumUp(Iterable<? extends Priced>) : MonetaryAmount
         }
 
-        enum OrderStatus {
+        enum OrderStatus <<Salespoint>>{
             CANCELLED
             COMPLETED
             OPEN
@@ -113,7 +113,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
             {static} values() : OrderStatus[]
         }
 
-        interface OrderRepository <T extends Order> <<Repository>> {
+        interface OrderRepository <T extends Order> <<Salespoint>> {
             +findByDateCreatedBetween(LocalDateTime, LocalDateTime) : Streamable<T>
             +findByOrderStatus(OrderStatus) : Streamable<T>
             +findByUserAccount(UserAccount) : Streamable<T>
@@ -130,11 +130,11 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
     }
 
     namespace org.salespointframework.support {
-        class ConsoleWritingMailSender {
+        class ConsoleWritingMailSender <<Salespoint>>{
 
         }
 
-        class RecordingMailSender {
+        class RecordingMailSender <<Salespoint>>{
 
         }
 
@@ -146,7 +146,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
 
 namespace org.salespointframework.context {
-        class ApplicationEvent {
+        class ApplicationEvent <<Salespoint>>{
 
         }
 
