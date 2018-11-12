@@ -24,12 +24,12 @@ Test Gegenstände sind die jeweiligen Departments, bzw. die ausführenden Klasse
 
 == Zu testende Funktionalitäten
 
-Zu testend sind die eigens erstellten Klassen, welche meistens Eingaben entgegennehmen, diese verarbeiten oder an andere Bereiche weitergeben.
+Zu testen sind die eigens erstellten Klassen, welche meistens Eingaben entgegennehmen, diese verarbeiten oder an andere Bereiche weitergeben.
 
 == Nicht zu testende Funktionalitäten
 
 Bibliotheken von Drittanbietern (eigene Tests beschränken sich auf Schnittstelle, bzw. Zusammenspiel). +
-Zu diesen gehören beispielsweise Spring, Maven, Jade, Lombok
+Zu diesen gehören beispielsweise Spring, Maven, Thymeleaf, Lombok
 
 
 == Herangehensweise
