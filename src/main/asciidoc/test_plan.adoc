@@ -29,7 +29,7 @@ Zu testen sind die eigens erstellten Klassen, welche meistens Eingaben entgegenn
 == Nicht zu testende Funktionalitäten
 
 Bibliotheken von Drittanbietern (eigene Tests beschränken sich auf Schnittstelle, bzw. Zusammenspiel). +
-Zu diesen gehören beispielsweise Spring, Maven, Thymeleaf, Lombok
+Zu diesen gehören beispielsweise Spring, Salespoint, Maven, Thymeleaf, Lombok, Bootstrap
 
 
 == Herangehensweise
@@ -40,13 +40,9 @@ Zu diesen gehören beispielsweise Spring, Maven, Thymeleaf, Lombok
 == Umgebungsvoraussetzungen
 - Es wird keine spezielle Hardware benötigt
 - Es wird keine zusätzliche Software fürs Testen benötigt (jUnit ist im Projekt)
-- Offen:
-* Wie kommuniziert die Software während des Testens? Internet? Netzwerk?
-* Welche Daten müssen bereitgestellt werden? Wie werden die Daten bereitgestellt?
+- Es werden speziell für die Tests für das Importieren von BNN-Listen eine BNN-Liste benötigt um die Daten bereitzustellen
 
 == Testfälle und Verantwortlichkeit
-Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
-
 
 === FinancesDepartment
 zuständig: Lukas Petzold
