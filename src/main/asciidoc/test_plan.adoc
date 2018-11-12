@@ -278,11 +278,74 @@ zuständig: Josefin Hübner
 |===
 |ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
 
-|
-|
-|
-|
-|
+|O-U-010
+|Manager will den Bestellassistenten aufrufen
+|Manager hat die Website aufgerufen
+|Manager klickt auf "Bestellung"
+|System gibt einen Fehler aus "Bitte loggen sie sich zuerst als Manager ein"
+
+|O-U-011
+|Manager will den Bestellassistenten aufrufen
+|Manager hat die Website aufgerufen und sich eingeloggt
+|Manager klickt auf "Bestellung"
+|System leitet auf die Seite des Bestellassistenten weiter
+
+|O-U-020
+|Manager will ein Produkt nachbestellen
+|Manager ist eingeloggt und befindet sich auf der Seite des Bestellassistenten
+|Manager gibt den Namen des gewünschten Produktes und die gewünschte Menge an; Produkt existiert in Einkaufsdatenbank
+|System gibt eine Liste mit den Produkten aus, die dem Suchkriterium entsprechen; dazu werden außerdem die Mindestbestellmenge und der Verkäufer ausgegeben; System markiert empfohlenes Ergebnis anhand der Mindestbestellmenge und des Preises
+
+|O-U-021
+|Manager will ein Produkt nachbestellen
+|Manager ist eingeloggt und befindet sich auf der Seite des Bestellassistenten
+|Manager gibt den Namen des gewünschten Produktes und die gewünschte Menge an; Produkt existiert nicht in Einkaufsdatenbank
+|System gibt eine Fehlermeldung aus -> "Es konnte kein Produkt mit diesem Namen gefunden werden. Haben sie sich evtl. verschrieben?"
+
+|O-U-022
+|Manager will ein Produkt nachbestellen
+|Manager ist eingeloggt und befindet sich auf der Seite des Bestellassistenten
+|Manager gibt den Namen des gewünschten Produktes an, aber eine falsche Produktmenge (z.B. 0)
+|System gibt eine Fehlermeldung aus -> "Die angegebene Produktmenge entspricht nicht den Vorgaben. Bitte nutzen sie nur Zahlen und keine Sonderzeichen."
+
+|O-U-030
+|Manager will die gewünschte Bestellmenge anpassen
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager gibt im entsprechenden Feld eine neue Anzahl des gewünschten Produktes an
+|System gibt eine aktualisierte Ergebnisliste aus; System aktualisiert das empfohlene Ergebnis
+
+|O-U-031
+|Manager will die gewünschte Bestellmenge anpassen
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager gibt die selbe Menge wie zu Anfang an
+|System gibt eine Fehlermeldung aus -> "Es wurde keine veränderte Menge angegeben"
+
+|O-U-032
+|Manager will die gewünschte Bestellmenge anpassen
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager gibt eine falsche Produktmenge an (z.B. 0)
+|System gibt eine Fehlermeldung aus -> "Die Produktmenge konnte nicht aktualisiert werden, da der angegebene Wert nicht den Vorgaben entspricht"
+
+|O-U-040
+|Manager wählt ein Produkt zum Bestellen aus
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager klickt bei einem Produkt auf "bestellen", die Mindestbestellmenge ist erfüllt
+|System fügt das Produkt der Bestellliste hinzu, Ausgabe: "Das Produkt wurde erfolgreich zur Bestellliste hinzugefügt"
+
+|O-U-041
+|Manager wählt ein Produkt zum Bestellen aus
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager klickt bei einem Produkt auf "bestellen", die Mindestbestellmenge ist nicht erfüllt
+|System gibt eine Fehlermeldung aus "Das Produkt kann nicht bestellt werden, da die Mindestbestellmenge nicht erfüllt ist. Bitte wählen sie ein anderes Angebot oder passen sie die Bestellmenge an"
+
+|O-U-050
+|Manager schließt die Bestellung ab
+|Manager hat bereits eine Bestellung zusammengesucht
+|Manager klickt auf "bestellen"
+|System sortiert die gewünschten Produkte nach Händler. An jeden dieser Händler wird eine Liste mit den von diesem Händler geforderten Produkten gesendet.
+Ausgabe: "Einkauf wurde erfolgreich getätigt"
+
+
 
 |===
 
