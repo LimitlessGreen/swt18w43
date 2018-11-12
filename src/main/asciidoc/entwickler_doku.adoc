@@ -244,7 +244,7 @@ image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 
 
 === Persistenz
-Wir haben uns für eine persistente Datenbank entschiedenm weil wir eine Vielzahl von Produkten und Kunden
+Wir haben uns für eine persistente Datenbank entschieden, weil wir eine Vielzahl von Produkten und Kunden
 haben und außerdem für die Statistik Daten dauerhaft abgespeichert werden müssen.
 
 
