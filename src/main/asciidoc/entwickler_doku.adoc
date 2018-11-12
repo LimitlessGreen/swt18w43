@@ -333,5 +333,5 @@ TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 - link:https://st.inf.tu-dresden.de/SalesPoint/api/overview-summary.html[Salespoint 7.0.0] Dokumentation
 - link:https://www.thymeleaf.org/[Thymeleaf] Dokumentation
 - link:https://maven.apache.org/guides/[Maven] Dokumentation
-- link:https://v4-alpha.getbootstrap.com/getting-started/introduction/[Bootstrap] Dokumentation
+- link:https://getbootstrap.com/docs/4.1/getting-started/introduction/[Bootstrap] Dokumentation
 - link:https://projectlombok.org/features/all[Lombok] Dokumentation
