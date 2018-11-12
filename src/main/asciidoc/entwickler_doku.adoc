@@ -194,7 +194,8 @@ Außerdem wird die Priorität der einzelnen Ziele festgehalten. (1 - unwichtig  
 === Hardware-Vorgaben
 Das System sollte auf einem durchschnittlichen Business PC laufen können, damit möglichst alle Kunden auf die Website zugreifen können. +
 Außerdem muss das System flüssig auch auf den Kassen und für das Personal dargestellt werden. +
-Genaue Vorgaben liegen nicht vor.
+Genaue Vorgaben liegen nicht vor. +
+Zusätzlich wir ein Server benötigt, um allen Nutzern Zugriff auf das System ermöglichen zu können.
 
 
 === Software-Vorgaben
@@ -205,14 +206,21 @@ Abwärtskompatibilität kann nicht garantiert werden.
 === Vorgaben zum Betrieb der Software
 Die Software wird rund um die Uhr betrieben, um die Website den Kunden zugänglich zu machen.
 
-Das System wird, wenn es im Einsatz ist, auf einem Server gestartet. In der Entwicklungsphase starten wir das System über "localhost:8080"
+Das System wird, wenn es im Einsatz ist, auf einem Server, über die Java virtual machine, gestartet. In der Entwicklungsphase starten wir das System über "localhost:8080"
 
 Auf den Kassen startet das Verkaufspersonal das Kassensystem über die Website.
 Gleiches gilt für den Manager, wenn dieser auf die Statistik, Datenbanken usw. zugreifen möchte.
 
 == Kontextabgrenzung
 === Externe Schnittstellen
-QR-Code-Scanner und Websocket
+- Spring
+- Salespoint
+- Bootstrap
+- Lombok
+- Thymeleaf
+- Maven
+- Websocket
+- (QR-Code-Scanner, Barcode-Scanner)
 
 
 == Lösungsstrategie
@@ -220,6 +228,7 @@ QR-Code-Scanner und Websocket
 - Bootstrap als Frontend-Framework
 - Nutzung eines Event-Systems
 - Unit (Grundeinheit) bei Product
+- Jeder User bekommt Rollen zugeordnet -> Permission System
 
 == Bausteinsicht
 === Package-Diagramm
@@ -241,10 +250,10 @@ image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 
 === Verwendete Muster
 - MVC Pattern
-
+- Observer Pattern (Event-System)
 
 === Persistenz
-Wir haben uns für eine persistente Datenbank entschieden, weil wir eine Vielzahl von Produkten und Kunden
+Wir haben uns für eine persistente, relationale Datenbank entschieden, weil wir eine Vielzahl von Produkten und Kunden
 haben und außerdem für die Statistik Daten dauerhaft abgespeichert werden müssen.
 
 
@@ -319,4 +328,10 @@ TIP: Zur vollständig korrekten Anzeige wird die Schriftart „Lato“ benötigt
 
 [appendix]
 == Glossar
-link:pflichtenheft.adoc[Hier] gehts zum Pflichtenheft
+- link:pflichtenheft.adoc[Hier] gehts zum Pflichtenheft +
+- link:https://docs.spring.io/spring/docs/5.1.2.RELEASE/spring-framework-reference/[Spring 5.1.2] Dokumentation
+- link:https://st.inf.tu-dresden.de/SalesPoint/api/overview-summary.html[Salespoint 7.0.0] Dokumentation
+- link:https://www.thymeleaf.org/[Thymeleaf] Dokumentation
+- link:https://maven.apache.org/guides/[Maven] Dokumentation
+- link:https://v4-alpha.getbootstrap.com/getting-started/introduction/[Bootstrap] Dokumentation
+- link:https://projectlombok.org/features/all[Lombok] Dokumentation
