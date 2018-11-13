@@ -251,6 +251,7 @@ image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 === Verwendete Muster
 - MVC Pattern
 - Observer Pattern (Event-System)
+- Factory Method (Chart)
 
 === Persistenz
 Wir haben uns für eine persistente, relationale Datenbank entschieden, weil wir eine Vielzahl von Produkten und Kunden
