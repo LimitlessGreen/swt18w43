@@ -7,9 +7,37 @@
 
 body {
 	margin: 0 auto;
-	width: 940px;
+	width: auto;
 	font: 13px/22px Helvetica, Arial, sans-serif;
-	background: #f0f0f0;
+	background-image: url("http://www.hdbilder.eu/p/get_photo/474191/1920/1080");
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+nav {
+    background: #146b4a;
+    display: block;
+    height: 3em;
+    text-align: center;
+    color: white;
+}
+
+nav ul li a {
+    color: white;
+}
+
+nav ul li a:hover {
+    color: #f6d078;
+    border-bottom: 0.25em solid #1d8c0e;
+}
+
+nav ul {
+    display: block;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0em 0.188em 0em 0.188em;
 }
 
 h1 {

@@ -1,0 +1,53 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <title>Navigation</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-light bg-light" th:fragment="navigation">
+
+            <ul>
+
+                <li><a class="navbar-brand">Blattgrün</a></li>
+
+                <li><a class="navbar-brand" href="/product">
+                    Produktübersicht
+                </a></li>
+
+                <li><a class="navbar-brand" href="/admin">
+                    Verwaltung
+                </a></li>
+
+                <li> <a class="navbar-brand" href="/cashiersystem">
+                    Kasse
+                </a></li>
+
+                <li><a class="navbar-brand" href="/order">
+                    Bestellung
+                </a></li>
+
+                <li> <a class="navbar-brand" href="/statistic">
+                    Statistik
+                </a></li>
+
+                <li><a class="navbar-brand" href="/profile">
+                    Profil
+                </a></li>
+
+                <li><a class="navbar-brand" href="/cart">
+                    Merkzettel
+                </a></li>
+
+                <li><a class="navbar-brand" href="/login">
+                    Login
+                </a></li>
+
+            </ul>
+
+        </nav>
+    </body>
+</html>
