@@ -45,3 +45,23 @@ h1 {
 	line-height: 3.2em;
 	text-align:center;
 }
+
+div {
+    color: black;
+}
+
+.container {
+    min-width: 85%;
+    background: rgba(255,255,255,.7);
+    display:flex;
+    align-items: center;
+    border:2px solid #1d8c0e;
+
+    position: relative;
+    top: 10%;
+}
+
+body,html {
+    height: 100%;
+}
+

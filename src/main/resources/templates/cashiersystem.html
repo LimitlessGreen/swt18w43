@@ -2,15 +2,150 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <title>CashierRegister</title>
+        <title>Kasse</title>
     </head>
     <body>
 
         <nav th:include="navigation :: navigation"></nav>
 
-        <h1>CashMoneySwag!</h1>
+
+        <div class="container" >
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6" >
+
+                        <form>
+
+                            <div class="form-group"> <!-- form for product code -->
+                                <label for="pidInput">Produkt-Code</label>
+                                <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben">
+                            </div>
+
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-6" >
+
+                                        <script> // functions for numpad
+                                            var pidInput = "";
+                                            function pidUpdate(char) {
+                                                pidInput = pidInput + char;
+                                                document.getElementById('pidInput').value=pidInput;
+                                            }
+                                            function pidRemoveOne() {
+                                                pidInput = pidInput.substring(0, pidInput.length-1)
+                                                document.getElementById('pidInput').value=pidInput;
+                                            }
+                                            function pidRemove() {
+                                                pidInput = "";
+                                                document.getElementById('pidInput').value=pidInput;
+                                            }
+                                        </script>
+
+                                        <div class="btn-group-vertical"> <!-- numpad -->
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('7')">7</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('8')">8</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('9')">9</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidRemoveOne()">←</button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('4')">4</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('5')">5</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('6')">6</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidRemove()">C</button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('1')">1</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('2')">2</button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('3')">3</button>
+                                                <form class="form-control" method="post" th:action="@{/add}">
+                                                    <button type="submit" class="btn btn-lg">✓</button>
+                                                </form>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg"></button>
+                                                <button type="button" class="btn btn-lg" onclick="pidUpdate('0')">0</button>
+                                                <button type="button" class="btn btn-lg"></button>
+                                                <button type="button" class="btn btn-lg"></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-lg-6" >
+                                        <div class="form-group">
+                                            <label for="amountInput">Menge</label> <!-- form for amount -->
+                                            <script> // functions for amount
+                                                var amountInput = 1;
+                                                function add(amount) {
+                                                    amountInput += amount;
+                                                    if (amountInput == 0) {
+                                                        amountInput = 1;
+                                                    }
+                                                    document.getElementById('amountInput').value=amountInput;
+                                                }
+                                            </script>
+                                            <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1">
+                                            <div align="right">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-danger" onclick="add(-1)">-1</button> <!-- substract one from amount -->
+                                                    <button type="button" class="btn btn-success" onclick="add(1)">+1</button> <!-- add one to amount -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                    <div class="col-lg-6">
+
+                        <h2>Übersicht</h2>
+
+                        <div th:unless="${cart.empty}">
+                            <table class="table">
+                                <thead> <!-- table head -->
+
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Preis</th>
+                                    <th scope="col">Menge</th>
+                                    <th scope="col">Editieren</th>
+                                </tr>
+
+                                </thead>
+
+                                <tbody> <!-- table body -->
+
+                                <tr th:each="item : ${cart} ">
+                                    <td scope="row" th:text="${item.productName}">ProductName</td>
+                                    <td th:text="${item.id}">1</td>
+                                    <td th:text="${item.price}">1</td>
+                                    <td th:text="${item.amount}">1</td>
+                                    <td>Löschen</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>
