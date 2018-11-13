@@ -84,8 +84,42 @@ rectangle Bioladen {
         }
 
         class UserAccount <<Entity>> {
-            publishUserCreatedEvent(User) : void
+
         }
+
+        class Customer <<Entity>> {
+            -firstname : String
+            -lastname : String
+            +enum sex {M, W, D}
+            -email : String
+            -phoneNumber : String
+            +enum type {MANAGER, PERSONAL, GROSSKUNDE, HAUSKUNDE}
+            -id : CustomerIdentifier
+            -userAccount : UserAccount
+            publishCustomerCreatedEvent(Customer) : void
+
+        }
+
+         class CustomerIdentifier {
+            CustomerIdentifier() : void
+            CustomerIdentifier(String) : void
+         }
+
+        class UserAccountWrapper {
+            UserAccountWrapper(Customer) : UserAccount
+        }
+
+        interface CustomerRepository <<Repository>> {
+
+        }
+
+        UserAccount --* Customer
+        Customer --> CustomerIdentifier
+        UserAccountWrapper --> org.salespointframework.useraccount.UserAccountManager
+        UserAccountWrapper --> UserAccount
+        UserAccountWrapper --> CustomerRepository
+
+
     }
 
     namespace bioladen.event {
@@ -94,7 +128,7 @@ rectangle Bioladen {
         }
         EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
 
-        EntityCreatedEvent <-- bioladen.useraccount.UserAccount
+        EntityCreatedEvent <-- bioladen.useraccount.Customer
 
     }
 
