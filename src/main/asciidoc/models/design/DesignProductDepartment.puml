@@ -3,7 +3,13 @@
 !include stylesheet.iuml
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
-
+    
+    namespace org.salespointframework.core {
+        class SalespointIdentifier <<Salespoint>> {
+            
+        }
+    }
+    
     namespace org.salespointframework.catalog {
         interface Catalog <T extends Product> <<Salespoint>> {
 
@@ -119,7 +125,7 @@ rectangle Bioladen {
             +publishDistributorCreatedEvent(Distributor) : void
          }
 
-
+        
 
 
         Product  o--  DistributorProduct
@@ -151,25 +157,37 @@ rectangle Bioladen {
         }
         
         class DistributorController <<Controller>> {
-        
+            +DistributorController()
+            +distributors(Model) : String
         }
         
         interface DistributorRepository <<Repository>> {
-        
+            
         }
 
         class DistributorProductController <<Controller>> {
-
+            +DistributorProductController()
+            +distributorProductsByName(Model) : String
+            +distributorProductsByCategory(Model) : String
+            +distributorProductsByPrice(Model) : String
+            +distributorProductsByDistributor(Model) : String
+            +addDistributorProduct(Model) : String
+            +removeDistributorProduct(Model) : String
+        }
+        
+        class DistributorIdentifier extends org.salespointframework.core.SalespointIdentifier {
+            +DistributorIdentifier()
+            +DistributorIdentifier(String)
         }
         
         ProductController --> Product
-    }
-
-    namespace Amount {
+        DistributorController --> Distributor
+        DistributorProductController --> DistributorProduct
+        
         class Amount {
             +of(long) : Amount
-
         }
+        
         Amount <-- bioladen.product.Product
         Amount <-- bioladen.product.DistributorProduct
     }
@@ -183,9 +201,24 @@ rectangle Bioladen {
         VIEW(productlist.html) {
 
         }
+        
+        VIEW(distributor.html) {
+            
+        }
+        
+        VIEW(distributorlist.html) {
+        
+        }
+        
+        VIEW(distributorproductlist.html) {
+        
+        }
 
         bioladen.product.ProductController --> product.html
         bioladen.product.ProductController --> productlist.html
+        bioladen.product.DistributorController --> distributor.html
+        bioladen.product.DistributorController --> distributorlist.html
+        bioladen.product.DistributorProductController --> distributorproductlist.html
 
     }
 
@@ -203,5 +236,6 @@ org.salespointframework.catalog.Catalog --|> org.springframework.data.repository
 org.salespointframework.catalog.Catalog <|-- bioladen.product.ProductCatalog: <<binds>>\n<Product>
 org.salespointframework.catalog.Catalog <|-- bioladen.product.DistributorProductCatalog: <<binds>>\n<DistributorProduct>
 bioladen.product.Distributor "1" *--  bioladen.product.DistributorProduct
+bioladen.product.DistributorRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<Distributor, DistributorIdentifier>
 
 @enduml
