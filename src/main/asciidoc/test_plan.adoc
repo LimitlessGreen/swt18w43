@@ -335,13 +335,13 @@ a| * Fehlermeldung: „Großhändlerprodukt existiert bereits“
 
  |P-U-00γ
  |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
-a| * Manager ist eingelofft und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
  |Daten des Produktes; ein oder mehrere benötigte Felder fehlen
 a| * Fehlermeldung: „Angaben unvollständig“
 
  |P-U-00δ
  |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
-a| * Manager ist eingelofft und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
  |Daten des Produktes; ein oder mehrere benötigte Felder fehlerhaft
 a| * Fehlermeldung: „Angaben fehlerhaft“
 
@@ -351,8 +351,8 @@ a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukte über
    * Datei befindet sich an spezifiziertem Ort und ist vollständig im richtigen Format
  |Dateipfad zu einzulesender BNN-Datei
 a| * Für jedes Produkt in Datei: +
-      a: Ausgabe wie P-U-00a +
-      b: Ausgbae wie P-U-00b
+      α: Ausgabe wie P-U-00α +
+      β: Ausgbae wie P-U-00β
 
  |P-U-10α
  |Produkt wird zur Produktliste hinzugefügt
