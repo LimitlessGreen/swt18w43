@@ -6,8 +6,8 @@
 skinparam class {
 	BackgroundColor #Silver/white
 	BackgroundColor<<Spring>> #a9f5e1/cef6ce
-	BackgroundColor<<Salespoint>> #f5a9bc/f6e3ce
-	BackgroundColor<<Java>> #f9ed93/fbb4ce
+	BackgroundColor<<Salespoint>> #f5a9bc/fcc4f0
+	BackgroundColor<<Java>> #f9ed93/f7f583
 	BackgroundColor<<Controller>> #Cornflowerblue/Cyan
     BorderColor Black
     ArrowColor  Black
