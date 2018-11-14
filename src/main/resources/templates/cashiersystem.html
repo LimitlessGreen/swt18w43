@@ -114,32 +114,43 @@
 
                         <h2>Übersicht</h2>
 
-                        <div th:unless="${cart.empty}">
-                            <table class="table">
-                                <thead> <!-- table head -->
+                        <div class="scroll">
 
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Code</th>
-                                    <th scope="col">Preis</th>
-                                    <th scope="col">Menge</th>
-                                    <th scope="col">Editieren</th>
-                                </tr>
+                        </div>
 
-                                </thead>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-6" >
 
-                                <tbody> <!-- table body -->
+                                    <div class="form-group">
+                                        <label for="userId">Kunden ID</label>
+                                        <input type="text" class="form-control" id="userId" name="userIdInput" placeholder="Kunden ID eingeben">
+                                    </div>
 
-                                <tr th:each="item : ${cart} ">
-                                    <td scope="row" th:text="${item.productName}">ProductName</td>
-                                    <td th:text="${item.id}">1</td>
-                                    <td th:text="${item.price}">1</td>
-                                    <td th:text="${item.amount}">1</td>
-                                    <td>Löschen</td>
-                                </tr>
+                                    <div class="form-group">
+                                        <label for="change">Bargeld</label>
+                                        <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
+                                        <a>Rückgeld: </a>
+                                    </div>
 
-                                </tbody>
-                            </table>
+                                </div>
+
+                                <div class="col-lg-6" id="Overview">
+                                    <div id="OverviewText">
+                                        <a>Anzahl der Artikel: </a>
+                                    </div>
+                                    <div id="OverviewText">
+                                        <ul id="Sum">
+                                            <li><a>Rabatt: </a></li>
+                                            <li><a>MwSt.: </a></li>
+                                            <li><a>Pfand: </a></li>
+                                        </ul>
+                                    </div>
+                                    <div id="OverviewText">
+                                        <a>Summe: </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

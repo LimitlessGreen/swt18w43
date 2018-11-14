@@ -11,8 +11,34 @@
 </head>
 <body>
 
-<nav th:include="navigation :: navigation"></nav>
+    <nav th:include="navigation :: navigation"></nav>
 
-<h1>Cart Stuff!</h1>
+    <div th:unless="${cart.empty}">
+        <table class="table">
+            <thead> <!-- table head -->
+
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Code</th>
+                <th scope="col">Preis</th>
+                <th scope="col">Menge</th>
+                <th scope="col">Editieren</th>
+            </tr>
+
+            </thead>
+
+            <tbody> <!-- table body -->
+
+            <tr th:each="item : ${cart} ">
+                <td scope="row" th:text="${item.productName}">ProductName</td>
+                <td th:text="${item.id}">1</td>
+                <td th:text="${item.price}">1</td>
+                <td th:text="${item.amount}">1</td>
+                <td>Löschen</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
