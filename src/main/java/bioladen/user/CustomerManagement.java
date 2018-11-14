@@ -1,0 +1,56 @@
+package bioladen.user;
+
+import org.salespointframework.useraccount.Role;
+import org.salespointframework.useraccount.UserAccount;
+import org.salespointframework.useraccount.UserAccountManager;
+import org.springframework.data.util.Streamable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+/**
+ * @author Oliver Gierke
+ */
+@Service
+@Transactional
+public class CustomerManagement {
+	private final CustomerRepository customers;
+	private final UserAccountManager userAccounts;
+
+	/**
+	 * @param customers must not be {@literal null}.
+	 * @param userAccounts must not be {@literal null}.
+	 */
+	CustomerManagement(CustomerRepository customers, UserAccountManager userAccounts) {
+
+		Assert.notNull(customers, "CustomerRepository must not be null!");
+		Assert.notNull(userAccounts, "UserAccountManager must not be null!");
+
+		this.customers = customers;
+		this.userAccounts = userAccounts;
+	}
+
+	/**
+	 * Creates a new {@link Customer} using the information given in the {@link RegistrationForm}.
+	 *
+	 * @param form must not be {@literal null}.
+	 * @return
+	 */
+	//public Customer createCustomer(RegistrationForm form) {
+	//
+	//	Assert.notNull(form, "Registration form must not be null!");
+//
+	//	UserAccount userAccount = userAccounts.create(form.getName(), form.getPassword(), Role.of("ROLE_CUSTOMER"));
+//
+	//	return customers.save(new Customer(userAccount, form.getAddress()));
+	//}
+
+	/**
+	 * Returns all {@link Customer}s currently available in the system.
+	 *
+	 * @return
+	 */
+	public Streamable<Customer> findAll() {
+		return Streamable.of(customers.findAll());
+	}
+}
