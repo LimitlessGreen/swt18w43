@@ -1,0 +1,175 @@
+@startuml
+
+!include stylesheet.iuml
+
+rectangle Bioladen {
+    namespace bioladen.data.log {
+
+        class Logger <<Service>> {
+            -log(LogLevel, Order) : boolean
+            -log(LogLevel, Sale) : boolean
+            -log(LogLevel, Cancellation) : boolean
+            -log(LogLevel, LogInventory) : boolean
+            -log(LogLevel, User) : boolean
+            +info(Object, String) : boolean
+            +warning(Object, String) : boolean
+            +error(Object, String) : boolean
+            +getLog() : Iterable<LogEntry>
+            +getLog()
+            +filterBy(Duration) : Streamable<LogEntry>
+            +filterBy(LogLevel) : Streamable<LogEntry>
+            +filterBy(ThrownBy) : Streamable<LogEntry>
+            -publishLogEvent()
+        }
+
+        class LogEntry <<Entity>> {
+            -logLevel : LogLevel
+            -thrownBy : String
+            -logTime : LocalDateTime
+            -content : Object
+        }
+
+        class EntityCreatedEventListener <<Service>> {
+            -listenOrderEvent(EntityCreatedEvent) : void
+            -listenSaleEvent(EntityCreatedEvent) : void
+            -listenUserEvent(EntityCreatedEvent) : void
+            -listenProductEvent(EntityCreatedEvent) : void
+        }
+
+        enum LogLevel {
+            INFO
+            WARNING
+            ERROR
+            DATA
+        }
+
+
+        class LogExplorer <<Entity>> {
+            +filterBy(Duration) : LogExplorer
+            +filterBy(LogLevel) : LogExplorer
+            +filterBy(ThrownBy) : LogExplorer
+        }
+
+        class LogEvent <<Entity>> {
+            +LogEvent()
+
+        }
+
+        class LogEventListener <<Service>> {
+            +onApplicationEvent(LogEvent) : void
+        }
+
+
+
+
+
+
+
+        LogEntry "1" --> "1" LogLevel
+        LogEntry "0..*" --* "1" Logger
+
+    }
+
+    namespace bioladen.data.statistic {
+        class StatisticController <<Controller>> {
+            +statistics() : String
+        }
+
+        abstract class Chart <<static, final>>{
+            {abstract} CHART_TYPE : String
+            TEMPLATE : String
+            TEMPLATE_DATASET : String
+            generateChart(title : String, labels : List<T>, data : List<T>) : String
+            generateChart(title : String, dataset : Map<T,S>) : String
+            generateChart(title : String, labels : List<List<T>>, data : List<List<T>>) : String
+            generateChart(title : String, datasets : List<Map<T,S>>) : String
+            generateChart(title : String, labels : List<T>, data : List<T>, color : Color) : String
+            generateChart(title : String, dataset : Map<T,S>, color : Color) : String
+            generateChart(title : String, labels : List<List<T>>, data : List<List<T>>, colors : List<Color>) : String
+            generateChart(title : String, datasets : List<Map<T,S>>, colors : List<Color>) : String
+        }
+
+        class BarChart <<Entity>> extends bioladen.data.statistic.Chart {
+            CHART_TYPE : String
+        }
+
+        class LineChart <<Entity>> extends bioladen.data.statistic.Chart {
+            CHART_TYPE : String
+        }
+
+        class PieChart <<Entity>> extends bioladen.data.statistic.Chart  {
+            CHART_TYPE : String
+        }
+
+        class Statistic <<Service>>{
+
+        }
+
+        PieChart "0..*" <-- "1" StatisticController
+        LineChart "0..*" <-- "1" StatisticController
+        BarChart "0..*" <-- "1" StatisticController
+        StatisticController "1" --> "1" Statistic
+        Statistic "1" --* "1" bioladen.data.log.Logger
+        StatisticController --> bioladen.data.log.Logger
+
+
+    }
+
+
+    namespace ressources.templates {
+
+        VIEW(statistic.html) {
+
+        }
+
+        bioladen.data.statistic.StatisticController --> statistic.html
+    }
+
+
+
+}
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+    namespace org.salespointframework.time {
+
+        interface BusinessTime <<Salespoint>> {
+
+        }
+
+        BusinessTime <-right- bioladen.data.log.LogEntry
+    }
+}
+
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+    namespace org.springframework.context{
+
+        class ApplicationEvent <<Spring>>{
+            {static} - serialVersionUID : long
+            - timestamp : long
+            + ApplicationEvent(Object)
+            + getTimestamp() : long
+        }
+
+        interface ApplicationEventPublisher <<Spring>>{
+            publishEvent(ApplicationEvent) : void
+            publishEvent(Object) : void
+        }
+
+        interface ApplicationListener <E extends ApplicationEvent> <<Spring>>{
+            onApplicationEvent(E) : void
+        }
+
+        ApplicationEvent "*" <-- "1" ApplicationListener: <<binds>>\n ApplicationEvent
+        ApplicationEventPublisher "1" --> "*" ApplicationEvent
+    }
+
+}
+
+bioladen.data.log.LogEvent --|> org.springframework.context.ApplicationEvent
+bioladen.data.log.LogEventListener --|> org.springframework.context.ApplicationListener
+bioladen.data.log.LogEvent "0..*" <-- "1" bioladen.data.log.Logger
+bioladen.data.log.LogEventListener "0..*" <-- "1" bioladen.data.statistic.Statistic
+
+
+@enduml

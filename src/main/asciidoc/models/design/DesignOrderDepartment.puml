@@ -1,0 +1,252 @@
+@startuml
+
+!include stylesheet.iuml
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+
+    namespace org.springframework.data.repository {
+        interface CrudRepository <T, ID> <<Spring>>{
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(ID) : Optional<T>
+            +existsById(ID) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<ID>) : Iterable<T>
+            +count() : long
+            +deleteById(ID) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
+        }
+    }
+}
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+    namespace org.salespointframework.order {
+        interface OrderManager <T extends Order> <<Salespoint>>{
+            +cancelOrder(T) : boolean
+            +completeOrder(T) : void
+            +contains(OrderIdentifier) : boolean
+            +findBy(OrderStatus) : Streamable<T>
+            +get(OrderIdentifier) : Optional<T>
+            +save(T) : T
+        }
+
+        class Order <<Salespoint>>{
+            -orderIdentifier : OrderIdentifier
+            -paymentMethod : PaymentMethod
+            -userAccount : UserAccount
+            -dateCreated : LocalDateTime
+            -orderStatus : OrderStatus
+            -orderLines : Set<OrderLine>
+            -chargeLines : Set<ChargeLines>
+
+            +Order(UserAccount)
+            +add(ChargeLine) : void
+            +remove(ChargeLine) : void
+            +getChargeLines() : Streamable<ChargeLine>
+            +getChargeLinesPrice() : MonetaryAmount
+            +add(OrderLine) : void
+            +remove(OrderLine) : void
+            +getOrderLines() : Streamable<OrderLine>
+            +getOrderedLinesPrice() : MonetaryAmount
+            +getDateCreated() : LocalDateTime
+            +getId() : OrderIdentifier
+            +getOrderStatus() : OrderStatus
+            +getTotalPrice() : MonetaryAmount
+            +isOpen() : boolean
+            +isPaid() : boolean
+            +isCompleted() : boolean
+            +isCancelled() : boolean
+            +complete() : Order
+            +cancel() : void
+            +getNumberOfLineItems() : int
+            +markPaid() : Order
+            -assertOrderIsOpen() : void
+        }
+
+        class Cart <<Salespoint>>{
+            +addItemTo(Order) : Order
+            +addOrUpdateItem(Product, long) : CartItem
+            +addOrUpdateItem(Product, Quantity) : CartItem+
+            +clear() : void
+            +createOrderFor(UserAccount) : Order
+            +getItem(String) : Optional<CartItem>
+            +getPrice() : MonetaryAmount
+            +isEmpty() : boolean
+            +iterator() : Iterator<CartItem>
+            +removeItem(String) : Optional<CartItem>
+            +sumUp(Iterable<? extends Priced> priced)
+        }
+
+        class CartItem <<Salespoint>>{
+            +getID() : String
+            +getPrice() : MonetaryAmount
+            +getProduct() : Product
+            +getProductName() : String
+            +getQuantity() : Quantity
+            +hashCode() : int
+            +sumUp(Iterable<? extends Priced>) : MonetaryAmount
+        }
+
+        class OrderLine <<Salespoint>> {
+            +getId() : OrderLineIdentifier
+            +getPrice() : MonetaryAmount
+            +getProductIdentifier() : ProductIdentifier
+            +getProductName() : String
+            +getQuantity() : Quantity
+            +sumUp(Iterable<? extends Priced>) : MonetaryAmount
+        }
+
+        class ChargeLine <<Salespoint>> {
+            getId() : ChargeLineIdentifier
+            sumUp(Iterable<? extends Priced>) : MonetaryAmount
+        }
+
+        enum OrderStatus <<Salespoint>>{
+            CANCELLED
+            COMPLETED
+            OPEN
+            PAID
+
+            {static} valueOf(String) : OrderStatus
+            {static} values() : OrderStatus[]
+        }
+
+        interface OrderRepository <T extends Order> <<Salespoint>> {
+            +findByDateCreatedBetween(LocalDateTime, LocalDateTime) : Streamable<T>
+            +findByOrderStatus(OrderStatus) : Streamable<T>
+            +findByUserAccount(UserAccount) : Streamable<T>
+            +findByUserAccountAndDateCreatedBetween(UserAccount, LocalDateTime, LocalDateTime) : Streamable<T>
+        }
+         OrderRepository -up-|> org.springframework.data.repository.CrudRepository: <<binds>>\n <T extends Order, OrderIdentifier>
+
+
+        Order  -->  OrderStatus
+        Order  -->  OrderLine
+        Order  --> ChargeLine
+        Cart  *--  CartItem
+        Order  o--  OrderManager
+    }
+
+    namespace org.salespointframework.support {
+        class ConsoleWritingMailSender <<Salespoint>>{
+
+        }
+
+        class RecordingMailSender <<Salespoint>>{
+
+        }
+
+    }
+
+}
+
+
+
+
+namespace org.salespointframework.context {
+        class ApplicationEvent <<Salespoint>>{
+
+        }
+
+    }
+
+rectangle Bioladen {
+
+    namespace bioladen.order {
+        class Order <<Entity>> extends org.salespointframework.order.Order {
+            -distributor : Distributor
+
+            +Order(UserAccount, Distributor)
+        }
+
+        class OrderAssistant <<Service>> {
+            -productsToBeOrdered : Map<DistributorProduct, Amount>
+
+            +getAvailable(Product, Amount) : Map<DistributorProduct, Amount>
+            +finishOrder() : boolean
+            +publishOrderCreatedEvent(Order) : void
+        }
+
+        enum AvailabilityFlag {
+            UNDER_MINIMUM_ORDER_AMOUNT(CHEAPEST)
+            OVER_MINIMUM_ORDER_AMOUNT
+
+        }
+
+        class OrderAssistantController <<Controller>>  {
+            -orderManager : OrderManager<Order>
+            +OrderAssistantController(OrderManager<Order>)
+            +search(Model) : String
+            +assistant(Model) : String
+            +addProduct(DistributorProduct, Amount, Model) : String
+            +removeProduct(DistributorProduct, Model) : String
+            +initializeOrderAssistant() : OrderAssistant
+        }
+
+        class OrderController <<Controller>> {
+            -orderManager : OrderManager<Order>
+            +OrderController(OrderManager<Order>)
+            +orders(Model) : String
+            +removeOrder(Model) : String
+        }
+
+        org.salespointframework.support.ConsoleWritingMailSender <-- bioladen.order.OrderAssistant
+        OrderAssistant "1" o-- "1" Order
+        OrderAssistantController --> Order
+        OrderAssistantController --> OrderAssistant
+        OrderAssistantController --> org.salespointframework.order.OrderManager
+        OrderController --> org.salespointframework.order.OrderManager
+        OrderController --> Order
+    }
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+
+        org.salespointframework.context.ApplicationEvent <|-- bioladen.event.EntityCreatedEvent
+        bioladen.order.OrderAssistant --> EntityCreatedEvent
+    }
+
+    namespace bioladen.product {
+
+
+
+        interface DistributorProductCatalog <<Repository>> {
+
+        }
+
+
+
+        bioladen.order.OrderAssistant "1" *-- "1" DistributorProductCatalog
+
+
+    }
+
+    namespace Amount {
+        class Amount {
+            +of(long) : Amount
+
+        }
+        Amount <-- bioladen.order.OrderAssistant
+    }
+
+    namespace ressources.templates {
+
+        VIEW(orderassistant.html) {
+
+        }
+
+        VIEW(order.html) {
+
+        }
+
+        bioladen.order.OrderAssistantController --> orderassistant.html
+        bioladen.order.OrderController --> order.html
+    }
+
+}
+
+@enduml

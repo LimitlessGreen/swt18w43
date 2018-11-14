@@ -1,0 +1,33 @@
+@startuml
+
+!define VIEW(x) file x <<View>> #limegreen/technology
+
+
+skinparam class {
+	BackgroundColor #Silver/white
+	BackgroundColor<<Spring>> #a9f5e1/cef6ce
+	BackgroundColor<<Salespoint>> #f5a9bc/fcc4f0
+	BackgroundColor<<Java>> #f9ed93/f7f583
+	BackgroundColor<<Controller>> #Cornflowerblue/Cyan
+    BorderColor Black
+    ArrowColor  Black
+}
+
+skinparam package {
+    FontColor Grey
+    BorderColor Darkgrey
+}
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+legend
+| Background | Component |
+|<#3dd13f>     | View |
+|<#5f9aea>     | Controller |
+|<#cef6ce>     | Spring |
+|<#f5a9bc>     | Salespoint |
+|<#f9ed93>     | Java |
+endlegend
+
+@enduml

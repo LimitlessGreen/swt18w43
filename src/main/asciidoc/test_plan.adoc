@@ -3,43 +3,452 @@
 Dieser Testplan stellt eine vereinfachte Version der IEEE 829-1998 Vorlage dar.
 
 == Einführung
-Wozu dient das Dokument? Zielgruppe?
+Das Dokument dient dazu einen besseren Überblick fürs Testing zu erhalten.
+Dadurch können wir später einfacher unsere Tests schreiben.
 
 == Aufbau der Testbezeichner
 Nach welchem Schema sind die Tests benannt?
 
-*Bsp.*
+*1. Buchstabe:* U - UserDepartment, P - ProductDepartment
+, D - DataDepartment, O - OrderDepartment, F - FinancesDepartment +
+*2. Buchstabe:* U - Unit Test, I - Integrationstest +
+*3. Zeichen:* Fortlaufende Nummer für jeweiliges Department
 
-*U - Unit Test, I - Integrationstest*
+*Bsp.:* +
 
-*U-1, U-2, I-1*
+U-U-010, P-I-020, F-U-021
 
 == Test Gegenstände
 
+Test Gegenstände sind die jeweiligen Departments, bzw. die ausführenden Klassen (z.B. Controller).
+
 == Zu testende Funktionalitäten
 
+Zu testen sind die eigens erstellten Klassen, welche meistens Eingaben entgegennehmen, diese verarbeiten oder an andere Bereiche weitergeben.
+
 == Nicht zu testende Funktionalitäten
-z.B. Bibliotheken von Drittanbietern (eigene Tests beschränken sich auf Schnittstelle, bzw. Zusammenspiel).
+
+Bibliotheken von Drittanbietern (eigene Tests beschränken sich auf Schnittstelle, bzw. Zusammenspiel). +
+Zu diesen gehören beispielsweise Spring, Salespoint, Maven, Thymeleaf, Lombok, Bootstrap
+
 
 == Herangehensweise
-*Bsp.:*
 
-*Klassen werden mit JUnit getestet.*
-
-*Integrationstest nach Bottom-Up Prinzip*
+- Klassen werden mit JUnit getestet.
+- Integrationstest nach Bottom-Up Prinzip
 
 == Umgebungsvoraussetzungen
-* Wird spezielle Hardware benötigt?
-* Welche Daten müssen bereitgestellt werden? Wie werden die Daten bereitgestellt?
-* Wird zusätzliche Software für das Testen benötigt?
-* Wie kommuniziert die Software während des Testens? Internet? Netzwerk?
+- Es wird keine spezielle Hardware benötigt
+- Es wird keine zusätzliche Software fürs Testen benötigt (jUnit ist im Projekt)
+- Es werden speziell für die Tests für das Importieren von BNN-Listen eine BNN-Liste benötigt um die Daten bereitzustellen
 
 == Testfälle und Verantwortlichkeit
-Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
 
+=== FinancesDepartment
+zuständig: Lukas Petzold
 // See http://asciidoctor.org/docs/user-manual/#tables
-[options="headers"]
+[options="header"]
+[cols="^1,2,2,2,2"]
 |===
 |ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
-|…  |…              |…              |…       |…
+
+|F-U-010
+|Verkaufspersonal gibt vom Kunden erhaltene Summe ein
+|Scanvorgang abgeschlossen und Kunde bezahlt
+|Verkaufspersonal gibt Betrag ein, welcher kleiner als Summe der Produkte ist
+|Fehlermeldung: Nicht genügend Geld vom Kunden erhalten, Summe überprüfen
+
+|F-I-020
+|Verkaufspersonal startet das Kassensystem
+|Verkaufspersonal befindet sich am Rechner für das Kassensystem
+|Verkaufspersonal gibt ungültigen UserAccount an
+|Kasse wird nicht gestartet, Fehlermeldung: Ungültiger User
+
+|F-I-021
+|Verkaufspersonal startet das Kassensystem
+|Verkaufspersonal befindet sich am Rechner für das Kassensystem
+|Verkaufspersonal gibt UserAccount an, welcher bereits in eine Kasse eingeloggt ist
+|Kasse wird nicht gestartet, Fehlermeldung: User bereits an einer Kasse
+
+|F-I-030
+|Stornierung eines Produktes (einfache Stornierung)
+|Es wurden Produkte an der Kasse eingescannt
+|Kunde möchte ein Produkt nicht mehr kaufen, Verkaufspersonal löscht Produkt aus Kassensystem
+|Produkt wird gelöscht, Preis neu berechnet, Produkt wieder Lager hinzugefügt
+
+|F-I-031
+|Stornierung aller Produkte (globale Stornierung)
+|Es wurden Produkte an der Kasse eingescannt
+|Kunde möchte keine der Produkte mehr kaufen, Verkaufspersonal löscht alle
+|Alle Produkte werden entfernt, Kassensystem leer, Produkte wieder dem Lager hinzugefügt
+
+|F-U-040
+|Löschen eines Produktes vom online Merkzettel
+|Kunde hat Produkte dem Merkzettel hinzugefügt
+|Kunde klickt auf Button um ein Produkt zu löschen
+|Produkt wird vom Merkzettel gelöscht, Preis wird neu berechnet
+
+|F-U-041
+|Löschen von allen Produkten vom online Merkzettel
+|Kunde hat Produkte dem Merkzettel hinzugefügt
+|Kunde klickt auf Button um gesamtem Merkzettel zu löschen
+|Alle Produkte vom Merkzettel werden gelöscht, Merkzettel nun leer
+
+|F-U-050
+|Einkauf
+|Kunde geht mit Produkten an die Kasse
+|Kunde gibt Kassierer Kundenkarte
+|ID des Kunden wird gesetzt
+
+|F-I-051
+|Einkauf
+|Kunde geht mit Produkten an die Kasse
+|Kassierer scannt Produkt
+|Kasse zeigt Preis und Kategorie für Produkt an, Produkt wird aus Bestand entfern
+
+|F-U-052
+|Einkauf
+|Kunde geht mit Pfandartikeln an die Kasse
+|Kunde gibt Pfandflasche zurück
+|Kasse rechnet den Pfandwert als negativen Betrag auf die Summe
+
+|F-U-053
+|Einkauf
+|Alle Waren des Kunden wurden eingescannt
+|Kassierer beendet den Scanvorgang
+|System berechnet Gesamtbetrag, zieht Rabatte ab, kalkuliert MwSt., subtrahiert Pfand, Kasse zeigt Preis an
+
+|F-I-054
+|Einkauf
+|Gesamtbetrag des Einkaufes wurde dem Kunden genannt
+|Kassierer gibt vom Kunden erhaltenen Betrag ein
+|Kasse zieht vom erhaltenen Betrag den zu zahlenden Betrag ab und zeigt das Rückgeld an. Transaktion wird geloggt
+
+|F-I-055
+|Einkauf
+|Rückgeld wurde ausgezahlt
+|Kassierer beendet Einkaufsvorgang
+|Vorlieben für den Kunden werden gespeichert, MwSt. wird von den Gesamteinnahmen gesondert, Einkauf wird geloggt
+
+|F-U-060
+|Verkaufspersonal gibt Produkt ID in das Kassensystem ein
+|Verkaufspersonal ist eingeloggt und befindet sich auf der Seite des Kassensystems
+|Verkaufspersonal gibt falsche Produkt ID ein
+|Fehlermeldung: Es wurde kein Produkt gefunden, oder es wird ein falsches Produkt hinzugefügt
+
 |===
+
+
+=== UserDepartment
+zuständig: Lisa Riedel
+[options="header"]
+[cols="^1,2,2,2,2"]
+|===
+|ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
+
+|U-U-010
+| neuer Kunde wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt alle Felder aus und klickt auf "hinzufügen".
+| Kunde wird erfolgreich in die Datenbank aufgenommen
+
+|U-U-011
+| neuer Kunde wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt alle Felder aus und klickt auf "hinzufügen". Jedoch ist der Kunde bereits im System
+| Fehlermeldung, dass die eingegebenen Daten bereits im System sind
+
+|U-U-012
+| neuer Kunde oder Mitarbeiter wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt eine der Felder nicht aus oder nicht korrekt (z.B beim Namen dürfen keine Zahlen sein)
+| es wird kein neuer User hinzugefügt und eine Fehlermeldung erscheint, dass das Feld fehlerhaft aufgefüllt
+ist bzw. nicht ausgefüllt wurde
+
+|U-U-013
+| neuer Mitarbeiter wird erstellt
+| Manager ist eingeloggt und befindet sich bei "User hinzufügen"
+| Manager füllt alle Fehlder korrekt aus und wählt als Kundentyp "Mitarbeiter" aus
+| neuer Mitarbeiter wird erstellt und das Standardpasswort generiert und abgespeichert
+
+|U-U-020
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+| Manager befindet sich auf "User verwalten"
+| Manager klickt auf auf Passwort zurücksetzten für den entsprechenden Mitarbeiter
+|Das Passwort des ausgewählten Mitarbeiter wird auf ein Standardpasswort zurückgesetzt
+(z.B Erster Buchstabe und des Vornamen + Nachname ; oder sowas wie 123Bioladen o.ä.)
+
+|U-U-021
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+| Manager befindet sich auf "User verwalten"
+| Manager klickt auf auf Passwort zurücksetzten , jedoch für einen Kunden
+| Da Kunden keine Zugangsrechte und damit auch kein Nutzeraccount besitzen,
+ soll eine Fehlermeldung erscheinen, dass dieser kein Passwort besitzt, welchen zurück gesetzt werden kann.
+
+|U-U-022
+| Manager muss Passwort von Mitarbeiter zurücksetzten
+| Manager befindet sich auf "User verwalten"
+| Manager klickt auf auf Passwort zurücksetzten für den entsprechenden Mitarbeiter,
+ der bereits das Standardpasswort noch hat
+| Fehlermeldung: das Passwort ist bereits das Standartpasswort
+
+|U-U-030
+| Personal möchte ein neues Passwort für seinen Account festlegen
+| er ist eingeloggt und befindet sich auf der Seite seiner Accountinformation
+| er trägt sein altes Passwort in das vorhergesehene Feld ein und
+trägt zweimal richtig sein neuese Passwort ein und Button zum Passwort ändern wird getätigt
+| Passwort wird erfolgreich geändert
+
+|U-U-031
+| Personal möchte ein neues Passwort für seinen Account festlegen
+| er ist eingeloggt und befindet sich auf der Seite seiner Accountinformation
+| Er trägt sein altes Passwort inkorrekt in das vorhergesehene Feld ein und
+  trägt zweimal richtig sein neuese Passwort ein ODER ein Feld für das neue
+  Passwort stimmt mit dem anderen nicht überein ODER ein oder mehr Felder worden
+  nicht ausgefüllt. +
+  Button zum Passwort ändern wird getätigt
+| Passwort wird nicht geändert, Fehlermeldung erscheint
+
+|U-U-040
+| Manager möchte eine Kunden löschen
+| Manager ist eingeloggt und befindet sich auf "User verwalten"
+| Manager löscht mit Button den ausgewählten User
+| User verschwindet aus der Datenbank
+
+|U-U-050
+| Manager sucht in der Datenbank nach Kunden
+| Manager ist eingeloggt und befindet sich auf "User verwalten"
+| Manager tippt einen Namen in das Suchfeld und klickt auf Suchen
+| Fall 1: der gesuchte Name wird in der Datenbank gefunden und alle Ergebnisse aufgelistet,
+ +
+Fall 2: wenn kein Ergebnis gefunden wird so wird angezeigt, dass keine Kunden unter dieser
+Suchanfrage gefunden worden
+
+|U-U-060
+|Personal will sich einloggen
+|Personal befindet sich auf der Login Seite
+|Personal gibt falsches Passwort ein
+|Personal wird nicht eingeloggt -> Fehlermeldung erscheint
+
+
+
+|===
+
+
+=== DataDepartment
+zuständig: Jairus Behrisch
+[options="header"]
+[cols="^1,2,2,2,2"]
+|===
+|ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
+
+|D-I-01-A
+|Logeintrag speichern
+|-
+a|* LogLevel: +
+1 aus {INFO, WARNING, ERROR}
+* Message
+|Logeintrag muss in Datenbank stehen
+
+|D-I-01-B
+|~
+|-
+|Loglevel (siehe oben)
+|Fehler: Nachicht fehlt
+
+|D-I-01-C
+|~
+|OrderEvent published
+a|* Loglevel: DATA
+* Order
+|Logeintrag + Order muss in Datenbank stehen
+
+|D-I-01-D
+|~
+|SaleEvent published
+a|* Loglevel: DATA
+* ShoppingCart
+|Logeintrag + ShoppingCart muss in Datenbank stehen
+
+|D-I-01-E
+|~
+|UserEvent published
+a|* Loglevel: DATA
+* User
+|Logeintrag + User muss in Datenbank stehen
+
+|D-I-01-F
+|~
+|ProductEvent published
+a|* Loglevel: DATA
+* Product
+|Logeintrag + Product muss in Datenbank stehen
+
+|D-I-01-G
+|~
+|EntityEvent published
+|Loglevel: DATA
+|Fehler: Entity fehlt
+
+|D-I-02-A
+|Logeintrag lesen
+|Logeintrag gespeichert
+|Aufforderung zum lesen
+|Logeintrag
+
+|D-I-03-A
+|Statistik ausgeben
+|Log mit Dateneinträgen
+|Aufforderung an das Log, die entsprechenden Daten herauszugeben
+|Statistik Werte ausgeben
+
+|D-I-03-B
+|~
+|Log mit Dateneinträgen
+|Aufforderung an das Log, die entsprechenden Daten herauszugeben
+|*erwartete* Statistik Werte ausgeben
+
+
+|===
+
+
+=== ProductDepartment
+zuständig: Adrian Kulisch
+[options="header"]
+[cols="^1,2,2,2,2"]
+|===
+|ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
+
+ |P-U-00α
+ |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+   * Großhändlerprodukt _nicht_ in Großhändlerproduktdatenbank
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Großhändlerprodukt wird in Großhändlerproduktdatenbank angelegt
+ 
+ |P-U-00β
+ |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+   * Großhändlerprodukt in Großhändlerproduktdatenbank
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Fehlermeldung: „Großhändlerprodukt existiert bereits“
+
+ |P-U-00γ
+ |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+ |Daten des Produktes; ein oder mehrere benötigte Felder fehlen
+a| * Fehlermeldung: „Angaben unvollständig“
+
+ |P-U-00δ
+ |Produkt wird manuell der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukt manuell hinzufügen“
+ |Daten des Produktes; ein oder mehrere benötigte Felder fehlerhaft
+a| * Fehlermeldung: „Angaben fehlerhaft“
+
+ |P-U-01α/β
+ |Produkte werden aus einer BNN-Datei der Großhändlerproduktdatenbank hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Großhändlerprodukte über BNN-Datei hinzufügen“
+   * Datei befindet sich an spezifiziertem Ort und ist vollständig im richtigen Format
+ |Dateipfad zu einzulesender BNN-Datei
+a| * Für jedes Produkt in Datei: +
+      α: Ausgabe wie P-U-00α +
+      β: Ausgbae wie P-U-00β
+
+ |P-U-10α
+ |Produkt wird zur Produktliste hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Produkt hinzufügen“
+   * Produkt _nicht_ in Produktliste
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Produkt wird in Produktliste aufgenommen -> Werte werden von Großhändlerprodukt übernommen bzw. genullt
+   * Alle Großhändlerprodukte der Großhändlerproduktdatenbank mit gleichem Namen werden (referenziert) dem angelegten Produkt hinzugefügt 
+ 
+ |P-U-10β
+ |Produkt wird zur Produktliste hinzugefügt
+a| * Manager ist eingeloggt und befindet sich bei „Produkt hinzufügen“
+   * Produkt _nicht_ in Produktliste
+ |Daten des Produktes (z.B. Name, Lieferant, Grundeinheit, Preis, etc.)
+a| * Fehlermeldung: „Produkt ist bereits aufgenommen“
+
+
+
+|===
+
+
+=== OrderDepartment
+zuständig: Josefin Hübner
+[options="header"]
+[cols="^1,2,2,2,2"]
+|===
+|ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
+
+|O-U-010
+|Manager will den Bestellassistenten aufrufen
+|Manager hat die Website aufgerufen
+|Manager klickt auf "Bestellung"
+|System gibt einen Fehler aus "Bitte loggen sie sich zuerst als Manager ein"
+
+|O-U-011
+|Manager will den Bestellassistenten aufrufen
+|Manager hat die Website aufgerufen und sich eingeloggt
+|Manager klickt auf "Bestellung"
+|System leitet auf die Seite des Bestellassistenten weiter
+
+|O-U-020
+|Manager will ein Produkt nachbestellen
+|Manager ist eingeloggt und befindet sich auf der Seite des Bestellassistenten
+|Manager gibt den Namen des gewünschten Produktes und die gewünschte Menge an; Produkt existiert in Einkaufsdatenbank
+|System gibt eine Liste mit den Produkten aus, die dem Suchkriterium entsprechen; dazu werden außerdem die Mindestbestellmenge und der Verkäufer ausgegeben; System markiert empfohlenes Ergebnis anhand der Mindestbestellmenge und des Preises
+
+|O-U-021
+|Manager will ein Produkt nachbestellen
+|Manager ist eingeloggt und befindet sich auf der Seite des Bestellassistenten
+|Manager gibt den Namen des gewünschten Produktes und die gewünschte Menge an; Produkt existiert nicht in Einkaufsdatenbank
+|System gibt eine Fehlermeldung aus -> "Es konnte kein Produkt mit diesem Namen gefunden werden. Haben sie sich evtl. verschrieben?"
+
+|O-U-022
+|Manager will ein Produkt nachbestellen
+|Manager ist eingeloggt und befindet sich auf der Seite des Bestellassistenten
+|Manager gibt den Namen des gewünschten Produktes an, aber eine falsche Produktmenge (z.B. 0)
+|System gibt eine Fehlermeldung aus -> "Die angegebene Produktmenge entspricht nicht den Vorgaben. Bitte nutzen sie nur Zahlen und keine Sonderzeichen."
+
+|O-U-030
+|Manager will die gewünschte Bestellmenge anpassen
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager gibt im entsprechenden Feld eine neue Anzahl des gewünschten Produktes an
+|System gibt eine aktualisierte Ergebnisliste aus; System aktualisiert das empfohlene Ergebnis
+
+|O-U-031
+|Manager will die gewünschte Bestellmenge anpassen
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager gibt die selbe Menge wie zu Anfang an
+|System gibt eine Fehlermeldung aus -> "Es wurde keine veränderte Menge angegeben"
+
+|O-U-032
+|Manager will die gewünschte Bestellmenge anpassen
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager gibt eine falsche Produktmenge an (z.B. 0)
+|System gibt eine Fehlermeldung aus -> "Die Produktmenge konnte nicht aktualisiert werden, da der angegebene Wert nicht den Vorgaben entspricht"
+
+|O-U-040
+|Manager wählt ein Produkt zum Bestellen aus
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager klickt bei einem Produkt auf "bestellen", die Mindestbestellmenge ist erfüllt
+|System fügt das Produkt der Bestellliste hinzu, Ausgabe: "Das Produkt wurde erfolgreich zur Bestellliste hinzugefügt"
+
+|O-U-041
+|Manager wählt ein Produkt zum Bestellen aus
+|Manager hat bereits ein Suchergebnis vom Bestellassistenten offen
+|Manager klickt bei einem Produkt auf "bestellen", die Mindestbestellmenge ist nicht erfüllt
+|System gibt eine Fehlermeldung aus "Das Produkt kann nicht bestellt werden, da die Mindestbestellmenge nicht erfüllt ist. Bitte wählen sie ein anderes Angebot oder passen sie die Bestellmenge an"
+
+|O-U-050
+|Manager schließt die Bestellung ab
+|Manager hat bereits eine Bestellung zusammengesucht
+|Manager klickt auf "bestellen"
+|System sortiert die gewünschten Produkte nach Händler. An jeden dieser Händler wird eine Liste mit den von diesem Händler geforderten Produkten gesendet.
+Ausgabe: "Einkauf wurde erfolgreich getätigt"
+
+
+
+|===
+

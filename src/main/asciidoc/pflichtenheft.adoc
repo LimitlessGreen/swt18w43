@@ -129,6 +129,12 @@ endif::[]
 |Lukas, Lisa, Adrian, Jairus
 |Akzeptanztestfälle für Fehlerfälle
 
+|1.1
+|...
+|12.11.2018
+|Lisa, Lukas
+|Muss-Kriterien überarbeitet
+
 |===
 
 toc::[]
@@ -522,6 +528,12 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 
 === Muss-Kriterien
 
+ID: 1. Buchstabe: A - Allgemein U - UserDepartment, P - ProductDepartment , D - DataDepartment, O - OrderDepartment, F - FinancesDepartment +
+2. Buchstabe: F - Funktionale Anforderung
+3. Zeichen: Fortlaufende Nummer für jeweiliges Department
+
+*1. Allgemein*
+
 [options="header"]
 [cols="^1h,1,3"]
 |===
@@ -530,7 +542,7 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 |Name
 |Beschreibung
 
-|#F001
+|#A-F-01
 |Funktionen von Listen mit Daten: +
 - Inventory +
 - OrderableProducts +
@@ -538,63 +550,29 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 - DistributorList
 |- Sortieren +
 - Suche +
-- Hinzufügen +
-- Entfernen
+- Hinzufügen :heavy_check_mark: +
+- Entfernen :heavy_check_mark:
+|===
 
-|#F002
-|Archivierung
+
+*2. DataDepartement*
+
+[options="header"]
+[cols="^1h,1,3"]
+|===
+|ID
+|Name
+|Beschreibung
+
+|#D-F-01
+|Archivierung :heavy_check_mark:
 |Einkäufe, Verkäufe, Stornierungen, etc. müssen in einem Log archiviert werden
 
-|#F003
-|Bestand anzeigen
-|Der aktuelle Bestand von Produkten im Lager muss dem Manager angezeigt werden
-
-|#F004
+|#D-F-02
 |Speicherung von Vorlieben
 |Es werden die Vorlieben von Hauskunden (Kunden mit Kundenkarte gespeichert)
 
-|#F005
-|Gewinnprozentsatz
-|Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
-
-|#F006
-|Ausstellungsfläche
-|Es können nur 999 Produkte im Laden ausgestellt werden
-
-|#F007
-|Größe Einkaufsdatenbank
-|Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
-
-|#F008
-|Online Merkzettel
-|Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
-
-|#F009
-|Entfernen von Produkten aus dem Inventar
-|Produkte müssen aus dem Bestand entfernt werden, sobald sie im Warenkorb sind
-
-|#F010
-|Preiskalkulation
-|Der endgültige Preis wird an der Kasse global kalkuliert. Dabei gibt es einen Rabatt für verschiedene Kundengruppen
-
-|#F011
-|Sortierung im Warenkorb
-|Die Produkte im Warenkorb müssen nach Kategorien sortiert werden
-
-|#F012
-|Etiketterstellung
-|- Pro Produkt muss ein Etikett erstellt werden +
-- Man kann für alle Produkte auf einmal die Etikette drucken lassen
-
-|#F013
-|Informationen im Warenkorb
-|Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
-
-|#F014
-|Steuerabgaben
-|Steuerabgaben werden extra berechnet -> nicht in den Profit
-
-|#F015
+|#D-F-03
 |Statistik
 |Es muss eine statistische Auswertung in Tabellen und Diagrammen geben von: +
 - Umsatz +
@@ -604,44 +582,145 @@ image::models/analysis/SequenceDiagrams/SequenceDiagram5.svg[title="Hinzufügen 
 - Produktanteile +
 - Neuanmeldungen Kunden
 
-|#F016
-|Stornierungen
-|Es muss eine einfache und eine globale Stornierung an der Kasse möglich sein
+|#D-F-04
+|Wirtschaftsjahr
+|Es muss nach Ende eines Wirtschaftsjahres der Warenwert festgestellt werden können
+|===
 
-|#F017
+*3. Product-Department*
+
+[options="header"]
+[cols="^1h,1,3"]
+|===
+|ID
+|Name
+|Beschreibung
+|#P-F-01
+|Bestand anzeigen :heavy_check_mark:
+|Der aktuelle Bestand von Produkten im Lager muss dem Manager angezeigt werden
+
+|#P-F-02
+|Gewinnprozentsatz
+|Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
+
+|#P-F-03
+|Ausstellungsfläche :heavy_check_mark:
+|Es können nur 999 Produkte im Laden ausgestellt werden
+
+|#P-F-04
+|Größe Einkaufsdatenbank :heavy_check_mark:
+|Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
+
+|#P-F-05
 |Inventur
 |Nach der Inventur muss der Lagerbestand wenn nötig angepasst werden können
 
-|#F018
-|Wirtschaftsjahr
-|Es muss nach Ende eines Wirtschaftsjahres der Warenwert festgestellt werden können
+|#P-F-06
+|Produkte hinzufügen
+|- Produkte können manuell hinzugefügt werden :heavy_check_mark: +
+- Produkte können über eine BNN-Liste importiert werden
 
-|#F019
-|Lieferungsübersicht
+|#P-F-07
+|Pfand :heavy_check_mark:
+|Kunden können Pfand abgeben
+
+|#P-F-08
+|Entfernen von Produkten aus dem Inventar :heavy_check_mark:
+|Produkte müssen aus dem Bestand entfernt werden, sobald sie im Warenkorb sind
+
+|#P-F-09
+|Etiketterstellung
+|- Pro Produkt muss ein Etikett erstellt werden +
+- Man kann für alle Produkte auf einmal die Etikette drucken lassen
+|===
+
+*4. Finances-Departement*
+
+[options="header"]
+[cols="^1h,1,3"]
+|===
+
+|ID
+|Name
+|Beschreibung
+
+|#F-F-01
+|Online Merkzettel :heavy_check_mark:
+|Es gibt einen online Merkzettel für Kunden (ohne Bestellfunktion)
+
+|#F-F-02
+|Preiskalkulation :heavy_check_mark: (vereinfacht)
+|Der endgültige Preis wird an der Kasse global kalkuliert. Dabei gibt es einen Rabatt für verschiedene Kundengruppen
+
+|#F-F-03
+|Sortierung im Warenkorb
+|Die Produkte im Warenkorb müssen nach Kategorien sortiert werden
+
+|#F-F-04
+|Informationen im Warenkorb :heavy_check_mark:
+|Im Warenkorb wird Anzahl und Kilopreis von Produkten angezeigt
+
+|#F-F-05
+|Steuerabgaben
+|Steuerabgaben werden extra berechnet -> nicht in den Profit
+
+|#F-F-06
+|Stornierungen :heavy_check_mark:
+|Es muss eine einfache und eine globale Stornierung an der Kasse möglich sein
+
+|#F-F-07
+|Anzahl ändern im Warenkorb
+|Im Warenkorb muss die Anzahl einfach geändert werden können +
+-> z.B. 6 mal ein Produkt
+|===
+
+*5. Order-Departement*
+
+[options="header"]
+[cols="^1h,1,3"]
+|===
+|ID
+|Name
+|Beschreibung
+
+|#O-F-01
+|Lieferungsübersicht :heavy_check_mark:
 |Es muss eine Übersicht von den bestellten Lieferungen geben
 
-|#F020
+|#O-F-02
 |Lieferprobleme
 |- Falls ein Lieferant nicht mehr liefert, müssen diese Produkte angepasst werden können +
 - Es kann sein, dass Lieferungen Probleme haben und nicht ankommen. Die muss abgefangen werden
 
-|#F021
+|#O-F-03
 |Mindestbestellmenge
 |Es gibt eine Mindestbestellmenge für jedes Produkt bei Händlern
 
-|#F022
-|Produkte hinzufügen
-|- Produkte können manuell hinzugefügt werden +
-- Produkte können über eine BNN-Liste importiert werden
+|#O-F-04
+|Nachbestellen :heavy_check_mark:
+|Der Manager kann Produkte über den Bestellassistenten nachbestellen
+|===
 
-|#F023
-|Pfand
-|Kunden können Pfand abgeben
+*6. User-Departement*
 
-|#F024
-|Anzahl ändern im Warenkorb
-|Im Warenkorb muss die Anzahl einfach geändert werden können +
--> z.B. 6 mal ein Produkt
+[options="header"]
+[cols="^1h,1,3"]
+|===
+|ID
+|Name
+|Beschreibung
+
+|#U-F-01
+|Login :heavy_check_mark:
+|User müssen sich einloggen können. Dies trifft nur fürs Personal zu
+
+|#U-F-02
+|Passwort ändern
+|Das Personal kann das Passwort von sich ändern
+
+|#U-F-03
+|Passwort zurücksetzen
+|Der Manager kann das Passwort von allen Mitarbeitern zurücksetzen (Standardpasswort)
 
 |===
 
@@ -1169,6 +1248,7 @@ gewünschten Produkten
 |Produkt wird nicht hinzugefügt, Fehlermeldung -> Produkt nicht verfügbar
 
 |===
+
 
 == Glossar
 Das Glossar beinhaltet eine Liste mit Begriffen, die in diesem Projekt benutzt werden.

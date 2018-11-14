@@ -1,0 +1,98 @@
+@startuml
+
+!include stylesheet.iuml
+
+
+rectangle Bioladen {
+    namespace bioladen.finances {
+
+        class CashierSystem <<Controller>>  extends ShoppingCart {
+            -user : UserAccount
+            -userDiscount : Enum
+            +CashierSystem(UserAccount)
+            +add(Product) : boolean
+            +remove(Product) : boolean
+            +clear() : boolean
+            +getSums() : MonetaryAmount[]
+            +getDiscountSums() : MonetaryAmount[]
+            +getMwStSums() : MonetaryAmount[]
+            +getSum() : MonetaryAmount
+            +calculateChange(MonetaryAmount) : MonetaryAmount
+            +finishSale() : boolean
+            +publishSaleCreatedEvent(ShoppingCart) : void
+        }
+
+        class ShoppingCart <<Entity>> {
+            -user : UserAccount
+            -productList : Map<Product, Amount>
+            +ShoppingCart(UserAccount)
+            +add(Product) : boolean
+            +remove(Product) : boolean
+            +clear() : boolean
+            +getSum() : MonetaryAmount
+
+
+        }
+
+    }
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+
+        bioladen.finances.CashierSystem --> bioladen.event.EntityCreatedEvent
+
+    }
+
+    namespace ressources.templates {
+
+        VIEW(cashiersystem.html) {
+
+        }
+
+        VIEW(watchlist.html) {
+
+        }
+
+        bioladen.finances.CashierSystem --> cashiersystem.html
+        bioladen.finances.CashierSystem --> watchlist.html
+    }
+
+}
+
+rectangle money-api-1.0.3.jar {
+    namespace javax.money {
+        class MonetaryAmount <<Java>>{
+
+        }
+        bioladen.finances.CashierSystem -right-> MonetaryAmount
+        bioladen.finances.ShoppingCart -right-> MonetaryAmount
+    }
+
+}
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+
+    namespace org.salespointframework.useraccount {
+
+        class UserAccount <<Entity>> <<Salespoint>>{
+
+        }
+
+        bioladen.finances.ShoppingCart "1" -left-> "1" UserAccount
+        bioladen.finances.CashierSystem "1" -left-> "1" UserAccount
+    }
+
+    namespace org.salespointframework.context {
+        class ApplicationEvent <<Salespoint>>{
+
+        }
+
+        ApplicationEvent <|-- bioladen.event.EntityCreatedEvent
+    }
+
+}
+
+
+@enduml

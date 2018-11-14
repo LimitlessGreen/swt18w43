@@ -1,0 +1,61 @@
+@startuml
+
+skinparam class {
+	BackgroundColor #Silver/white
+    BorderColor Black
+    ArrowColor  Black
+}
+
+skinparam package {
+    FontColor black
+    BorderColor black
+}
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+
+
+rectangle Bioladen {
+    namespace bioladen.user {
+
+    }
+
+    namespace bioladen.finances {
+
+    }
+
+    namespace bioladen.data.log {
+
+    }
+
+    namespace bioladen.data.statistic {
+
+    }
+
+    namespace bioladen.product {
+
+    }
+
+    namespace bioladen.order {
+
+    }
+
+    bioladen.user <-- bioladen.finances
+    bioladen.user <-- bioladen.data.log
+    bioladen.user <-- bioladen.data.statistic
+    bioladen.user <-- bioladen.order
+
+    bioladen.finances <-- bioladen.order
+
+    bioladen.data.statistic --> bioladen.data.log
+
+    bioladen.order --> bioladen.product
+
+    bioladen.data.log --> bioladen.order
+    bioladen.data.log --> bioladen.product
+    bioladen.data.log --> bioladen.finances
+
+}
+
+@enduml

@@ -1,0 +1,241 @@
+@startuml
+
+!include stylesheet.iuml
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+    
+    namespace org.salespointframework.core {
+        class SalespointIdentifier <<Salespoint>> {
+            
+        }
+    }
+    
+    namespace org.salespointframework.catalog {
+        interface Catalog <T extends Product> <<Salespoint>> {
+
+        }
+
+        class Product <<Salespoint>> {
+            -productIdentifier : ProductIdentifier
+            -name : String
+            -price : MonetaryAmount
+            -categories : Set<String>
+            -metric : Metric
+
+            +Product(String, MonetaryAmount)
+            +Product(String, MonetaryAmount, Metric)
+            +getId() : ProductIdentifier
+            +getCategories() : Streamable<String>
+            +addCategory(String) : boolean
+            +removeCategory(String) : boolean
+            +supports(Quantity) : boolean
+            +verify(Quantity) : void
+            +createQuantity(double) : Quantity
+            +createQuantity(long) : Quantity
+
+        }
+
+    }
+
+    package org.salespointframework.time {
+        interface BusinessTime <<Salespoint>> {
+
+        }
+    }
+
+    namespace org.salespointframework.context {
+            class ApplicationEvent <<Salespoint>>{
+
+            }
+
+        }
+
+}
+
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+
+    namespace org.springframework.data.repository {
+        interface CrudRepository <T, ID> <<Spring>>{
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(ID) : Optional<T>
+            +existsById(ID) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<ID>) : Iterable<T>
+            +count() : long
+            +deleteById(ID) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
+        }
+    }
+}
+
+rectangle Bioladen {
+
+    namespace bioladen.product {
+
+        interface ProductCatalog <<Repository>> {
+            +findBy(Product) : Streamable<Product>
+        }
+
+        interface DistributorProductCatalog <<Repository>> {
+            +findBy(DistributorProduct) : Streamable<DistributorProduct>
+        }
+
+        class DistributorProduct <<Entity>> extends org.salespointframework.catalog.Product {
+            -id : ProductIdentifier
+            -unit : Quantity
+            -distributor : Distributor
+            -minimumOrderAmount : Amount
+
+            +getUnit() : Unit
+            +getInventoryAmount() : Amount
+            +getDisplayedAmount() : Amount
+            +setUnit(Quantity) : void
+            +setInventoryAmount(Amount) : void
+            +setDisplayedAmount(Amount) : void
+            +setPrice(MonetaryAmount) : void
+        }
+
+        class Product <<Entity>> {
+            -unit : Quantity
+            -inventoryAmount : Amount
+            -displayedAmount : Amount
+            -distributorProducts : List<DistributorProducts>
+
+            +getUnit() : Unit
+            +getInventoryAmount() : Amount
+            +getDisplayedAmount() : Amount
+            +setUnit(Quantity) : void
+            +setInventoryAmount(Amount) : void
+            +setDisplayedAmount(Amount) : void
+            +setPrice(MonetaryAmount) : void
+            +verify() : boolean
+            +getPrice() : MonetaryAmount
+        }
+
+        class Distributor <<Entity>> {
+            -name : String
+            -email : String
+            -contactName : String
+            -phoneNr : String
+
+            +publishDistributorCreatedEvent(Distributor) : void
+         }
+
+        
+
+
+        Product  o--  DistributorProduct
+        DistributorProduct  --* "1" DistributorProductCatalog
+        Product --* "1" ProductCatalog
+
+
+    }
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+        EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
+    }
+
+
+    package bioladen.product  {
+        class ProductController <<Controller>> {
+            +ProductController()
+            +productsByName(Model) : String
+            +productsByCategory(Model) : String
+            +productsByPrice(Model) : String
+            +productsByInventoryAmount(Model) : String
+            +productsByDisplayedAmount(Model) : String
+            +addProduct(Model) : String
+            +removeProduct(Model) : String
+            +printLabel(List<Product>, Model) : String
+        }
+        
+        class DistributorController <<Controller>> {
+            +DistributorController()
+            +distributors(Model) : String
+        }
+        
+        interface DistributorRepository <<Repository>> {
+            
+        }
+
+        class DistributorProductController <<Controller>> {
+            +DistributorProductController()
+            +distributorProductsByName(Model) : String
+            +distributorProductsByCategory(Model) : String
+            +distributorProductsByPrice(Model) : String
+            +distributorProductsByDistributor(Model) : String
+            +addDistributorProduct(Model) : String
+            +removeDistributorProduct(Model) : String
+        }
+        
+        class DistributorIdentifier extends org.salespointframework.core.SalespointIdentifier {
+            +DistributorIdentifier()
+            +DistributorIdentifier(String)
+        }
+        
+        ProductController --> Product
+        DistributorController --> Distributor
+        DistributorProductController --> DistributorProduct
+        
+        class Amount {
+            +of(long) : Amount
+        }
+        
+        Amount <-- bioladen.product.Product
+        Amount <-- bioladen.product.DistributorProduct
+    }
+    
+    namespace ressources.templates {
+    
+        VIEW(product.html) {
+
+        }
+
+        VIEW(productlist.html) {
+
+        }
+        
+        VIEW(distributor.html) {
+            
+        }
+        
+        VIEW(distributorlist.html) {
+        
+        }
+        
+        VIEW(distributorproductlist.html) {
+        
+        }
+
+        bioladen.product.ProductController --> product.html
+        bioladen.product.ProductController --> productlist.html
+        bioladen.product.DistributorController --> distributor.html
+        bioladen.product.DistributorController --> distributorlist.html
+        bioladen.product.DistributorProductController --> distributorproductlist.html
+
+    }
+
+
+
+
+
+}
+
+bioladen.product.Distributor --> bioladen.event.EntityCreatedEvent
+
+
+bioladen.product.ProductController --> BusinessTime
+org.salespointframework.catalog.Catalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<T, ProductIdentifier>
+org.salespointframework.catalog.Catalog <|-- bioladen.product.ProductCatalog: <<binds>>\n<Product>
+org.salespointframework.catalog.Catalog <|-- bioladen.product.DistributorProductCatalog: <<binds>>\n<DistributorProduct>
+bioladen.product.Distributor "1" *--  bioladen.product.DistributorProduct
+bioladen.product.DistributorRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<Distributor, DistributorIdentifier>
+
+@enduml

@@ -1,0 +1,235 @@
+@startuml
+
+!include stylesheet.iuml
+
+rectangle salespoint-framework-7.0.0.RELEASE.jar {
+
+    namespace org.salespointframework.useraccount {
+        class UserAccount <<Salespoint>> {
+            -userAccountIdentifier : UserAccountIdentifier
+            -password : Password
+            -firstname : String
+            -lastname : String
+            -email : String
+            -roles : Set<Role>
+            -enable : boolean
+
+            +UserAccount()
+            +UserAccount(UserAccountIdentifier, String, Role...)
+            +UserAccount(UserAccountIdentifier, String, String, String, String, Collection<Role>)
+            +getID() : UserAccountIdentifier
+            +getUserName() : String
+            +add(Role) : boolean
+            +remove(Role) : boolean
+            +hasRole() : boolean
+            +getRoles() : Streamable<Role>
+        }
+
+        class Role <<Salespoint>>{
+            -name : String
+
+            +{static} of(String) : Role
+        }
+
+        interface UserAccountRepository <<Salespoint>> {
+            +save(UserAccount) : UserAccount
+            +saveAll(Iterable<UserAccount>) : Iterable<UserAccount>
+            +findById(UserAccountIdentifier) : Optional<UserAccount>
+            +existsById(UserAccountIdentifier) : boolean
+            +findAll() : Iterable<UserAccount>
+            +findAllById(Iterable<UserAccountIdentifier>) : Iterable<UserAccount>
+            +count() : long
+            +deleteById(UserAccountIdentifier) : void
+            +delete(UserAccount) : void
+            +deleteAll(Iterable<UserAccount>) : void
+            +deleteAll() : void
+            +findByEnabledTrue() : Streamable<UserAccount>
+            +findByEnabledFalse() : Streamable<UserAccount>
+        }
+
+        interface UserAccountManager <<Salespoint>>
+
+    }
+
+    namespace org.salespointframework.context {
+        class ApplicationEvent <<Salespoint>>{
+
+        }
+
+    }
+
+    package org.salespointframework.time {
+        interface BusinessTime <<Salespoint>> {
+
+        }
+    }
+
+    namespace org.salespointframework.core {
+        class SalespointIdentifier <<Salespoint>>{
+
+        }
+    }
+
+}
+
+
+
+rectangle Bioladen {
+
+    namespace bioladen.useraccount {
+
+        class UserAccountController <<Controller>>  {
+            +login(LoginForm) : User
+            +logout(LogoutForm) : boolean
+            +resetPassword(ResetForm) : boolean
+            +setNewPassword(SetForm) : boolean
+
+        }
+
+        class UserAccount <<Entity>> {
+
+        }
+
+        class UserAccountWrapper {
+            UserAccountWrapper(Customer) : UserAccount
+        }
+        note right: listen to CustomerEvent
+
+        UserAccountWrapper --> UserAccount
+        UserAccountController --> UserAccount
+
+    }
+
+    namespace bioladen.customer {
+
+        class CustomerController <<Controller>> {
+            +createUser(UserForm) : boolean
+            +deleteUser(UserForm) : boolean
+            +searchUser(SearchForm) : List<User>
+        }
+
+        class Customer <<Entity>> {
+            -firstname : String
+            -lastname : String
+            -email : String
+            -phoneNumber : String
+            -id : CustomerIdentifier
+            -userAccount : UserAccount
+            -type : CustomerType
+            -sex : Sex
+            publishCustomerCreatedEvent(Customer) : void
+            +getType() : CustomerType
+            +isType(CustomerType) : Boolean
+            +setType(CustomerType) : void
+
+        }
+
+        class CustomerType <<Entity>>{
+            MANAGER
+            STAFF
+            MAJOR_CUSTOMER
+            HOUSE_CUSTOMER
+            {static}getDiscount(CustomerType) : double
+        }
+
+        enum Sex {
+            MALE
+            FEMALE
+            VARIOUS
+        }
+
+        class CustomerIdentifier {
+            CustomerIdentifier() : void
+            CustomerIdentifier(String) : void
+        }
+
+        interface CustomerRepository <<Repository>> {
+
+        }
+
+        Customer --> bioladen.useraccount.UserAccount
+        Customer --> CustomerIdentifier
+        Customer --> Sex
+        Customer --> CustomerType
+        CustomerIdentifier --|> org.salespointframework.core.SalespointIdentifier
+        CustomerRepository --> Customer
+        CustomerController --> Customer
+    }
+
+
+
+    namespace bioladen.event {
+        class EntityCreatedEvent {
+
+        }
+        EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
+
+
+
+    }
+
+    namespace ressources.templates {
+
+        VIEW(register.html) {
+
+        }
+
+        VIEW(login.html) {
+
+        }
+
+        VIEW(customerlist.html) {
+
+        }
+
+        VIEW(useracc.html) {
+
+        }
+
+        useracc.html <-- bioladen.useraccount.UserAccountController
+        login.html <-- bioladen.useraccount.UserAccountController
+        customerlist.html <-- bioladen.customer.CustomerController
+        register.html <-- bioladen.customer.CustomerController
+
+
+    }
+
+}
+
+
+
+
+
+rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
+
+    package org.springframework.data.repository {
+        interface CrudRepository <T, ID> <<Spring>>{
+            <S extends T> +save(S) : S
+            <S extends T> +saveAll(Iterable<S​>) : Iterable<S>
+            +findById(ID) : Optional<T>
+            +existsById(ID) : boolean
+            +findAll() : Iterable<T>
+            +findAllById(Iterable<ID>) : Iterable<T>
+            +count() : long
+            +deleteById(ID) : void
+            +delete(T) : void
+            +deleteAll(Iterable<? extends T>) : void
+            +deleteAll() : void
+        }
+
+        bioladen.customer.CustomerRepository --|> CrudRepository
+    }
+
+}
+
+
+
+org.salespointframework.useraccount.UserAccountRepository  *--  org.salespointframework.useraccount.UserAccount
+org.salespointframework.useraccount.UserAccountRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
+bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
+bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
+bioladen.useraccount.UserAccountController ..> BusinessTime
+
+bioladen.useraccount.UserAccount --|> org.salespointframework.useraccount.UserAccount
+
+@enduml

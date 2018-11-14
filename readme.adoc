@@ -11,4 +11,16 @@
 
 == Analysemodelle
 
-https://github.com/st-tu-dresden-praktikum/swt18w43/blob/master/src/main/asciidoc/models/analysis/readme.adoc
+https://github.com/st-tu-dresden-praktikum/swt18w43/blob/master/src/main/asciidoc/models/analysis
+
+== Designdiagramme
+
+https://github.com/st-tu-dresden-praktikum/swt18w43/tree/design/src/main/asciidoc/models/design
+
+== Pflichtenheft
+
+https://github.com/st-tu-dresden-praktikum/swt18w43/blob/design/src/main/asciidoc/pflichtenheft.adoc
+
+== Entwickler Doku
+
+https://github.com/st-tu-dresden-praktikum/swt18w43/blob/design/src/main/asciidoc/entwickler_doku.adoc
