@@ -24,7 +24,7 @@ import lombok.ToString;
  * @author Adrian Kulisch
  */
 
-@Entity
+//@Entity
 @ToString
 public class Product extends org.salespointframework.catalog.Product {
 	

@@ -1,6 +1,7 @@
 package bioladen.finances;
 
-import org.salespointframework.catalog.Product;
+import bioladen.product.Product;
+import org.salespointframework.catalog.ProductIdentifier;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.order.Cart;
@@ -11,12 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * @author Lukas Petzold
+ */
 @Controller
 @SessionAttributes({"cart"})
 
-
-public class CashierSystem extends Cart {
+public class CashierSystem extends ShoppingCart {
 
 	private OrderManager<Order> orderManager;
 	private Inventory<InventoryItem> inventory;
@@ -34,9 +36,9 @@ public class CashierSystem extends Cart {
 
 
 	@ModelAttribute("cart")
-	Cart initializeCart() {
+	ShoppingCart initializeCart() {
 
-		return new Cart();
+		return new ShoppingCart();
 	}
 
 
@@ -51,12 +53,11 @@ public class CashierSystem extends Cart {
 	}
 
 
-	@PostMapping("/cart")
-	String addProduct(@RequestParam("pid") Product product, @RequestParam("number") int number, @ModelAttribute Cart cart) {
-		int amount = number;
-		cart.addOrUpdateItem(product, Quantity.of((long)amount));
+	@PostMapping("/cashiersystem")
+	String addProduct(@RequestParam("pid") ProductIdentifier product, @RequestParam("amount") int amount, @ModelAttribute Cart cart) {
+		cart.addOrUpdateItem(inventory.findByProductIdentifier(product).get().getProduct(), Quantity.of((long) amount));
 
-		return "redirect:cart";
+		return "redirect:/cart";
 	}
 
 }
