@@ -64,6 +64,12 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         }
     }
 
+    namespace org.salespointframework.core {
+        class SalespointIdentifier <<Salespoint>>{
+
+        }
+    }
+
 }
 
 
@@ -76,9 +82,6 @@ rectangle Bioladen {
             +login(LoginForm) : User
             +logout(LogoutForm) : boolean
             +resetPassword(ResetForm) : boolean
-            +createUser(UserForm) : boolean
-            +deleteUser(UserForm) : boolean
-            +searchUser(SearchForm) : List<User>
             +setNewPassword(SetForm) : boolean
 
         }
@@ -87,40 +90,73 @@ rectangle Bioladen {
 
         }
 
+        class UserAccountWrapper {
+            UserAccountWrapper(Customer) : UserAccount
+        }
+        note right: listen to CustomerEvent
+
+        UserAccountWrapper --> UserAccount
+        UserAccountController --> UserAccount
+
+    }
+
+    namespace bioladen.customer {
+
+        class CustomerController <<Controller>> {
+            +createUser(UserForm) : boolean
+            +deleteUser(UserForm) : boolean
+            +searchUser(SearchForm) : List<User>
+        }
+
         class Customer <<Entity>> {
             -firstname : String
             -lastname : String
-            +enum sex {M, W, D}
             -email : String
             -phoneNumber : String
-            +enum type {MANAGER, PERSONAL, GROSSKUNDE, HAUSKUNDE}
             -id : CustomerIdentifier
             -userAccount : UserAccount
+            -type : CustomerType
+            -sex : Sex
             publishCustomerCreatedEvent(Customer) : void
+            +getType() : CustomerType
+            +isType(CustomerType) : Boolean
+            +setType(CustomerType) : void
 
         }
 
-         class CustomerIdentifier {
+        class CustomerType <<Entity>>{
+            MANAGER
+            STAFF
+            MAJOR_CUSTOMER
+            HOUSE_CUSTOMER
+            {static}getDiscount(CustomerType) : double
+        }
+
+        enum Sex {
+            MALE
+            FEMALE
+            VARIOUS
+        }
+
+        class CustomerIdentifier {
             CustomerIdentifier() : void
             CustomerIdentifier(String) : void
-         }
-
-        class UserAccountWrapper {
-            UserAccountWrapper(Customer) : UserAccount
         }
 
         interface CustomerRepository <<Repository>> {
 
         }
 
-        UserAccount --* Customer
+        Customer --> bioladen.useraccount.UserAccount
         Customer --> CustomerIdentifier
-        UserAccountWrapper --> org.salespointframework.useraccount.UserAccountManager
-        UserAccountWrapper --> UserAccount
-        UserAccountWrapper --> CustomerRepository
-
-
+        Customer --> Sex
+        Customer --> CustomerType
+        CustomerIdentifier --|> org.salespointframework.core.SalespointIdentifier
+        CustomerRepository --> Customer
+        CustomerController --> Customer
     }
+
+
 
     namespace bioladen.event {
         class EntityCreatedEvent {
@@ -128,7 +164,7 @@ rectangle Bioladen {
         }
         EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
 
-        EntityCreatedEvent <-- bioladen.useraccount.Customer
+
 
     }
 
@@ -142,7 +178,7 @@ rectangle Bioladen {
 
         }
 
-        VIEW(userlist.html) {
+        VIEW(customerlist.html) {
 
         }
 
@@ -150,11 +186,11 @@ rectangle Bioladen {
 
         }
 
-        bioladen.useraccount.UserAccountController --> register.html
-        bioladen.useraccount.UserAccountController --> login.html
-        bioladen.useraccount.UserAccountController --> userlist.html
-        bioladen.useraccount.UserAccountController --> useracc.html
-        'bioladen.useraccount.UserAccount --> useracc.html
+        useracc.html <-- bioladen.useraccount.UserAccountController
+        login.html <-- bioladen.useraccount.UserAccountController
+        customerlist.html <-- bioladen.customer.CustomerController
+        register.html <-- bioladen.customer.CustomerController
+
 
     }
 
@@ -180,6 +216,8 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
             +deleteAll(Iterable<? extends T>) : void
             +deleteAll() : void
         }
+
+        bioladen.customer.CustomerRepository --|> CrudRepository
     }
 
 }
@@ -190,7 +228,7 @@ org.salespointframework.useraccount.UserAccountRepository  *--  org.salespointfr
 org.salespointframework.useraccount.UserAccountRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
 bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
 bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
-bioladen.useraccount.UserAccountController --> BusinessTime
+bioladen.useraccount.UserAccountController ..> BusinessTime
 
 bioladen.useraccount.UserAccount --|> org.salespointframework.useraccount.UserAccount
 
