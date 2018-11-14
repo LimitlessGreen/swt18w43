@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-lg-6" >
 
-                        <form>
+                        <form class="form-group" method="post" th:action="@{/cashiersystem}">
 
                             <div class="form-group"> <!-- form for product code -->
                                 <label for="pidInput">Produkt-Code</label>
@@ -63,9 +63,7 @@
                                                 <button type="button" class="btn btn-lg" onclick="pidUpdate('1')">1</button>
                                                 <button type="button" class="btn btn-lg" onclick="pidUpdate('2')">2</button>
                                                 <button type="button" class="btn btn-lg" onclick="pidUpdate('3')">3</button>
-                                                <form class="form-control" method="post" th:action="@{/add}">
-                                                    <button type="submit" class="btn btn-lg">✓</button>
-                                                </form>
+                                                <button type="submit" class="btn btn-lg">✓</button>
                                             </div>
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-lg"></button>
@@ -114,9 +112,6 @@
 
                         <h2>Übersicht</h2>
 
-                        <div class="scroll">
-
-                        </div>
 
                         <div class="container-fluid">
                             <div class="row">
@@ -127,10 +122,107 @@
                                         <input type="text" class="form-control" id="userId" name="userIdInput" placeholder="Kunden ID eingeben">
                                     </div>
 
+                                    <script> // functions for numpad
+                                    var userIdInput = "";
+                                    function userIdUpdate(char) {
+                                        userIdInput = userIdInput + char;
+                                        document.getElementById('userId').value=userIdInput;
+                                    }
+                                    function userIdRemoveOne() {
+                                        userIdInput = userIdInput.substring(0, userIdInput.length-1)
+                                        document.getElementById('userId').value=userIdInput;
+                                    }
+                                    function userIdRemove() {
+                                        userIdInput = "";
+                                        document.getElementById('userId').value=userIdInput;
+                                    }
+                                    </script>
+
+                                    <div class="btn-group-vertical"> <!-- numpad -->
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('7')">7</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('8')">8</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('9')">9</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdRemoveOne()">←</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('4')">4</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('5')">5</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('6')">6</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdRemove()">C</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('1')">1</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('2')">2</button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('3')">3</button>
+                                            <button class="btn" type="button">✓</button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-lg"></button>
+                                            <button type="button" class="btn btn-lg" onclick="userIdUpdate('0')">0</button>
+                                            <button type="button" class="btn btn-lg"></button>
+                                            <button class="btn" type="button"></button>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        var changeInput;
+                                        var sum;
+                                        function calculateChange() {
+                                            sum = document.getElementById('sum').value;
+                                            changeInput = document.getElementById('change').value;
+                                            document.getElementById('changeValue').value=((Math.round((changeInput - sum) * 100)/100).toFixed(2));
+                                        }
+                                    </script>
+
                                     <div class="form-group">
+                                        <br>
                                         <label for="change">Bargeld</label>
+
+                                        <script> // functions for numpad
+                                        var changeInput = "";
+                                        function changeUpdate(char) {
+                                            changeInput = changeInput + char;
+                                            document.getElementById('change').value=changeInput;
+                                        }
+                                        function changeRemoveOne() {
+                                            changeInput = changeInput.substring(0, changeInput.length-1)
+                                            document.getElementById('change').value=changeInput;
+                                        }
+                                        function changeRemove() {
+                                            changeInput = "";
+                                            document.getElementById('change').value=changeInput;
+                                        }
+                                        </script>
+
                                         <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
-                                        <a>Rückgeld: </a>
+                                        <div class="btn-group-vertical"> <!-- numpad -->
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('7')">7</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('8')">8</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('9')">9</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeRemoveOne()">←</button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('4')">4</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('5')">5</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('6')">6</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeRemove()">C</button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('1')">1</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('2')">2</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('3')">3</button>
+                                                <button type="submit" class="btn btn-lg"></button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('.')">.</button>
+                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('0')">0</button>
+                                                <button class="btn" type="button" onclick="calculateChange()">Berechnen</button>
+                                            </div>
+                                            <label>Wechselgeld: </label>
+                                        </div>
+                                        <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" readonly>
                                     </div>
 
                                 </div>
@@ -138,16 +230,21 @@
                                 <div class="col-lg-6" id="Overview">
                                     <div id="OverviewText">
                                         <a>Anzahl der Artikel: </a>
+                                        <input type="text" class="form-control" id="number" name="number" placeholder="Anzahl" readonly>
                                     </div>
                                     <div id="OverviewText">
-                                        <ul id="Sum">
+                                        <ul id="money">
                                             <li><a>Rabatt: </a></li>
+                                            <input type="text" class="form-control" id="discount" name="discount" placeholder="Rabatt" readonly>
                                             <li><a>MwSt.: </a></li>
+                                            <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." readonly>
                                             <li><a>Pfand: </a></li>
+                                            <input type="text" class="form-control" id="pfand" name="pfand" placeholder="Pfand" readonly>
                                         </ul>
                                     </div>
                                     <div id="OverviewText">
                                         <a>Summe: </a>
+                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" readonly>
                                     </div>
                                 </div>
                             </div>
