@@ -58,7 +58,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		if (!phone.isEmpty()) { customer.setPhone(phone);}
 		if (!address.isEmpty()) { customer.setStreet(address);}
 		customerRepository.save(customer);
-		publishEvent(customer);
+		publishEvent(customer, EntityLevel.CREATED);
 
 
 		return "register";
@@ -73,8 +73,8 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		this.publisher = publisher;
 	}
 
-	private void publishEvent(Customer customer) {
-		publisher.publishEvent(new EntityEvent<>(customer, EntityLevel.CREATED));
+	private void publishEvent(Customer customer, EntityLevel entityLevel) {
+		publisher.publishEvent(new EntityEvent<>(customer, entityLevel));
 	}
 }
 
