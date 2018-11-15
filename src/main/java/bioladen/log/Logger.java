@@ -25,7 +25,8 @@ public class Logger implements ApplicationEventPublisherAware
 	}
 
 	private LogEntry log(LogLevel logLevel, EntryContainer entryContainer, String message) {
-		String thrownBy = new Exception().getStackTrace()[1].getClassName();  //get classname of caller
+		//get classname of caller, needs to go 3 steps back in StackTrace
+		String thrownBy = new Exception().getStackTrace()[3].getClassName();
 
 		LogEntry logEntry = new LogEntry(logLevel, thrownBy, message);
 
