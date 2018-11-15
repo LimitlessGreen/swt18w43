@@ -13,7 +13,7 @@
         <h1>User hinzufügen</h1>
         <br>
         <div>
-            <form>
+            <form method="post" th:action="@{/register}">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputFirstName">Vorname</label>
@@ -31,7 +31,11 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputEmail">Email</label>
-                        <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="inputAddress">Adresse</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="Adresse">
                     </div>
                 </div>
                 <div class="form-row">
@@ -54,7 +58,7 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary">User erstellen</button>
             </form>
         </div>
 
