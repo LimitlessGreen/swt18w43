@@ -7,12 +7,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerEventListener {
+public class EntityEventListener {
 
 	private final LogRepository logRepository;
 	private final Logger logger;
 
-	CustomerEventListener(LogRepository logRepository, Logger logger) {
+	EntityEventListener(LogRepository logRepository, Logger logger) {
 		this.logRepository = logRepository;
 		this.logger = logger;
 	}
