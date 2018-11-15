@@ -61,6 +61,19 @@ public class LogEntry extends AbstractEntity<LogEntryIdentifier> {
 		entryContainer.setLogEntry(this);
 	}
 
+	/**
+	 * Returns an user readable String of LogEntry
+	 *
+	 * @return
+	 */
+	@Override
+	public String toString(){
+		return String.format("from %s entity [%s]. Message: %s",
+				this.thrownBy,
+				this.logLevel,
+				this.message);
+	}
+
 	@Override
 	public LogEntryIdentifier getId() {
 		return logEntryIdentifier;
