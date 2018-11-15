@@ -7,10 +7,12 @@ import org.salespointframework.time.BusinessTime;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 
+@Transactional
 @Service
 public class Logger implements ApplicationEventPublisherAware
 {
