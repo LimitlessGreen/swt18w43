@@ -80,3 +80,11 @@ body,html {
 .scroll {
     overflow: scroll;
 }
+
+h5 {
+    color: white;
+}
+
+.pre-scrollable {
+    border:3px solid #005cbf;
+}

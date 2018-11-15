@@ -86,11 +86,12 @@
                                                     document.getElementById('amountInput').value=amountInput;
                                                 }
                                             </script>
+
                                             <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1">
                                             <div align="right">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-lg btn-danger" onclick="add(-1)">-1</button> <!-- substract one from amount -->
-                                                    <button type="button" class="btn btn-lg btn-success" onclick="add(1)">+1</button> <!-- add one to amount -->
+                                                <button type="button" class="btn btn-lg btn-danger" onclick="add(-1)">-1</button> <!-- substract one from amount -->
+                                                <button type="button" class="btn btn-lg btn-success" onclick="add(1)">+1</button> <!-- add one to amount -->
                                                 </div>
                                             </div>
                                         </div>
@@ -101,6 +102,82 @@
                             </div>
 
                         </form>
+
+                        <div class="pre-scrollable">
+
+                            <div th:if="${cart.empty}"> <!-- Handling for empty cart -->
+                                <div class="header" align="center">
+                                    Ihr Warenkorb ist leer
+                                </div>
+                            </div>
+
+                            <div th:unless="${cart.empty}"> <!-- Handling for non empty cart -->
+                                <table class="table">
+                                    <thead> <!-- table head -->
+
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Preis</th>
+                                        <th scope="col">Menge</th>
+                                        <th scope="col">Editieren</th>
+                                    </tr>
+
+                                    </thead>
+
+                                    <tbody> <!-- table body -->
+
+                                    <tr th:each="item : ${cart} ">
+                                        <td scope="row" th:text="${item.productName}">ProductName</td>
+                                        <td th:text="${item.id}">1</td>
+                                        <td th:text="${item.price}">1</td>
+                                        <td th:text="${item.amount}">1</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <form class="form-group" method="post" th:action="@{/delete}">
+                                                    <input type="hidden" name="productId" th:value="${item.id}">
+                                                    <button type="submit" class="btn btn-danger"></button>
+                                                </form>
+                                                <form class="form-group" method="post" th:action="@{/sub}">
+                                                    <input type="hidden" name="productId" th:value="${item.product.id}">
+                                                    <button type="submit" class="btn btn-danger"></button>
+                                                </form>
+                                                <form class="form-group" method="post" th:action="@{/add}">
+                                                    <input type="hidden" name="productId" th:value="${item.product.id}">
+                                                    <button type="submit" class="btn btn-success"></button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>Edit</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>Edit</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>Edit</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
