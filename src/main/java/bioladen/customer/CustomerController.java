@@ -1,5 +1,9 @@
 package bioladen.customer;
 
+import bioladen.event.EntityEvent;
+import bioladen.event.EntityLevel;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
 import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class CustomerController {
+public class CustomerController implements ApplicationEventPublisherAware {
 
 	private final CustomerRepository customerRepository;
 
@@ -54,9 +58,23 @@ public class CustomerController {
 		if (!phone.isEmpty()) { customer.setPhone(phone);}
 		if (!address.isEmpty()) { customer.setStreet(address);}
 		customerRepository.save(customer);
+		publishEvent(customer);
 
 
 		return "register";
+	}
+
+	/* Event publisher */
+
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(Customer customer) {
+		publisher.publishEvent(new EntityEvent<>(customer, EntityLevel.CREATED));
 	}
 }
 
