@@ -17,6 +17,12 @@ public class Customer extends AbstractEntity {
 		HOUSE_CUSTOMER
 	}
 
+	public enum Sex {
+		MALE,
+		FEMALE,
+		VARIOUS
+	}
+
 	static double getDiscount(CustomerType customerType) {
 		switch (customerType) {
 			case MANAGER: return 0.20;

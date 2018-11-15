@@ -17,43 +17,43 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputFirstName">Vorname</label>
-                        <input type="text" class="form-control" id="inputFirstName" placeholder="Vorname">
+                        <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Vorname">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputName">Nachname</label>
-                        <input type="text" class="form-control" id="inputName" placeholder="Nachname">
+                        <input type="text" class="form-control" id="inputName" name="lastname" placeholder="Nachname">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputPhoneNumber">Telefonnummer</label>
-                        <input type="text" class="form-control" id="inputPhoneNumber" placeholder="Telefonnummer">
+                        <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Telefonnummer">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputEmail">Email</label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email">
                     </div>
                     <div class="form-group col-md-12">
                         <label for="inputAddress">Adresse</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="Adresse">
+                        <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Adresse">
                     </div>
                 </div>
                 <div class="form-row">
 
                     <div class="form-group col-md-6">
                         <label for="inputCustomer">Kunden-Art</label>
-                        <select id="inputCustomer" class="form-control">
-                            <option selected>Hauskunde</option>
-                            <option>Großkunde</option>
-                            <option>Personal</option>
+                        <select id="inputCustomer" class="form-control" name="type">
+                            <option value="House" selected>Hauskunde</option>
+                            <option value="Major">Großkunde</option>
+                            <option value="Staff">Personal</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputsex">Geschlecht</label>
-                        <select id="inputsex" class="form-control">
-                            <option selected>männlich</option>
-                            <option>weiblich</option>
-                            <option>divers</option>
+                        <select id="inputsex" class="form-control" name="sex">
+                            <option value="male" selected>männlich</option>
+                            <option value="female">weiblich</option>
+                            <option value="various">divers</option>
                         </select>
                     </div>
                 </div>
