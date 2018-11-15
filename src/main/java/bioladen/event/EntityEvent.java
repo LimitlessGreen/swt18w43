@@ -1,43 +1,29 @@
 package bioladen.event;
 
+import lombok.Getter;
+import org.salespointframework.core.AbstractEntity;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
 
-public class EntityEvent<T> implements ResolvableTypeProvider {
+public class EntityEvent<T extends AbstractEntity> implements ResolvableTypeProvider {
 
-	private T entity;
-	private EventLevel eventLevel;
-	private String message = "No message";
+	private @Getter T entity;
+	private @Getter EntityLevel eventLevel;
+	private @Getter String message = "No message";
 
-	public enum EventLevel {
-		CREATED, MODIFIED, DELETED
-	}
-
-	public EntityEvent(T entity, EventLevel eventLevel) {
+	public EntityEvent(T entity, EntityLevel eventLevel) {
 		this.entity = entity;
 		this.eventLevel = eventLevel;
 	}
 
-	public EntityEvent(T entity, EventLevel eventLevel, String message) {
+	public EntityEvent(T entity, EntityLevel eventLevel, String message) {
 		this.entity = entity;
 		this.eventLevel = eventLevel;
 		this.message = message;
 	}
 
-	public T getEntity() {
-		return entity;
-	}
-
 	public String getPublisherName() {
 		return entity.getClass().toString();
-	}
-
-	public EventLevel getEventLevel() {
-		return eventLevel;
-	}
-
-	public String getMessage() {
-		return message;
 	}
 
 	@Override
