@@ -2,11 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap.css}">
         <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <title>Kasse</title>
     </head>
     <body>
@@ -19,7 +16,7 @@
                 <div class="row">
                     <div class="col-lg-6" >
 
-                        <form class="form-group" method="post" th:action="@{/cashiersystem}">
+                        <form class="form-group" method="post" th:action="@{/cashiersystem}"> <!-- Sends pid and amount -->
 
                             <div class="form-group"> <!-- form for product code -->
                                 <label for="pidInput">Produkt-Code</label>
@@ -30,7 +27,7 @@
                                 <div class="row">
                                     <div class="col-lg-6" >
 
-                                        <script> // functions for numpad
+                                        <script> // functions for numpad pid
                                             var pidInput = "";
                                             function pidUpdate(char) {
                                                 pidInput = pidInput + char;
@@ -46,7 +43,7 @@
                                             }
                                         </script>
 
-                                        <div class="btn-group-vertical"> <!-- numpad -->
+                                        <div class="btn-group-vertical"> <!-- numpad pid -->
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-lg" onclick="pidUpdate('7')">7</button>
                                                 <button type="button" class="btn btn-lg" onclick="pidUpdate('8')">8</button>
@@ -92,8 +89,8 @@
                                             <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1">
                                             <div align="right">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-danger" onclick="add(-1)">-1</button> <!-- substract one from amount -->
-                                                    <button type="button" class="btn btn-success" onclick="add(1)">+1</button> <!-- add one to amount -->
+                                                    <button type="button" class="btn btn-lg btn-danger" onclick="add(-1)">-1</button> <!-- substract one from amount -->
+                                                    <button type="button" class="btn btn-lg btn-success" onclick="add(1)">+1</button> <!-- add one to amount -->
                                                 </div>
                                             </div>
                                         </div>
@@ -122,7 +119,7 @@
                                         <input type="text" class="form-control" id="userId" name="userIdInput" placeholder="Kunden ID eingeben">
                                     </div>
 
-                                    <script> // functions for numpad
+                                    <script> // functions for numpad userId
                                     var userIdInput = "";
                                     function userIdUpdate(char) {
                                         userIdInput = userIdInput + char;
@@ -138,7 +135,7 @@
                                     }
                                     </script>
 
-                                    <div class="btn-group-vertical"> <!-- numpad -->
+                                    <div class="btn-group-vertical"> <!-- numpad userId -->
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-lg" onclick="userIdUpdate('7')">7</button>
                                             <button type="button" class="btn btn-lg" onclick="userIdUpdate('8')">8</button>
@@ -165,11 +162,12 @@
                                         </div>
                                     </div>
 
-                                    <script>
+                                    <script> // functions for change calculation
                                         var changeInput;
                                         var sum;
                                         function calculateChange() {
                                             sum = document.getElementById('sum').value;
+                                            sum = sum.substring(3, sum.length);
                                             changeInput = document.getElementById('change').value;
                                             document.getElementById('changeValue').value=((Math.round((changeInput - sum) * 100)/100).toFixed(2));
                                         }
@@ -179,7 +177,7 @@
                                         <br>
                                         <label for="change">Bargeld</label>
 
-                                        <script> // functions for numpad
+                                        <script> // functions for numpad change
                                         var changeInput = "";
                                         function changeUpdate(char) {
                                             changeInput = changeInput + char;
@@ -196,7 +194,7 @@
                                         </script>
 
                                         <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
-                                        <div class="btn-group-vertical"> <!-- numpad -->
+                                        <div class="btn-group-vertical"> <!-- numpad change -->
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-lg" onclick="changeUpdate('7')">7</button>
                                                 <button type="button" class="btn btn-lg" onclick="changeUpdate('8')">8</button>
@@ -227,7 +225,7 @@
 
                                 </div>
 
-                                <div class="col-lg-6" id="Overview">
+                                <div class="col-lg-6" id="Overview"> <!-- Overview of values of cart -->
                                     <div id="OverviewText">
                                         <a>Anzahl der Artikel: </a>
                                         <input type="text" class="form-control" id="number" name="number" placeholder="Anzahl" readonly>
@@ -244,9 +242,15 @@
                                     </div>
                                     <div id="OverviewText">
                                         <a>Summe: </a>
-                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" readonly>
+                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${{cart.price}}" readonly>
                                     </div>
+
+                                    <div align="right">
+                                        <button class="alert alert-primary btn-lg" type="submit" id="finish">Fertig</button>
+                                    </div>
+
                                 </div>
+
                             </div>
                         </div>
 

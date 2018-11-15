@@ -10,32 +10,82 @@
 
     <nav th:include="navigation :: navigation"></nav>
 
-    <div th:unless="${cart.empty}">
-        <table class="table">
-            <thead> <!-- table head -->
+    <div class="container">
+        <div class="container-fluid">
 
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Code</th>
-                <th scope="col">Preis</th>
-                <th scope="col">Menge</th>
-                <th scope="col">Editieren</th>
-            </tr>
+            <header>
+                <h1>Warenkorb</h1>
+            </header>
 
-            </thead>
 
-            <tbody> <!-- table body -->
+            <div th:if="${cart.empty}"> <!-- Handling for empty cart -->
+                <div class="header" align="center">
+                    Dein Warenkorb ist leer
+                </div>
+            </div>
 
-            <tr th:each="item : ${cart} ">
-                <td scope="row" th:text="${item.productName}">ProductName</td>
-                <td th:text="${item.id}">1</td>
-                <td th:text="${item.price}">1</td>
-                <td th:text="${item.amount}">1</td>
-                <td>Löschen</td>
-            </tr>
+            <div th:unless="${cart.empty}"> <!-- Handling for non empty cart -->
+                <table class="table">
+                    <thead> <!-- table head -->
 
-            </tbody>
-        </table>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Preis</th>
+                        <th scope="col">Menge</th>
+                        <th scope="col">Editieren</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody> <!-- table body -->
+
+                    <tr th:each="item : ${cart} ">
+                        <td scope="row" th:text="${item.productName}">ProductName</td>
+                        <td th:text="${item.id}">1</td>
+                        <td th:text="${item.price}">1</td>
+                        <td th:text="${item.amount}">1</td>
+                        <td>Löschen</td>
+                    </tr>
+
+                    <tr>
+                        <td>Name</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Edit</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Edit</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Edit</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+
+                <div class="col"> <!-- Sum of CartItems -->
+                    <div class="align-content-center">
+                        <div class="label" align="center">Summe: </div>
+                        <div class="value" align="center"><span th:text="${{cart.price}}">1337</span></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
 </body>
 </html>
