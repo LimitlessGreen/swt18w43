@@ -9,7 +9,7 @@ body {
 	margin: 0 auto;
 	width: auto;
 	font: 13px/22px Helvetica, Arial, sans-serif;
-	background-image: url("http://www.hdbilder.eu/p/get_photo/474191/1920/1080");
+	background-image: url(../image/background.jpg);
 	background-repeat: no-repeat;
     background-size: cover;
 }
@@ -80,4 +80,3 @@ body,html {
 .scroll {
     overflow: scroll;
 }
-
