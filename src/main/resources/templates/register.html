@@ -14,10 +14,11 @@
 <body>
 
     <nav th:include="navigation :: navigation"></nav>
-    <div class="container">
-        <h1>User hinzufügen</h1>
-        <br>
+    <div class="container" id="centerBox">
+
         <div>
+            <h1 align="center">User hinzufügen</h1>
+            <br>
             <form method="post" th:action="@{/register}">
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -63,8 +64,9 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">User erstellen</button>
+                <button type="submit" class="btn btn-success">User erstellen</button>
             </form>
+            <br>
         </div>
 
     </div>

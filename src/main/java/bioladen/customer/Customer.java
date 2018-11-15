@@ -63,5 +63,10 @@ public class Customer extends AbstractEntity {
 	public CustomerIdentifier getId() {
 		return customerIdentifier;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s %s: {email: %s, phone: %s, address: %s, type: %s, sex: %s}", firstname, lastname, email, phone, street, customerType, sex);
+	}
 }
 
