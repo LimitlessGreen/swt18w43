@@ -1,5 +1,7 @@
 package bioladen.product.distributor;
 
+import org.springframework.stereotype.Controller;
+
 @Controller
 public class DistributorController {
 

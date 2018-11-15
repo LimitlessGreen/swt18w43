@@ -1,5 +1,6 @@
 package bioladen.order;
 
+import bioladen.event.EntityCreatedEvent;
 import bioladen.product.DistributorProduct;
 import bioladen.product.Product;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class OrderAssistant {
 	}
 
 	public void publishOrderCreatedEvent(Order order) {
-
+		//TODO
+		new EntityCreatedEvent(order);
 	}
 
 
