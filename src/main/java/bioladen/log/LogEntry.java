@@ -6,11 +6,13 @@ import org.salespointframework.core.AbstractEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Table(name = "LOG")
-public class LogEntry<T> extends AbstractEntity<LogEntryIdentifier> {
+public class LogEntry extends AbstractEntity<LogEntryIdentifier> {
 
 	@EmbeddedId //
 	@AttributeOverride(name = "id", column = @Column(name = "LOG_ID")) //
@@ -22,7 +24,9 @@ public class LogEntry<T> extends AbstractEntity<LogEntryIdentifier> {
 	private @Getter String thrownBy;
 	private @Setter LocalDateTime saveTime = null;
 	private @Getter String message = "No message";
-	private @Setter @Getter EntryContainer entry = null;
+
+	@OneToMany(mappedBy = "logEntry", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<EntryContainer> entryContainers = new ArrayList<>();
 
 	public LogEntry(LogLevel logLevel, String thrownBy, String message) {
 		this.logLevel = logLevel;
@@ -51,8 +55,10 @@ public class LogEntry<T> extends AbstractEntity<LogEntryIdentifier> {
 	 *
 	 * @return
 	 */
-	public boolean hasEntry(){
-		return entry != null;
+
+	public void addEntryContainer(EntryContainer entryContainer) {
+		entryContainers.add(entryContainer);
+		entryContainer.setLogEntry(this);
 	}
 
 	@Override
