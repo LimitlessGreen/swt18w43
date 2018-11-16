@@ -10,6 +10,7 @@ import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderManager;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,8 +66,15 @@ public class CashierSystem extends ShoppingCart {
 	 * @return
 	 */
 	@PostMapping("/cashiersystem")
-	String addProduct(@RequestParam("pid") ProductIdentifier product, @RequestParam("amount") int amount, @ModelAttribute Cart cart) {
-		cart.addOrUpdateItem(inventory.findByProductIdentifier(product).get().getProduct(), Quantity.of((long) amount));
+	String addProduct(@RequestParam("pid") ProductIdentifier product, @RequestParam("amount") int amount, @ModelAttribute Cart cart, Model model) {
+		try {
+			cart.addOrUpdateItem(inventory.findByProductIdentifier(product).get().getProduct(), Quantity.of((long) amount));
+		}
+		catch (Exception e) {
+			model.addAttribute("error", true);
+			model.addAttribute("errorMsg", "Kein Produkt gefunden");
+			return "cashiersystem";
+		}
 
 		return "redirect:/cashiersystem";
 	}

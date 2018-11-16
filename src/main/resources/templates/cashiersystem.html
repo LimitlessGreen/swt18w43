@@ -24,6 +24,11 @@
                         <form class="form-group" method="post" th:action="@{/cashiersystem}"> <!-- Sends pid and amount -->
 
                             <div class="form-group"> <!-- form for product code -->
+                                <div class="alert alert-danger alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>Achtung!</strong> <a th:text="${errorMsg}"></a>
+                                </div>
+
                                 <label for="pidInput">Produkt-Code</label>
                                 <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben">
                             </div>
