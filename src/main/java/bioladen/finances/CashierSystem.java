@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.product.Product;
+import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.ProductIdentifier;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
@@ -11,6 +12,9 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 
 /**
  * @author Lukas Petzold
@@ -52,12 +56,34 @@ public class CashierSystem extends ShoppingCart {
 		return "cart";
 	}
 
-
+	/**
+	 * Adds Products to ShoppingCart
+	 *
+	 * @param product gets added
+	 * @param amount times into the
+	 * @param cart
+	 * @return
+	 */
 	@PostMapping("/cashiersystem")
 	String addProduct(@RequestParam("pid") ProductIdentifier product, @RequestParam("amount") int amount, @ModelAttribute Cart cart) {
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(product).get().getProduct(), Quantity.of((long) amount));
 
-		return "redirect:/cart";
+		return "redirect:/cashiersystem";
+	}
+
+	/**
+	 * Calculates the change with the given
+	 * @param changeInput and the Sum of the
+	 * @param cart
+	 * @return
+	 */
+	@PostMapping("calcChange")
+	String calcChange(@RequestParam("changeInput") Long changeInput, @ModelAttribute Cart cart) {
+		MonetaryAmount money = Money.of(changeInput, Monetary.getCurrency("EUR"));
+		System.out.println(money.subtract(cart.getPrice()));
+		money = money.subtract(cart.getPrice());
+
+		return "redirect:/cashiersystem?money=" + money;
 	}
 
 }

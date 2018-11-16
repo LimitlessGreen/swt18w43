@@ -245,13 +245,11 @@
                                     </div>
 
                                     <script> // functions for change calculation
-                                        var changeInput;
-                                        var sum;
                                         function calculateChange() {
-                                            sum = document.getElementById('sum').value;
-                                            sum = sum.substring(3, sum.length);
-                                            changeInput = document.getElementById('change').value;
-                                            document.getElementById('changeValue').value=((Math.round((changeInput - sum) * 100)/100).toFixed(2));
+                                            var change = document.URL.split("?")[1];
+                                            change = change.split("=")[1];
+                                            change = change.replace("%20", "");
+                                            document.getElementById('changeValue').value=change;
                                         }
                                     </script>
 
@@ -275,33 +273,35 @@
                                         }
                                         </script>
 
-                                        <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
-                                        <div class="btn-group-vertical"> <!-- numpad change -->
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('7')">7</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('8')">8</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('9')">9</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeRemoveOne()">←</button>
+                                        <form class="from-group" method="post" th:action="@{/calcChange}">
+                                            <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
+                                            <div class="btn-group-vertical"> <!-- numpad change -->
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('7')">7</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('8')">8</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('9')">9</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeRemoveOne()">←</button>
+                                                </div>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('4')">4</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('5')">5</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('6')">6</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeRemove()">C</button>
+                                                </div>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('1')">1</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('2')">2</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('3')">3</button>
+                                                    <button type="submit" class="btn btn-lg">Tick</button>
+                                                </div>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('.')">.</button>
+                                                    <button type="button" class="btn btn-lg" onclick="changeUpdate('0')">0</button>
+                                                    <button class="btn" type="button" onclick="calculateChange()">Berechnen</button>
+                                                </div>
+                                                <label>Wechselgeld: </label>
                                             </div>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('4')">4</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('5')">5</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('6')">6</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeRemove()">C</button>
-                                            </div>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('1')">1</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('2')">2</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('3')">3</button>
-                                                <button type="submit" class="btn btn-lg"></button>
-                                            </div>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('.')">.</button>
-                                                <button type="button" class="btn btn-lg" onclick="changeUpdate('0')">0</button>
-                                                <button class="btn" type="button" onclick="calculateChange()">Berechnen</button>
-                                            </div>
-                                            <label>Wechselgeld: </label>
-                                        </div>
+                                        </form>
                                         <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" readonly>
                                     </div>
 
