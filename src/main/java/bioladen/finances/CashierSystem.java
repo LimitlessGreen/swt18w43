@@ -78,7 +78,7 @@ public class CashierSystem extends ShoppingCart {
 	 * @return
 	 */
 	@PostMapping("calcChange")
-	String calcChange(@RequestParam("changeInput") Long changeInput, @ModelAttribute Cart cart) {
+	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute Cart cart) {
 		MonetaryAmount money = Money.of(changeInput, Monetary.getCurrency("EUR"));
 		System.out.println(money.subtract(cart.getPrice()));
 		money = money.subtract(cart.getPrice());
