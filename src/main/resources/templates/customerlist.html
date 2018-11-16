@@ -32,15 +32,15 @@
                 </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
-                <tr> <!--th:each=" customer : ${customerList}">-->
-                    <td> <!--th:text="${customer.Customer.id}">-->1</td>
-                    <td> <!--th:text="${customer.Customer.lastname}">-->Feldfreude</td>
-                    <td> <!--th:text="${customer.Customer.firstname}">-->Flori</td>
-                    <td> <!--th:text="${customer.Customer.type}">-->MANAGER</td>
-                    <td> <!--th:text="${customer.Customer.email}">-->blattgrün@bioladen.de</td>
-                    <td> <!--th:text="${customer.Customer.street}">-->Feldweg 43</td>
-                    <td> <!--th:text="${customer.Customer.number}">-->035135426236</td>
-                    <td> <!--th:text="${customer.Customer.sex}">-->MALE</td>
+                <tr> th:each=" customer : ${customers}">
+                    <td th:text="${customer.id}">1</td>
+                    <td th:text="${customer.lastname}">Feldfreude</td>
+                    <td th:text="${customer.firstname}">Flori</td>
+                    <td th:text="${customer.type}">MANAGER</td>
+                    <td th:text="${customer.email}">blattgrün@bioladen.de</td>
+                    <td th:text="${customer.street}">Feldweg 43</td>
+                    <td th:text="${customer.number}"> 035135426236</td>
+                    <td th:text="${customer.sex}">MALE</td>
                     <td><button type="button" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
                 </tr>
                 </tbody>

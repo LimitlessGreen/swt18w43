@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
 import javax.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.util.Streamable;
 
 @Controller
+@Transactional
 public class CustomerController implements ApplicationEventPublisherAware {
 
 	private final CustomerRepository customerRepository;
@@ -80,20 +82,10 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 	/*Function for customerlist.html*/
 
-	public Streamable<Customer> findAll() {
-		return Streamable.of(customerRepository.findAll());
-	}
-
-
-	@RequestMapping("/customerlist")
-	public String list() {
-		return "customerlist";
-	}
-
 	@GetMapping("/customerlist")
 	String customerRepository (Model model) {
 
-		model.addAttribute("customerList", findAll());
+		model.addAttribute("customers", Streamable.of(customerRepository.findAll()));
 
 		return "customerlist";
 	}

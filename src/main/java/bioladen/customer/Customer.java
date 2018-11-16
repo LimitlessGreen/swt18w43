@@ -47,6 +47,8 @@ public class Customer extends AbstractEntity {
 	private @Getter @Setter CustomerType customerType;
 	//TODO: userAcc : UserAccount
 
+	Customer(){}
+
 	Customer(String firstname, String lastname, String email, Sex sex, CustomerType customerType) {
 		this.firstname = firstname;
 		this.lastname = lastname;
