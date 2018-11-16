@@ -28,7 +28,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders")
-	public String orders(Model model, Cart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
+	public String orders(Model model, OrderCart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
 
 		Iterable<DistributorProduct> distributorProducts = new ArrayList<>();
 
@@ -55,14 +55,14 @@ public class OrderController {
 
 
 	@GetMapping("/orders/complete")
-	public String completeOrder(Model model, Cart cart) {
+	public String completeOrder(Model model, OrderCart cart) {
 
 		if (cart.isEmpty()) {
 			return "redirect:/orders";
 		}
 
 
-		Map<Distributor, Cart> distributorSetMap = new HashMap<>();
+		Map<Distributor, OrderCart> distributorSetMap = new HashMap<>();
 
 		int items = 0;
 		for (CartItem cartItem : cart) {
@@ -84,7 +84,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders/remove")
-	public String removeOrder(Model model, @RequestParam("id") String id, Cart cart) {
+	public String removeOrder(Model model, @RequestParam("id") String id, OrderCart cart) {
 
 		cart.removeItem(id);
 
@@ -93,7 +93,7 @@ public class OrderController {
 
 
 	@GetMapping("/orders/add")
-	public String addItem(Model model, Cart cart, @RequestParam("id") String id, @RequestParam("amount") Integer integer) {
+	public String addItem(Model model, OrderCart cart, @RequestParam("id") String id, @RequestParam("amount") Integer integer) {
 
 		DistributorProduct product = null; // TODO get when catalog is implemented
 
