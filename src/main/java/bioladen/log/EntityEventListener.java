@@ -20,6 +20,6 @@ public class EntityEventListener {
 	@Async
 	@EventListener
 	public void listenCustomerEvent(EntityEvent<Customer> event) {
-		logger.entity(event, "event.getEntity().toString()"); //TODO
+		logger.entity(event, event.getEntity().toString());
 	}
 }

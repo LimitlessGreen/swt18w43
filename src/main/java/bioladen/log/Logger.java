@@ -4,12 +4,14 @@ import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
 import org.salespointframework.core.AbstractEntity;
 import org.salespointframework.time.BusinessTime;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Objects;
 
 
 @Transactional
@@ -19,6 +21,9 @@ public class Logger implements ApplicationEventPublisherAware
 	private final LogRepository logRepository;
 	private final BusinessTime businessTime;
 	private final EntityManager entityManager;
+
+	// external slf4j Logger
+	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public Logger(LogRepository logRepository, BusinessTime businessTime, EntityManager entityManager) {
 		this.logRepository = logRepository;
@@ -43,6 +48,20 @@ public class Logger implements ApplicationEventPublisherAware
 
 		logRepository.save(logEntry);
 		publishEvent(logEntry, message);
+
+		//log to console
+
+		switch (logLevel) {
+			case INFO: logger.info(message); break;
+			case WARNING: logger.warn(message); break;
+			case ERROR: logger.error(message); break;
+			case DATA:
+				if (Objects.requireNonNull(entryContainer).getEntryLevel() != null) {
+					logger.info(String.format("Entity %s: %s", entryContainer.getEntryLevel(), message));
+				}
+				 break;
+			default: throw new IllegalArgumentException(logLevel.toString());
+		}
 
 		return logEntry;
 	}
@@ -69,8 +88,8 @@ public class Logger implements ApplicationEventPublisherAware
 		return this.log(LogLevel.DATA, entryContainer, message);
 	}
 
-	public <T extends EntityEvent> LogEntry entity(T entitEvent, String message) {
-		EntryContainer entryContainer = new EntryContainer(entitEvent.getEntity(), entitEvent.getEventLevel());
+	public <T extends EntityEvent> LogEntry entity(T entityEvent, String message) {
+		EntryContainer entryContainer = new EntryContainer(entityEvent.getEntity(), entityEvent.getEventLevel());
 
 		return this.log(LogLevel.DATA, entryContainer, message);
 	}
