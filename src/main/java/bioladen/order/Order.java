@@ -15,7 +15,5 @@ public class Order extends org.salespointframework.order.Order {
 		this.distributor = distributor;
 	}
 
-	public Order order;
-
 
 }
