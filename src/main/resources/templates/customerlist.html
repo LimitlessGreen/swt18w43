@@ -14,8 +14,39 @@
 <body>
 
     <nav th:include="navigation :: navigation"></nav>
-    <div class="container">
-        <h1>Hier könnte Ihre User Liste stehen</h1>
+    <div class="container" id="centerBox">
+        <div style="width: 80%">
+            <h1 align="center">Benutzer-Liste</h1>
+            <table class="table">
+                <thead>
+                <tr class="bg-success">
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Vorname</th>
+                    <th scope="col">Typ</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Telefonnummer</th>
+                    <th scope="col">Geschlecht</th>
+                    <th scope="col">&#x1F5D1;&#xFE0F;</th>
+                </tr>
+                </thead>
+                <tbody th:remove="all-but-first">
+                <tr> <!--th:each=" customer : ${customerList}">-->
+                    <td> <!--th:text="${customer.Customer.id}">-->1</td>
+                    <td> <!--th:text="${customer.Customer.lastname}">-->Feldfreude</td>
+                    <td> <!--th:text="${customer.Customer.firstname}">-->Flori</td>
+                    <td> <!--th:text="${customer.Customer.type}">-->MANAGER</td>
+                    <td> <!--th:text="${customer.Customer.email}">-->blattgrün@bioladen.de</td>
+                    <td> <!--th:text="${customer.Customer.street}">-->Feldweg 43</td>
+                    <td> <!--th:text="${customer.Customer.number}">-->035135426236</td>
+                    <td> <!--th:text="${customer.Customer.sex}">-->MALE</td>
+                    <td><button type="button" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
 
     </div>
 

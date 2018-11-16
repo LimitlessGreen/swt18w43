@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.util.Streamable;
 
 @Controller
 public class CustomerController implements ApplicationEventPublisherAware {
@@ -20,7 +21,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	CustomerController(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
-
+	/*Functions for register.html*/
 	@RequestMapping("/register")
 	public String register() {
 		return "register";
@@ -75,6 +76,26 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 	private void publishEvent(Customer customer, EntityLevel entityLevel) {
 		publisher.publishEvent(new EntityEvent<>(customer, entityLevel));
+	}
+
+	/*Function for customerlist.html*/
+
+	public Streamable<Customer> findAll() {
+		return Streamable.of(customerRepository.findAll());
+	}
+
+
+	@RequestMapping("/customerlist")
+	public String list() {
+		return "customerlist";
+	}
+
+	@GetMapping("/customerlist")
+	String customerRepository (Model model) {
+
+		model.addAttribute("customerList", findAll());
+
+		return "customerlist";
 	}
 }
 
