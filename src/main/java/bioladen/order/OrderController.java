@@ -70,14 +70,14 @@ public class OrderController {
 			distributorSetMap.computeIfAbsent(null /* TODO replace when DistributorProduct is a Product */, distributor -> new OrderCart()).addOrUpdateItem(cartItem.getProduct(), cartItem.getQuantity());
 		}
 
-		for ( Distributor distributor : distributorSetMap.keySet() ) {
-			Order order = new Order( null ,distributor ); // TODO replace with actual user
+		for (Distributor distributor : distributorSetMap.keySet()) {
+			Order order = new Order(null, distributor); // TODO replace with actual user
 			distributorSetMap.get(distributor).addItemsTo(order);
 			orderOrderManager.save(order);
 		}
 
 		model.addAttribute("price", cart.getPrice().signum());
-		model.addAttribute("productcount", items );
+		model.addAttribute("productcount", items);
 		model.addAttribute("distributorcount", distributorSetMap.size());
 
 		return "orderfinished";

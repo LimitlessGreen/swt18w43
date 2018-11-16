@@ -64,8 +64,8 @@
                     <td th:text="${product.getPrice().signum()}"></td>
                     <td th:text="${amount} * ${product.getPrice().signum()}"></td>
                     <td>?</td>
-                    <td><a th:href="'/orders/add?id=' + ${item.getId()} + '&amount=' + ${amount}">
-                        <button class="btn btn-success">Hinzufüge</button>
+                    <td><a th:href="'/orders/add?id=' + ${product.getId()} + '&amount=' + ${amount}">
+                        <button class="btn btn-success">Hinzufügen</button>
                     </a></td>
                 </tr>
                 </tbody>
@@ -117,9 +117,8 @@
                     </div>
 
                 </div>
-                <div class="col-lg-4 offset-lg-4"></div>
 
-                <div class="col-lg-1">
+                <div class="offset-lg-3 col-lg-1">
                     <a href="/orders/complete"><button class="btn btn-success">Bestellen</button></a>
                 </div>
             </div>
