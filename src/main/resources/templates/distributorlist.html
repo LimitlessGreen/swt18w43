@@ -29,15 +29,17 @@
             </tr>
             </thead>
             <tbody th:remove="all-but-first">
-            <tr th:each="customer : ${customerList}">
-                <td th:text="${customer.getId()}">1</td>
-                <td th:text="${customer.getName()}">Feldfreude</td>
-                <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
-                <td th:text="${customer.getContactName()}">Feldweg 43</td>
-                <td th:text="${customer.getPhone()}"> 035135426236</td>
-                <td><button type="button" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+            <tr th:each="distributor : ${distributorList}">
+                <td th:text="${distributor.getId()}">1</td>
+                <td th:text="${distributor.getName()}">REWE</td>
+                <td th:text="${distributor.getEmail()}">blattgrün@bioladen.de</td>
+                <td th:text="${distributor.getContactName()}">Frida</td>
+                <td th:text="${distributor.getPhone()}">035135426236</td>
+                <form class="form-group" method="post" th:action="@{/removeDistributor}">
+                    <input value="0" id="delete" type="hidden" class="form-control" name="distributorIdentifier" th:value="${distributor.getId()}">
+                    <td><button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+                </form>
             </tr>
-            <!--<h1 th:text="${customerList}">Pups</h1>-->
             </tbody>
         </table>
     </div>

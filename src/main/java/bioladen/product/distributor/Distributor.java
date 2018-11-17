@@ -29,9 +29,11 @@ public class Distributor extends AbstractEntity<DistributorIdentifier> {
 	private @Getter @Setter String email;
 	private @Getter @Setter String contactName;
 	private @Getter @Setter String phone;
-	
-	public Distributor(DistributorIdentifier distributorIdentifier, String name, String email, String contactName, String phone) {
-		this.distributorIdentifier = distributorIdentifier;
+
+	public Distributor() {
+	}
+
+	public Distributor(String name, String email, String contactName, String phone) {
 		this.name = name;
 		this.email = email;
 		this.contactName = contactName;
