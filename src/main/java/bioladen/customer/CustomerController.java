@@ -13,6 +13,8 @@ import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.util.Streamable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @Transactional
@@ -85,8 +87,8 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	@GetMapping("/customerlist")
 	String customerRepository (Model model) {
 
-		model.addAttribute("customers", Streamable.of(customerRepository.findAll()));
-
+		model.addAttribute("customerList", Streamable.of(customerRepository.findAll()).stream().toArray());
+		//model.addAttribute("test", "Hallo Welt");
 		return "customerlist";
 	}
 }

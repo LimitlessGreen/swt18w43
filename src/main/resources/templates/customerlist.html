@@ -32,7 +32,7 @@
                 </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
-                <tr> th:each=" customer : ${customers}">
+                <tr th:each="customer : ${customerList}">
                     <td th:text="${customer.customerIdentifier}">1</td>
                     <td th:text="${customer.lastname}">Feldfreude</td>
                     <td th:text="${customer.firstname}">Flori</td>
@@ -43,6 +43,7 @@
                     <td th:text="${customer.sex}">MALE</td>
                     <td><button type="button" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
                 </tr>
+                <!--<h1 th:text="${customerList}">Pups</h1>-->
                 </tbody>
             </table>
         </div>
