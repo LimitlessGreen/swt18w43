@@ -5,15 +5,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class LogController {
+public class HistoryController {
 	private final DataEntryRepository dataEntryRepository;
 
-	LogController(DataEntryRepository dataEntryRepository) {
+	HistoryController(DataEntryRepository dataEntryRepository) {
 		this.dataEntryRepository = dataEntryRepository;
 	}
 
 	@GetMapping("/datahistory")
-	String log(Model model){
+	String datahistory(Model model){
 
 		return "datahistory";
 	}

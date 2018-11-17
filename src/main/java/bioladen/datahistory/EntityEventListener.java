@@ -1,6 +1,5 @@
 package bioladen.datahistory;
 
-import bioladen.customer.Customer;
 import bioladen.event.EntityEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +24,8 @@ public class EntityEventListener {
 		// break if is an DataEntry, to prevent event loop
 		if (event.getEntity() instanceof DataEntry) return;
 
-		dataHistoryManager.entity(event);
-		logger.info(String.format("History recived entity %s [%s]: %s",
+		dataHistoryManager.push(event);
+		logger.info(String.format("History recived push %s [%s]: %s",
 				event.getEntity().getClass(), event.getEventLevel(), event.getMessage()));
 	}
 }

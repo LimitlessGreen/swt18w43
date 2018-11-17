@@ -34,17 +34,17 @@ public class DataHistoryManager implements ApplicationEventPublisherAware
 		return dataEntry;
 	}
 
-	public <T> DataEntry entity(T entity, EntityLevel entityLevel, String message) {
+	public <T> DataEntry push(T entity, EntityLevel entityLevel, String message) {
 		if (message == null) message = entity.toString();
 
 		return this.log(entityLevel, entity, message);
 	}
-	public <T> DataEntry entity(T entity, EntityLevel entityLevel) {
+	public <T> DataEntry push(T entity, EntityLevel entityLevel) {
 
-		return this.entity(entity, entityLevel, null);
+		return this.push(entity, entityLevel, null);
 	}
 
-	public <T extends EntityEvent> DataEntry entity(T entityEvent) {
+	public <T extends EntityEvent> DataEntry push(T entityEvent) {
 
 		return this.log(entityEvent.getEventLevel(), entityEvent.getEntity(), entityEvent.getMessage());
 	}

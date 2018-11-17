@@ -22,7 +22,7 @@ public class DataEntry<T> {
 	private @Setter LocalDateTime saveTime = null;
 	private @Getter @Setter String message = "No message";
 	private @Getter T entity;
-	// TODO for later usage: add a user, who interacted with the entity
+	// TODO for later usage: add a user, who interacted with the push
 
 	public DataEntry() {}
 
@@ -55,7 +55,7 @@ public class DataEntry<T> {
 	 */
 	@Override
 	public String toString(){
-		return String.format("from %s entity [%s]. Message: %s",
+		return String.format("from %s push [%s]. Message: %s",
 				this.thrownBy,
 				this.entityLevel,
 				this.message);
