@@ -62,6 +62,18 @@ public class LogEntry extends AbstractEntity<LogEntryIdentifier> {
 	}
 
 	/**
+	 * Returns an EntryContainer or null, if there isn't one.
+	 * There is no reason to use ths method.
+	 *
+	 * @return {@link EntryContainer}
+	 */
+	public EntryContainer getEntryContainer() {
+		if (entryContainers.size() != 0) {
+			return entryContainers.get(0);
+		} else return null;
+	}
+
+	/**
 	 * Returns an user readable String of LogEntry
 	 *
 	 * @return
