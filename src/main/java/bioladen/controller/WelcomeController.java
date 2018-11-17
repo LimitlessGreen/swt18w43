@@ -15,22 +15,16 @@
  */
 package bioladen.controller;
 
-import bioladen.log.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class WelcomeController {
 
-	private final Logger logger;
-
-	WelcomeController(Logger logger){
-		this.logger = logger;
-	}
+	WelcomeController(){}
 
 	@RequestMapping("/")
 	public String index() {
-		logger.info("Startseite betreten");
 
 		return "welcome";
 	}

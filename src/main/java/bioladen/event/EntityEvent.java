@@ -5,15 +5,16 @@ import org.salespointframework.core.AbstractEntity;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
 
-public class EntityEvent<T extends AbstractEntity> implements ResolvableTypeProvider {
+public class EntityEvent<T> implements ResolvableTypeProvider {
 
 	private @Getter T entity;
 	private @Getter EntityLevel eventLevel;
-	private @Getter String message = "No message";
+	private @Getter String message;
 
 	public EntityEvent(T entity, EntityLevel eventLevel) {
 		this.entity = entity;
 		this.eventLevel = eventLevel;
+		this.message = entity.toString();
 	}
 
 	public EntityEvent(T entity, EntityLevel eventLevel, String message) {
