@@ -1,6 +1,5 @@
 package bioladen.finances;
 
-import bioladen.product.Product;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.ProductIdentifier;
 import org.salespointframework.inventory.Inventory;
@@ -25,12 +24,8 @@ import javax.money.MonetaryAmount;
 
 public class CashierSystem extends ShoppingCart {
 
-	private OrderManager<Order> orderManager;
-	private Inventory<InventoryItem> inventory;
-
-	CashierSystem() {
-
-	}
+	private final OrderManager<Order> orderManager;
+	private final Inventory<InventoryItem> inventory;
 
 	CashierSystem(OrderManager<Order> orderManager, Inventory<InventoryItem> inventory) {
 		Assert.notNull(orderManager, "OrderManager must not be null!");
@@ -71,8 +66,8 @@ public class CashierSystem extends ShoppingCart {
 			cart.addOrUpdateItem(inventory.findByProductIdentifier(product).get().getProduct(), Quantity.of((long) amount));
 		}
 		catch (Exception e) {
-			model.addAttribute("error", true);
-			model.addAttribute("errorMsg", "Kein Produkt gefunden");
+			model.addAttribute("errorPid", true);
+			model.addAttribute("errorMsgPid", "Kein Produkt gefunden");
 			return "cashiersystem";
 		}
 
@@ -85,13 +80,42 @@ public class CashierSystem extends ShoppingCart {
 	 * @param cart
 	 * @return
 	 */
-	@PostMapping("calcChange")
-	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute Cart cart) {
-		MonetaryAmount money = Money.of(changeInput, Monetary.getCurrency("EUR"));
-		System.out.println(money.subtract(cart.getPrice()));
-		money = money.subtract(cart.getPrice());
+	@PostMapping("/cashiersystemCalcChange")
+	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute Cart cart, Model model) {
+		try {
+			MonetaryAmount money = Money.of(changeInput, Monetary.getCurrency("EUR"));
+			money = money.subtract(cart.getPrice());
 
-		return "redirect:/cashiersystem?money=" + money;
+			return "redirect:/cashiersystem?money=" + money;
+		}
+		catch (Exception e) {
+			model.addAttribute("errorChange", true);
+			model.addAttribute("errorMsgChange", "Bitte Betrag eingeben");
+
+			return "cashiersystem";
+		}
+	}
+
+	/**
+	 * Tries finding the user with the
+	 * @param userId
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/cashiersystemUser")
+	String userId(@RequestParam("userId") String userId, Model model) {
+		try {
+			// TODO: find user
+
+			return "cashiersystem";
+		}
+		catch (Exception e) {
+			model.addAttribute("errorUid", true);
+			model.addAttribute("errorMsgUid", "Kein Kunde gefunden");
+
+			return "cashiersystem";
+		}
+
 	}
 
 }
