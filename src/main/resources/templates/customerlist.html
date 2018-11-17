@@ -41,7 +41,11 @@
                     <td th:text="${customer.getStreet()}">Feldweg 43</td>
                     <td th:text="${customer.getPhone()}"> 035135426236</td>
                     <td th:text="${customer.getSex()}">MALE</td>
-                    <td><button type="button" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+                    <form class="form-group" method="post" th:action="@{/customerDelete}">
+                        <input value="0" id="delete" type="hidden" class="form-control" name="UserCustomerID" th:value="${customer.getId()}">
+                        <td><button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+                    </form>
+
                 </tr>
                 <!--<h1 th:text="${customerList}">Pups</h1>-->
                 </tbody>

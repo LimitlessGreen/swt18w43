@@ -88,11 +88,18 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	/*Function for customerlist.html*/
 
 	@GetMapping("/customerlist")
-	String customerRepository (Model model) {
+	String customerRepository(Model model) {
 		List<Customer> customerList = customerRepository.findAll();
 		model.addAttribute("customerList", customerList);
 
 		return "customerlist";
+	}
+
+	@PostMapping("/customerDelete")
+	String deleteCustomer(@RequestParam("UserCustomerID") CustomerIdentifier identifier) {
+		customerRepository.deleteById(identifier);
+
+		return "redirect:/customerlist";
 	}
 }
 
