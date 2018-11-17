@@ -2,7 +2,9 @@ package bioladen.customer;
 
 import org.springframework.data.repository.CrudRepository;
 
-interface CustomerRepository extends CrudRepository<Customer, CustomerIdentifier>{
+import java.util.ArrayList;
 
+interface CustomerRepository extends CrudRepository<Customer, CustomerIdentifier>{
+	public ArrayList<Customer> findAll();
 
 }

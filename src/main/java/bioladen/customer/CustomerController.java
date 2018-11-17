@@ -16,6 +16,9 @@ import org.springframework.data.util.Streamable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @Transactional
 public class CustomerController implements ApplicationEventPublisherAware {
@@ -86,9 +89,9 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 	@GetMapping("/customerlist")
 	String customerRepository (Model model) {
+		List<Customer> customerList = customerRepository.findAll();
+		model.addAttribute("customerList", customerList);
 
-		model.addAttribute("customerList", Streamable.of(customerRepository.findAll()).stream().toArray());
-		//model.addAttribute("test", "Hallo Welt");
 		return "customerlist";
 	}
 }

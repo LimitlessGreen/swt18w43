@@ -33,14 +33,14 @@
                 </thead>
                 <tbody th:remove="all-but-first">
                 <tr th:each="customer : ${customerList}">
-                    <td th:text="${customer.customerIdentifier}">1</td>
-                    <td th:text="${customer.lastname}">Feldfreude</td>
-                    <td th:text="${customer.firstname}">Flori</td>
-                    <td th:text="${customer.type}">MANAGER</td>
-                    <td th:text="${customer.email}">blattgrün@bioladen.de</td>
-                    <td th:text="${customer.street}">Feldweg 43</td>
-                    <td th:text="${customer.phone}"> 035135426236</td>
-                    <td th:text="${customer.sex}">MALE</td>
+                    <td th:text="${customer.getId()}">1</td>
+                    <td th:text="${customer.getLastname()}">Feldfreude</td>
+                    <td th:text="${customer.getFirstname()}">Flori</td>
+                    <td th:text="${customer.getCustomerType()}">MANAGER</td>
+                    <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
+                    <td th:text="${customer.getStreet()}">Feldweg 43</td>
+                    <td th:text="${customer.getPhone()}"> 035135426236</td>
+                    <td th:text="${customer.getSex()}">MALE</td>
                     <td><button type="button" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
                 </tr>
                 <!--<h1 th:text="${customerList}">Pups</h1>-->
