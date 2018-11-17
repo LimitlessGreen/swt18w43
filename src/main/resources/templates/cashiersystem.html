@@ -341,7 +341,7 @@
                                     </div>
                                     <div id="OverviewText">
                                         <a>Summe: </a>
-                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${{cart.price}}" readonly>
+                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${cart.getPrice()}" readonly>
                                     </div>
 
                                     <div align="right">
