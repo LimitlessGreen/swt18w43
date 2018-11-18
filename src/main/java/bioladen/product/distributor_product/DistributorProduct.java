@@ -1,6 +1,3 @@
-/**
- * 
- */
 package bioladen.product.distributor_product;
 
 import bioladen.product.distributor.Distributor;
@@ -8,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+
 import java.math.BigDecimal;
 
 /**
