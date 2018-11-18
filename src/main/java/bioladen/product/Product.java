@@ -9,7 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +23,6 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class Product {
-
-	private final double PROFIT_MARGIN = 0.20;
-
 	@Id
 	private @Getter String productIdentifier;
 
@@ -37,6 +35,8 @@ public class Product {
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
 
 	public Product(String name, DistributorProductCatalog distributorProductCatalog) {
+		final double PROFIT_MARGIN = 0.20;
+
 		this.name = name;
 
 		this.distributorProducts = distributorProductCatalog.findAll().stream().filter(dp -> dp.getName().equals(name)).collect(Collectors.toList());

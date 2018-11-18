@@ -8,5 +8,5 @@ import java.util.ArrayList;
  * @author Adrian Kulisch
  */
 public interface DistributorProductCatalog extends MongoRepository<DistributorProduct, String> {
-	public ArrayList<DistributorProduct> findAll();
+	//public ArrayList<DistributorProduct> findAll();
 }
