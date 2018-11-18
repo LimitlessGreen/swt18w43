@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-    <title>Großhändlerliste</title>
+    <title>Großhändlerproduktliste</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
@@ -16,27 +16,29 @@
 <nav th:include="navigation :: navigation"></nav>
 <div class="container" id="centerBox">
     <div style="width: 80%">
-        <h1 align="center">Großhändlerliste</h1>
+        <h1 align="center">Großhändlerproduktliste</h1>
         <table class="table">
             <thead>
             <tr class="bg-success">
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
-                <th scope="col">E-Mail</th>
-                <th scope="col">Kontakt</th>
-                <th scope="col">Telefonnummer</th>
+                <th scope="col">Großhändler</th>
+                <th scope="col">Preis</th>
+                <th scope="col">Grundeinheit</th>
+                <th scope="col">Mindesbestellanzahl</th>
                 <th scope="col">&#x1F5D1;&#xFE0F;</th>
             </tr>
             </thead>
             <tbody th:remove="all-but-first">
-            <tr th:each="distributor : ${distributorList}">
-                <td th:text="${distributor.getDistributorIdentifier()}">1</td>
-                <td th:text="${distributor.getName()}">REWE</td>
-                <td th:text="${distributor.getEmail()}">blattgrün@bioladen.de</td>
-                <td th:text="${distributor.getContactName()}">Frida</td>
-                <td th:text="${distributor.getPhone()}">035135426236</td>
-                <form class="form-group" method="post" th:action="@{/removeDistributor}">
-                    <input value="0" id="delete" type="hidden" class="form-control" name="distributorIdentifier" th:value="${distributor.getDistributorIdentifier()}">
+            <tr th:each="distributor : ${distributorProductList}">
+                <td th:text="${distributorProduct.getDistributorProductIdentifier()}">1</td>
+                <td th:text="${distributorProduct.getName()}">Milch</td>
+                <td th:text="${distributorProduct.getDistributor().getName()}">REWE</td>
+                <td th:text="${distributorProduct.getPrice()}">500,-</td>
+                <td th:text="${distributorProduct.getUnit()} ${distributorProduct.getMetric()}">5 kg</td>
+                <td th:text="${distributorProduct.getMinimumOrderAmount()}">42</td>
+                <form class="form-group" method="post" th:action="@{/removedistributorProduct}">
+                    <input value="0" id="delete" type="hidden" class="form-control" name="distributorProductIdentifier" th:value="${distributorProduct.getDistributorProductIdentifier()}">
                     <td><button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
                 </form>
             </tr>

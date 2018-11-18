@@ -45,7 +45,7 @@ public class DistributorController {
 	}
 
 	@PostMapping("/removeDistributor")
-	String removeDistributor(@RequestParam("distributorIdentifier") DistributorIdentifier id) {
+	String removeDistributor(@RequestParam("distributorIdentifier") String id) {
 		distributorRepository.deleteById(id);
 
 		return "redirect:/distributorlist";

@@ -6,10 +6,12 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import lombok.NoArgsConstructor;
 import org.salespointframework.core.AbstractEntity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 /**
  * A distributor.
@@ -17,31 +19,21 @@ import lombok.Setter;
  * @author Adrian Kulisch
  */
 
-@Entity
-@Table(name = "DISTRIBUTOR")
-public class Distributor extends AbstractEntity<DistributorIdentifier> {
+@NoArgsConstructor
+public class Distributor {
 	
-	@EmbeddedId
-	@AttributeOverride(name = "id", column = @Column(name = "DISTRIBUTOR_ID")) //
-	private DistributorIdentifier distributorIdentifier = new DistributorIdentifier();
+	@Id
+	private @Getter String distributorIdentifier;
 	
 	private @Getter @Setter String name;
 	private @Getter @Setter String email;
 	private @Getter @Setter String contactName;
 	private @Getter @Setter String phone;
 
-	public Distributor() {
-	}
-
 	public Distributor(String name, String email, String contactName, String phone) {
 		this.name = name;
 		this.email = email;
 		this.contactName = contactName;
 		this.phone = phone;
-	}
-	
-	@Override
-	public DistributorIdentifier getId() {
-		return distributorIdentifier;
 	}
 }
