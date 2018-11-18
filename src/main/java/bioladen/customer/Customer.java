@@ -1,12 +1,15 @@
 package bioladen.customer;
-import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.salespointframework.core.AbstractEntity;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+
+@Access(AccessType.PROPERTY)
 public class Customer {
 
 	public enum CustomerType {
@@ -42,12 +45,13 @@ public class Customer {
 	private @Getter @Setter String phone;
 	private @Getter @Setter String street;
 
+
 	private @Getter Sex sex;
 	private @Getter @Setter CustomerType customerType;
 	//TODO: userAcc : UserAccount
 
-	Customer(){}
-
+	//Customer(){}
+	@PersistenceConstructor
 	Customer(String firstname, String lastname, String email, Sex sex, CustomerType customerType) {
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -55,6 +59,7 @@ public class Customer {
 		this.sex = sex;
 		this.customerType = customerType;
 	}
+
 
 	public boolean isCustomerType(CustomerType customerType) {
 		return customerType == this.customerType;
