@@ -5,10 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.salespointframework.core.AbstractEntity;
 import org.salespointframework.useraccount.UserAccount;
+import org.springframework.data.annotation.Id;
 
-@Entity
-@Table(name = "CUSTOMER")
-public class Customer extends AbstractEntity {
+public class Customer {
 
 	public enum CustomerType {
 		MANAGER,
@@ -33,9 +32,9 @@ public class Customer extends AbstractEntity {
 		}
 	}
 
-	@EmbeddedId //
-	@AttributeOverride(name = "id", column = @Column(name = "CUSTOMER_ID")) //
-	private CustomerIdentifier customerIdentifier = new CustomerIdentifier();
+	@Id
+	@Getter
+	private String id;
 
 	private @Getter @Setter String firstname;
 	private @Getter @Setter String lastname;
@@ -59,11 +58,6 @@ public class Customer extends AbstractEntity {
 
 	public boolean isCustomerType(CustomerType customerType) {
 		return customerType == this.customerType;
-	}
-
-	@Override
-	public CustomerIdentifier getId() {
-		return customerIdentifier;
 	}
 
 	@Override

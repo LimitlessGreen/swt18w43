@@ -96,7 +96,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	}
 
 	@PostMapping("/customerDelete")
-	String deleteCustomer(@RequestParam("UserCustomerID") CustomerIdentifier identifier) {
+	String deleteCustomer(@RequestParam("UserCustomerID") String identifier) {
 		customerRepository.deleteById(identifier);
 
 		return "redirect:/customerlist";
