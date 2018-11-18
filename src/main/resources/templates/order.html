@@ -60,11 +60,11 @@
 
                 <tbody>
                 <tr th:each="product : ${products}">
-                    <td th:text="${product.getProductName()}"></td>
-                    <td th:text="${product.getPrice().signum()}"></td>
-                    <td th:text="${amount} * ${product.getPrice().signum()}"></td>
+                    <td th:text="${product.getName()}"></td>
+                    <td th:text="${product.getPrice().doubleValue()}"></td>
+                    <td th:text="${amount} * ${product.getPrice().doubleValue()}"></td>
                     <td>?</td>
-                    <td><a th:href="'/orders/add?id=' + ${product.getId()} + '&amount=' + ${amount}">
+                    <td><a th:href="'/orders/add?id=' + ${product.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
                         <button class="btn btn-success">Hinzufügen</button>
                     </a></td>
                 </tr>

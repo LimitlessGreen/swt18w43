@@ -1,12 +1,9 @@
 package bioladen.order;
 
 
-import bioladen.finances.ShoppingCart;
+import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
-import bioladen.product.distributor.Distributor;
-import org.salespointframework.order.Cart;
-import org.salespointframework.order.CartItem;
 import org.salespointframework.order.OrderManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -34,14 +33,22 @@ public class OrderController {
 
 		if (name.length() > 0) {
 			System.out.println("Filtering for " + name + " with amount " + amount);
-			// TODO get products from catalog
-			((ArrayList<DistributorProduct>) distributorProducts).removeIf(distributorProduct -> false);
-			// TODO check when DistributorProduct ist implemented
+			((ArrayList<DistributorProduct>) distributorProducts).addAll(distributorProductCatalog.findAll());
 
+			((ArrayList<DistributorProduct>) distributorProducts).removeIf(distributorProduct -> {
+				System.out.println(distributorProduct.getDistributorProductIdentifier());
+				if ( !distributorProduct.getName().contains(name) ) {
+					return true;
+				}
+				if (distributorProduct.getMinimumOrderAmount() * distributorProduct.getUnit().doubleValue() > amount) {
+					return true;
+				}
+				return false;
+			});
 		}
 
 		int articles = 0;
-		for (CartItem cartItem : cart) {
+		for (OrderCartItem cartItem : cart) {
 			articles++;
 		}
 
@@ -65,14 +72,14 @@ public class OrderController {
 		Map<Distributor, OrderCart> distributorSetMap = new HashMap<>();
 
 		int items = 0;
-		for (CartItem cartItem : cart) {
+		for (OrderCartItem cartItem : cart) {
 			items++;
-			distributorSetMap.computeIfAbsent(null /* TODO replace when DistributorProduct is a Product */, distributor -> new OrderCart()).addOrUpdateItem(cartItem.getProduct(), cartItem.getQuantity());
+			distributorSetMap.computeIfAbsent(cartItem.getProduct().getDistributor(), distributor -> new OrderCart()).addOrUpdateItem(cartItem.getProduct(), cartItem.getQuantity());
 		}
 
 		for (Distributor distributor : distributorSetMap.keySet()) {
 			Order order = new Order(null, distributor); // TODO replace with actual user
-			distributorSetMap.get(distributor).addItemsTo(order);
+			//distributorSetMap.get(distributor).addItemsTo(order);
 			orderOrderManager.save(order);
 		}
 
