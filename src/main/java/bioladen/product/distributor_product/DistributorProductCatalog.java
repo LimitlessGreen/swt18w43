@@ -1,10 +1,12 @@
 package bioladen.product.distributor_product;
 
-import org.salespointframework.catalog.ProductIdentifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.ArrayList;
 
-public interface DistributorProductCatalog extends MongoRepository<DistributorProduct, ProductIdentifier> {
+/**
+ * @author Adrian Kulisch
+ */
+public interface DistributorProductCatalog extends MongoRepository<DistributorProduct, String> {
 	public ArrayList<DistributorProduct> findAll();
 }
