@@ -115,13 +115,13 @@
 
                         <div class="pre-scrollable">
 
-                            <div th:if="${cart.empty}"> <!-- Handling for empty cart -->
+                            <div th:if="${shoppingCart.isEmpty()}"> <!-- Handling for empty cart -->
                                 <div class="header" align="center">
                                     Ihr Warenkorb ist leer
                                 </div>
                             </div>
 
-                            <div th:unless="${cart.empty}"> <!-- Handling for non empty cart -->
+                            <div th:unless="${shoppingCart.isEmpty()}"> <!-- Handling for non empty cart -->
                                 <table class="table">
                                     <thead> <!-- table head -->
 
@@ -137,15 +137,15 @@
 
                                     <tbody> <!-- table body -->
 
-                                    <tr th:each="item : ${cart} ">
-                                        <td scope="row" th:text="${item.productName}">ProductName</td>
-                                        <td th:text="${item.id}">1</td>
-                                        <td th:text="${item.price}">1</td>
-                                        <td th:text="${item.amount}">1</td>
+                                    <tr th:each="item : ${shoppingCart} ">
+                                        <td scope="row" th:text="${item.getName()}">ProductName</td>
+                                        <td th:text="${item.getId()}">1</td>
+                                        <td th:text="${item.getPrice()}">1</td>
+                                        <td th:text="${item.getQuantity()}">1</td>
                                         <td>
                                             <div class="form-group">
                                                 <form class="form-group" method="post" th:action="@{/delete}">
-                                                    <input type="hidden" name="productId" th:value="${item.id}">
+                                                    <input type="hidden" name="productId" th:value="${item.getId()}">
                                                     <button type="submit" class="btn btn-danger"></button>
                                                 </form>
                                                 <form class="form-group" method="post" th:action="@{/sub}">
@@ -184,6 +184,14 @@
 
                                     </tbody>
                                 </table>
+
+
+                                <div class="col"> <!-- Sum of CartItems -->
+                                    <div class="align-content-center">
+                                        <div class="label" align="center">Summe: </div>
+                                        <div class="value" align="center"><span th:text="${{shoppingCart.getPrice()}}">1337</span></div>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -341,7 +349,7 @@
                                     </div>
                                     <div id="OverviewText">
                                         <a>Summe: </a>
-                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${cart.getPrice()}" readonly>
+                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${shoppingCart.getPrice()}" readonly>
                                     </div>
 
                                     <div align="right">

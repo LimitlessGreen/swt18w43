@@ -1,5 +1,6 @@
 package bioladen.finances;
 
+import bioladen.product.ProductCatalog;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.ProductIdentifier;
 import org.salespointframework.inventory.Inventory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.money.Monetary;
 import javax.money.MonetaryAmount;
+import java.math.BigDecimal;
 
 /**
  * @author Lukas Petzold
@@ -25,17 +27,16 @@ import javax.money.MonetaryAmount;
 public class CashierSystem extends ShoppingCart {
 
 	private final OrderManager<Order> orderManager;
-	private final Inventory<InventoryItem> inventory;
+	private final ProductCatalog productCatalog;
 
-	CashierSystem(OrderManager<Order> orderManager, Inventory<InventoryItem> inventory) {
+	CashierSystem(OrderManager<Order> orderManager, ProductCatalog productCatalog) {
 		Assert.notNull(orderManager, "OrderManager must not be null!");
-		Assert.notNull(inventory, "Inventory must not be null");
 		this.orderManager = orderManager;
-		this.inventory = inventory;
+		this.productCatalog = productCatalog;
 	}
 
 
-	@ModelAttribute("cart")
+	@ModelAttribute("shoppingCart")
 	ShoppingCart initializeCart() {
 
 		return new ShoppingCart();
@@ -48,7 +49,8 @@ public class CashierSystem extends ShoppingCart {
 	}
 
 	@RequestMapping("/cart")
-	String basket() {
+	String basket(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+		model.addAttribute("shoppingCart", shoppingCart);
 		return "cart";
 	}
 
@@ -57,13 +59,13 @@ public class CashierSystem extends ShoppingCart {
 	 *
 	 * @param product gets added
 	 * @param amount times into the
-	 * @param cart
+	 * @param shoppingCart
 	 * @return
 	 */
 	@PostMapping("/cashiersystem")
-	String addProduct(@RequestParam("pid") ProductIdentifier product, @RequestParam("amount") int amount, @ModelAttribute Cart cart, Model model) {
+	String addProduct(@RequestParam("pid") String product, @RequestParam("amount") int amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			cart.addOrUpdateItem(inventory.findByProductIdentifier(product).get().getProduct(), Quantity.of((long) amount));
+			shoppingCart.addOrUpdateItem(productCatalog.findById(product).get(), Quantity.of((long) amount));
 		}
 		catch (Exception e) {
 			model.addAttribute("errorPid", true);
@@ -77,14 +79,14 @@ public class CashierSystem extends ShoppingCart {
 	/**
 	 * Calculates the change with the given
 	 * @param changeInput and the Sum of the
-	 * @param cart
+	 * @param shoppingCart
 	 * @return
 	 */
 	@PostMapping("/cashiersystemCalcChange")
-	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute Cart cart, Model model) {
+	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			MonetaryAmount money = Money.of(changeInput, Monetary.getCurrency("EUR"));
-			money = money.subtract(cart.getPrice());
+			BigDecimal money = BigDecimal.valueOf(changeInput);
+			money = money.subtract(shoppingCart.getPrice());
 
 			return "redirect:/cashiersystem?money=" + money;
 		}
