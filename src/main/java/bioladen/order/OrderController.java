@@ -10,12 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
+@SessionAttributes("cart")
 public class OrderController {
 
 	private OrderManager<Order> orderOrderManager;
@@ -27,7 +30,8 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders")
-	public String orders(Model model, OrderCart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
+	public String orders(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
+
 
 		Iterable<DistributorProduct> distributorProducts = new ArrayList<>();
 
@@ -62,7 +66,7 @@ public class OrderController {
 
 
 	@GetMapping("/orders/complete")
-	public String completeOrder(Model model, OrderCart cart) {
+	public String completeOrder(Model model, @ModelAttribute("cart") OrderCart cart) {
 
 		if (cart.isEmpty()) {
 			return "redirect:/orders";
@@ -91,7 +95,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders/remove")
-	public String removeOrder(Model model, @RequestParam("id") String id, OrderCart cart) {
+	public String removeOrder(Model model, @RequestParam("id") String id, @ModelAttribute("cart") OrderCart cart) {
 
 		cart.removeItem(id);
 
@@ -100,11 +104,13 @@ public class OrderController {
 
 
 	@GetMapping("/orders/add")
-	public String addItem(Model model, OrderCart cart, @RequestParam("id") String id, @RequestParam("amount") Integer integer) {
+	public String addItem(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam("id") String id, @RequestParam("amount") Integer integer) {
 
-		DistributorProduct product = null; // TODO get when catalog is implemented
+		Optional<DistributorProduct> product = distributorProductCatalog.findById(id);
 
-		cart.addOrUpdateItem(null, integer); // TODO replace with product
+		if (product.isPresent()) {
+			cart.addOrUpdateItem(product.get(), integer);
+		}
 
 		return "redirect:/orders";
 	}
@@ -112,7 +118,6 @@ public class OrderController {
 
 	@ModelAttribute("cart")
 	OrderCart initializeCart() {
-
 		return new OrderCart();
 	}
 
