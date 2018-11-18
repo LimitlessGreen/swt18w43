@@ -1,13 +1,6 @@
 package bioladen.product.distributor;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import lombok.NoArgsConstructor;
-import org.salespointframework.core.AbstractEntity;
 
 import lombok.Getter;
 import lombok.Setter;

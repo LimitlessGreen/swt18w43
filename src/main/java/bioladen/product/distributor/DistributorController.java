@@ -1,6 +1,5 @@
 package bioladen.product.distributor;
 
-import bioladen.event.EntityLevel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

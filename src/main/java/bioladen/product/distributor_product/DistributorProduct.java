@@ -8,16 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-
-import org.salespointframework.catalog.ProductIdentifier;
-import org.salespointframework.quantity.Metric;
-import org.salespointframework.quantity.Quantity;
-
-import javax.money.MonetaryAmount;
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A offered product of a distributor.

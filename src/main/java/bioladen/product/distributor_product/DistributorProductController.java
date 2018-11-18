@@ -1,10 +1,7 @@
 package bioladen.product.distributor_product;
 
 import bioladen.product.distributor.Distributor;
-import bioladen.product.distributor.DistributorController;
 import bioladen.product.distributor.DistributorRepository;
-import org.javamoney.moneta.Money;
-import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import static org.salespointframework.core.Currencies.EURO;
 
 @Controller
 public class DistributorProductController {
