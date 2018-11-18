@@ -1,59 +1,50 @@
 /**
- * 
+ *
  */
 package bioladen.product;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.money.MonetaryAmount;
-import javax.persistence.OneToMany;
-
 import bioladen.product.distributor_product.DistributorProduct;
-import org.salespointframework.quantity.Metric;
-import org.salespointframework.quantity.Quantity;
-
+import bioladen.product.distributor_product.DistributorProductCatalog;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * A product in inventory.
- * 
+ * A product.
+ *
  * @author Adrian Kulisch
  */
 
-//@Entity
-@ToString
-public class Product extends org.salespointframework.catalog.Product {
-//	private long inventoryAmount = 0;
-//	private long displayedAmount = 0;
-//
-//	@OneToMany
-//	private List<DistributorProduct> distributorProducts = new ArrayList<>();
-//
-//	private Product() {}
-//
-//	public Product(String name, Quantity unit, Metric unitMetric, MonetaryAmount unitPrice, List<DistributorProduct> distributorProducts) {
-//		super(name, unitPrice, unitMetric);
-//
-//		this.distributorProducts = distributorProducts;
-//	}
-//
-//	public Quantity getUnit() {
-//		return this.unit;
-//	}
-//
-//	public long getInventoryAmount() {
-//		return this.inventoryAmount;
-//	}
-//
-//	public long getDisplayedAmount() {
-//		return this.displayedAmount;
-//	}
-//	
-//	public Iterable<DistributorProduct> getDistributorProducts() {
-//		return this.distributorProducts;
-//	}
+@NoArgsConstructor
+public class Product {
+
+	private final double PROFIT_MARGIN = 0.20;
+
+	@Id
+	private @Getter String productIdentifier;
+
+	private @NonNull @Getter @Setter String      name;
+	private @NonNull @Getter @Setter BigDecimal  price;
+	private @NonNull @Getter @Setter BigDecimal  unit;
+	private          @Getter @Setter long        inventoryAmount;
+	private          @Getter @Setter long        displayedAmount;
+
+	private @Getter @Setter List<DistributorProduct> distributorProducts;
+
+	public Product(String name, DistributorProductCatalog distributorProductCatalog) {
+		this.name = name;
+
+		this.distributorProducts = distributorProductCatalog.findAll().stream().filter(dp -> dp.getName().equals(name)).collect(Collectors.toList());
+
+		this.price = this.distributorProducts.get(0).getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN)); //TODO: profit margin onto WHAT price?
+		this.unit = this.distributorProducts.get(0).getUnit();
+
+		this.inventoryAmount = 0;
+		this.displayedAmount = 0;
+	}
 }

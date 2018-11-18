@@ -36,5 +36,4 @@ public class DistributorProduct {
 		this.unit = unit;
 		this.minimumOrderAmount = minimumOrderAmount;
 	}
-
 }
