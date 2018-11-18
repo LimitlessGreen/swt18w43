@@ -19,8 +19,21 @@ public class DataHistoryManager implements ApplicationEventPublisherAware
 	}
 
 	private<T> DataEntry log(EntityLevel entityLevel, T entity, String message) {
-		//get classname of caller, needs to go 3 steps back in StackTrace
-		String thrownBy = new Exception().getStackTrace()[3].getClassName();
+
+		//get classname of caller, needs to search back in StackTrace
+
+		String thrownBy = "unknown";
+		StackTraceElement[] trace = new Exception().getStackTrace();
+
+		for (StackTraceElement aTrace : trace) {
+			if (aTrace.getClassName().contains("bioladen")
+					&& !aTrace.getClassName().equals(this.getClass().getName())) {
+
+				thrownBy = aTrace.getClassName();
+				break;
+			}
+		}
+
 
 		DataEntry dataEntry = new DataEntry(entityLevel, thrownBy, entity);
 

@@ -25,7 +25,7 @@ public class EntityEventListener {
 		if (event.getEntity() instanceof DataEntry) return;
 
 		dataHistoryManager.push(event);
-		logger.info(String.format("History recived push %s [%s]: %s",
-				event.getEntity().getClass(), event.getEventLevel(), event.getMessage()));
+		logger.info(String.format("History received entity %s [%s]: {%s}",
+				event.getEntity().getClass().getName(), event.getEventLevel(), event.getMessage()));
 	}
 }

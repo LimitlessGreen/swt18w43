@@ -2,8 +2,8 @@ package bioladen.order;
 
 
 import bioladen.finances.ShoppingCart;
-import bioladen.product.DistributorProduct;
-import bioladen.product.DistributorProductCatalog;
+import bioladen.product.distributor_product.DistributorProduct;
+import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.distributor.Distributor;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;

@@ -1,7 +1,7 @@
 package bioladen.order;
 
 import bioladen.event.EntityCreatedEvent;
-import bioladen.product.DistributorProduct;
+import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.Product;
 import org.springframework.stereotype.Service;
 
