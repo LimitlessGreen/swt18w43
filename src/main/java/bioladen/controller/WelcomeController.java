@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class WelcomeController {
 
+	WelcomeController(){}
+
 	@RequestMapping("/")
 	public String index() {
+
 		return "welcome";
 	}
 }

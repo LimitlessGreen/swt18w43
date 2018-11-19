@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>Großhändlerprodukt hinzufügen</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+<body>
+
+<nav th:include="navigation :: navigation"></nav>
+<div class="container" id="centerBox">
+
+    <div>
+        <h1 align="center">Großhändlerprodukt hinzufügen</h1>
+        <br>
+        <form method="post" th:action="@{/addDistributorProduct}">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputName">Name*</label>
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputDistributor">Großhändler*</label>
+                    <select class="form-control" id="inputDistributor" name="distributor">
+                        <option th:each="distributor : ${distributorList}" th:value="${distributor.getDistributorIdentifier()}" th:text="${distributor.getName()}">REWE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputPrice">Preis*</label>
+                    <input type="text" class="form-control" id="inputPrice" name="price" placeholder="Preis">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputUnit">Einheit*</label>
+                    <input type="text" class="form-control" id="inputUnit" name="unit" placeholder="Einheit">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputMinimumOrderAmount">Mindestbestellanzahl*</label>
+                    <input type="text" class="form-control" id="inputMinimumOrderAmount" name="minimumOrderAmount" placeholder="Mindestbestellanzahl">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Großhändlerprodukt erstellen</button>
+        </form>
+        <br>
+    </div>
+
+</div>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="webjars/jquery/3.3.1/jquery.js"></script>
+<script src="webjars/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
+</body>
+</html>

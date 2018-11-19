@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>Produktliste</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+<body>
+
+<nav th:include="navigation :: navigation"></nav>
+<div class="container" id="centerBox">
+    <div style="width: 80%">
+        <h1 align="center">Produktliste</h1>
+        <table class="table">
+            <thead>
+            <tr class="bg-success">
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Preis</th>
+                <th scope="col">Grundeinheit</th>
+                <th scope="col">Anzahl Inventar</th>
+                <th scope="col">Anzahl Austellfläche</th>
+                <!--<th scope="col">&#x1F5D1;&#xFE0F;</th>-->
+            </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+            <tr th:each="product : ${productList}">
+                <td th:text="${product.getProductIdentifier()}">1</td>
+                <td th:text="${product.getName()}">Butterschokoladerosinenbrötchen</td>
+                <td th:text="${product.getPrice()}">852.49</td>
+                <td th:text="${product.getUnit()}">5 kg</td>
+                <td th:text="${product.getInventoryAmount()}">27</td>
+                <td th:text="${product.getDisplayedAmount()}">42</td>
+                <!--<form class="form-group" method="post" th:action="@{/removeProduct}">
+                    <input value="0" id="delete" type="hidden" class="form-control" name="distributorIdentifier" th:value="${product.getProductIdentifier()}">
+                    <td><button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+                </form>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="webjars/jquery/3.3.1/jquery.js"></script>
+<script src="webjars/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
+</body>
+</html>

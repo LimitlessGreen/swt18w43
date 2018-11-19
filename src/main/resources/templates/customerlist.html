@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>Benutzer Liste</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+</head>
+<body>
+
+    <nav th:include="navigation :: navigation"></nav>
+    <div class="container" id="centerBox">
+        <div style="width: 80%">
+            <h1 align="center">Benutzer-Liste</h1>
+            <table class="table">
+                <thead>
+                <tr class="bg-success">
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Vorname</th>
+                    <th scope="col">Typ</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Telefonnummer</th>
+                    <th scope="col">Geschlecht</th>
+                    <th scope="col">&#x1F5D1;&#xFE0F;</th>
+                </tr>
+                </thead>
+                <tbody th:remove="all-but-first">
+                <tr th:each="customer : ${customerList}">
+                    <td th:text="${customer.getId()}">1</td>
+                    <td th:text="${customer.getLastname()}">Feldfreude</td>
+                    <td th:text="${customer.getFirstname()}">Flori</td>
+                    <td th:text="${customer.getCustomerType()}">MANAGER</td>
+                    <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
+                    <td th:text="${customer.getStreet()}">Feldweg 43</td>
+                    <td th:text="${customer.getPhone()}"> 035135426236</td>
+                    <td th:text="${customer.getSex()}">MALE</td>
+                    <form class="form-group" method="post" th:action="@{/customerDelete}">
+                        <input value="0" id="delete" type="hidden" class="form-control" name="UserCustomerID" th:value="${customer.getId()}">
+                        <td><button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
+                    </form>
+
+                </tr>
+                <!--<h1 th:text="${customerList}">Pups</h1>-->
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+        ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="webjars/jquery/3.3.1/jquery.js"></script>
+    <script src="webjars/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
+</body>
+</html>
