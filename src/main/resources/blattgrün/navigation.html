@@ -1,10 +1,14 @@
-<!doctype html>
-<html class="no-js" lang="">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--<html class="no-js" lang=""> -->
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Form Examples | Notika - Notika Admin Template</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <!--Title-->
+    <title>Navigation</title>
+    <!--Title ends-->
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -58,8 +62,9 @@
 </head>
 
 <body>
+<nav th:fragment="navigation">
     <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <p class="browserupgrade">Sie nutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/">updaten Sie ihren Browser </a> , um alle Features der Webseite zu erleben.</p>
         <![endif]-->
     <!-- Start Header Top Area -->
     <div class="header-top-area">
@@ -77,7 +82,6 @@
 		</div>
 	</div>
     <!-- End Header Top Area -->
-    <!-- End Header Top Area -->
     <!-- Mobile Menu start -->
     <div class="mobile-menu-area">
         <div class="container">
@@ -87,7 +91,7 @@
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
                                 <li>
-                                    <a  href="index.html">Startseite</a>
+                                    <a  href="welcome.html">Startseite</a>
                                 </li>
                                 <li>
                                     <a  href="index.html">Produktübersicht</a>
@@ -163,6 +167,7 @@
         </div>
 
     </div>
+</nav>
     <!-- Main Menu area End-->
 
 
