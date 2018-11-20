@@ -5,41 +5,70 @@ import lombok.Getter;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.util.Assert;
 
+import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+
 @Getter
-public class CartCartItem  {
+public class CartCartItem {
 
 	private @Getter final String id;
 	private @Getter final BigDecimal price;
-	private @Getter final Quantity amount;
-	private @Getter	final Product product;
+	private @Getter final long quantity;
+	private @Getter final Product product;
 
-	public CartCartItem(Product product, Quantity amount){
-		this(UUID.randomUUID().toString(), amount, product);
+	/**
+	 * Creates a new {@link CartCartItem}.
+	 *
+	 * @param product must not be {@literal null}.
+	 * @param quantity must not be {@literal null}.
+	 */
+	CartCartItem(Product product, long quantity) {
+		this(UUID.randomUUID().toString(), product, quantity);
 	}
 
-	public CartCartItem(String id, Quantity amount, Product product) {
+	/**
+	 * Creates a new {@link CartCartItem}.
+	 *
+	 * @param id must not be {@literal null}.
+	 * @param product must not be {@literal null}.
+	 * @param quantity must not be {@literal null}.
+	 */
+	private CartCartItem(String id, Product product, long quantity) {
+
+		Assert.notNull(id, "Identifier must not be null!");
+		Assert.notNull(product, "Product must be not null!");
+		Assert.notNull(quantity, "Quantity must be not null!");
 
 		this.id = id;
-		this.amount = amount;
+		this.quantity = quantity;
+		this.price = product.getPrice().multiply(BigDecimal.valueOf(quantity));
 		this.product = product;
-		this.price = product.getPrice();
-
-
 	}
 
 
+	/**
+	 * Returns the name of the {@link Product} associated with the {@link CartCartItem}.
+	 *
+	 * @return
+	 */
 	public final String getProductName() {
 		return product.getName();
 	}
 
-
-	final CartCartItem add(Quantity quantity) {
+	/**
+	 * Returns a new {@link CartCartItem} that has the given {@link Quantity} added to the current one.
+	 *
+	 * @param quantity must not be {@literal null}.
+	 * @return
+	 */
+	final CartCartItem add(long quantity) {
 
 		Assert.notNull(quantity, "Quantity must not be null!");
 
-		return new CartCartItem(this.id, this.amount, this.product);
+		quantity += this.quantity;
+		return new CartCartItem(this.id, this.product, quantity);
 	}
+	
 }

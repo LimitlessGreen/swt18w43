@@ -127,7 +127,6 @@
 
                                     <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Code</th>
                                         <th scope="col">Preis</th>
                                         <th scope="col">Menge</th>
                                         <th scope="col">Editieren</th>
@@ -137,23 +136,23 @@
 
                                     <tbody> <!-- table body -->
 
-                                    <tr th:each="item : ${shoppingCart} ">
-                                        <td scope="row" th:text="${item.getName()}">ProductName</td>
+                                    <tr th:each="item : ${shoppingCart.getItems()} ">
+                                        <td scope="row" th:text="${item.getProductName()}">ProductName</td>
                                         <td th:text="${item.getId()}">1</td>
                                         <td th:text="${item.getPrice()}">1</td>
                                         <td th:text="${item.getQuantity()}">1</td>
                                         <td>
                                             <div class="form-group">
                                                 <form class="form-group" method="post" th:action="@{/delete}">
-                                                    <input type="hidden" name="productId" th:value="${item.getId()}">
+                                                    <!--<input type="hidden" name="productId" th:value="${item.getId()}">-->
                                                     <button type="submit" class="btn btn-danger"></button>
                                                 </form>
                                                 <form class="form-group" method="post" th:action="@{/sub}">
-                                                    <input type="hidden" name="productId" th:value="${item.product.id}">
+                                                    <!--<input type="hidden" name="productId" th:value="${item.product.id}">-->
                                                     <button type="submit" class="btn btn-danger"></button>
                                                 </form>
                                                 <form class="form-group" method="post" th:action="@{/add}">
-                                                    <input type="hidden" name="productId" th:value="${item.product.id}">
+                                                    <!--<input type="hidden" name="productId" th:value="${item.product.id}">-->
                                                     <button type="submit" class="btn btn-success"></button>
                                                 </form>
                                             </div>
@@ -326,7 +325,7 @@
                                                 <label>Wechselgeld: </label>
                                             </div>
                                         </form>
-                                        <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" readonly>
+                                        <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" th:value="${change}" readonly>
                                         <button type="button" class="btn btn-sm" onclick="calculateChange()">Anzeigen</button>
                                     </div>
 

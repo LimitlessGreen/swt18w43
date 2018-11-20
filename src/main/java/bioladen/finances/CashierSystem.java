@@ -1,11 +1,6 @@
 package bioladen.finances;
 
 import bioladen.product.ProductCatalog;
-import org.javamoney.moneta.Money;
-import org.salespointframework.catalog.ProductIdentifier;
-import org.salespointframework.inventory.Inventory;
-import org.salespointframework.inventory.InventoryItem;
-import org.salespointframework.order.Cart;
 import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderManager;
 import org.salespointframework.quantity.Quantity;
@@ -14,17 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import javax.money.Monetary;
-import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 
 /**
  * @author Lukas Petzold
  */
 @Controller
-@SessionAttributes({"cart"})
+@SessionAttributes({"shoppingCart"})
 
-public class CashierSystem extends ShoppingCart {
+public class CashierSystem {
 
 	private final OrderManager<Order> orderManager;
 	private final ProductCatalog productCatalog;
@@ -37,21 +30,21 @@ public class CashierSystem extends ShoppingCart {
 
 
 	@ModelAttribute("shoppingCart")
-	ShoppingCart initializeCart() {
+	ShoppingCart initializeShoppingCart() {
 
 		return new ShoppingCart();
 	}
 
-
-	@RequestMapping("/cashiersystem") //für neuese Cashiersystem ändern nicht vergessen
-	public String cashiersystem() {
-		return "cashiersystem"; //für neuese Cashiersystem : return "redirect:/cashiersystem_new";
+    // TODO Bitte nicht vergessen, für neues frontend in cashiersystem_new ändern
+	@RequestMapping("/cashiersystem")
+	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+		model.addAttribute("shoppingCart", shoppingCart);
+		return "cashiersystem";
 	}
 
-	@RequestMapping("/cart")
+	@RequestMapping("/shoppingCart")
 	String basket(@ModelAttribute ShoppingCart shoppingCart, Model model) {
-		model.addAttribute("shoppingCart", shoppingCart);
-		return "cart";
+		return "shoppingCart";
 	}
 
 	/**
@@ -62,10 +55,11 @@ public class CashierSystem extends ShoppingCart {
 	 * @param shoppingCart
 	 * @return
 	 */
-	@PostMapping("/cashiersystem") //für neuese Cashiersystem ändern nicht vergessen
-	String addProduct(@RequestParam("pid") String product, @RequestParam("amount") int amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	@PostMapping("/cashiersystem")
+	String addProduct(@RequestParam("pid") String product, @RequestParam("amount") long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			shoppingCart.addOrUpdateItem(productCatalog.findById(product).get(), Quantity.of((long) amount));
+			shoppingCart.addOrUpdateItem(productCatalog.findById(product).get(), amount);
+			model.addAttribute("shoppingCart", shoppingCart);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorPid", true);
@@ -87,8 +81,9 @@ public class CashierSystem extends ShoppingCart {
 		try {
 			BigDecimal money = BigDecimal.valueOf(changeInput);
 			money = money.subtract(shoppingCart.getPrice());
+			model.addAttribute("change", money);
 
-			return "redirect:/cashiersystem?money=" + money;
+			return "redirect:/cashiersystem";
 		}
 		catch (Exception e) {
 			model.addAttribute("errorChange", true);
