@@ -456,6 +456,8 @@ body {}
     left: 0px;
     width: 100%;
     background: #fff;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
     content: "";
     z-index: 9;
     height: 100%;
