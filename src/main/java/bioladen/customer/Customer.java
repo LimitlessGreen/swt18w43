@@ -2,14 +2,12 @@ package bioladen.customer;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.salespointframework.useraccount.UserAccount;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
+import javax.persistence.*;
 
-@Access(AccessType.PROPERTY)
+
+@Entity
+@Table(name = "CUSTOMER")
 public class Customer {
 
 	public enum CustomerType {
@@ -35,9 +33,10 @@ public class Customer {
 		}
 	}
 
-	@Id
-	@Getter
-	private String id;
+	@Id @Getter
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // for autoincrement column in database
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long id;
 
 	private @Getter @Setter String firstname;
 	private @Getter @Setter String lastname;
@@ -50,8 +49,8 @@ public class Customer {
 	private @Getter @Setter CustomerType customerType;
 	//TODO: userAcc : UserAccount
 
-	//Customer(){}
-	@PersistenceConstructor
+	Customer(){}
+
 	Customer(String firstname, String lastname, String email, Sex sex, CustomerType customerType) {
 		this.firstname = firstname;
 		this.lastname = lastname;

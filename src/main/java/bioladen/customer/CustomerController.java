@@ -95,8 +95,8 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		return "customerlist";
 	}
 
-	@GetMapping("/customerlist/delete") //TODO string id to long
-	String deleteCustomer(@RequestParam String id) {
+	@GetMapping("/customerlist/delete")
+	String deleteCustomer(@RequestParam Long id) {
 		customerRepository.deleteById(id);
 
 		return "redirect:/customerlist";
