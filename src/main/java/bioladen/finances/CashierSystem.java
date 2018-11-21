@@ -41,12 +41,12 @@ public class CashierSystem {
 
 
 	/**
-	 * Adds Products to ShoppingCart
+	 * Adds Products to ShoppingCart.
 	 *
 	 * @param product      gets added
 	 * @param amount       times into the
 	 * @param shoppingCart
-	 * @return
+	 * If no product is found an error message is returned
 	 */
 	@PostMapping("/cashiersystem")
 	String addProduct(@RequestParam("pid") String product, @RequestParam("amount") long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -61,6 +61,12 @@ public class CashierSystem {
 		return "cashiersystem";
 	}
 
+
+	/**
+	 * Deletes the Item with the
+	 * @param pid from the
+	 * @param shoppingCart
+	 */
 	@PostMapping("/deleteCartItem")
 	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
 		shoppingCart.removeItem(pid);
@@ -69,10 +75,10 @@ public class CashierSystem {
 
 	/**
 	 * Calculates the change with the given
-	 *
-	 * @param changeInput  and the Sum of the
+	 * @param changeInput  and the sum of the
 	 * @param shoppingCart
-	 * @return
+	 * returns an error message if no changeInput is entered or
+	 * if it is lower than the sum of the shoppingCart
 	 */
 	@PostMapping("/cashiersystemCalcChange")
 	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -97,10 +103,10 @@ public class CashierSystem {
 
 	/**
 	 * Tries finding the user with the
-	 *
 	 * @param userId
 	 * @param model
-	 * @return
+	 * returns an error message when no user is found.
+	 * if 0 is entered the discount will be 0% for a NormalCustomer
 	 */
 	@PostMapping("/cashiersystemUser")
 	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {

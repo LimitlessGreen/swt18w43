@@ -50,7 +50,7 @@ public class CartCartItem {
 
 
 	/**
-	 * Returns the name of the {@link Product} associated with the {@link CartCartItem}.
+	 * Returns the name of the product associated with the CartCartItem.
 	 *
 	 * @return
 	 */
@@ -59,7 +59,7 @@ public class CartCartItem {
 	}
 
 	/**
-	 * Returns a new {@link CartCartItem} that has the given {@link Quantity} added to the current one.
+	 * Returns a new CartCartItem that has the given Quantity added to the current one.
 	 *
 	 * @param quantity must not be {@literal null}.
 	 * @return

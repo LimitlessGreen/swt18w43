@@ -23,6 +23,15 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	private @Getter @Setter Customer customer;
 	private @Getter @Setter double customerDiscount = 1;
 
+
+	/**
+	 * Searcher the Map items for the
+	 * @param product
+	 * If it is found the
+	 * @param quantity gets added to the product.
+	 * If the product doesn't exist, a new item is added
+	 * @return the new CartCartItem
+	 */
 	public CartCartItem addOrUpdateItem(Product product, long quantity) {
 
 		Assert.notNull(product, "Product must not be null!");
@@ -42,12 +51,19 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
-
+	/**
+	 * Calls addOrUpdateItem with a double amount
+	 */
 	public CartCartItem addOrUpdateItem(Product product, double amount) {
 		return addOrUpdateItem(product, (long) amount);
 	}
 
 
+	/**
+	 * Removes the item with the
+	 * @param identifier from the Map items
+	 * @return the removed CartCartItem
+	 */
 	public Optional<CartCartItem> removeItem(String identifier) {
 
 		Assert.notNull(identifier, "CartItem identifier must not be null!");
@@ -57,6 +73,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
+	/**
+	 * @return the item with the
+	 * @param identifier
+	 */
 	public Optional<CartCartItem> getItem(String identifier) {
 
 		Assert.notNull(identifier, "CartCartItem identifier must not be null!");
@@ -67,16 +87,26 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
+	/**
+	 * clears the ShoppingCart
+	 */
 	public void clear() {
 		items.clear();
 	}
 
 
+	/**
+	 * Checks if the ShoppingCart is empty
+	 */
 	public boolean isEmpty() {
 		return items.isEmpty();
 	}
 
 
+	/**
+	 * @return the sum of the ShoppingCart
+	 * Calculates with the userDiscount
+	 */
 	public BigDecimal getPrice() {
 
 		BigDecimal money = BigDecimal.valueOf(0);
@@ -92,6 +122,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
+	/**
+	 * @return the amount of items in the ShoppingCart
+	 */
 	public int getAmountOfItems() {
 		int amount = items.size();
 
@@ -99,6 +132,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
+	/**
+	 * @return whether or not customer is set
+	 */
 	public boolean hasCustomer() {
 		try {
 			if (customer != null) {
@@ -113,6 +149,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
+	/**
+	 * @return a formatted customerDiscount for Frontend
+	 */
 	public String getCustomerDiscountString() {
 		String customerDiscountString = customerDiscount * 100 + "%";
 
@@ -120,6 +159,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
+	/**
+	 * @return whether or not the customerDiscount is 1
+	 */
 	public boolean checkDiscount() {
 		return customerDiscount == 1;
 	}

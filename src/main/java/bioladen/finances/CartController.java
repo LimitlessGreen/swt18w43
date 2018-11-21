@@ -35,6 +35,11 @@ public class CartController {
 	}
 
 
+	/**
+	 * Add items with the
+	 * @param pid to the
+	 * @param shoppingCart
+	 */
 	@PostMapping("/addToWishlist")
 	String addToWishlist(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		shoppingCart.addOrUpdateItem(productCatalog.findById(pid).get(), 1);
@@ -43,6 +48,12 @@ public class CartController {
 		return "productlist";
 	}
 
+
+	/**
+	 * Deletes items with the
+	 * @param pid from the
+	 * @param shoppingCart
+	 */
 	@PostMapping("/deleteFromWishlist")
 	String deleteFromWishlist(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		shoppingCart.removeItem(pid);
@@ -51,6 +62,12 @@ public class CartController {
 		return "wishlist";
 	}
 
+
+	/**
+	 * Adds one quantity of the item with the
+	 * @param pid to the
+	 * @param shoppingCart
+	 */
 	@PostMapping("/addOneToWishlist")
 	String addOneToWishlist(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getProduct(), 1);
@@ -59,6 +76,12 @@ public class CartController {
 		return "wishlist";
 	}
 
+
+	/**
+	 * Removes one item with the
+	 * @param pid from the
+	 * @param shoppingCart
+	 */
 	@PostMapping("/removeOneFromWishlist")
 	String removeOneFromWishlist(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		if (shoppingCart.getItem(pid).get().getQuantity() == 1) {
