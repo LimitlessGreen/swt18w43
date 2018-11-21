@@ -1,0 +1,40 @@
+package bioladen.customer;
+
+import java.util.Arrays;
+
+import org.salespointframework.core.DataInitializer;
+import org.salespointframework.useraccount.Role;
+import org.salespointframework.useraccount.UserAccount;
+import org.salespointframework.useraccount.UserAccountManager;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+
+@Component
+public class CustomerDataInitializer implements  DataInitializer{
+	private final CustomerRepository customerRepository;
+	private final UserAccountManager userAccountManager;
+
+	CustomerDataInitializer(UserAccountManager userAccountManager, CustomerRepository customerRepository) {
+
+		this.userAccountManager = userAccountManager;
+		this.customerRepository = customerRepository;
+	}
+
+	@Override
+	public void initialize() {
+
+		if (userAccountManager.findByUsername("feldfreude@bio.de").isPresent()) {
+			return;
+		}
+		Customer manager = new Customer("Flori", "Feldfreude", "feldfreude@bio.de", Customer.Sex.MALE, Customer.CustomerType.MANAGER);
+		UserAccount managerAccount = userAccountManager.create("feldfreude@bio.de", "blattgrün43", Role.of("ROLE_MANAGER"));
+		userAccountManager.save(managerAccount);
+
+		Customer staff = new Customer("Berta", "Bunt", "bertabunt@bio.de", Customer.Sex.FEMALE, Customer.CustomerType.STAFF);
+		UserAccount staffAccount = userAccountManager.create("bertabunt@bio.de", "blattgrün43", Role.of("ROLE_STAFF"));
+		userAccountManager.save(staffAccount);
+
+		customerRepository.saveAll(Arrays.asList(manager, staff));
+	}
+}
