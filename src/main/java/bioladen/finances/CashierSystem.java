@@ -1,12 +1,8 @@
 package bioladen.finances;
 
 import bioladen.product.ProductCatalog;
-import org.salespointframework.order.Order;
-import org.salespointframework.order.OrderManager;
-import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -19,12 +15,9 @@ import java.math.BigDecimal;
 
 public class CashierSystem {
 
-	private final OrderManager<Order> orderManager;
 	private final ProductCatalog productCatalog;
 
-	CashierSystem(OrderManager<Order> orderManager, ProductCatalog productCatalog) {
-		Assert.notNull(orderManager, "OrderManager must not be null!");
-		this.orderManager = orderManager;
+	CashierSystem(ProductCatalog productCatalog) {
 		this.productCatalog = productCatalog;
 	}
 
@@ -41,16 +34,12 @@ public class CashierSystem {
 		return "cashiersystem";
 	}
 
-	@RequestMapping("/shoppingCart")
-	String basket(@ModelAttribute ShoppingCart shoppingCart, Model model) {
-		return "shoppingCart";
-	}
 
 	/**
 	 * Adds Products to ShoppingCart
 	 *
-	 * @param product gets added
-	 * @param amount times into the
+	 * @param product      gets added
+	 * @param amount       times into the
 	 * @param shoppingCart
 	 * @return
 	 */
@@ -59,8 +48,7 @@ public class CashierSystem {
 		try {
 			shoppingCart.addOrUpdateItem(productCatalog.findById(product).get(), amount);
 			model.addAttribute("shoppingCart", shoppingCart);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("errorPid", true);
 			model.addAttribute("errorMsgPid", "Kein Produkt gefunden");
 		}
@@ -68,9 +56,16 @@ public class CashierSystem {
 		return "cashiersystem";
 	}
 
+	@PostMapping("/deleteCartItem")
+	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
+		shoppingCart.removeItem(pid);
+		return "cashiersystem";
+	}
+
 	/**
 	 * Calculates the change with the given
-	 * @param changeInput and the Sum of the
+	 *
+	 * @param changeInput  and the Sum of the
 	 * @param shoppingCart
 	 * @return
 	 */
@@ -81,9 +76,8 @@ public class CashierSystem {
 			money = money.subtract(shoppingCart.getPrice());
 			model.addAttribute("change", money);
 
-			return "redirect:/cashiersystem";
-		}
-		catch (Exception e) {
+			return "cashiersystem";
+		} catch (Exception e) {
 			model.addAttribute("errorChange", true);
 			model.addAttribute("errorMsgChange", "Bitte Betrag eingeben");
 
@@ -93,6 +87,7 @@ public class CashierSystem {
 
 	/**
 	 * Tries finding the user with the
+	 *
 	 * @param userId
 	 * @param model
 	 * @return
@@ -103,8 +98,7 @@ public class CashierSystem {
 			// TODO: find user
 
 			return "cashiersystem";
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("errorUid", true);
 			model.addAttribute("errorMsgUid", "Kein Kunde gefunden");
 

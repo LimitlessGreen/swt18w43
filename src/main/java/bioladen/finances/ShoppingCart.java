@@ -75,10 +75,14 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 	public BigDecimal getPrice() {
 
-		return items.values().stream() //
-				.map(CartCartItem::getPrice) //
-				.reduce(BigDecimal::add) //
-				.orElse(BigDecimal.valueOf(0));
+		BigDecimal money = BigDecimal.valueOf(0);
+
+		for (Map.Entry<Product, CartCartItem> e : items.entrySet()) {
+			money = money.add(e.getValue().getPrice());
+			money = money.setScale(2);
+		}
+
+		return money;
 	}
 
 

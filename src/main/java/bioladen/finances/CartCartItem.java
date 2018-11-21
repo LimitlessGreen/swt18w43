@@ -5,11 +5,12 @@ import lombok.Getter;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.util.Assert;
 
-import javax.money.MonetaryAmount;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-
+/**
+ * @author Lukas Petzold
+ */
 @Getter
 public class CartCartItem {
 
