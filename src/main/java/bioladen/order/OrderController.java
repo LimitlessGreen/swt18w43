@@ -41,7 +41,7 @@ public class OrderController {
 
 			((ArrayList<DistributorProduct>) distributorProducts).removeIf(distributorProduct -> {
 				System.out.println(distributorProduct.getDistributorProductIdentifier());
-				if ( !distributorProduct.getName().contains(name) ) {
+				if (!distributorProduct.getName().contains(name)) {
 					return true;
 				}
 				if (distributorProduct.getMinimumOrderAmount() * distributorProduct.getUnit().doubleValue() > amount) {
@@ -51,21 +51,21 @@ public class OrderController {
 			});
 		}
 
-		int articles = 0;
-		for (OrderCartItem cartItem : cart) {
-			articles++;
+		double total = 0;
+		for (OrderCartItem orderCartItem : cart) {
+				total += orderCartItem.getPrice().getNumber().doubleValue() * orderCartItem.getQuantity().getAmount().doubleValue();
 		}
 
 		model.addAttribute("amount", amount);
-		model.addAttribute("articles", articles);
-		model.addAttribute("totalprice", cart.getPrice().signum());
+		model.addAttribute("articles", cart.get().count());
+		model.addAttribute("totalprice", String.format("%.2f", total));
 		model.addAttribute("products", distributorProducts);
 
 		return "order";
 	}
 
 
-	@GetMapping("/orders/complete")
+	@GetMapping("/orders/orderfinished")
 	public String completeOrder(Model model, @ModelAttribute("cart") OrderCart cart) {
 
 		if (cart.isEmpty()) {
