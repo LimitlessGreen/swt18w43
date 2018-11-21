@@ -8,8 +8,9 @@ import org.salespointframework.core.AbstractEntity;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 
-
+@KeySpace("dataHistory")
 public class DataEntry<T> {
 
 	@Id //

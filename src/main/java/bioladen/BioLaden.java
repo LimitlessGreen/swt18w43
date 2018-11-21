@@ -19,6 +19,7 @@ import org.salespointframework.EnableSalespoint;
 import org.salespointframework.SalespointSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.map.repository.config.EnableMapRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.salespointframework.SalespointWebConfiguration;
@@ -35,6 +36,7 @@ public class BioLaden {
 
 	@Configuration
 	@EnableAsync
+	@EnableMapRepositories
 	static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
 
 		@Override

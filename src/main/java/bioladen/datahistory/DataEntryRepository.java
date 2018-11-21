@@ -1,7 +1,7 @@
 package bioladen.datahistory;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 
-interface DataEntryRepository<T extends DataEntry> extends MongoRepository<T, String> {
+interface DataEntryRepository extends CrudRepository<DataEntry, String> {
 
 }
