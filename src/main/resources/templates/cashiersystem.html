@@ -127,8 +127,8 @@
 
                                     <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Preis</th>
                                         <th scope="col">Menge</th>
+                                        <th scope="col">Preis</th>
                                         <th scope="col">Editieren</th>
                                     </tr>
 
@@ -136,61 +136,22 @@
 
                                     <tbody> <!-- table body -->
 
-                                    <tr th:each="item : ${shoppingCart.getItems()} ">
+                                    <tr th:each="item : ${shoppingCart} ">
                                         <td scope="row" th:text="${item.getProductName()}">ProductName</td>
-                                        <td th:text="${item.getId()}">1</td>
-                                        <td th:text="${item.getPrice()}">1</td>
                                         <td th:text="${item.getQuantity()}">1</td>
+                                        <td th:text="${item.getPrice()}">1</td>
                                         <td>
                                             <div class="form-group">
-                                                <form class="form-group" method="post" th:action="@{/delete}">
-                                                    <!--<input type="hidden" name="productId" th:value="${item.getId()}">-->
+                                                <form class="form-group" method="post" th:action="@{/deleteCartItem}">
+                                                    <input type="hidden" name="productId" th:value="${item.getId()}">
                                                     <button type="submit" class="btn btn-danger"></button>
-                                                </form>
-                                                <form class="form-group" method="post" th:action="@{/sub}">
-                                                    <!--<input type="hidden" name="productId" th:value="${item.product.id}">-->
-                                                    <button type="submit" class="btn btn-danger"></button>
-                                                </form>
-                                                <form class="form-group" method="post" th:action="@{/add}">
-                                                    <!--<input type="hidden" name="productId" th:value="${item.product.id}">-->
-                                                    <button type="submit" class="btn btn-success"></button>
                                                 </form>
                                             </div>
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>Edit</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>Edit</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>Edit</td>
-                                    </tr>
-
                                     </tbody>
                                 </table>
-
-
-                                <div class="col"> <!-- Sum of CartItems -->
-                                    <div class="align-content-center">
-                                        <div class="label" align="center">Summe: </div>
-                                        <div class="value" align="center"><span th:text="${{shoppingCart.getPrice()}}">1337</span></div>
-                                    </div>
-                                </div>
 
                             </div>
 
