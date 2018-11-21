@@ -41,7 +41,8 @@ public class CustomerController implements ApplicationEventPublisherAware {
 							  @RequestParam("email") String email,
 							  @RequestParam("address") String address,
 							  @RequestParam("sex") String sex,
-							  @RequestParam("type") String type){
+							  @RequestParam("type") String type,
+							  Model model){
 
 		Customer.CustomerType customerType;
 		Customer.Sex customerSex;
@@ -61,7 +62,41 @@ public class CustomerController implements ApplicationEventPublisherAware {
 			default: throw new  IllegalArgumentException(type);
 		}
 
-		Customer customer = new Customer(firstname, lastname, email, customerSex, customerType);
+		String safeFirstName;
+		String safeLastName;
+		String safeEmail = "";
+
+		if (firstname.equals("")) {
+			model.addAttribute("errorFirstName", true);
+			model.addAttribute("errorFirstNameMsg", "Bitte Vornamen angeben");
+			return "register";
+		} else {
+			safeFirstName = firstname;
+		}
+
+		if (lastname.equals("")) {
+			model.addAttribute("errorLastName", true);
+			model.addAttribute("errorLastNameMsg", "Bitte Nachnamen angeben");
+			return "register";
+		} else {
+			safeLastName = lastname;
+		}
+
+		if (!customerRepository.findAll().isEmpty()) {
+			for (Customer customer : customerRepository.findAll()) {
+				if (!customer.getEmail().equals(email)) {
+					safeEmail = email;
+				} else {
+					model.addAttribute("errorEmail", true);
+					model.addAttribute("errorEmailMsg", "Diese Email ist bereits vorhanden");
+					return "register";
+				}
+			}
+		} else {
+			safeEmail = email;
+		}
+
+		Customer customer = new Customer(safeFirstName, safeLastName, safeEmail, customerSex, customerType);
 
 		if (!phone.isEmpty()) { customer.setPhone(phone);}
 		if (!address.isEmpty()) { customer.setStreet(address);}
