@@ -20,31 +20,42 @@
 
                 <li class="nav-item"><a class="navbar-brand" href="/">Blattgrün</a></li>
 
-                <li class="nav-item"><a class="navbar-brand" href="/products">
-                </a></li>
+                <li class="nav-item">
+                    <a class="navbar-brand" href="/products" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                     Produktübersicht
+                    </a>
+                </li>
 
-                <li class="nav-item"><a class="navbar-brand" href="/administration">
+                <li class="nav-item">
+                    <a class="navbar-brand" th:href="@{/administration}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                     Verwaltung
-                </a></li>
+                    </a>
+                </li>
 
-                <li class="nav-item"> <a class="navbar-brand" href="/cashiersystem">
+                <li class="nav-item">
+                    <a class="navbar-brand" th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                     Kasse
-                </a></li>
+                    </a>
+                </li>
 
-                <li class="nav-item"><a class="navbar-brand" href="/orders">
+                <li class="nav-item">
+                    <a class="navbar-brand" th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                     Bestellung
-                </a></li>
+                    </a>
+                </li>
 
-                <li class="nav-item"> <a class="navbar-brand" href="/statistic">
+                <li class="nav-item">
+                    <a class="navbar-brand" th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')">
                     Statistik
-                </a></li>
+                    </a>
+                </li>
 
-                <li class="nav-item"><a class="navbar-brand" href="/wishlist">
+                <li class="nav-item"><a class="navbar-brand" th:href="@{/wishlist}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                     Merkzettel
-                </a></li>
+                </a>
+                </li>
 
-                <li class="nav-item"><a class="navbar-brand" href="/profile">
+                <li class="nav-item"><a class="navbar-brand" th:href="@{/profile}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                     Profil
                 </a></li>
 
