@@ -1,5 +1,7 @@
 package bioladen.finances;
 
+import bioladen.customer.Customer;
+import bioladen.customer.CustomerRepository;
 import bioladen.product.ProductCatalog;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,11 @@ import java.math.BigDecimal;
 public class CashierSystem {
 
 	private final ProductCatalog productCatalog;
+	private final CustomerRepository customerRepository;
 
-	CashierSystem(ProductCatalog productCatalog) {
+	CashierSystem(ProductCatalog productCatalog, CustomerRepository customerRepository) {
 		this.productCatalog = productCatalog;
+		this.customerRepository = customerRepository;
 	}
 
 
@@ -31,6 +35,7 @@ public class CashierSystem {
     // TODO Bitte nicht vergessen, für neues frontend in cashiersystem_new ändern
 	@RequestMapping("/cashiersystem")
 	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+
 		return "cashiersystem";
 	}
 
@@ -74,7 +79,12 @@ public class CashierSystem {
 		try {
 			BigDecimal money = BigDecimal.valueOf(changeInput);
 			money = money.subtract(shoppingCart.getPrice());
-			model.addAttribute("change", money);
+			if (money.compareTo(BigDecimal.ZERO) < 0) {
+				model.addAttribute("errorChangeLow", true);
+				model.addAttribute("errorChangeLowMsg", "Eingegebener Betrag zu niedrig");
+			} else {
+				model.addAttribute("change", money);
+			}
 
 			return "cashiersystem";
 		} catch (Exception e) {
@@ -93,10 +103,14 @@ public class CashierSystem {
 	 * @return
 	 */
 	@PostMapping("/cashiersystemUser")
-	String userId(@RequestParam("userId") String userId, Model model) {
+	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			// TODO: find user
-
+			if (userId == 0) {
+				shoppingCart.setCustomerDiscount(0);
+			} else {
+				shoppingCart.setCustomer(customerRepository.findById(userId).get());
+				shoppingCart.setCustomerDiscount(Customer.getDiscount(shoppingCart.getCustomer().getCustomerType()));
+			}
 			return "cashiersystem";
 		} catch (Exception e) {
 			model.addAttribute("errorUid", true);

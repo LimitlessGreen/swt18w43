@@ -171,7 +171,7 @@
 
                                     <form class="form-group" method="post" th:action="@{/cashiersystemUser}">
                                         <div class="form-group">
-                                            <label for="userId">Kunden ID</label>
+                                            <label for="userId">Kunden ID   (0 für Normalkunden)</label>
                                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorUid}">
                                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                                 <strong>Achtung!</strong> <a th:text="${errorMsgUid}"></a>
@@ -244,9 +244,13 @@
                                         </script>
 
                                         <form class="from-group" method="post" th:action="@{/cashiersystemCalcChange}">
-                                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChange}" id="changeError">
+                                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChange}">
                                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                                 <strong>Achtung!</strong> <a th:text="${errorMsgChange}"></a>
+                                            </div>
+                                            <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChangeLow}">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong>Achtung!</strong> <a th:text="${errorChangeLowMsg}"></a>
                                             </div>
 
                                             <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
@@ -285,25 +289,33 @@
                                 <div class="col-lg-6" id="Overview"> <!-- Overview of values of cart -->
                                     <div id="OverviewText">
                                         <a>Anzahl der Artikel: </a>
-                                        <input type="text" class="form-control" id="number" name="number" placeholder="Anzahl" readonly>
+                                        <input type="text" class="form-control" id="number" name="number" placeholder="Anzahl" th:value="${shoppingCart.getAmountOfItems()}" readonly>
                                     </div>
                                     <div id="OverviewText">
                                         <ul id="money">
-                                            <li><a>Rabatt: </a></li>
-                                            <input type="text" class="form-control" id="discount" name="discount" placeholder="Rabatt" readonly>
-                                            <li><a>MwSt.: </a></li>
-                                            <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." readonly>
-                                            <li><a>Pfand: </a></li>
-                                            <input type="text" class="form-control" id="pfand" name="pfand" placeholder="Pfand" readonly>
+                                            <div th:if="${shoppingCart.checkDiscount()}">
+                                                <br>
+                                                <h4 style="color: white;">Bitte geben Sie eine Kunden ID ein</h4>
+                                            </div>
+                                            <div th:unless="${shoppingCart.checkDiscount()}">
+                                                <li><a>Rabatt: </a></li>
+                                                <input type="text" class="form-control" id="discount" name="discount" placeholder="Rabatt" th:value="${shoppingCart.getCustomerDiscountString()} " readonly>
+                                                <li><a>MwSt.: </a></li>
+                                                <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." readonly>
+                                                <li><a>Pfand: </a></li>
+                                                <input type="text" class="form-control" id="pfand" name="pfand" placeholder="Pfand" readonly>
+                                            </div>
                                         </ul>
                                     </div>
-                                    <div id="OverviewText">
-                                        <a>Summe: </a>
-                                        <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${shoppingCart.getPrice()}" readonly>
-                                    </div>
+                                    <div th:unless="${shoppingCart.checkDiscount()}">
+                                        <div id="OverviewText">
+                                            <a>Summe: </a>
+                                            <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${shoppingCart.getPrice()}" readonly>
+                                        </div>
 
-                                    <div align="right">
-                                        <button class="alert alert-primary btn-lg" type="submit" id="finish">Fertig</button>
+                                        <div align="right">
+                                            <button class="alert alert-primary btn-lg" type="submit" id="finish">Fertig</button>
+                                        </div>
                                     </div>
 
                                 </div>

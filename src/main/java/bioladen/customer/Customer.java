@@ -23,11 +23,11 @@ public class Customer {
 		VARIOUS
 	}
 
-	static double getDiscount(CustomerType customerType) {
+	public static double getDiscount(CustomerType customerType) {
 		switch (customerType) {
 			case MANAGER: return 0.20;
 			case STAFF: return 0.15;
-			case MAJOR_CUSTOMER: return 0.15;
+			case MAJOR_CUSTOMER: return 0.10;
 			case HOUSE_CUSTOMER: return  0.05;
 			default: return 0;
 		}

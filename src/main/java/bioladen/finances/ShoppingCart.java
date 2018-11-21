@@ -1,7 +1,9 @@
 package bioladen.finances;
 
+import bioladen.customer.Customer;
 import bioladen.product.Product;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class ShoppingCart implements Streamable<CartCartItem> {
 
 	private @Getter	final Map<Product, CartCartItem> items = new LinkedHashMap<>();
+	private @Getter @Setter Customer customer;
+	private @Getter @Setter double customerDiscount = 1;
 
 	public CartCartItem addOrUpdateItem(Product product, long quantity) {
 
@@ -79,12 +83,46 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		for (Map.Entry<Product, CartCartItem> e : items.entrySet()) {
 			money = money.add(e.getValue().getPrice());
-			money = money.setScale(2);
 		}
+
+		money = money.multiply(BigDecimal.valueOf(1 - customerDiscount));
+		money = money.setScale(2);
 
 		return money;
 	}
 
+
+	public int getAmountOfItems() {
+		int amount = items.size();
+
+		return amount;
+	}
+
+
+	public boolean hasCustomer() {
+		try {
+			if (customer != null) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+
+
+	public String getCustomerDiscountString() {
+		String customerDiscountString = customerDiscount * 100 + "%";
+
+		return customerDiscountString;
+	}
+
+
+	public boolean checkDiscount() {
+		return customerDiscount == 1;
+	}
 
 
 	@Override
