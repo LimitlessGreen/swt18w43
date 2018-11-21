@@ -33,7 +33,7 @@ public class UserAccEventListener {
 			case CREATED:
 				if (customer.isCustomerType(Customer.CustomerType.STAFF)){
 					if(!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "12345", Role.of("ROLE_STAFF"));
+						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_STAFF"));
 						userAccountManager.save(userAccount);
 						customerRepository.save(customer);
 					}
@@ -44,7 +44,7 @@ public class UserAccEventListener {
 				}
 				else if (customer.isCustomerType(Customer.CustomerType.MANAGER)){
 					if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "12345", Role.of("ROLE_MANAGER"));
+						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_MANAGER"));
 						userAccountManager.save(userAccount);
 						customerRepository.save(customer);
 					}
