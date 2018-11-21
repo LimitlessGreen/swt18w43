@@ -129,7 +129,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Menge</th>
                                         <th scope="col">Preis</th>
-                                        <th scope="col">Editieren</th>
+                                        <th scope="col">&#x1F5D1;</th>
                                     </tr>
 
                                     </thead>
@@ -144,7 +144,7 @@
                                             <div class="form-group">
                                                 <form class="form-group" method="post" th:action="@{/deleteCartItem}">
                                                     <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                    <button type="submit" class="btn btn-danger"></button>
+                                                    <button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;</button>
                                                 </form>
                                             </div>
                                         </td>
@@ -223,15 +223,6 @@
                                         </div>
                                     </form>
 
-                                    <script> // functions for change calculation
-                                        function calculateChange() {
-                                            var change = document.URL.split("?")[1];
-                                            change = change.split("=")[1];
-                                            change = change.replace("%20", "");
-                                            document.getElementById('changeValue').value=change;
-                                        }
-                                    </script>
-
                                     <div class="form-group">
                                         <br>
                                         <label for="change">Bargeld</label>
@@ -287,7 +278,6 @@
                                             </div>
                                         </form>
                                         <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" th:value="${change}" readonly>
-                                        <button type="button" class="btn btn-sm" onclick="calculateChange()">Anzeigen</button>
                                     </div>
 
                                 </div>

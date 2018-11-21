@@ -19,7 +19,7 @@
         <div class="container-fluid">
 
             <header>
-                <h1>Warenkorb</h1>
+                <h1>Merkzettel</h1>
             </header>
 
 
@@ -36,9 +36,9 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
-                        <th scope="col">Preis</th>
                         <th scope="col">Menge</th>
-                        <th scope="col">Editieren</th>
+                        <th scope="col">Preis</th>
+                        <th scope="col">Bearbeiten</th>
                     </tr>
 
                     </thead>
@@ -46,48 +46,32 @@
                     <tbody> <!-- table body -->
 
                     <tr th:each="item : ${shoppingCart} ">
-                        <td scope="row" th:text="${item.getName()}">ProductName</td>
+                        <td scope="row" th:text="${item.getProductName()}">ProductName</td>
                         <td th:text="${item.getId()}">1</td>
-                        <td th:text="${item.getPrice()}">1</td>
                         <td th:text="${item.getQuantity()}">1</td>
+                        <td th:text="${item.getPrice()}">1</td>
                         <td>
-                            <div class="form-group">
-                                <form class="form-group" method="post" th:action="@{/delete}">
-                                    <input type="hidden" name="productId" th:value="${item.getId()}">
-                                    <button type="submit" class="btn btn-danger"></button>
-                                </form>
-                                <form class="form-group" method="post" th:action="@{/sub}">
-                                    <input type="hidden" name="productId" th:value="${item.product.id}">
-                                    <button type="submit" class="btn btn-danger"></button>
-                                </form>
-                                <form class="form-group" method="post" th:action="@{/add}">
-                                    <input type="hidden" name="productId" th:value="${item.product.id}">
-                                    <button type="submit" class="btn btn-success"></button>
-                                </form>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <form class="form-group" method="post" th:action="@{/deleteFromWishlist}">
+                                        <input type="hidden" name="productId" th:value="${item.getId()}">
+                                        <button type="submit" class="btn btn-danger">&#x1F5D1;</button>
+                                    </form>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <form class="form-group" method="post" th:action="@{/removeOneFromWishlist}">
+                                        <input type="hidden" name="productId" th:value="${item.getId()}">
+                                        <button type="submit" class="btn btn-danger">-1</button>
+                                    </form>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <form class="form-group" method="post" th:action="@{/addOneToWishlist}">
+                                        <input type="hidden" name="productId" th:value="${item.getId()}">
+                                        <button type="submit" class="btn btn-success">+1</button>
+                                    </form>
+                                </div>
                             </div>
                         </td>
-                    </tr>
-
-                    <tr>
-                        <td>Name</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>Edit</td>
-                    </tr>
-                    <tr>
-                        <td>Name</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>Edit</td>
-                    </tr>
-                    <tr>
-                        <td>Name</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>Edit</td>
                     </tr>
 
                     </tbody>
@@ -96,8 +80,8 @@
 
                 <div class="col"> <!-- Sum of CartItems -->
                     <div class="align-content-center">
-                        <div class="label" align="center">Summe: </div>
-                        <div class="value" align="center"><span th:text="${{shoppingCart.getPrice()}}">1337</span></div>
+                        <div class="label" align="center"><h2>Summe:</h2></div>
+                        <div class="value" align="center"><h2 th:text="${shoppingCart.getPrice()}">1337</h2></div>
                     </div>
                 </div>
 
