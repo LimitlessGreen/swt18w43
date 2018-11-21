@@ -38,7 +38,6 @@ public class CashierSystem {
     // TODO Bitte nicht vergessen, für neues frontend in cashiersystem_new ändern
 	@RequestMapping("/cashiersystem")
 	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
-		model.addAttribute("shoppingCart", shoppingCart);
 		return "cashiersystem";
 	}
 
@@ -64,10 +63,9 @@ public class CashierSystem {
 		catch (Exception e) {
 			model.addAttribute("errorPid", true);
 			model.addAttribute("errorMsgPid", "Kein Produkt gefunden");
-			return "cashiersystem"; //für neuese Cashiersystem : return "redirect:/cashiersystem_new";
 		}
 
-		return "redirect:/cashiersystem"; //für neuese Cashiersystem : return "redirect:/cashiersystem_new";
+		return "cashiersystem";
 	}
 
 	/**

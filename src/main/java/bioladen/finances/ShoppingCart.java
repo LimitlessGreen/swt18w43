@@ -24,19 +24,15 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		Assert.notNull(product, "Product must not be null!");
 		Assert.notNull(quantity, "Quantity must not be null!");
 
+		Map<Product, CartCartItem> itemsCopy = new LinkedHashMap<>(items);
 
-		if (!items.isEmpty()) {
-			items.forEach((key, value) -> {
-				if (value == null) {
-					items.put(product, new CartCartItem(product, quantity));
-				} else {
-					items.put(key, items.get(key).add(quantity));
-				}
-			});
-		} else {
-			items.put(product, new CartCartItem(product, quantity));
+		for (Map.Entry<Product, CartCartItem> e : itemsCopy.entrySet()) {
+			if (e.getKey().getProductIdentifier().equals(product.getProductIdentifier())) {
+				items.put(e.getKey(), items.get(e.getKey()).add(quantity));
+				return e.getValue();
+			}
 		}
-
+		items.put(product, new CartCartItem(product, quantity));
 
 		return items.get(product);
 	}
