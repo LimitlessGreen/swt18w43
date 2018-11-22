@@ -1,7 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 
     <title>Navigation</title>
 
@@ -11,71 +11,90 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
-    <body>
-        <nav class="navbar navbar-light bg-light" th:fragment="navigation">
+<body>
+<nav class="navbar navbar-light bg-light" th:fragment="navigation">
 
-            <ul class="nav nav-pills nav-fill">
+    <ul class="nav nav-pills nav-fill">
 
                 <img src="/image/logo.png" width="40" height="40" alt="Blattgrün">
 
-                <li class="nav-item"><a class="navbar-brand" href="/">Blattgrün</a></li>
+        <li class="nav-item">
+            <a class="navbar-brand" href="/">
+                Blattgrün
+            </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="navbar-brand" href="/products" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
-                    Produktübersicht
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" href="/products" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
+                Produktübersicht
+            </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="navbar-brand" th:href="@{/administration}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
-                    Verwaltung
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/administration}"
+               sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
+                Verwaltung
+            </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="navbar-brand" th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
-                    Kasse
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
+                Kasse
+            </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="navbar-brand" th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
-                    Bestellung
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
+                Bestellung
+            </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="navbar-brand" th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')">
-                    Statistik
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')">
+                Statistik
+            </a>
+        </li>
 
-                <li class="nav-item"><a class="navbar-brand" th:href="@{/wishlist}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
-                    Merkzettel
-                </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')">
+                Aktions-Verlauf
+            </a>
+        </li>
 
-                <li class="nav-item"><a class="navbar-brand" th:href="@{/profile}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
-                    Profil
-                </a></li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/wishlist}"
+               sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
+                Merkzettel
+            </a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="navbar-brand" th:href="@{/login}" sec:authorize="!isAuthenticated()">
-                        Login
-                    </a>
-                    <a class="navbar-brand" th:href="@{/logout}" sec:authorize="isAuthenticated()">
-                        Logout
-                    </a>
-                </li>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/profile}"
+               sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
+                Profil
+            </a>
+        </li>
 
-            </ul>
+        <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/login}" sec:authorize="!isAuthenticated()">
+                Login
+            </a>
+        </li>
 
-        </nav>
+        <li>
+            <a class="navbar-brand" th:href="@{/logout}" sec:authorize="isAuthenticated()">
+                Logout
+            </a>
+        </li>
 
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="webjars/jquery/3.3.1/jquery.js"></script>
-        <script src="webjars/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
-    </body>
+    </ul>
+
+</nav>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="webjars/jquery/3.3.1/jquery.js"></script>
+<script src="webjars/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
+</body>
 </html>

@@ -14,7 +14,7 @@ public class HistoryController {
 
 	@GetMapping("/datahistory")
 	String datahistory(Model model){
-
+		model.addAttribute("history", dataEntryRepository.findAll());
 		return "datahistory";
 	}
 }
