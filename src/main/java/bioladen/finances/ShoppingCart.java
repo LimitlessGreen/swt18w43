@@ -121,6 +121,19 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		return money;
 	}
 
+	public BigDecimal getBasicPrice() {
+
+		BigDecimal money = BigDecimal.valueOf(0);
+
+		for (Map.Entry<Product, CartCartItem> e : items.entrySet()) {
+			money = money.add(e.getValue().getPrice());
+		}
+
+		money = money.setScale(2);
+
+		return money;
+	}
+
 
 	/**
 	 * @return the amount of items in the ShoppingCart

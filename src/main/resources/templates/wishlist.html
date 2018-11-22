@@ -36,6 +36,7 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Code</th>
+                        <th scope="col">Einzelpreis</th>
                         <th scope="col">Menge</th>
                         <th scope="col">Preis</th>
                         <th scope="col">Bearbeiten</th>
@@ -48,6 +49,7 @@
                     <tr th:each="item : ${shoppingCart} ">
                         <td scope="row" th:text="${item.getProductName()}">ProductName</td>
                         <td th:text="${item.getId()}">1</td>
+                        <td th:text="${item.getProduct().getPrice()}"></td>
                         <td th:text="${item.getQuantity()}">1</td>
                         <td th:text="${item.getPrice()}">1</td>
                         <td>
@@ -81,7 +83,7 @@
                 <div class="col"> <!-- Sum of CartItems -->
                     <div class="align-content-center">
                         <div class="label" align="center"><h2>Summe:</h2></div>
-                        <div class="value" align="center"><h2 th:text="${shoppingCart.getPrice()}">1337</h2></div>
+                        <div class="value" align="center"><h2 th:text="${shoppingCart.getBasicPrice()}">1337</h2></div>
                     </div>
                 </div>
 
