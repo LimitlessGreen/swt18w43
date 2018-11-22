@@ -10,25 +10,23 @@ import javax.persistence.*;
 @Table(name = "CUSTOMER")
 public class Customer {
 
-	public enum CustomerType {
-		MANAGER,
-		STAFF,
-		MAJOR_CUSTOMER,
-		HOUSE_CUSTOMER
-	}
-
 	public enum Sex {
 		MALE,
 		FEMALE,
 		VARIOUS
 	}
 
+	private static double MANAGER_DISCOUNT 			= 0.20;
+	private static double STAFF_DISCOUNT 			= 0.15;
+	private static double MAJOR_CUSTOMER_DISCOUNT 	= 0.10;
+	private static double HOUSE_CUSTOMER_DISCOUNT 	= 0.05;
+
 	public static double getDiscount(CustomerType customerType) {
 		switch (customerType) {
-			case MANAGER: return 0.20;
-			case STAFF: return 0.15;
-			case MAJOR_CUSTOMER: return 0.10;
-			case HOUSE_CUSTOMER: return  0.05;
+			case MANAGER: return MANAGER_DISCOUNT;
+			case STAFF: return STAFF_DISCOUNT;
+			case MAJOR_CUSTOMER: return MAJOR_CUSTOMER_DISCOUNT;
+			case HOUSE_CUSTOMER: return  HOUSE_CUSTOMER_DISCOUNT;
 			default: return 0;
 		}
 	}

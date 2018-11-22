@@ -5,18 +5,12 @@ import bioladen.event.EntityLevel;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
-import javax.validation.Valid;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.util.Streamable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -44,7 +38,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 							  @RequestParam("type") String type,
 							  Model model){
 
-		Customer.CustomerType customerType;
+		CustomerType customerType;
 		Customer.Sex customerSex;
 
 		switch (sex) {
@@ -55,10 +49,10 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		}
 
 		switch (type) {
-			case "Manager": customerType = Customer.CustomerType.MANAGER; break;
-			case "Staff": customerType = Customer.CustomerType.STAFF; break;
-			case "Major": customerType = Customer.CustomerType.MAJOR_CUSTOMER; break;
-			case "House": customerType = Customer.CustomerType.HOUSE_CUSTOMER; break;
+			case "Manager": customerType = CustomerType.MANAGER; break;
+			case "Staff": customerType = CustomerType.STAFF; break;
+			case "Major": customerType = CustomerType.MAJOR_CUSTOMER; break;
+			case "House": customerType = CustomerType.HOUSE_CUSTOMER; break;
 			default: throw new  IllegalArgumentException(type);
 		}
 

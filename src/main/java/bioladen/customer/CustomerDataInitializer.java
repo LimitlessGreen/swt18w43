@@ -6,9 +6,7 @@ import org.salespointframework.core.DataInitializer;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 @Component
 public class CustomerDataInitializer implements  DataInitializer{
@@ -27,11 +25,11 @@ public class CustomerDataInitializer implements  DataInitializer{
 		if (userAccountManager.findByUsername("feldfreude@bio.de").isPresent()) {
 			return;
 		}
-		Customer manager = new Customer("Flori", "Feldfreude", "feldfreude@bio.de", Customer.Sex.MALE, Customer.CustomerType.MANAGER);
+		Customer manager = new Customer("Flori", "Feldfreude", "feldfreude@bio.de", Customer.Sex.MALE, CustomerType.MANAGER);
 		UserAccount managerAccount = userAccountManager.create("feldfreude@bio.de", "blattgrün43", Role.of("ROLE_MANAGER"));
 		userAccountManager.save(managerAccount);
 
-		Customer staff = new Customer("Berta", "Bunt", "bertabunt@bio.de", Customer.Sex.FEMALE, Customer.CustomerType.STAFF);
+		Customer staff = new Customer("Berta", "Bunt", "bertabunt@bio.de", Customer.Sex.FEMALE, CustomerType.STAFF);
 		UserAccount staffAccount = userAccountManager.create("bertabunt@bio.de", "blattgrün43", Role.of("ROLE_STAFF"));
 		userAccountManager.save(staffAccount);
 

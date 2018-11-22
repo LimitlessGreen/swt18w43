@@ -3,7 +3,6 @@ package bioladen.customer;
 import bioladen.event.EntityEvent;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
-import org.salespointframework.useraccount.UserAccountIdentifier;
 import org.salespointframework.useraccount.UserAccountManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class UserAccEventListener {
 
 		switch (event.getEventLevel()) {
 			case CREATED:
-				if (customer.isCustomerType(Customer.CustomerType.STAFF)){
+				if (customer.isCustomerType(CustomerType.STAFF)){
 					if(!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
 						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_STAFF"));
 						userAccountManager.save(userAccount);
@@ -42,7 +41,7 @@ public class UserAccEventListener {
 					}
 
 				}
-				else if (customer.isCustomerType(Customer.CustomerType.MANAGER)){
+				else if (customer.isCustomerType(CustomerType.MANAGER)){
 					if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
 						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_MANAGER"));
 						userAccountManager.save(userAccount);
@@ -55,10 +54,10 @@ public class UserAccEventListener {
 				}
 				break;
 			case DELETED:
-				if (customer.isCustomerType(Customer.CustomerType.STAFF)){
+				if (customer.isCustomerType(CustomerType.STAFF)){
 					userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
 				}
-				else if (customer.isCustomerType(Customer.CustomerType.MANAGER)){
+				else if (customer.isCustomerType(CustomerType.MANAGER)){
 					userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
 				}
 				break;
