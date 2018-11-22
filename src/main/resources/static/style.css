@@ -189,8 +189,15 @@ body {}
 /*----------------------------------------*/
 /*  2.  Header Top CSS
 /*----------------------------------------*/
-.header-top-area, .footer-copyright-area{
+.header-top-area{
 	background: #146b4a;
+}
+.footer-copyright-area{
+    background: #146b4a;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 .logo-area{
 	padding: 1px 0px ;
