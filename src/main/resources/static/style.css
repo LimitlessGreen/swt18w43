@@ -112,6 +112,9 @@ body {}
 .mg-t-20{
 	margin-top:20px;
 }
+.mg-b-100{
+    margin-bottom:100px;
+}
 .nk-red{
 	background:#F44336;
 }
