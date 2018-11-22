@@ -47,4 +47,44 @@ public class Product {
 		this.inventoryAmount = 0;
 		this.displayedAmount = 0;
 	}
+
+	/**
+	 * Generates a continuous EAN-13 compatible identifier.
+	 *
+	 * @return the id
+	 */
+	public String generateId() {
+		String maxId = this.qProductCatalog.getMaxId();
+
+		String id;
+		if (maxId != null) {
+			id = Long.toString(Long.valueOf(maxId.substring(0, 11)) + 1);
+			id += getCheckSum(id);
+		} else {
+			id = "2000000000008"; // minimum possible id including checksum
+		}
+
+		return id;
+	}
+
+	/**
+	 * Generates the checksum of a EAN-13 id.
+	 *
+	 * @param  id the id
+	 * @return    the checksum of the given id
+	 */
+	public String getCheckSum(String id) {
+		int checkSum = 0;
+		for (int i = 0; i < id.length(); i++) {
+			if (i % 2 == 0) {
+				checkSum += (int) id.charAt(i);
+			} else {
+				checkSum += 3 * (int) id.charAt(i);
+			}
+		}
+
+		checkSum = 10 - (checkSum % 10);
+
+		return Integer.toString(checkSum);
+	}
 }
