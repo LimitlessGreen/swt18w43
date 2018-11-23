@@ -53,8 +53,6 @@ public class CashierSystem {
 			} else {
 				model.addAttribute("errorProductAmount", true);
 				model.addAttribute("errorProductAmountMsg", "Vom angegebenen Produkt ist weniger vorhanden als eingegeben");
-
-				return "cashiersystem";
 			}
 			model.addAttribute("shoppingCart", shoppingCart);
 		} catch (Exception e) {
