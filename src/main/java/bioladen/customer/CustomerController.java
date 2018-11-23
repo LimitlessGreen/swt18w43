@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -31,13 +29,13 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 	@PostMapping("/register")
 	public String registerNew(@RequestParam("firstname") String firstname,
-							  @RequestParam("lastname") String lastname,
-							  @RequestParam("phone") String phone,
-							  @RequestParam("email") String email,
-							  @RequestParam("address") String address,
-							  @RequestParam("sex") String sex,
-							  @RequestParam("type") String type,
-							  Model model) {
+							  @RequestParam("lastname")  String lastname,
+							  @RequestParam("phone")     String phone,
+							  @RequestParam("email")     String email,
+							  @RequestParam("sex")       String sex,
+							  @RequestParam("address")   String address,
+							  @RequestParam("type")      String type,
+							  Model model){
 
 		CustomerType customerType;
 		Customer.Sex customerSex;
