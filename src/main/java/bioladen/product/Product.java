@@ -54,7 +54,7 @@ public class Product {
 	 * @return the id
 	 */
 	public String generateId() {
-		String maxId = this.qProductCatalog.getMaxId();
+		String maxId = "2000000000008"; //TODO: getMaxId() //// this.qProductCatalog.getMaxId();
 
 		String id;
 		if (maxId != null) {
