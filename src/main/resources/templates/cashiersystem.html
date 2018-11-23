@@ -28,6 +28,10 @@
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     <strong>Achtung!</strong> <a th:text="${errorMsgPid}"></a>
                                 </div>
+                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorProductAmount}">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>Achtung!</strong> <a th:text="${errorProductAmountMsg}"></a>
+                                </div>
 
                                 <label for="pidInput">Produkt-Code</label>
                                 <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben">

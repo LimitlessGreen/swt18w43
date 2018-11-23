@@ -24,7 +24,6 @@ public class CashierSystem {
 		this.customerRepository = customerRepository;
 	}
 
-
 	@ModelAttribute("shoppingCart")
 	ShoppingCart initializeShoppingCart() {
 
@@ -38,19 +37,25 @@ public class CashierSystem {
 		return "cashiersystem";
 	}
 
-
 	/**
 	 * Adds Products to ShoppingCart.
 	 *
 	 * @param product      gets added
 	 * @param amount       times into the
-	 * @param shoppingCart
-	 * If no product is found an error message is returned
+	 * @param shoppingCart If no product is found an error message is returned
 	 */
 	@PostMapping("/cashiersystem")
-	String addProduct(@RequestParam("pid") Long product, @RequestParam("amount") long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String addProduct(@RequestParam("pid") Long product, @RequestParam("amount") Long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
+			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() > amount) {
+				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
+				shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
+			} else {
+				model.addAttribute("errorProductAmount", true);
+				model.addAttribute("errorProductAmountMsg", "Vom angegebenen Produkt ist weniger vorhanden als eingegeben");
+
+				return "cashiersystem";
+			}
 			model.addAttribute("shoppingCart", shoppingCart);
 		} catch (Exception e) {
 			model.addAttribute("errorPid", true);
@@ -60,24 +65,25 @@ public class CashierSystem {
 		return "cashiersystem";
 	}
 
-
 	/**
 	 * Deletes the Item with the
-	 * @param pid from the
+	 *
+	 * @param pid          from the
 	 * @param shoppingCart
 	 */
 	@PostMapping("/deleteCartItem")
 	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
+		shoppingCart.getItem(pid).get().getInventoryProduct().removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		shoppingCart.removeItem(pid);
 		return "cashiersystem";
 	}
 
 	/**
 	 * Calculates the change with the given
+	 *
 	 * @param changeInput  and the sum of the
-	 * @param shoppingCart
-	 * returns an error message if no changeInput is entered or
-	 * if it is lower than the sum of the shoppingCart
+	 * @param shoppingCart returns an error message if no changeInput is entered or
+	 *                     if it is lower than the sum of the shoppingCart
 	 */
 	@PostMapping("/cashiersystemCalcChange")
 	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -102,10 +108,10 @@ public class CashierSystem {
 
 	/**
 	 * Tries finding the user with the
+	 *
 	 * @param userId
-	 * @param model
-	 * returns an error message when no user is found.
-	 * if 0 is entered the discount will be 0% for a NormalCustomer
+	 * @param model  returns an error message when no user is found.
+	 *               if 0 is entered the discount will be 0% for a NormalCustomer
 	 */
 	@PostMapping("/cashiersystemUser")
 	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -121,9 +127,8 @@ public class CashierSystem {
 		}
 	}
 
-
 	@PostMapping("/cashiersystemFinish")
-	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model){
+	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";
