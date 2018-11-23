@@ -44,7 +44,7 @@ public class DistributorController {
 	}
 
 	@GetMapping("/distributorlist/delete")
-	String removeDistributor(@RequestParam("id") String id) {
+	String removeDistributor(@RequestParam("id") Long id) {
 		distributorRepository.deleteById(id);
 
 		return "redirect:/distributorlist";

@@ -30,7 +30,7 @@ public class OrderCart implements Streamable<OrderCartItem> {
 
 	public OrderCartItem addOrUpdateItem(DistributorProduct product, Quantity quantity) {
 
-		Assert.notNull(product, "Product must not be null!");
+		Assert.notNull(product, "InventoryProduct must not be null!");
 		Assert.notNull(quantity, "Quantity must not be null!");
 
 		return this.items.compute(product, //

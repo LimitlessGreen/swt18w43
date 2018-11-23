@@ -30,7 +30,7 @@
                 <div class="form-group col-md-12">
                     <label for="inputDistributor">Großhändler*</label>
                     <select class="form-control" id="inputDistributor" name="distributor">
-                        <option th:each="distributor : ${distributorList}" th:value="${distributor.getDistributorIdentifier()}" th:text="${distributor.getName()}">REWE</option>
+                        <option th:each="distributor : ${distributorList}" th:value="${distributor.getId()}" th:text="${distributor.getName()}">REWE</option>
                     </select>
                 </div>
             </div>

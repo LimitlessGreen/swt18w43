@@ -40,14 +40,15 @@ public class DistributorProductController {
 	}
 
 	@PostMapping("/addDistributorProduct")
-	String addDistributor(@RequestParam("name")	              String      name,
-						  @RequestParam("distributor")        Distributor distributor,
-						  @RequestParam("price")              String      priceString,
-						  @RequestParam("unit")               String      unitString,
-						  @RequestParam("minimumOrderAmount") long        minimumOrderAmount) {
+	String addDistributor(@RequestParam("name")	              String name,
+						  @RequestParam("distributor")        Long   distributorId,
+						  @RequestParam("price")              String priceString,
+						  @RequestParam("unit")               String unitString,
+						  @RequestParam("minimumOrderAmount") long   minimumOrderAmount) {
 
 		BigDecimal price = new BigDecimal(priceString);
 		BigDecimal unit = new BigDecimal(unitString);
+		Distributor distributor = distributorRepository.findById(distributorId).get();
 
 		DistributorProduct distributorProduct = new DistributorProduct(name,
 				                                                       distributor,

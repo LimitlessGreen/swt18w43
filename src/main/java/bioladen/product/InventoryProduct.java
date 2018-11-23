@@ -1,6 +1,3 @@
-/**
- *
- */
 package bioladen.product;
 
 import bioladen.product.distributor_product.DistributorProduct;
@@ -9,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +18,15 @@ import java.util.stream.Collectors;
  * @author Adrian Kulisch
  */
 
+@Entity
+@Table(name = "INVENTORY_PRODUCT")
 @NoArgsConstructor
-public class Product {
+public class InventoryProduct {
+
 	@Id
-	private @Getter String productIdentifier;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "inventoryProductIdentifier", updatable = false, nullable = false)
+	private @Getter Long productIdentifier;
 
 	private @NonNull @Getter @Setter String      name;
 	private @NonNull @Getter @Setter BigDecimal  price;
@@ -32,9 +34,10 @@ public class Product {
 	private          @Getter @Setter long        inventoryAmount;
 	private          @Getter @Setter long        displayedAmount;
 
+	@OneToMany(cascade=CascadeType.ALL)
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
 
-	public Product(String name, DistributorProductCatalog distributorProductCatalog) {
+	public InventoryProduct(String name, DistributorProductCatalog distributorProductCatalog) {
 		final double PROFIT_MARGIN = 0.20;
 
 		this.name = name;
@@ -46,6 +49,22 @@ public class Product {
 
 		this.inventoryAmount = 0;
 		this.displayedAmount = 0;
+	}
+
+	/**
+	 * Removes amounts from the displayedAmount. Readd units with negative amount.
+	 *
+	 * @param amount Amount to be removed (added if < 0)
+	 * @return true if successful; else false
+	 */
+	public boolean removeDisplayedAmount(long amount) {
+		if (displayedAmount >= amount) {
+			displayedAmount -= amount;
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

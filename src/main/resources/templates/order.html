@@ -59,12 +59,12 @@
 
 
                 <tbody>
-                <tr th:each="product : ${products}">
-                    <td th:text="${product.getName()}"></td>
-                    <td th:text="${#numbers.formatDecimal(product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                    <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                <tr th:each="inventoryProduct : ${products}">
+                    <td th:text="${inventoryProduct.getName()}"></td>
+                    <td th:text="${#numbers.formatDecimal(inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                    <td th:text="${#numbers.formatDecimal(amount * inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                     <td>?</td>
-                    <td><a th:href="'/orders/add?id=' + ${product.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
+                    <td><a th:href="'/orders/add?id=' + ${inventoryProduct.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
                         <button class="btn btn-success">Hinzufügen</button>
                     </a></td>
                 </tr>

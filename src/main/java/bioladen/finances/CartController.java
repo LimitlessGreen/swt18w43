@@ -1,6 +1,6 @@
 package bioladen.finances;
 
-import bioladen.product.ProductCatalog;
+import bioladen.product.InventoryProductCatalog;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 public class CartController {
 
-	private final ProductCatalog productCatalog;
+	private final InventoryProductCatalog inventoryProductCatalog;
 
 
-	CartController(ProductCatalog productCatalog) {
-		this.productCatalog = productCatalog;
+	CartController(InventoryProductCatalog inventoryProductCatalog) {
+		this.inventoryProductCatalog = inventoryProductCatalog;
 	}
 
 
@@ -41,8 +41,8 @@ public class CartController {
 	 * @param shoppingCart
 	 */
 	@PostMapping("/addToWishlist")
-	String addToWishlist(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
-		shoppingCart.addOrUpdateItem(productCatalog.findById(pid).get(), 1);
+	String addToWishlist(@RequestParam("productId") Long pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+		shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(pid).get(), 1);
 		model.addAttribute("shoppingCart", shoppingCart);
 
 		return "productlist";
@@ -70,7 +70,7 @@ public class CartController {
 	 */
 	@PostMapping("/addOneToWishlist")
 	String addOneToWishlist(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
-		shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getProduct(), 1);
+		shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getInventoryProduct(), 1);
 		model.addAttribute("shoppingCart", shoppingCart);
 
 		return "wishlist";
@@ -87,7 +87,7 @@ public class CartController {
 		if (shoppingCart.getItem(pid).get().getQuantity() == 1) {
 			shoppingCart.removeItem(pid);
 		} else {
-			shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getProduct(), -1);
+			shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getInventoryProduct(), -1);
 			model.addAttribute("shoppingCart", shoppingCart);
 		}
 

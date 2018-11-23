@@ -4,7 +4,8 @@ import lombok.NoArgsConstructor;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+
+import javax.persistence.*;
 
 /**
  * A distributor.
@@ -12,11 +13,15 @@ import org.springframework.data.annotation.Id;
  * @author Adrian Kulisch
  */
 
+@Entity
+@Table(name = "DISTRIBUTOR")
 @NoArgsConstructor
 public class Distributor {
-	
+
 	@Id
-	private @Getter String distributorIdentifier;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
+	private @Getter Long id;
 	
 	private @Getter @Setter String name;
 	private @Getter @Setter String email;

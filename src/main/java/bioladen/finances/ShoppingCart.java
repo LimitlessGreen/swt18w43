@@ -1,7 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.Customer;
-import bioladen.product.Product;
+import bioladen.product.InventoryProduct;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.util.Streamable;
@@ -19,42 +19,42 @@ import java.util.Optional;
  */
 public class ShoppingCart implements Streamable<CartCartItem> {
 
-	private @Getter	final Map<Product, CartCartItem> items = new LinkedHashMap<>();
+	private @Getter	final Map<InventoryProduct, CartCartItem> items = new LinkedHashMap<>();
 	private @Getter @Setter Customer customer = null;
 
 
 	/**
 	 * Searcher the Map items for the
-	 * @param product
+	 * @param inventoryProduct
 	 * If it is found the
-	 * @param quantity gets added to the product.
-	 * If the product doesn't exist, a new item is added
+	 * @param quantity gets added to the inventoryProduct.
+	 * If the inventoryProduct doesn't exist, a new item is added
 	 * @return the new CartCartItem
 	 */
-	public CartCartItem addOrUpdateItem(Product product, long quantity) {
+	public CartCartItem addOrUpdateItem(InventoryProduct inventoryProduct, long quantity) {
 
-		Assert.notNull(product, "Product must not be null!");
+		Assert.notNull(inventoryProduct, "InventoryProduct must not be null!");
 		Assert.notNull(quantity, "Quantity must not be null!");
 
-		Map<Product, CartCartItem> itemsCopy = new LinkedHashMap<>(items);
+		Map<InventoryProduct, CartCartItem> itemsCopy = new LinkedHashMap<>(items);
 
-		for (Map.Entry<Product, CartCartItem> e : itemsCopy.entrySet()) {
-			if (e.getKey().getProductIdentifier().equals(product.getProductIdentifier())) {
+		for (Map.Entry<InventoryProduct, CartCartItem> e : itemsCopy.entrySet()) {
+			if (e.getKey().getProductIdentifier().equals(inventoryProduct.getProductIdentifier())) {
 				items.put(e.getKey(), items.get(e.getKey()).add(quantity));
 				return e.getValue();
 			}
 		}
-		items.put(product, new CartCartItem(product, quantity));
+		items.put(inventoryProduct, new CartCartItem(inventoryProduct, quantity));
 
-		return items.get(product);
+		return items.get(inventoryProduct);
 	}
 
 
 	/**
 	 * Calls addOrUpdateItem with a double amount
 	 */
-	public CartCartItem addOrUpdateItem(Product product, double amount) {
-		return addOrUpdateItem(product, (long) amount);
+	public CartCartItem addOrUpdateItem(InventoryProduct inventoryProduct, double amount) {
+		return addOrUpdateItem(inventoryProduct, (long) amount);
 	}
 
 
@@ -68,7 +68,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		Assert.notNull(identifier, "CartItem identifier must not be null!");
 
 		return getItem(identifier) //
-				.map(item -> items.remove(item.getProduct()));
+				.map(item -> items.remove(item.getInventoryProduct()));
 	}
 
 
@@ -111,7 +111,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		BigDecimal money = BigDecimal.valueOf(0);
 
-		for (Map.Entry<Product, CartCartItem> e : items.entrySet()) {
+		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
 			money = money.add(e.getValue().getPrice());
 		}
 
@@ -129,7 +129,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		BigDecimal money = BigDecimal.valueOf(0);
 
-		for (Map.Entry<Product, CartCartItem> e : items.entrySet()) {
+		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
 			money = money.add(e.getValue().getPrice());
 		}
 

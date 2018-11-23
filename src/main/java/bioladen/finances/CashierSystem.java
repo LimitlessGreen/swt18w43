@@ -1,8 +1,7 @@
 package bioladen.finances;
 
-import bioladen.customer.Customer;
 import bioladen.customer.CustomerRepository;
-import bioladen.product.ProductCatalog;
+import bioladen.product.InventoryProductCatalog;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +16,11 @@ import java.math.BigDecimal;
 
 public class CashierSystem {
 
-	private final ProductCatalog productCatalog;
+	private final InventoryProductCatalog inventoryProductCatalog;
 	private final CustomerRepository customerRepository;
 
-	CashierSystem(ProductCatalog productCatalog, CustomerRepository customerRepository) {
-		this.productCatalog = productCatalog;
+	CashierSystem(InventoryProductCatalog inventoryProductCatalog, CustomerRepository customerRepository) {
+		this.inventoryProductCatalog = inventoryProductCatalog;
 		this.customerRepository = customerRepository;
 	}
 
@@ -49,9 +48,9 @@ public class CashierSystem {
 	 * If no product is found an error message is returned
 	 */
 	@PostMapping("/cashiersystem")
-	String addProduct(@RequestParam("pid") String product, @RequestParam("amount") long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String addProduct(@RequestParam("pid") Long product, @RequestParam("amount") long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			shoppingCart.addOrUpdateItem(productCatalog.findById(product).get(), amount);
+			shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
 			model.addAttribute("shoppingCart", shoppingCart);
 		} catch (Exception e) {
 			model.addAttribute("errorPid", true);

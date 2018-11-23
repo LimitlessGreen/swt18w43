@@ -1,8 +1,7 @@
 package bioladen.finances;
 
-import bioladen.product.Product;
+import bioladen.product.InventoryProduct;
 import lombok.Getter;
-import org.salespointframework.quantity.Quantity;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
@@ -17,45 +16,45 @@ public class CartCartItem {
 	private @Getter final String id;
 	private @Getter final BigDecimal price;
 	private @Getter final long quantity;
-	private @Getter final Product product;
+	private @Getter final InventoryProduct inventoryProduct;
 
 	/**
 	 * Creates a new {@link CartCartItem}.
 	 *
-	 * @param product must not be {@literal null}.
+	 * @param inventoryProduct must not be {@literal null}.
 	 * @param quantity must not be {@literal null}.
 	 */
-	CartCartItem(Product product, long quantity) {
-		this(UUID.randomUUID().toString(), product, quantity);
+	CartCartItem(InventoryProduct inventoryProduct, long quantity) {
+		this(UUID.randomUUID().toString(), inventoryProduct, quantity);
 	}
 
 	/**
 	 * Creates a new {@link CartCartItem}.
 	 *
 	 * @param id must not be {@literal null}.
-	 * @param product must not be {@literal null}.
+	 * @param inventoryProduct must not be {@literal null}.
 	 * @param quantity must not be {@literal null}.
 	 */
-	private CartCartItem(String id, Product product, long quantity) {
+	private CartCartItem(String id, InventoryProduct inventoryProduct, long quantity) {
 
 		Assert.notNull(id, "Identifier must not be null!");
-		Assert.notNull(product, "Product must be not null!");
+		Assert.notNull(inventoryProduct, "InventoryProduct must be not null!");
 		Assert.notNull(quantity, "Quantity must be not null!");
 
 		this.id = id;
 		this.quantity = quantity;
-		this.price = product.getPrice().multiply(BigDecimal.valueOf(quantity));
-		this.product = product;
+		this.price = inventoryProduct.getPrice().multiply(BigDecimal.valueOf(quantity));
+		this.inventoryProduct = inventoryProduct;
 	}
 
 
 	/**
-	 * Returns the name of the product associated with the CartCartItem.
+	 * Returns the name of the inventoryProduct associated with the CartCartItem.
 	 *
 	 * @return
 	 */
 	public final String getProductName() {
-		return product.getName();
+		return inventoryProduct.getName();
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class CartCartItem {
 		Assert.notNull(quantity, "Quantity must not be null!");
 
 		quantity += this.quantity;
-		return new CartCartItem(this.id, this.product, quantity);
+		return new CartCartItem(this.id, this.inventoryProduct, quantity);
 	}
 	
 }

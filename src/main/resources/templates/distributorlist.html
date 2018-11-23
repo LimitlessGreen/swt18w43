@@ -120,13 +120,13 @@
                             </thead>
                             <tbody th:remove="all-but-first">
                             <tr th:each="distributor : ${distributorList}">
-                                <td th:text="${distributor.getDistributorIdentifier()}">1</td>
+                                <td th:text="${distributor.getId()}">1</td>
                                 <td th:text="${distributor.getName()}">REWE</td>
                                 <td th:text="${distributor.getEmail()}">blattgrün@bioladen.de</td>
                                 <td th:text="${distributor.getContactName()}">Frida</td>
                                 <td th:text="${distributor.getPhone()}">035135426236</td>
                                 <td>
-                                    <a th:href="@{/distributorlist/delete(id = ${distributor.getDistributorIdentifier()})}">
+                                    <a th:href="@{/distributorlist/delete(id = ${distributor.getId()})}">
                                         <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect"
                                                 style="border-radius: 50%">
                                             <i class="notika-icon notika-close"></i>
