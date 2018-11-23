@@ -63,6 +63,18 @@
 <body>
 <!--Naviagtion-->
 <nav th:include="navigation_new :: navigation"></nav>
+    <!--Add Area Start-->
+<!--
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="modals-list mg-t-30">
+                <button type="button" class="btn btn-info waves-effect" data-toggle="modal" data-target="#myModalthree">Modal Large</button>
+            </div>
+        </div>
+    </div>
+-->
+
+    <!--Add Area End-->
     <!-- Data Table area Start-->
     <div class="data-table-area">
         <div class="container">
@@ -85,7 +97,7 @@
                                     <th>Adresse</th>
                                     <th>Telefonnummer</th>
                                     <th>Geschlecht</th>
-                                    <th>&#x1F5D1;</th>
+                                    <th>Löschen?</th>
                                 </tr>
                                 </thead>
                                 <tbody th:remove="all-but-first">
@@ -98,15 +110,12 @@
                                     <td th:text="${customer.getStreet()}">Feldweg 43</td>
                                     <td th:text="${customer.getPhone()}"> 03514343434</td>
                                     <td th:text="${customer.getSex()}">MALE</td>
-                                    <td> Papierkorb
-                                        <!--
-                                        <div class="form-group">
-                                            <form class="form-group" method="post" th:action="@{/customerDelete}">
-                                                <input value="0" id="delete" type="hidden" class="form-control" name="UserCustomerID" th:value="${customer.getId()}">
-                                                <button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;</button>
-                                            </form>
-                                        </div> -->
-
+                                    <td>
+                                        <a th:href="@{/customerlist/{id}(id = ${customer.getId()})}">
+                                            <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect" style="border-radius: 50%">
+                                                <i class="notika-icon">&#x1F5D1;</i>
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -120,7 +129,7 @@
                                     <th>Adresse</th>
                                     <th>Telefonnummer</th>
                                     <th>Geschlecht</th>
-                                    <th>&#x1F5D1;</th>
+                                    <th>Löschen?</th>
                                 </tr>
                                 </tfoot>
                             </table>
