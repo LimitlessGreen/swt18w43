@@ -9,7 +9,7 @@ import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomerDataInitializer implements  DataInitializer{
+public class CustomerDataInitializer implements DataInitializer {
 	private final CustomerRepository customerRepository;
 	private final UserAccountManager userAccountManager;
 

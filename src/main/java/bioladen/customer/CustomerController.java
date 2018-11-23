@@ -22,6 +22,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	CustomerController(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
+
 	/*Functions for register.html*/
 	@RequestMapping("/register")
 	public String register() {
@@ -36,24 +37,40 @@ public class CustomerController implements ApplicationEventPublisherAware {
 							  @RequestParam("address") String address,
 							  @RequestParam("sex") String sex,
 							  @RequestParam("type") String type,
-							  Model model){
+							  Model model) {
 
 		CustomerType customerType;
 		Customer.Sex customerSex;
 
 		switch (sex) {
-			case "male": customerSex = Customer.Sex.MALE; break;
-			case "female": customerSex = Customer.Sex.FEMALE; break;
-			case "various": customerSex = Customer.Sex.VARIOUS; break;
-			default: throw new IllegalArgumentException(sex);
+			case "male":
+				customerSex = Customer.Sex.MALE;
+				break;
+			case "female":
+				customerSex = Customer.Sex.FEMALE;
+				break;
+			case "various":
+				customerSex = Customer.Sex.VARIOUS;
+				break;
+			default:
+				throw new IllegalArgumentException(sex);
 		}
 
 		switch (type) {
-			case "Manager": customerType = CustomerType.MANAGER; break;
-			case "Staff": customerType = CustomerType.STAFF; break;
-			case "Major": customerType = CustomerType.MAJOR_CUSTOMER; break;
-			case "House": customerType = CustomerType.HOUSE_CUSTOMER; break;
-			default: throw new  IllegalArgumentException(type);
+			case "Manager":
+				customerType = CustomerType.MANAGER;
+				break;
+			case "Staff":
+				customerType = CustomerType.STAFF;
+				break;
+			case "Major":
+				customerType = CustomerType.MAJOR_CUSTOMER;
+				break;
+			case "House":
+				customerType = CustomerType.HOUSE_CUSTOMER;
+				break;
+			default:
+				throw new IllegalArgumentException(type);
 		}
 
 		String safeFirstName;
@@ -92,8 +109,12 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 		Customer customer = new Customer(safeFirstName, safeLastName, safeEmail, customerSex, customerType);
 
-		if (!phone.isEmpty()) { customer.setPhone(phone);}
-		if (!address.isEmpty()) { customer.setStreet(address);}
+		if (!phone.isEmpty()) {
+			customer.setPhone(phone);
+		}
+		if (!address.isEmpty()) {
+			customer.setStreet(address);
+		}
 		customerRepository.save(customer);
 		publishEvent(customer, EntityLevel.CREATED);
 
