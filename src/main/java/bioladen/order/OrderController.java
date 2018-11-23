@@ -104,7 +104,7 @@ public class OrderController {
 
 
 	@GetMapping("/orders/add")
-	public String addItem(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam("id") String id, @RequestParam("amount") Integer integer) {
+	public String addItem(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam("id") Long id, @RequestParam("amount") Integer integer) {
 
 		Optional<DistributorProduct> product = distributorProductCatalog.findById(id);
 

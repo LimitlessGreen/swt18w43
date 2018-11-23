@@ -45,12 +45,6 @@
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-releasetrain</artifactId>
 			<version>Lovelace-M3</version>
 			<type>pom</type>
