@@ -87,7 +87,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * clears the ShoppingCart
+	 * clears the ShoppingCart and sets the customer to null.
 	 */
 	public void clear() {
 		customer = null;
@@ -121,6 +121,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		return money;
 	}
 
+
+	/**
+	 * @return the price without calculation of discounts etc.
+	 */
 	public BigDecimal getBasicPrice() {
 
 		BigDecimal money = BigDecimal.valueOf(0);
@@ -155,7 +159,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	}
 
 
-
+	/**
+	 * @return the discount if a customer is set, or 0 for a normal customer
+	 */
 	public double getDiscount() {
 		if (customer != null) {
 			return Customer.getDiscount(customer.getCustomerType());

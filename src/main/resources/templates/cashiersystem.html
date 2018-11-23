@@ -171,7 +171,7 @@
 
                                     <form class="form-group" method="post" th:action="@{/cashiersystemUser}">
                                         <div class="form-group">
-                                            <label for="userId">Kunden ID   (0 für Normalkunden)</label>
+                                            <label for="userId">Kunden ID</label>
                                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorUid}">
                                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                                 <strong>Achtung!</strong> <a th:text="${errorMsgUid}"></a>
@@ -310,7 +310,9 @@
                                         </div>
 
                                         <div align="right">
-                                            <button class="alert alert-primary btn-lg" type="submit" id="finish">Fertig</button>
+                                            <form class="from-group" method="post" th:action="@{/cashiersystemFinish}">
+                                                <button class="alert alert-primary btn-lg" type="submit" id="finish">Fertig</button>
+                                            </form>
                                         </div>
                                     </div>
 

@@ -120,7 +120,14 @@ public class CashierSystem {
 
 			return "cashiersystem";
 		}
+	}
 
+
+	@PostMapping("/cashiersystemFinish")
+	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model){
+		shoppingCart.clear();
+
+		return "redirect:/cashiersystem";
 	}
 
 }
