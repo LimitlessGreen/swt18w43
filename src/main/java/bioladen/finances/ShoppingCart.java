@@ -20,8 +20,7 @@ import java.util.Optional;
 public class ShoppingCart implements Streamable<CartCartItem> {
 
 	private @Getter	final Map<Product, CartCartItem> items = new LinkedHashMap<>();
-	private @Getter @Setter Customer customer;
-	private @Getter @Setter double customerDiscount = 1;
+	private @Getter @Setter Customer customer = null;
 
 
 	/**
@@ -91,6 +90,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	 * clears the ShoppingCart
 	 */
 	public void clear() {
+		customer = null;
 		items.clear();
 	}
 
@@ -115,7 +115,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 			money = money.add(e.getValue().getPrice());
 		}
 
-		money = money.multiply(BigDecimal.valueOf(1 - customerDiscount));
+		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));
 		money = money.setScale(2);
 
 		return money;
@@ -146,37 +146,22 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return whether or not customer is set
-	 */
-	public boolean hasCustomer() {
-		try {
-			if (customer != null) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		catch (Exception e) {
-			return false;
-		}
-	}
-
-
-	/**
 	 * @return a formatted customerDiscount for Frontend
 	 */
 	public String getCustomerDiscountString() {
-		String customerDiscountString = customerDiscount * 100 + "%";
+		String customerDiscountString = getDiscount() * 100 + "%";
 
 		return customerDiscountString;
 	}
 
 
-	/**
-	 * @return whether or not the customerDiscount is 1
-	 */
-	public boolean checkDiscount() {
-		return customerDiscount == 1;
+
+	public double getDiscount() {
+		if (customer != null) {
+			return Customer.getDiscount(customer.getCustomerType());
+		} else {
+			return 0;
+		}
 	}
 
 

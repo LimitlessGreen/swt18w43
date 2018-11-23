@@ -111,12 +111,8 @@ public class CashierSystem {
 	@PostMapping("/cashiersystemUser")
 	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
-			if (userId == 0) {
-				shoppingCart.setCustomerDiscount(0);
-			} else {
-				shoppingCart.setCustomer(customerRepository.findById(userId).get());
-				shoppingCart.setCustomerDiscount(Customer.getDiscount(shoppingCart.getCustomer().getCustomerType()));
-			}
+			shoppingCart.setCustomer(customerRepository.findById(userId).get());
+
 			return "cashiersystem";
 		} catch (Exception e) {
 			model.addAttribute("errorUid", true);

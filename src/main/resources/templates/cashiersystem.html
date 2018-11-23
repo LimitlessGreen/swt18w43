@@ -293,11 +293,7 @@
                                     </div>
                                     <div id="OverviewText">
                                         <ul id="money">
-                                            <div th:if="${shoppingCart.checkDiscount()}">
-                                                <br>
-                                                <h4 style="color: white;">Bitte geben Sie eine Kunden ID ein</h4>
-                                            </div>
-                                            <div th:unless="${shoppingCart.checkDiscount()}">
+                                            <div>
                                                 <li><a>Rabatt: </a></li>
                                                 <input type="text" class="form-control" id="discount" name="discount" placeholder="Rabatt" th:value="${shoppingCart.getCustomerDiscountString()} " readonly>
                                                 <li><a>MwSt.: </a></li>
@@ -307,7 +303,7 @@
                                             </div>
                                         </ul>
                                     </div>
-                                    <div th:unless="${shoppingCart.checkDiscount()}">
+                                    <div>
                                         <div id="OverviewText">
                                             <a>Summe: </a>
                                             <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${shoppingCart.getPrice()}" readonly>
