@@ -16,10 +16,10 @@
 <nav th:include="navigation :: navigation"></nav>
 <div class="container" id="centerBox">
 
-    <div>
+    <div th:fragment="distributorform">
         <h1 align="center">Großhändler hinzufügen</h1>
         <br>
-        <form method="post" th:action="@{/registerDistributor}">
+        <form method="post" th:action="@{/distributorform}">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputName">Name*</label>

@@ -26,12 +26,12 @@ public class DistributorController {
 		return "distributorlist";
 	}
 
-	@RequestMapping("/registerDistributor")
+	@RequestMapping("/distributorform")
 	String distributorForm(Model model) {
 		return "distributorform";
 	}
 
-	@PostMapping("/registerDistributor")
+	@PostMapping("/distributorform")
 	String addDistributor(@RequestParam("name")	       String name,
 						  @RequestParam("email")	   String email,
 						  @RequestParam("contactName") String contactName,
@@ -40,11 +40,11 @@ public class DistributorController {
 		Distributor distributor = new Distributor(name, email, contactName, phone);
 		distributorRepository.save(distributor);
 
-		return "distributorform";
+		return "redirect:/distributorlist";
 	}
 
-	@PostMapping("/removeDistributor")
-	String removeDistributor(@RequestParam("distributorIdentifier") String id) {
+	@GetMapping("/distributorlist/delete")
+	String removeDistributor(@RequestParam("id") String id) {
 		distributorRepository.deleteById(id);
 
 		return "redirect:/distributorlist";
