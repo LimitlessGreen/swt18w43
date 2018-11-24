@@ -50,6 +50,7 @@ public class CashierSystem {
 			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() > amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
 				shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
+				inventoryProductCatalog.save(inventoryProductCatalog.findById(product).get());
 			} else {
 				model.addAttribute("errorProductAmount", true);
 				model.addAttribute("errorProductAmountMsg", "Vom angegebenen Produkt ist weniger vorhanden als eingegeben");
@@ -72,6 +73,7 @@ public class CashierSystem {
 	@PostMapping("/deleteCartItem")
 	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
 		shoppingCart.getItem(pid).get().getInventoryProduct().removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
+		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
 		shoppingCart.removeItem(pid);
 		return "cashiersystem";
 	}
