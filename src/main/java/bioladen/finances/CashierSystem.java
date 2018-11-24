@@ -127,8 +127,25 @@ public class CashierSystem {
 		}
 	}
 
+	/**
+	 * Finish the sale and clears the shoppingCart
+	 *
+	 * @param shoppingCart gets cleared and user set to null
+	 */
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+		shoppingCart.clear();
+
+		return "redirect:/cashiersystem";
+	}
+
+	/**
+	 * Aborts the sale and clears the shoppingCart
+	 *
+	 * @param shoppingCart gets cleared and user set to null
+	 */
+	@PostMapping("/cashiersystemAbort")
+	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";

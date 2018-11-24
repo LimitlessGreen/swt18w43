@@ -312,12 +312,22 @@
                                             <a>Summe: </a>
                                             <input type="text" class="form-control" id="sum" name="sum" placeholder="Summe" th:value="${shoppingCart.getPrice()}" readonly>
                                         </div>
+                                    </div>
 
-                                        <div align="right">
-                                            <form class="from-group" method="post" th:action="@{/cashiersystemFinish}">
-                                                <button class="alert alert-primary btn-lg" type="submit" id="finish">Fertig</button>
-                                            </form>
-                                        </div>
+                                    <br>
+
+                                    <div align="right">
+                                        <form class="from-group" method="post" th:action="@{/cashiersystemAbort}">
+                                            <button class="btn btn-primary btn-lg btn-block btn-danger" type="submit" id="abort">Abbrechen</button>
+                                        </form>
+                                    </div>
+
+                                    <br>
+
+                                    <div align="right">
+                                        <form class="from-group" method="post" th:action="@{/cashiersystemFinish}">
+                                            <button class="btn btn-primary btn-lg btn-block" type="submit" id="finish">Fertig</button>
+                                        </form>
                                     </div>
 
                                 </div>
