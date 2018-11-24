@@ -33,8 +33,8 @@
     <!-- normalize CSS
 		============================================ -->
     <link rel="stylesheet" href="css/normalize.css">
-	<!-- wave CSS
-		============================================ -->
+    <!-- wave CSS
+        ============================================ -->
     <link rel="stylesheet" href="css/wave/waves.min.css">
     <link rel="stylesheet" href="css/wave/button.css">
     <!-- mCustomScrollbar CSS
@@ -63,172 +63,171 @@
 <body>
 <!--Naviagtion-->
 <nav th:include="navigation_new :: navigation"></nav>
-    <!--Add Area Start-->
-<!--
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="modals-list mg-t-30">
-                <button type="button" class="btn btn-info waves-effect" data-toggle="modal" data-target="#myModalthree">Modal Large</button>
-            </div>
-        </div>
-    </div>
--->
 
-    <!--Add Area End-->
-    <!-- Data Table area Start-->
-    <div class="data-table-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="data-table-list">
-                        <div class="basic-tb-hd">
-                            <h2>Übersicht</h2>
+
+<!-- Data Table area Start-->
+<div class="data-table-area">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="data-table-list">
+
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="basic-tb-hd">
+                                <h2>Personen verwalten</h2>
+                            </div>
                         </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <button type="button" class="btn btn-info notika-btn-green" data-toggle="modal" data-target="#addUserModal"
+                                    style="float: right">Person hinzufügen
+                            </button>
 
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addUserModal">Benutzer hinzufügen</button>
-
-                        <!-- dialog: add user Start -->
-                        <div class="modal fade" id="addUserModal" role="dialog">
-                            <div class="modal-dialog modal-large">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h2>Benutzer hinzufügen</h2>
-                                        <p>Bitte die folgenden Felder aufüllen.</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Save changes</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <!-- dialog: add user Start -->
+                            <div class="modal fade" id="addUserModal" role="dialog">
+                                <div class="modal-dialog modal-large">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div th:include="register :: registerform"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- dialog: add user End -->
                         </div>
-                        <!-- dialog: add user End -->
+                    </div>
 
-                        <div class="table-responsive">
-                            <table id="data-table-basic" class="table table-striped">
+                    <div class="table-responsive">
+                        <table id="data-table-basic" class="table table-striped">
 
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Vorname</th>
-                                    <th>Type</th>
-                                    <th>E-Mail</th>
-                                    <th>Adresse</th>
-                                    <th>Telefonnummer</th>
-                                    <th>Geschlecht</th>
-                                    <th>Löschen?</th>
-                                </tr>
-                                </thead>
-                                <tbody th:remove="all-but-first">
-                                <tr th:each="customer : ${customerList}">
-                                    <td th:text="${customer.getId()}">1</td>
-                                    <td th:text="${customer.getLastname()}">Feldfreude</td>
-                                    <td th:text="${customer.getFirstname()}">Flori</td>
-                                    <td th:text="${customer.getCustomerType()}">MANAGER</td>
-                                    <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
-                                    <td th:text="${customer.getStreet()}">Feldweg 43</td>
-                                    <td th:text="${customer.getPhone()}"> 03514343434</td>
-                                    <td th:text="${customer.getSex()}">MALE</td>
-                                    <td>
-                                        <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
-                                            <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect" style="border-radius: 50%">
-                                                <i class="notika-icon">&#x1F5D1;</i>
-                                            </button>
-                                        </a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Vorname</th>
-                                    <th>Type</th>
-                                    <th>E-Mail</th>
-                                    <th>Adresse</th>
-                                    <th>Telefonnummer</th>
-                                    <th>Geschlecht</th>
-                                    <th>Löschen?</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Vorname</th>
+                                <th>Type</th>
+                                <th>E-Mail</th>
+                                <th>Adresse</th>
+                                <th>Telefonnummer</th>
+                                <th>Geschlecht</th>
+                                <th>Löschen?</th>
+                            </tr>
+                            </thead>
+                            <tbody th:remove="all-but-first">
+                            <tr th:each="customer : ${customerList}">
+                                <td th:text="${customer.getId()}">1</td>
+                                <td th:text="${customer.getLastname()}">Feldfreude</td>
+                                <td th:text="${customer.getFirstname()}">Flori</td>
+                                <td th:text="${customer.getCustomerType()}">MANAGER</td>
+                                <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
+                                <td th:text="${customer.getStreet()}">Feldweg 43</td>
+                                <td th:text="${customer.getPhone()}"> 03514343434</td>
+                                <td th:text="${customer.getSex()}">MALE</td>
+                                <td>
+                                    <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
+                                        <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect"
+                                                style="border-radius: 50%">
+                                            <i class="notika-icon notika-close"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Vorname</th>
+                                <th>Type</th>
+                                <th>E-Mail</th>
+                                <th>Adresse</th>
+                                <th>Telefonnummer</th>
+                                <th>Geschlecht</th>
+                                <th>Löschen?</th>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Data Table area End-->
+</div>
+<!-- Data Table area End-->
 
 <div th:include="footer :: footer"></div>
-    <!-- End Footer area-->
-    <!-- jquery
-		============================================ -->
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap JS
-		============================================ -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- wow JS
-		============================================ -->
-    <script src="js/wow.min.js"></script>
-    <!-- price-slider JS
-		============================================ -->
-    <script src="js/jquery-price-slider.js"></script>
-    <!-- owl.carousel JS
-		============================================ -->
-    <script src="js/owl.carousel.min.js"></script>
-    <!-- scrollUp JS
-		============================================ -->
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <!-- meanmenu JS
-		============================================ -->
-    <script src="js/meanmenu/jquery.meanmenu.js"></script>
-    <!-- counterup JS
-		============================================ -->
-    <script src="js/counterup/jquery.counterup.min.js"></script>
-    <script src="js/counterup/waypoints.min.js"></script>
-    <script src="js/counterup/counterup-active.js"></script>
-    <!-- mCustomScrollbar JS
-		============================================ -->
-    <script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!-- sparkline JS
-		============================================ -->
-    <script src="js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="js/sparkline/sparkline-active.js"></script>
-    <!-- flot JS
-		============================================ -->
-    <script src="js/flot/jquery.flot.js"></script>
-    <script src="js/flot/jquery.flot.resize.js"></script>
-    <script src="js/flot/flot-active.js"></script>
-    <!-- knob JS
-		============================================ -->
-    <script src="js/knob/jquery.knob.js"></script>
-    <script src="js/knob/jquery.appear.js"></script>
-    <script src="js/knob/knob-active.js"></script>
-    <!--  Chat JS
-		============================================ -->
-    <script src="js/chat/jquery.chat.js"></script>
-    <!--  todo JS
-		============================================ -->
-    <script src="js/todo/jquery.todo.js"></script>
-	<!--  wave JS
-		============================================ -->
-    <script src="js/wave/waves.min.js"></script>
-    <script src="js/wave/wave-active.js"></script>
-    <!-- plugins JS
-		============================================ -->
-    <script src="js/plugins.js"></script>
-    <!-- Data Table JS
-		============================================ -->
-    <script src="js/data-table/jquery.dataTables.min.js"></script>
-    <script src="js/data-table/data-table-act.js"></script>
-    <!-- main JS
-		============================================ -->
-    <script src="js/main.js"></script>
+<!-- End Footer area-->
+<!-- jquery
+    ============================================ -->
+<script src="js/vendor/jquery-1.12.4.min.js"></script>
+<!-- bootstrap JS
+    ============================================ -->
+<script src="js/bootstrap.min.js"></script>
+<!-- wow JS
+    ============================================ -->
+<script src="js/wow.min.js"></script>
+<!-- price-slider JS
+    ============================================ -->
+<script src="js/jquery-price-slider.js"></script>
+<!-- owl.carousel JS
+    ============================================ -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- scrollUp JS
+    ============================================ -->
+<script src="js/jquery.scrollUp.min.js"></script>
+<!-- meanmenu JS
+    ============================================ -->
+<script src="js/meanmenu/jquery.meanmenu.js"></script>
+<!-- counterup JS
+    ============================================ -->
+<script src="js/counterup/jquery.counterup.min.js"></script>
+<script src="js/counterup/waypoints.min.js"></script>
+<script src="js/counterup/counterup-active.js"></script>
+<!-- mCustomScrollbar JS
+    ============================================ -->
+<script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- sparkline JS
+    ============================================ -->
+<script src="js/sparkline/jquery.sparkline.min.js"></script>
+<script src="js/sparkline/sparkline-active.js"></script>
+<!-- flot JS
+    ============================================ -->
+<script src="js/flot/jquery.flot.js"></script>
+<script src="js/flot/jquery.flot.resize.js"></script>
+<script src="js/flot/flot-active.js"></script>
+<!-- knob JS
+    ============================================ -->
+<script src="js/knob/jquery.knob.js"></script>
+<script src="js/knob/jquery.appear.js"></script>
+<script src="js/knob/knob-active.js"></script>
+<!--  Chat JS
+    ============================================ -->
+<script src="js/chat/jquery.chat.js"></script>
+<!--  todo JS
+    ============================================ -->
+<script src="js/todo/jquery.todo.js"></script>
+<!--  wave JS
+    ============================================ -->
+<script src="js/wave/waves.min.js"></script>
+<script src="js/wave/wave-active.js"></script>
+<!-- plugins JS
+    ============================================ -->
+<script src="js/plugins.js"></script>
+<!-- Data Table JS
+    ============================================ -->
+<script src="js/data-table/jquery.dataTables.min.js"></script>
+<script src="js/data-table/data-table-act.js"></script>
+<!-- main JS
+    ============================================ -->
+<script src="js/main.js"></script>
 </body>
 
 </html>

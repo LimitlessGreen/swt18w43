@@ -69,7 +69,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		publishEvent(customer, EntityLevel.CREATED);
 
 
-		return "register";
+		return "redirect:/customerlist";
 	}
 
 	/* Event publisher */

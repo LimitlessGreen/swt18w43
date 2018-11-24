@@ -16,7 +16,7 @@
     <nav th:include="navigation :: navigation"></nav>
     <div class="container" id="centerBox">
 
-        <div>
+        <div th:fragment="registerform">
             <h1 align="center">User hinzufügen</h1>
             <br>
             <form method="post" th:action="@{/register}">

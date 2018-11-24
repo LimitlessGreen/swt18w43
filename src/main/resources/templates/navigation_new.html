@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <!--Title-->
     <title>Navigation</title>
     <!--Title ends-->
@@ -64,8 +64,10 @@
 <body>
 <nav th:fragment="navigation">
     <!--[if lt IE 8]>
-            <p class="browserupgrade">Sie nutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/">updaten Sie ihren Browser </a> , um alle Features der Webseite zu erleben.</p>
-        <![endif]-->
+    <p class="browserupgrade">Sie nutzen einen <strong>veralteten</strong> Browser. Bitte <a
+            href="http://browsehappy.com/">updaten Sie ihren Browser </a> , um alle Features der Webseite zu erleben.
+    </p>
+    <![endif]-->
     <!-- Start Header Top Area -->
     <div class="header-top-area">
         <div class="container">
@@ -74,18 +76,18 @@
                     <div class="logo-area">
                         <a th:href="@{/}">
                             <div style="color: white; margin-bottom: 0px; display: flex; align-items: center;">
-                                <div><img src="/img/logo/logo.png" alt="Bio-Laden Blattgrün" width="70" /></div>
+                                <div><img src="/img/logo/logo.png" alt="Bio-Laden Blattgrün" width="70"/></div>
                                 <div style="font-size: 21pt; font-weight: bold;">Bio-Laden</div>
                             </div>
                         </a>
                     </div>
-				</div>
+                </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <!--TODO: Login/logout; angemeldet als und Merkzettel-->
                 </div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
     <!-- End Header Top Area -->
     <!-- Mobile Menu start -->
     <div class="mobile-menu-area">
@@ -96,14 +98,15 @@
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
                                 <li>
-                                    <a  th:href="@{/}">Startseite</a>
+                                    <a th:href="@{/}">Startseite</a>
                                 </li>
                                 <li>
-                                    <a  th:href="@{/productlist}">Produktübersicht</a>
+                                    <a th:href="@{/productlist}">Produktübersicht</a>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_productmanagement" href="#">Produktverwaltung</a>
                                     <ul id="m_productmanagement" class="collapse dropdown-header-top">
-                                        <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a></li>
+                                        <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
+                                        </li>
                                         <li><a th:href="@{/productlist}">Produkte verwalten</a></li>
                                     </ul>
                                 </li>
@@ -113,6 +116,7 @@
                                         <li><a th:href="@{/distributorlist}">Großhändlerverwalten</a></li>
                                     </ul>
                                 </li>
+                                <li><a th:href="@{/cashiersystem}">Kasse</a></li>
                                 <li><a th:href="@{/order}">Bestellung</a>
                                 </li>
                                 <li><a th:href="@{/statistic}">Statistik</a>
@@ -131,17 +135,20 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <!--TODO: active Tab-->
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                        <li><a th:href="@{/}"><i class="notika-icon notika-house"></i> Startseite</a>
+                        <li><a th:href="@{/}"><i class="notika-icon notika-house"></i>Startseite</a>
                         </li>
-                        <li><a th:href="@{/productlist}"><i class="notika-icon notika-edit"></i> Produktübersicht</a>
+                        <li><a th:href="@{/productlist}"><i class="notika-icon notika-edit"></i>Produktübersicht</a>
                         </li>
-                        <li><a data-toggle="tab" href="#productmanagement"><i class="notika-icon notika-edit"></i> Produktverwaltung</a>
+                        <li><a data-toggle="tab" href="#productmanagement"><i class="notika-icon notika-edit"></i>
+                            Produktverwaltung</a>
                         </li>
-                        <li><a data-toggle="tab" href="#personmanagement"><i class="notika-icon notika-edit"></i> Personenverwaltung</a>
+                        <li><a data-toggle="tab" href="#personmanagement"><i class="notika-icon notika-edit"></i>
+                            Personenverwaltung</a>
                         </li>
-                        <li><a th:href="@{/order}"><i class="notika-icon notika-edit"></i> Bestellung</a>
+                        <li><a th:href="@{/cashiersystem}"><i class="notika-icon notika-dollar"></i>Kasse</a></li>
+                        <li><a th:href="@{/order}"><i class="notika-icon notika-edit"></i>Bestellung</a>
                         </li>
-                        <li><a th:href="@{/statistic}"><i class="notika-icon notika-bar-chart"></i> Statistik</a>
+                        <li><a th:href="@{/statistic}"><i class="notika-icon notika-bar-chart"></i>Statistik</a>
                         </li>
                     </ul>
 
@@ -152,7 +159,7 @@
     <div class="main-menu-area mg-tb-7" style="background-color: transparent;">
         <div class="container"> <!--TODO: round edges-->
             <div class="tab-content custom-menu-content">
-                <div id="productmanagement" class="tab-pane notika-tab-menu-bg animated fadeIn" >
+                <div id="productmanagement" class="tab-pane notika-tab-menu-bg animated fadeIn">
                     <ul class="notika-main-menu-dropdown border-round-bottom">
                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                         </li>
@@ -173,74 +180,73 @@
 
     </div>
 </nav>
-    <!-- Main Menu area End-->
+<!-- Main Menu area End-->
 
 
-
-    <!-- jquery
-            ============================================ -->
-    <script src="/js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap JS
-		============================================ -->
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- wow JS
-		============================================ -->
-    <script src="/js/wow.min.js"></script>
-    <!-- price-slider JS
-		============================================ -->
-    <script src="/js/jquery-price-slider.js"></script>
-    <!-- owl.carousel JS
-		============================================ -->
-    <script src="/js/owl.carousel.min.js"></script>
-    <!-- scrollUp JS
-		============================================ -->
-    <script src="/js/jquery.scrollUp.min.js"></script>
-    <!-- meanmenu JS
-		============================================ -->
-    <script src="/js/meanmenu/jquery.meanmenu.js"></script>
-    <!-- counterup JS
-		============================================ -->
-    <script src="/js/counterup/jquery.counterup.min.js"></script>
-    <script src="/js/counterup/waypoints.min.js"></script>
-    <script src="/js/counterup/counterup-active.js"></script>
-    <!-- mCustomScrollbar JS
-		============================================ -->
-    <script src="/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!-- sparkline JS
-		============================================ -->
-    <script src="/js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="/js/sparkline/sparkline-active.js"></script>
-    <!-- flot JS
-		============================================ -->
-    <script src="/js/flot/jquery.flot.js"></script>
-    <script src="/js/flot/jquery.flot.resize.js"></script>
-    <script src="/js/flot/flot-active.js"></script>
-    <!-- knob JS
-		============================================ -->
-    <script src="/js/knob/jquery.knob.js"></script>
-    <script src="/js/knob/jquery.appear.js"></script>
-    <script src="/js/knob/knob-active.js"></script>
-    <!-- icheck JS
-		============================================ -->
-    <script src="/js/icheck/icheck.min.js"></script>
-    <script src="/js/icheck/icheck-active.js"></script>
-    <!--  wave JS
-		============================================ -->
-    <script src="/js/wave/waves.min.js"></script>
-    <script src="/js/wave/wave-active.js"></script>
-    <!--  Chat JS
-		============================================ -->
-    <script src="/js/chat/jquery.chat.js"></script>
-    <!--  todo JS
-		============================================ -->
-    <script src="/js/todo/jquery.todo.js"></script>
-    <!-- plugins JS
-		============================================ -->
-    <script src="/js/plugins.js"></script>
-    <!-- main JS
-		============================================ -->
-    <script src="/js/main.js"></script>
-    <!-- tawk chat JS
+<!-- jquery
         ============================================ -->
+<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+<!-- bootstrap JS
+    ============================================ -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- wow JS
+    ============================================ -->
+<script src="/js/wow.min.js"></script>
+<!-- price-slider JS
+    ============================================ -->
+<script src="/js/jquery-price-slider.js"></script>
+<!-- owl.carousel JS
+    ============================================ -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- scrollUp JS
+    ============================================ -->
+<script src="/js/jquery.scrollUp.min.js"></script>
+<!-- meanmenu JS
+    ============================================ -->
+<script src="/js/meanmenu/jquery.meanmenu.js"></script>
+<!-- counterup JS
+    ============================================ -->
+<script src="/js/counterup/jquery.counterup.min.js"></script>
+<script src="/js/counterup/waypoints.min.js"></script>
+<script src="/js/counterup/counterup-active.js"></script>
+<!-- mCustomScrollbar JS
+    ============================================ -->
+<script src="/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- sparkline JS
+    ============================================ -->
+<script src="/js/sparkline/jquery.sparkline.min.js"></script>
+<script src="/js/sparkline/sparkline-active.js"></script>
+<!-- flot JS
+    ============================================ -->
+<script src="/js/flot/jquery.flot.js"></script>
+<script src="/js/flot/jquery.flot.resize.js"></script>
+<script src="/js/flot/flot-active.js"></script>
+<!-- knob JS
+    ============================================ -->
+<script src="/js/knob/jquery.knob.js"></script>
+<script src="/js/knob/jquery.appear.js"></script>
+<script src="/js/knob/knob-active.js"></script>
+<!-- icheck JS
+    ============================================ -->
+<script src="/js/icheck/icheck.min.js"></script>
+<script src="/js/icheck/icheck-active.js"></script>
+<!--  wave JS
+    ============================================ -->
+<script src="/js/wave/waves.min.js"></script>
+<script src="/js/wave/wave-active.js"></script>
+<!--  Chat JS
+    ============================================ -->
+<script src="/js/chat/jquery.chat.js"></script>
+<!--  todo JS
+    ============================================ -->
+<script src="/js/todo/jquery.todo.js"></script>
+<!-- plugins JS
+    ============================================ -->
+<script src="/js/plugins.js"></script>
+<!-- main JS
+    ============================================ -->
+<script src="/js/main.js"></script>
+<!-- tawk chat JS
+    ============================================ -->
 </body>
 </html>
