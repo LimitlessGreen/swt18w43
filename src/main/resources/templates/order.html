@@ -68,6 +68,16 @@
                         <button class="btn btn-success">Hinzufügen</button>
                     </a></td>
                 </tr>
+
+                <tr th:each="product : ${productsfiltered}">
+                    <td th:text="${product.getName()}"></td>
+                    <td th:text="${#numbers.formatDecimal(product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                    <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                    <td>?</td>
+                    <td><a th:href="'/orders?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() * product.getUnit() , 1, 0)}"><span class="badge badge-danger" role="alert">
+                        Mindestbestellmenge: <span th:text="${product.getMinimumOrderAmount() }"></span>
+                    </span></a></td>
+                </tr>
                 </tbody>
             </table>
 

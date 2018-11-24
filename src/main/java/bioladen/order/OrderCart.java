@@ -73,4 +73,9 @@ public class OrderCart implements Streamable<OrderCartItem> {
 	public Iterator iterator() {
 		return items.values().iterator();
 	}
+
+	public void clear() {
+		items.clear();
+
+	}
 }
