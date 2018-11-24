@@ -43,9 +43,9 @@ public class CashierSystem extends ShoppingCart {
 	}
 
 
-	@RequestMapping("/cashiersystem")
+	@RequestMapping("/cashiersystem") //für neuese Cashiersystem ändern nicht vergessen
 	public String cashiersystem() {
-		return "cashiersystem";
+		return "cashiersystem"; //für neuese Cashiersystem : return "redirect:/cashiersystem_new";
 	}
 
 	@RequestMapping("/cart")
@@ -62,7 +62,7 @@ public class CashierSystem extends ShoppingCart {
 	 * @param shoppingCart
 	 * @return
 	 */
-	@PostMapping("/cashiersystem")
+	@PostMapping("/cashiersystem") //für neuese Cashiersystem ändern nicht vergessen
 	String addProduct(@RequestParam("pid") String product, @RequestParam("amount") int amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		try {
 			shoppingCart.addOrUpdateItem(productCatalog.findById(product).get(), Quantity.of((long) amount));
@@ -70,10 +70,10 @@ public class CashierSystem extends ShoppingCart {
 		catch (Exception e) {
 			model.addAttribute("errorPid", true);
 			model.addAttribute("errorMsgPid", "Kein Produkt gefunden");
-			return "cashiersystem";
+			return "cashiersystem"; //für neuese Cashiersystem : return "redirect:/cashiersystem_new";
 		}
 
-		return "redirect:/cashiersystem";
+		return "redirect:/cashiersystem"; //für neuese Cashiersystem : return "redirect:/cashiersystem_new";
 	}
 
 	/**
