@@ -72,7 +72,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="logo-area">
-                        <a href="/">
+                        <a th:href="@{/}">
                             <div style="color: white; margin-bottom: 0px; display: flex; align-items: center;">
                                 <div><img src="/img/logo/logo.png" alt="Bio-Laden Blattgrün" width="70" /></div>
                                 <div style="font-size: 21pt; font-weight: bold;">Bio-Laden</div>
@@ -96,26 +96,26 @@
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
                                 <li>
-                                    <a  href="/">Startseite</a>
+                                    <a  th:href="@{/}">Startseite</a>
                                 </li>
                                 <li>
-                                    <a  href="/productlist">Produktübersicht</a>
+                                    <a  th:href="@{/productlist}">Produktübersicht</a>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_productmanagement" href="#">Produktverwaltung</a>
                                     <ul id="m_productmanagement" class="collapse dropdown-header-top">
-                                        <li><a href="/distributorproductlist">Großhändlerprodukte verwalten</a></li>
-                                        <li><a href="/productlist">Produkte verwalten</a></li>
+                                        <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a></li>
+                                        <li><a th:href="@{/productlist}">Produkte verwalten</a></li>
                                     </ul>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_personmanagement" href="#">Personenverwaltung</a>
                                     <ul id="m_personmanagement" class="collapse dropdown-header-top">
-                                        <li><a href="/customerlist">User verwalten</a></li>
-                                        <li><a href="/distributorlist">Großhändlerverwalten</a></li>
+                                        <li><a th:href="@{/customerlist}">User verwalten</a></li>
+                                        <li><a th:href="@{/distributorlist}">Großhändlerverwalten</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/order">Bestellung</a>
+                                <li><a th:href="@{/order}">Bestellung</a>
                                 </li>
-                                <li><a href="/statistic">Statistik</a>
+                                <li><a th:href="@{/statistic}">Statistik</a>
                                 </li>
                             </ul>
                         </nav>
@@ -131,17 +131,17 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <!--TODO: active Tab-->
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                        <li><a href="/"><i class="notika-icon notika-house"></i> Startseite</a>
+                        <li><a th:href="@{/}"><i class="notika-icon notika-house"></i> Startseite</a>
                         </li>
-                        <li><a href="/productlist"><i class="notika-icon notika-edit"></i> Produktübersicht</a>
+                        <li><a th:href="@{/productlist}"><i class="notika-icon notika-edit"></i> Produktübersicht</a>
                         </li>
                         <li><a data-toggle="tab" href="#productmanagement"><i class="notika-icon notika-edit"></i> Produktverwaltung</a>
                         </li>
                         <li><a data-toggle="tab" href="#personmanagement"><i class="notika-icon notika-edit"></i> Personenverwaltung</a>
                         </li>
-                        <li><a href="/order"><i class="notika-icon notika-edit"></i> Bestellung</a>
+                        <li><a th:href="@{/order}"><i class="notika-icon notika-edit"></i> Bestellung</a>
                         </li>
-                        <li><a href="/statistic"><i class="notika-icon notika-bar-chart"></i> Statistik</a>
+                        <li><a th:href="@{/statistic}"><i class="notika-icon notika-bar-chart"></i> Statistik</a>
                         </li>
                     </ul>
 
@@ -154,17 +154,17 @@
             <div class="tab-content custom-menu-content">
                 <div id="productmanagement" class="tab-pane notika-tab-menu-bg animated fadeIn" >
                     <ul class="notika-main-menu-dropdown border-round-bottom">
-                        <li><a href="/distributorproductlist">Großhändlerprodukte verwalten</a>
+                        <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                         </li>
-                        <li><a href="/productlist">Produkte verwalten</a>
+                        <li><a th:href="@{/productlist}">Produkte verwalten</a>
                         </li>
                     </ul>
                 </div>
                 <div id="personmanagement" class="tab-pane notika-tab-menu-bg animated fadeIn">
                     <ul class="notika-main-menu-dropdown border-round-bottom">
-                        <li><a href="/customerlist">User verwalten</a>
+                        <li><a th:href="@{/customerlist}">User verwalten</a>
                         </li>
-                        <li><a href="/distributor">Großhändler verwalten</a>
+                        <li><a th:href="@{/distributor}">Großhändler verwalten</a>
                         </li>
                     </ul>
                 </div>
