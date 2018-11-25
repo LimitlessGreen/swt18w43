@@ -1,5 +1,9 @@
 package bioladen.product.distributor;
 
+import bioladen.event.EntityEvent;
+import bioladen.event.EntityLevel;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class DistributorController {
+public class DistributorController implements ApplicationEventPublisherAware {
 
 	private final DistributorRepository distributorRepository;
 
@@ -42,14 +46,43 @@ public class DistributorController {
 		Distributor distributor = new Distributor(name, email, contactName, phone);
 		distributorRepository.save(distributor);
 
+		// (👁 ᴥ 👁) Event
+		publishEvent(distributor, EntityLevel.CREATED);
+
 		return "redirect:/distributorlist";
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorlist/delete")
 	String removeDistributor(@RequestParam("id") Long id) {
+		Distributor distributor = distributorRepository.findById(id).get();
 		distributorRepository.deleteById(id);
 
+		// (👁 ᴥ 👁) Event
+		publishEvent(distributor, EntityLevel.DELETED);
+
 		return "redirect:/distributorlist";
+	}
+
+	/*
+	 _________________
+	< Event publisher >
+	 -----------------
+        \   ^__^
+         \  (@@)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+	 */
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(Distributor distributor, EntityLevel entityLevel) {
+		publisher.publishEvent(new EntityEvent<>(distributor, entityLevel));
 	}
 }
