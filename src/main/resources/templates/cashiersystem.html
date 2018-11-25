@@ -85,8 +85,7 @@
                             <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben">
                         </div>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <!--TODO add numpad-->
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 
                                 <script> // functions for numpad pid
                                 var pidInput = "";
@@ -104,36 +103,26 @@
                                 }
                                 </script>
 
-                                <div class="btn-toolbar" role="toolbar"> <!-- numpad pid -->
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('7')">7</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('8')">8</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('9')">9</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidRemoveOne()">←</button>
-                                    </div>
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('4')">4</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('5')">5</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('6')">6</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidRemove()">C</button>
-                                    </div>
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('1')">1</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('2')">2</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('3')">3</button>
-                                        <button type="submit" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">✓</button>
-                                    </div>
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="pidUpdate('0')">0</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                    </div>
+                                <!-- numpad for pid -->
+                                <div class="numpad-wrapper">
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n0" onclick="pidUpdate('0')">0</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n1" onclick="pidUpdate('1')">1</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n2" onclick="pidUpdate('2')">2</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n3" onclick="pidUpdate('3')">3</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n4" onclick="pidUpdate('4')">4</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n5" onclick="pidUpdate('5')">5</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n6" onclick="pidUpdate('6')">6</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n7" onclick="pidUpdate('7')">7</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n8" onclick="pidUpdate('8')">8</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n9" onclick="pidUpdate('9')">9</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: bs" onclick="pidRemoveOne()"><i class="fas fa-backspace"></i></button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: cl" onclick="pidRemove()"><b>C</b></button>
+                                    <button type="submit" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: sm"><i class="fas fa-check"></i></button>
                                 </div>
 
                             </div>
 
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <label for="amountInput">Menge</label> <!-- form for amount -->
                                 <div class="form-group">
                                     <div class="row">
@@ -223,15 +212,15 @@
                 <div class="btn-demo-notika mg-t-30">
                     <h1>Übersicht</h1>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 
                             <form class="form-group" method="post" th:action="@{/cashiersystemUser}">
                                 <div class="form-group">
-                                    <label for="userId">Kunden ID</label>
                                     <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorUid}">
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                         <strong>Achtung!</strong> <a th:text="${errorMsgUid}"></a>
                                     </div>
+                                    <label for="userId">Kunden ID</label>
                                     <input type="text" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben">
                                 </div>
 
@@ -251,37 +240,27 @@
                                 }
                                 </script>
 
-                                <div class="btn-toolbar" role="toolbar"> <!-- numpad userId -->
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('7')">7</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('8')">8</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('9')">9</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdRemoveOne()">←</button>
-                                    </div>
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('4')">4</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('5')">5</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('6')">6</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdRemove()">C</button>
-                                    </div>
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('1')">1</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('2')">2</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('3')">3</button>
-                                        <button class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" type="submit">✓</button>
-                                    </div>
-                                    <div class="btn-group notika-tl-btn" role="group">
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="userIdUpdate('0')">0</button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                        <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                    </div>
+                                <!-- numpad for uid -->
+                                <div class="numpad-wrapper">
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n0" onclick="userIdUpdate('0')">0</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n1" onclick="userIdUpdate('1')">1</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n2" onclick="userIdUpdate('2')">2</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n3" onclick="userIdUpdate('3')">3</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n4" onclick="userIdUpdate('4')">4</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n5" onclick="userIdUpdate('5')">5</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n6" onclick="userIdUpdate('6')">6</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n7" onclick="userIdUpdate('7')">7</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n8" onclick="userIdUpdate('8')">8</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n9" onclick="userIdUpdate('9')">9</button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: bs" onclick="userIdRemoveOne()"><i class="fas fa-backspace"></i></button>
+                                    <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: cl" onclick="userIdRemove()"><b>C</b></button>
+                                    <button type="submit" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: sm"><i class="fas fa-check"></i></button>
                                 </div>
+
                             </form>
 
                             <div class="form-group">
                                 <br>
-                                <label for="change">Bargeld</label>
 
                                 <script> // functions for numpad change
                                 var changeInput = "";
@@ -300,52 +279,46 @@
                                 </script>
 
                                 <form class="from-group" method="post" th:action="@{/cashiersystemCalcChange}">
-                                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChange}">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        <strong>Achtung!</strong> <a th:text="${errorMsgChange}"></a>
-                                    </div>
-                                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChangeLow}">
-                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        <strong>Achtung!</strong> <a th:text="${errorChangeLowMsg}"></a>
-                                    </div>
+                                    <div class="form-group">
+                                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChange}">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>Achtung!</strong> <a th:text="${errorMsgChange}"></a>
+                                        </div>
+                                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorChangeLow}">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong>Achtung!</strong> <a th:text="${errorChangeLowMsg}"></a>
+                                        </div>
 
-                                    <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
-
-                                    <div class="btn-toolbar" role="toolbar"> <!-- numpad change -->
-                                        <div class="btn-group notika-tl-btn" role="group">
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('7')">7</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('8')">8</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('9')">9</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeRemoveOne()">←</button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('4')">4</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('5')">5</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('6')">6</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeRemove()">C</button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('1')">1</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('2')">2</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('3')">3</button>
-                                            <button class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" type="submit">✓</button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('.')">.</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;" onclick="changeUpdate('0')">0</button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-                                            <button type="button" class="btn btn-lg notika-gp-default waves-effect" style="background-color: #f0f0f0; margin-right: 0px;">&nbsp;&nbsp; </button>
-
-                                        </div>
+                                        <label for="change">Bargeld</label>
+                                        <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
                                     </div>
 
-                                    <label>Wechselgeld: </label>
+
+                                    <!-- numpad for change -->
+                                    <div class="numpad-wrapper numpad-wrapper-dp">
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n0" onclick="changeUpdate('0')">0</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n1" onclick="changeUpdate('1')">1</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n2" onclick="changeUpdate('2')">2</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n3" onclick="changeUpdate('3')">3</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n4" onclick="changeUpdate('4')">4</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n5" onclick="changeUpdate('5')">5</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n6" onclick="changeUpdate('6')">6</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n7" onclick="changeUpdate('7')">7</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n8" onclick="changeUpdate('8')">8</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: n9" onclick="changeUpdate('9')">9</button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: bs" onclick="changeRemoveOne()"><i class="fas fa-backspace"></i></button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: cl" onclick="changeRemove()"><b>C</b></button>
+                                        <button type="submit" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: sm"><i class="fas fa-check"></i></button>
+                                        <button type="button" class="btn btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="grid-area: dp" onclick="changeUpdate('.')">.</button>
+                                    </div>
+
                                 </form>
-                                <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" th:value="${change}" readonly>
                             </div>
+                            <label>Wechselgeld: </label>
+                            <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" th:value="${change}" readonly>
 
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="background-color: #146b4a">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="background-color: #146b4a">
 
                             <div>
                                 <div class="labels-overview">Anzahl der Artikel: </div>
@@ -388,9 +361,10 @@
                             <div align="right">
                                 <form class="from-group" method="post" th:action="@{/cashiersystemFinish}">
                                     <button class="btn btn-primary btn-lg btn-block" type="submit" id="finish">Fertig</button>
-                                    <br>
                                 </form>
                             </div>
+
+                            <br>
 
                         </div>
                     </div>

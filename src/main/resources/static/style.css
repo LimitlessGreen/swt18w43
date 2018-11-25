@@ -2897,6 +2897,27 @@ textarea.auto-size {
 .contact-form-int{
 	margin-top:15px;
 }
+.numpad-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 64px);
+    grid-template-rows: repeat(4, 64px);
+    grid-template-areas:
+        "n7 n8 n9 bs"
+        "n4 n5 n6 cl"
+        "n1 n2 n3 sm"
+        "n0 n0 n0 sm";
+}
+.numpad-wrapper-dp {
+    grid-template-areas:
+        "n7 n8 n9 bs"
+        "n4 n5 n6 cl"
+        "n1 n2 n3 sm"
+        "n0 n0 dp sm";
+}
+.numpad-wrapper > * {
+    margin: 1px;
+    color: #fff;
+}
 /*----------------------------------------*/
 /*  36.  Form Components CSS
 /*----------------------------------------*/
