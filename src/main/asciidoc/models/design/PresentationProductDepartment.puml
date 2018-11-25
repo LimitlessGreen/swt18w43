@@ -4,7 +4,7 @@
 
 
 
-rectangle Bioladen {
+
 
     namespace bioladen.product {
 
@@ -95,14 +95,6 @@ rectangle Bioladen {
     }
 
 
-
-
-
-
-
-
-
-}
 
 
 bioladen.product.Distributor "1" *--  bioladen.product.DistributorProduct
