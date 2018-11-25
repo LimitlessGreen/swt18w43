@@ -1,5 +1,6 @@
 package bioladen.product;
 
+import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import lombok.Getter;
@@ -37,15 +38,15 @@ public class InventoryProduct {
 	@OneToMany(cascade=CascadeType.ALL)
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
 
-	public InventoryProduct(String name, DistributorProductCatalog distributorProductCatalog) {
+	public InventoryProduct(DistributorProduct distributorProduct, DistributorProductCatalog distributorProductCatalog) {
 		final double PROFIT_MARGIN = 0.20;
 
-		this.name = name;
+		this.name = distributorProduct.getName();
 
-		this.distributorProducts = distributorProductCatalog.findAll().stream().filter(dp -> dp.getName().equals(name)).collect(Collectors.toList());
+		this.distributorProducts = distributorProductCatalog.findAll().stream().filter(dp -> dp.getName().equals(this.name)).collect(Collectors.toList());
 
-		this.price = this.distributorProducts.get(0).getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN)); //TODO: profit margin onto WHAT price?
-		this.unit = this.distributorProducts.get(0).getUnit();
+		this.price = distributorProduct.getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN)); //TODO: profit margin onto WHAT price?
+		this.unit = distributorProduct.getUnit();
 
 		this.inventoryAmount = 0;
 		this.displayedAmount = 0;
@@ -68,31 +69,37 @@ public class InventoryProduct {
 	}
 
 	/**
-	 * Generates a continuous EAN-13 compatible identifier.
+	 * Generates a continuous EAN-13 compatible identifier from a given id.
 	 *
-	 * @return the id
+	 * @return the ean-13 id
 	 */
-	public String generateId() {
-		String maxId = "2000000000008"; //TODO: getMaxId() //// this.qProductCatalog.getMaxId();
+	public long toEan13(long id) {
+		final long ean13Base = 200000000000L;
 
-		String id;
-		if (maxId != null) {
-			id = Long.toString(Long.valueOf(maxId.substring(0, 11)) + 1);
-			id += getCheckSum(id);
-		} else {
-			id = "2000000000008"; // minimum possible id including checksum
-		}
+		long ean13id = (id + ean13Base);
+		ean13id = ean13id * 10 + getCheckSum(Long.toString(ean13id));
 
-		return id;
+		return ean13id;
 	}
 
 	/**
-	 * Generates the checksum of a EAN-13 id.
+	 * Generates the original id from an EAN-13 identifier.
 	 *
-	 * @param  id the id
+	 * @return the id
+	 */
+	public long fromEan13(long ean13id) {
+		final long ean13Base = 200000000000L;
+
+		return ean13id / 10 - ean13Base;
+	}
+
+	/**
+	 * Generates the checksum of a EAN-13 id from the 12 digits before.
+	 *
+	 * @param  id the id (the 12 digits before)
 	 * @return    the checksum of the given id
 	 */
-	public String getCheckSum(String id) {
+	private int getCheckSum(String id) {
 		int checkSum = 0;
 		for (int i = 0; i < id.length(); i++) {
 			if (i % 2 == 0) {
@@ -104,6 +111,6 @@ public class InventoryProduct {
 
 		checkSum = 10 - (checkSum % 10);
 
-		return Integer.toString(checkSum);
+		return checkSum;
 	}
 }

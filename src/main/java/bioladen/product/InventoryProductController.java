@@ -3,6 +3,7 @@ package bioladen.product;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,7 @@ public class InventoryProductController {
 		this.distributorProductCatalog = distributorProductCatalog;
 	}
 
-	@RequestMapping("/products")
+	@RequestMapping("/productlist")
 	String showProducts(Model model) {
 		List<InventoryProduct> inventoryProductList = inventoryProductCatalog.findAll();
 		model.addAttribute("inventoryProductList", inventoryProductList);
@@ -27,12 +28,12 @@ public class InventoryProductController {
 		return "productlist";
 	}
 
-	@PostMapping("/addProduct")
-	String addProduct(@RequestParam("distributorProductIdentifier") Long distributorProductIdentifier) {
-		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(distributorProductIdentifier).get().getName(), distributorProductCatalog);
+	@GetMapping("/productlist/add")
+	String addProduct(@RequestParam("id") Long distributorProductIdentifier) {
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(distributorProductIdentifier).get(), distributorProductCatalog);
 
 		inventoryProductCatalog.save(inventoryProduct);
 
-		return "redirect:/products";
+		return "redirect:/productlist";
 	}
 }

@@ -126,13 +126,13 @@
                                     <a th:href="@{/}">Startseite</a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/products}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Produktübersicht</a>
+                                    <a th:href="@{/productlist}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Produktübersicht</a>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_productmanagement" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Produktverwaltung</a>
                                     <ul id="m_productmanagement" class="collapse dropdown-header-top"  sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                                         </li>
-                                        <li><a th:href="@{/products}">Produkte verwalten</a></li>
+                                        <li><a th:href="@{/productlisr}">Produkte verwalten</a></li>
                                     </ul>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_personmanagement" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Personenverwaltung</a>
@@ -164,7 +164,7 @@
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                         <li><a th:href="@{/}"><i class="fab fa-envira"></i>Startseite</a>
                         </li>
-                        <li><a th:href="@{/products}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-apple-alt"></i>Produktübersicht</a>
+                        <li><a th:href="@{/productlist}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-apple-alt"></i>Produktübersicht</a>
                         </li>
                         <li><a data-toggle="tab" href="#productmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-box-open"></i>
                             Produktverwaltung</a>
@@ -192,7 +192,7 @@
                     <ul class="notika-main-menu-dropdown border-round-bottom">
                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                         </li>
-                        <li><a th:href="@{/products}">Produkte verwalten</a>
+                        <li><a th:href="@{/productlist}">Produkte verwalten</a>
                         </li>
                     </ul>
                 </div>
