@@ -1428,6 +1428,10 @@ ul.tab-ctn-list li:last-child{
 .color-hd{
 	margin-bottom:20px;
 }
+
+.labels-overview{
+    color: white;
+}
 /*----------------------------------------*/
 /*  21.  tabs CSS
 /*----------------------------------------*/
