@@ -16,7 +16,7 @@
 <nav th:include="navigation :: navigation"></nav>
 <div class="container" id="centerBox">
 
-    <div>
+    <div th:fragment="distributorproductform">
         <h1 align="center">Großhändlerprodukt hinzufügen</h1>
         <br>
         <form method="post" th:action="@{/addDistributorProduct}">

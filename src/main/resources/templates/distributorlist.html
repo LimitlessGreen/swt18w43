@@ -125,11 +125,10 @@
                                 <td th:text="${distributor.getEmail()}">blattgrün@bioladen.de</td>
                                 <td th:text="${distributor.getContactName()}">Frida</td>
                                 <td th:text="${distributor.getPhone()}">035135426236</td>
-                                <td>
+                                <td style="padding: 9px;">
                                     <a th:href="@{/distributorlist/delete(id = ${distributor.getId()})}">
-                                        <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect"
-                                                style="border-radius: 50%">
-                                            <i class="notika-icon notika-close"></i>
+                                        <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </a>
                                 </td>
