@@ -69,7 +69,7 @@ public class OrderController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	@GetMapping("/orders/orderfinished")
+	@GetMapping("/orderFinished")
 	public String completeOrder(Model model, @ModelAttribute("cart") OrderCart cart, @LoggedIn Optional<UserAccount> userAccount) {
 
 		if (cart.isEmpty()) {
