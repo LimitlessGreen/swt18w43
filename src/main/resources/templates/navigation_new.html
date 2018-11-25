@@ -162,22 +162,22 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <!--TODO: active Tab-->
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                        <li><a th:href="@{/}"><i class="notika-icon notika-house"></i>Startseite</a>
+                        <li><a th:href="@{/}"><i class="fab fa-envira"></i>Startseite</a>
                         </li>
-                        <li><a th:href="@{/products}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-edit"></i>Produktübersicht</a>
+                        <li><a th:href="@{/products}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-apple-alt"></i>Produktübersicht</a>
                         </li>
-                        <li><a data-toggle="tab" href="#productmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-edit"></i>
+                        <li><a data-toggle="tab" href="#productmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-box-open"></i>
                             Produktverwaltung</a>
                         </li>
-                        <li><a data-toggle="tab" href="#personmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-edit"></i>
+                        <li><a data-toggle="tab" href="#personmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-users-cog"></i>
                             Personenverwaltung</a>
                         </li>
-                        <li><a th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-dollar"></i>Kasse</a></li>
-                        <li><a th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-edit"></i>Bestellung</a>
+                        <li><a th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-hand-holding-usd"></i>Kasse</a></li>
+                        <li><a th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="fas fa-box"></i>Bestellung</a>
                         </li>
-                        <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-bar-chart"></i>Statistik</a>
+                        <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="fas fa-chart-line"></i>Statistik</a>
                         </li>
-                        <li><a th:href="@{/datahistory}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-edit"></i>Aktions-Verlauf</a>
+                        <li><a th:href="@{/datahistory}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="fas fa-clipboard-list"></i>Aktions-Verlauf</a>
                         </li>
                     </ul>
 
