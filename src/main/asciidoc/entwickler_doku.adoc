@@ -225,10 +225,11 @@ Gleiches gilt für den Manager, wenn dieser auf die Statistik, Datenbanken usw. 
 
 == Lösungsstrategie
 - Trennung Product und DistributorProduct
-- Bootstrap als Frontend-Framework
+- Notika als Theme fürs Frontend (Anlehnung an Material Design)
 - Nutzung eines Event-Systems
 - Unit (Grundeinheit) bei Product
 - Jeder User bekommt Rollen zugeordnet -> Permission System
+- Trennung von Customer und User (User besitzen Login und Rechte)
 
 == Bausteinsicht
 === Package-Diagramm
@@ -255,7 +256,7 @@ image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 
 === Persistenz
 Wir haben uns für eine persistente, relationale Datenbank entschieden, weil wir eine Vielzahl von Produkten und Kunden
-haben und außerdem für die Statistik Daten dauerhaft abgespeichert werden müssen.
+haben. Für das Log verwenden wir einen Key-Value Store.
 
 
 === Benutzeroberfläche

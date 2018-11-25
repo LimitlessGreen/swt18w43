@@ -9,17 +9,17 @@
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
 
 <nav th:include="navigation :: navigation"></nav>
 <div class="container" id="centerBox">
 
-    <div>
+    <div th:fragment="distributorform">
         <h1 align="center">Großhändler hinzufügen</h1>
         <br>
-        <form method="post" th:action="@{/registerDistributor}">
+        <form method="post" th:action="@{/distributorform}">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputName">Name*</label>
@@ -28,8 +28,8 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="inputEmail">EMail*</label>
-                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="EMail">
+                    <label for="inputEmail">E-Mail*</label>
+                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="E-Mail">
                 </div>
             </div>
             <div class="form-row">

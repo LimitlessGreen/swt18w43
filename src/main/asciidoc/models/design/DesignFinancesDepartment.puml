@@ -6,33 +6,61 @@
 rectangle Bioladen {
     namespace bioladen.finances {
 
-        class CashierSystem <<Controller>>  extends ShoppingCart {
-            -user : UserAccount
-            -userDiscount : Enum
-            +CashierSystem(UserAccount)
-            +add(Product) : boolean
-            +remove(Product) : boolean
-            +clear() : boolean
-            +getSums() : MonetaryAmount[]
-            +getDiscountSums() : MonetaryAmount[]
-            +getMwStSums() : MonetaryAmount[]
-            +getSum() : MonetaryAmount
-            +calculateChange(MonetaryAmount) : MonetaryAmount
-            +finishSale() : boolean
+        class CashierSystem <<Controller>> {
+            -productCatalog : ProductCatalog
+            -customerRepository : CustomerRepository
+
+            +CashierSystem(ProductCatalog, CustomerRepository)
+            +addProduct(String, long, ShoppingCart) : String
+            +deleteProduct(String, ShoppingCart) : String
+            +calcChange(double, ShoppingCart) : String
+            +userId(long, ShoppingCart) : String
+            +finish(ShoppingCart) : String
+            +abort(ShoppingCart) : String
             +publishSaleCreatedEvent(ShoppingCart) : void
         }
 
-        class ShoppingCart <<Entity>> {
-            -user : UserAccount
-            -productList : Map<Product, Amount>
-            +ShoppingCart(UserAccount)
-            +add(Product) : boolean
-            +remove(Product) : boolean
-            +clear() : boolean
-            +getSum() : MonetaryAmount
+        class CartController <<Controller>> {
+            -productCatalog : ProductCatalog
 
-
+            +CartController(ProductCatalog)
+            +addToWishlist(String, ShoppingCart) : String
+            +deleteFromWishlist(String, ShoppingCart) : String
+            +addOneToWishlist(String, ShoppingCart) : String
+            +removeOneFromWishlist(String, ShoppingCart) : String
         }
+
+        class ShoppingCart <<Entity>> {
+            -items : Map<Product, CartCartItem>
+            -customer : Customer
+
+            +addOrUpdateItem(Product, long) : CartCartItem
+            +removeItem(String) : Optional<CartCartItem>
+            +getItem(String) : Optional<CartCartItem>
+            +clear() : void
+            +isEmpty() : boolean
+            +getPrice() : BigDecimal
+            +getBasicPrice() : BigDecimal
+            +getAmountOfItems() : int
+            +getCustomerDiscountString() : String
+            +getDiscount() : double
+        }
+
+        class CartCartItem <<Entity>> {
+        -id : String
+        -price : BigDecimal
+        -quantity : long
+        -product : Product
+
+        +CartCartItem(Product, long)
+        -CartCartItem(String, Product, long)
+        +getProductName() : String
+        +add(long) : CartCartItem
+        }
+
+        CashierSystem --> ShoppingCart
+        CartController --> ShoppingCart
+        ShoppingCart --> CartCartItem
 
     }
 
@@ -51,38 +79,29 @@ rectangle Bioladen {
 
         }
 
-        VIEW(watchlist.html) {
+        VIEW(wishlist.html) {
 
         }
 
         bioladen.finances.CashierSystem --> cashiersystem.html
-        bioladen.finances.CashierSystem --> watchlist.html
+        bioladen.finances.CartController --> wishlist.html
     }
 
-}
+    namespace bioladen.customer {
 
-rectangle money-api-1.0.3.jar {
-    namespace javax.money {
-        class MonetaryAmount <<Java>>{
+            class Customer <<Entity>> {
 
+            }
+
+            bioladen.finances.ShoppingCart "1" -left-> "1" Customer
+            bioladen.finances.CashierSystem "1" -left-> "1" Customer
         }
-        bioladen.finances.CashierSystem -right-> MonetaryAmount
-        bioladen.finances.ShoppingCart -right-> MonetaryAmount
-    }
 
 }
+
+
 
 rectangle salespoint-framework-7.0.0.RELEASE.jar {
-
-    namespace org.salespointframework.useraccount {
-
-        class UserAccount <<Entity>> <<Salespoint>>{
-
-        }
-
-        bioladen.finances.ShoppingCart "1" -left-> "1" UserAccount
-        bioladen.finances.CashierSystem "1" -left-> "1" UserAccount
-    }
 
     namespace org.salespointframework.context {
         class ApplicationEvent <<Salespoint>>{

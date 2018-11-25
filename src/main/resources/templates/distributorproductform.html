@@ -9,14 +9,14 @@
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
 
 <nav th:include="navigation :: navigation"></nav>
 <div class="container" id="centerBox">
 
-    <div>
+    <div th:fragment="distributorproductform">
         <h1 align="center">Großhändlerprodukt hinzufügen</h1>
         <br>
         <form method="post" th:action="@{/addDistributorProduct}">
@@ -30,7 +30,7 @@
                 <div class="form-group col-md-12">
                     <label for="inputDistributor">Großhändler*</label>
                     <select class="form-control" id="inputDistributor" name="distributor">
-                        <option th:each="distributor : ${distributorList}" th:value="${distributor.getDistributorIdentifier()}" th:text="${distributor.getName()}">REWE</option>
+                        <option th:each="distributor : ${distributorList}" th:value="${distributor.getId()}" th:text="${distributor.getName()}">REWE</option>
                     </select>
                 </div>
             </div>

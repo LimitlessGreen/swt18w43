@@ -1,0 +1,103 @@
+@startuml
+
+!include stylesheet.iuml
+
+
+
+
+
+    namespace bioladen.product {
+
+        interface InventoryProductCatalog <<Repository>> {
+            +findAll() : ArrayList<InventoryProduct>
+        }
+
+        interface DistributorProductCatalog <<Repository>>  {
+            +findAll() : ArrayList<DistributorProduct>
+        }
+
+        class DistributorProduct <<Entity>> {
+            -distributorProductIdentifier : Long
+            -unit : BigDecimal
+            -price : BigDecimal
+            -distributor : Distributor
+            -minimumOrderAmount : long
+
+            +DistributorProduct(String, Distributor, BigDecimal, BigDecimal, long)
+        }
+
+        class InventoryProduct <<Entity>> {
+            // Inventory Attributes
+
+            // Methods() : Getter and Setter from Inventory Attributes
+            +InventoryProduct(String, DistributorProductCatalog)
+            +removeDisplayedAmount(long): boolean
+            +toEan13(Long) : long
+            +fromEan13(Long) : long
+            -getCheckSum(String) : int
+        }
+
+        class Distributor <<Entity>> {
+            // Distributor Attributes
+
+            // Methods() : Getter and Setter from Distributor Attributes
+            +Distributor(String, String, String, String)
+            +publishDistributorCreatedEvent(Distributor) : void
+         }
+
+
+
+
+        InventoryProduct  o--  DistributorProduct
+        DistributorProduct  --* "1" DistributorProductCatalog
+        InventoryProduct --* "1" InventoryProductCatalog
+
+
+        class InventoryProductController <<Controller>> {
+            -inventoryProductCatalog : InventoryProductCatalog
+            -distributorProductCatalog : DistributorProductCatalog
+
+            +InventoryProductController(InventoryProductCatalog, DistributorProductCatalog)
+            +showProducts() : String
+            +addProduct(Long) : String
+        }
+
+        class DistributorController <<Controller>> {
+            -distributorRepository : DistributorRepository
+
+            +DistributorController(DistributorRepository)
+            +showDistributors() : String
+            +addDistributor(String, String, String, String) : String
+            +removeDistributor(Long) : String
+        }
+
+        interface DistributorRepository <<Repository>> {
+            +findAll() : ArrayList<Distributor>
+        }
+
+        class DistributorProductController <<Controller>> {
+            -distributorProductCatalog : DistributorProductCatalog
+            -distributorRepository : DistributorRepository
+
+            +DistributorProductController(DistributorProductCatalog. DistributorRepository)
+            +showDistributorProducts() : String
+            +distributorForm() : String
+            +addDistributor(String, Long, String, String, long) : String
+        }
+
+
+
+        InventoryProductController --> InventoryProduct
+        DistributorController --> Distributor
+        DistributorProductController --> DistributorProduct
+        DistributorRepository --> Distributor
+
+    }
+
+
+
+
+bioladen.product.Distributor "1" *--  bioladen.product.DistributorProduct
+
+
+@enduml

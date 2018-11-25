@@ -8,8 +8,10 @@ import org.salespointframework.core.AbstractEntity;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 
-
+@KeySpace("dataHistory")
+@Getter
 public class DataEntry<T> {
 
 	@Id //
@@ -17,11 +19,11 @@ public class DataEntry<T> {
 
 	// (｡◕‿◕｡)
 	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
-	private @Getter EntityLevel entityLevel;
-	private @Getter String thrownBy;
+	private EntityLevel entityLevel;
+	private String thrownBy;
 	private @Setter LocalDateTime saveTime = null;
-	private @Getter @Setter String message = "No message";
-	private @Getter T entity;
+	private @Setter String message = "No message";
+	private T entity;
 	// TODO for later usage: add a user, who interacted with the push
 
 	public DataEntry() {}
@@ -39,13 +41,6 @@ public class DataEntry<T> {
 	 */
 	public boolean hasSaveTime() {
 		return saveTime != null;
-	}
-
-	/**
-	 * @return the {@link LocalDateTime} when this entry was posted.
-	 */
-	public final Optional<LocalDateTime> getSaveTime() {
-		return Optional.ofNullable(saveTime);
 	}
 
 	/**

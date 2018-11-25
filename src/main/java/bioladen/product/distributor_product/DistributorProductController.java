@@ -1,7 +1,12 @@
 package bioladen.product.distributor_product;
 
+import bioladen.event.EntityEvent;
+import bioladen.event.EntityLevel;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-public class DistributorProductController {
+public class DistributorProductController implements ApplicationEventPublisherAware {
 
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
@@ -23,10 +28,14 @@ public class DistributorProductController {
 		this.distributorRepository = distributorRepository;
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorproductlist")
 	String showDistributorProducts(Model model) {
 		List<DistributorProduct> distributorProductList = distributorProductCatalog.findAll();
+		List<Distributor> distributorList = distributorRepository.findAll();
+
 		model.addAttribute("distributorProductList", distributorProductList);
+		model.addAttribute("distributorList", distributorList);
 
 		return "distributorproductlist";
 	}
@@ -40,14 +49,15 @@ public class DistributorProductController {
 	}
 
 	@PostMapping("/addDistributorProduct")
-	String addDistributor(@RequestParam("name")	              String      name,
-						  @RequestParam("distributor")        Distributor distributor,
-						  @RequestParam("price")              String      priceString,
-						  @RequestParam("unit")               String      unitString,
-						  @RequestParam("minimumOrderAmount") long        minimumOrderAmount) {
+	String addDistributor(@RequestParam("name")	              String name,
+						  @RequestParam("distributor")        Long   distributorId,
+						  @RequestParam("price")              String priceString,
+						  @RequestParam("unit")               String unitString,
+						  @RequestParam("minimumOrderAmount") long   minimumOrderAmount) {
 
 		BigDecimal price = new BigDecimal(priceString);
 		BigDecimal unit = new BigDecimal(unitString);
+		Distributor distributor = distributorRepository.findById(distributorId).get();
 
 		DistributorProduct distributorProduct = new DistributorProduct(name,
 				                                                       distributor,
@@ -56,7 +66,10 @@ public class DistributorProductController {
 				                                                       minimumOrderAmount);
 		distributorProductCatalog.save(distributorProduct);
 
-		return "distributorproductform";
+		// (👁 ᴥ 👁) Event
+		publishEvent(distributorProduct, EntityLevel.CREATED);
+
+		return "redirect:/distributorproductlist";
 	}
 
 //	@PostMapping("/removeDistributor")
@@ -65,4 +78,26 @@ public class DistributorProductController {
 //
 //		return "redirect:/distributorlist";
 //	}
+
+	/* TODO: Event for distributor product deletions
+	 _________________
+	< Event publisher >
+	 -----------------
+        \   ^__^
+         \  (@@)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+	*/
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(DistributorProduct distributorProduct, EntityLevel entityLevel) {
+		publisher.publishEvent(new EntityEvent<>(distributorProduct, entityLevel));
+	}
 }

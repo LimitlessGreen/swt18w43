@@ -1,0 +1,92 @@
+@startuml
+
+!include stylesheet.iuml
+
+
+
+namespace org.salespointframework.useraccount {
+    class UserAccount <<Salespoint>> {
+
+    }
+
+    class Role <<Salespoint>>{
+
+    }
+
+    interface UserAccountRepository <<Salespoint>> {
+
+    }
+
+    interface UserAccountManager <<Salespoint>>
+
+}
+
+
+
+
+    namespace bioladen.customer {
+
+        class CustomerController <<Controller>> {
+            //Methods (): create and delete Customer
+        }
+
+        class Customer <<Entity>> {
+            //CustomerAttributes
+            //Methods(): Getter and Setter from CustomerAttributes
+
+        }
+
+        enum CustomerType <<Entity>>{
+            MANAGER
+            STAFF
+            MAJOR_CUSTOMER
+            HOUSE_CUSTOMER
+
+        }
+
+        enum Sex {
+            MALE
+            FEMALE
+            VARIOUS
+        }
+
+
+        interface CustomerRepository <<Repository>> {
+            +findAll() : ArrayList<Customer>
+        }
+        
+        class UserAccController <<Controller>>  {
+       
+            //Methods() : reset and set Password
+        
+        }
+        
+     
+
+        class UserAccEventListener {
+
+        }
+        note left: listen to CustomerEvent
+
+       
+       
+        Customer --> Sex
+        Customer --> CustomerType
+        CustomerRepository --> Customer
+        CustomerController --> Customer
+    }
+    
+
+
+
+
+
+org.salespointframework.useraccount.UserAccountRepository  *--  org.salespointframework.useraccount.UserAccount
+bioladen.customer.UserAccController "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
+bioladen.customer.UserAccController "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
+
+bioladen.customer.Customer --> org.salespointframework.useraccount.UserAccount
+bioladen.customer.UserAccController --> org.salespointframework.useraccount.UserAccount
+bioladen.customer.UserAccEventListener --> org.salespointframework.useraccount.UserAccount
+
+@endumll

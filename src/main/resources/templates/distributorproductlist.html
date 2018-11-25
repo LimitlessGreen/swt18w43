@@ -1,63 +1,223 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Großhändlerproduktliste</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.css">
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+		============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <!-- Google Fonts
+		============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- font awesome CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- owl.carousel CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.transitions.css">
+    <!-- meanmenu CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/meanmenu/meanmenu.min.css">
+    <!-- animate CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- normalize CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <!-- wave CSS
+        ============================================ -->
+    <link rel="stylesheet" href="css/wave/waves.min.css">
+    <link rel="stylesheet" href="css/wave/button.css">
+    <!-- mCustomScrollbar CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/scrollbar/jquery.mCustomScrollbar.min.css">
+    <!-- Notika icon CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/notika-custom-icon.css">
+    <!-- Data Table JS
+		============================================ -->
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <!-- main CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- style CSS
+		============================================ -->
+    <link rel="stylesheet" href="style.css">
+    <!-- responsive CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- modernizr JS
+		============================================ -->
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
+
 <body>
+<!--Naviagtion-->
+<nav th:include="navigation_new :: navigation"></nav>
 
-<nav th:include="navigation :: navigation"></nav>
-<div class="container" id="centerBox">
-    <div style="width: 80%">
-        <h1 align="center">Großhändlerproduktliste</h1>
-        <table class="table">
-            <thead>
-            <tr class="bg-success">
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Großhändler</th>
-                <th scope="col">Preis</th>
-                <th scope="col">Grundeinheit</th>
-                <th scope="col">Mindesbestellanzahl</th>
-                <!--<th scope="col">&#x1F5D1;&#xFE0F;</th>-->
-                <th scope="col">&#x2795;</th>
-            </tr>
-            </thead>
-            <tbody th:remove="all-but-first">
-            <tr th:each="distributorProduct : ${distributorProductList}">
-                <td th:text="${distributorProduct.getDistributorProductIdentifier()}">1</td>
-                <td th:text="${distributorProduct.getName()}">Milch</td>
-                <td th:text="${distributorProduct.getDistributor().getName()}">REWE</td>
-                <td th:text="${distributorProduct.getPrice()}">500,-</td>
-                <td th:text="${distributorProduct.getUnit()}">27 kg</td>
-                <td th:text="${distributorProduct.getMinimumOrderAmount()}">123</td>
-                <!--<form class="form-group" method="post" th:action="@{/removedistributorProduct}">
-                    <input value="0" id="delete" type="hidden" class="form-control" name="distributorProductIdentifier" th:value="${distributorProduct.getDistributorProductIdentifier()}">
-                    <td><button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;&#xFE0F;</button></td>
-                </form>-->
-                <form class="form-group" method="post" th:action="@{/addProduct}">
-                    <input value="0" id="delete" type="hidden" class="form-control" name="distributorProductIdentifier" th:value="${distributorProduct.getDistributorProductIdentifier()}">
-                    <td><button type="submit" class="btn btn-success btn-sm">&#x2795;</button></td>
-                </form>
-            </tr>
-            </tbody>
-        </table>
+
+<!-- Data Table area Start-->
+<div class="data-table-area">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="data-table-list">
+
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="basic-tb-hd">
+                                <h2>Großhändlerproduktliste</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <button type="button" class="btn btn-info notika-btn-green" data-toggle="modal" data-target="#addDistributorProductModal"
+                                    style="float: right">Großhändlerprodukt hinzufügen
+                            </button>
+
+                            <!-- dialog: add distributor Start -->
+                            <div class="modal fade" id="addDistributorProductModal" role="dialog">
+                                <div class="modal-dialog modal-large">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div th:include="distributorproductform :: distributorproductform"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- dialog: add distributor End -->
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="data-table-basic" class="table table-striped">
+
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Preis</th>
+                                <th>Grundeinheit</th>
+                                <th>Mindestbestellanzahl</th>
+                                <th>Als Produkt hinzufügen</th>
+                            </tr>
+                            </thead>
+                            <tbody th:remove="all-but-first">
+                            <tr th:each="distributorProduct : ${distributorProductList}">
+                                <td th:text="${distributorProduct.getDistributorProductIdentifier()}">1</td>
+                                <td th:text="${distributorProduct.getName()}">REWE</td>
+                                <td th:text="${distributorProduct.getPrice()}">blattgrün@bioladen.de</td>
+                                <td th:text="${distributorProduct.getUnit()}">Frida</td>
+                                <td th:text="${distributorProduct.getMinimumOrderAmount()}">035135426236</td>
+                                <td style="padding: 9px;">
+                                    <a th:href="@{/productlist/add(id = ${distributorProduct.getDistributorProductIdentifier()})}">
+                                        <button class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Preis</th>
+                                <th>Grundeinheit</th>
+                                <th>Mindestbestellanzahl</th>
+                                <th>Als Produkt hinzufügen</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
 </div>
+<!-- Data Table area End-->
 
-<!-- Bootstrap core JavaScript
-    ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="webjars/jquery/3.3.1/jquery.js"></script>
-<script src="webjars/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
+<div th:include="footer :: footer"></div>
+<!-- End Footer area-->
+<!-- jquery
+    ============================================ -->
+<script src="js/vendor/jquery-1.12.4.min.js"></script>
+<!-- bootstrap JS
+    ============================================ -->
+<script src="js/bootstrap.min.js"></script>
+<!-- wow JS
+    ============================================ -->
+<script src="js/wow.min.js"></script>
+<!-- price-slider JS
+    ============================================ -->
+<script src="js/jquery-price-slider.js"></script>
+<!-- owl.carousel JS
+    ============================================ -->
+<script src="js/owl.carousel.min.js"></script>
+<!-- scrollUp JS
+    ============================================ -->
+<script src="js/jquery.scrollUp.min.js"></script>
+<!-- meanmenu JS
+    ============================================ -->
+<script src="js/meanmenu/jquery.meanmenu.js"></script>
+<!-- counterup JS
+    ============================================ -->
+<script src="js/counterup/jquery.counterup.min.js"></script>
+<script src="js/counterup/waypoints.min.js"></script>
+<script src="js/counterup/counterup-active.js"></script>
+<!-- mCustomScrollbar JS
+    ============================================ -->
+<script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- sparkline JS
+    ============================================ -->
+<script src="js/sparkline/jquery.sparkline.min.js"></script>
+<script src="js/sparkline/sparkline-active.js"></script>
+<!-- flot JS
+    ============================================ -->
+<script src="js/flot/jquery.flot.js"></script>
+<script src="js/flot/jquery.flot.resize.js"></script>
+<script src="js/flot/flot-active.js"></script>
+<!-- knob JS
+    ============================================ -->
+<script src="js/knob/jquery.knob.js"></script>
+<script src="js/knob/jquery.appear.js"></script>
+<script src="js/knob/knob-active.js"></script>
+<!--  Chat JS
+    ============================================ -->
+<script src="js/chat/jquery.chat.js"></script>
+<!--  todo JS
+    ============================================ -->
+<script src="js/todo/jquery.todo.js"></script>
+<!--  wave JS
+    ============================================ -->
+<script src="js/wave/waves.min.js"></script>
+<script src="js/wave/wave-active.js"></script>
+<!-- plugins JS
+    ============================================ -->
+<script src="js/plugins.js"></script>
+<!-- Data Table JS
+    ============================================ -->
+<script src="js/data-table/jquery.dataTables.min.js"></script>
+<script src="js/data-table/data-table-act.js"></script>
+<!-- main JS
+    ============================================ -->
+<script src="js/main.js"></script>
 </body>
+
 </html>
