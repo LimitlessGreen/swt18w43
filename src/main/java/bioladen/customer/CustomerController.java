@@ -115,23 +115,11 @@ public class CustomerController implements ApplicationEventPublisherAware {
 			customer.setStreet(address);
 		}
 		customerRepository.save(customer);
+
+		// (👁 ᴥ 👁) Event
 		publishEvent(customer, EntityLevel.CREATED);
 
-
 		return "redirect:/customerlist";
-	}
-
-	/* Event publisher */
-
-	private ApplicationEventPublisher publisher;
-
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(Customer customer, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(customer, entityLevel));
 	}
 
 	/*Function for customerlist.html*/
@@ -148,9 +136,35 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
+		Customer customer = customerRepository.findById(id).get();
 		customerRepository.deleteById(id);
 
+		// (👁 ᴥ 👁) Event
+		publishEvent(customer, EntityLevel.DELETED);
+
 		return "redirect:/customerlist";
+	}
+
+	/*
+	 _________________
+	< Event publisher >
+	 -----------------
+        \   ^__^
+         \  (@@)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+	 */
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(Customer customer, EntityLevel entityLevel) {
+		publisher.publishEvent(new EntityEvent<>(customer, entityLevel));
 	}
 }
 
