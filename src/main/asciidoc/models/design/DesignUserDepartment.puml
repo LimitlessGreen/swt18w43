@@ -76,39 +76,18 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
 rectangle Bioladen {
 
-    namespace bioladen.useraccount {
-
-        class UserAccountController <<Controller>>  {
-            +login(LoginForm) : User
-            +logout(LogoutForm) : boolean
-            +resetPassword(ResetForm) : boolean
-            +setNewPassword(SetForm) : boolean
-
-        }
-
-        class UserAccount <<Entity>> {
-
-        }
-
-        class UserAccountWrapper {
-            UserAccountWrapper(Customer) : UserAccount
-        }
-        note right: listen to CustomerEvent
-
-        UserAccountWrapper --> UserAccount
-        UserAccountController --> UserAccount
-
-    }
+  
 
     namespace bioladen.customer {
 
         class CustomerController <<Controller>> {
             +createUser(UserForm) : boolean
             +deleteUser(UserForm) : boolean
-            +searchUser(SearchForm) : List<User>
+
         }
 
         class Customer <<Entity>> {
+            -id : Long
             -firstname : String
             -lastname : String
             -email : String
@@ -119,17 +98,18 @@ rectangle Bioladen {
             -sex : Sex
             publishCustomerCreatedEvent(Customer) : void
             +getType() : CustomerType
-            +isType(CustomerType) : Boolean
+            +isCustomerType(CustomerType) : Boolean
             +setType(CustomerType) : void
-
+            
+            {static}getDiscount(CustomerType) : double
         }
 
-        class CustomerType <<Entity>>{
+        enum CustomerType <<Entity>>{
             MANAGER
             STAFF
             MAJOR_CUSTOMER
             HOUSE_CUSTOMER
-            {static}getDiscount(CustomerType) : double
+
         }
 
         enum Sex {
@@ -138,20 +118,29 @@ rectangle Bioladen {
             VARIOUS
         }
 
-        class CustomerIdentifier {
-            CustomerIdentifier() : void
-            CustomerIdentifier(String) : void
-        }
 
         interface CustomerRepository <<Repository>> {
-
+            +findAll() : ArrayList<Customer>
         }
+        
+        class UserAccController <<Controller>>  {
+       
+            +resetPassword(ResetForm) : boolean
+            +setNewPassword(SetForm) : boolean
+        
+        }
+        
+        
 
-        Customer --> bioladen.useraccount.UserAccount
-        Customer --> CustomerIdentifier
+        class UserAccEventListener {
+            UserAccEventListener(UserAccountManager, CustomerRepository)
+            + listenCustomerEvent(EntityEvent<Customer>) : void
+        }
+        note right: listen to CustomerEvent
+
+       
         Customer --> Sex
         Customer --> CustomerType
-        CustomerIdentifier --|> org.salespointframework.core.SalespointIdentifier
         CustomerRepository --> Customer
         CustomerController --> Customer
     }
@@ -174,10 +163,6 @@ rectangle Bioladen {
 
         }
 
-        VIEW(login.html) {
-
-        }
-
         VIEW(customerlist.html) {
 
         }
@@ -186,11 +171,10 @@ rectangle Bioladen {
 
         }
 
-        useracc.html <-- bioladen.useraccount.UserAccountController
-        login.html <-- bioladen.useraccount.UserAccountController
+        useracc.html <-- bioladen.customer.UserAccController
         customerlist.html <-- bioladen.customer.CustomerController
         register.html <-- bioladen.customer.CustomerController
-
+        customerlist.html <.left. register.html
 
     }
 
@@ -226,10 +210,13 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 
 org.salespointframework.useraccount.UserAccountRepository  *--  org.salespointframework.useraccount.UserAccount
 org.salespointframework.useraccount.UserAccountRepository --|> CrudRepository: <<binds>>\n<UserAccount, UserAccountIdentifier>
-bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
-bioladen.useraccount.UserAccountController "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
-bioladen.useraccount.UserAccountController ..> BusinessTime
+bioladen.customer.UserAccController "1" --> "1" org.salespointframework.useraccount.UserAccountManager: \n\nUSER_ACCOUNTS
+bioladen.customer.UserAccController "1" --> "1" org.salespointframework.useraccount.UserAccountRepository
+bioladen.customer.UserAccController ..> BusinessTime
 
-bioladen.useraccount.UserAccount --|> org.salespointframework.useraccount.UserAccount
+
+bioladen.customer.Customer --> org.salespointframework.useraccount.UserAccount
+bioladen.customer.UserAccController --> org.salespointframework.useraccount.UserAccount
+bioladen.customer.UserAccEventListener --> org.salespointframework.useraccount.UserAccount
 
 @enduml
