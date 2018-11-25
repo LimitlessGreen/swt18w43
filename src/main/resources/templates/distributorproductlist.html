@@ -119,16 +119,15 @@
                             </thead>
                             <tbody th:remove="all-but-first">
                             <tr th:each="distributorProduct : ${distributorProductList}">
-                                <td th:text="${distributorProduct.getId()}">1</td>
+                                <td th:text="${distributorProduct.getDistributorProductIdentifier()}">1</td>
                                 <td th:text="${distributorProduct.getName()}">REWE</td>
                                 <td th:text="${distributorProduct.getPrice()}">blattgrün@bioladen.de</td>
                                 <td th:text="${distributorProduct.getUnit()}">Frida</td>
                                 <td th:text="${distributorProduct.getMinimumOrderAmount()}">035135426236</td>
-                                <td>
-                                    <a th:href="@{/distributorproductlist/delete(id = ${distributorProduct.getId()})}">
-                                        <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect"
-                                                style="border-radius: 50%">
-                                            <i class="notika-icon notika-close"></i>
+                                <td style="padding: 9px;">
+                                    <a th:href="@{/distributorproductlist/delete(id = ${distributorProduct.getDistributorProductIdentifier()})}">
+                                        <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </a>
                                 </td>

@@ -28,7 +28,10 @@ public class DistributorProductController {
 	@GetMapping("/distributorproductlist")
 	String showDistributorProducts(Model model) {
 		List<DistributorProduct> distributorProductList = distributorProductCatalog.findAll();
+		List<Distributor> distributorList = distributorRepository.findAll();
+
 		model.addAttribute("distributorProductList", distributorProductList);
+		model.addAttribute("distributorList", distributorList);
 
 		return "distributorproductlist";
 	}
@@ -59,7 +62,7 @@ public class DistributorProductController {
 				                                                       minimumOrderAmount);
 		distributorProductCatalog.save(distributorProduct);
 
-		return "distributorproductform";
+		return "redirect:/distributorproductlist";
 	}
 
 //	@PostMapping("/removeDistributor")
