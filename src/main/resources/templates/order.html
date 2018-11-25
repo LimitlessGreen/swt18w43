@@ -94,6 +94,8 @@
                             </div>
                         </form>
 
+                        <br>
+
                         <table style="width: 100%; font-size: 16px;">
                             <thead>
                             <tr>
@@ -129,7 +131,8 @@
                                 <td>?</td>
                                 <td>
                                     <a th:href="'/orders?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() * product.getUnit() , 1, 0)}">
-                                        <span class="label label-danger">Mindestbestellmenge: <span th:text="${product.getMinimumOrderAmount()}"></span> </span>
+                                        <span class="label label-danger">Mindestbestellmenge: <span
+                                                th:text="${product.getMinimumOrderAmount()}"></span> </span>
                                         <!--<span class="badge badge-danger" role="alert" style="background-color: #dc3545 !important;">
                                             Mindestbestellmenge: <span th:text="${product.getMinimumOrderAmount() }"></span>
                                         </span>-->
@@ -140,7 +143,7 @@
                         </table>
 
                         <hr>
-
+                        <br>
                         <h5>Bestellübersicht</h5>
 
                         <table style="width: 100%; font-size: 16px;">
@@ -151,7 +154,7 @@
                                 <th>Menge</th>
                                 <th>Gesamtpreis</th>
                                 <th>Lagerbestand</th>
-                                <th>🗑️</th>
+                                <th>Löschen?</th>
                             </tr>
                             </thead>
 
@@ -163,8 +166,8 @@
                                 <td th:text="${#numbers.formatDecimal(item.getQuantity().getAmount().doubleValue() * item.getPrice().getNumber().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                                 <td>?</td>
                                 <td><a th:href="'/orders/remove?id=' + ${item.getId()}">
-                                    <button type="button" class="btn btn-danger notika-btn-red" style ="float: left">Löschen</button>
-                                    <!--<button class="btn btn-danger">Löschen</button> -->
+                                    <button type="button" class="btn btn-danger notika-btn-red" style="float:inside"><i
+                                            class="fas fa-trash-alt"></i></button>
                                 </a></td>
                             </tr>
                             </tbody>

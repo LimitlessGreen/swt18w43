@@ -10,14 +10,11 @@ import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 
 import javax.money.MonetaryAmount;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class OrderCart implements Streamable<OrderCartItem> {
 
-	private final Map<DistributorProduct, OrderCartItem> items = new LinkedHashMap<>();
+	private final Map<DistributorProduct, OrderCartItem> items = new HashMap<>();
 
 
 	public MonetaryAmount getPrice() {
@@ -33,10 +30,16 @@ public class OrderCart implements Streamable<OrderCartItem> {
 		Assert.notNull(product, "InventoryProduct must not be null!");
 		Assert.notNull(quantity, "Quantity must not be null!");
 
-		return this.items.compute(product, //
-				(it, item) -> item == null //
-						? new OrderCartItem(it, quantity) //
-						: item.add(quantity));
+
+		for (DistributorProduct distributorProduct : new HashSet<>(items.keySet())) {
+			if (distributorProduct.getDistributorProductIdentifier() == product.getDistributorProductIdentifier()) {
+				return items.put(distributorProduct, new OrderCartItem(distributorProduct, quantity.add(items.get(distributorProduct).getQuantity())));
+			}
+		}
+
+
+		return items.put(product, new OrderCartItem(product, quantity));
+
 	}
 
 
@@ -45,7 +48,7 @@ public class OrderCart implements Streamable<OrderCartItem> {
 	}
 
 
-	public OrderCartItem addOrUpdateItem( DistributorProduct product, double amount) {
+	public OrderCartItem addOrUpdateItem(DistributorProduct product, double amount) {
 		return addOrUpdateItem(product, Quantity.of(amount));
 	}
 
@@ -66,7 +69,6 @@ public class OrderCart implements Streamable<OrderCartItem> {
 				.filter(item -> item.getId().equals(identifier)) //
 				.findFirst();
 	}
-
 
 
 	@Override

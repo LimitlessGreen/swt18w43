@@ -28,9 +28,8 @@ public class OrderController {
 
 	public OrderController(DistributorProductCatalog distributorProductCatalog) {
 		this.distributorProductCatalog = distributorProductCatalog;
-
-
 	}
+
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders")
 	public String orders(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
@@ -113,7 +112,6 @@ public class OrderController {
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/add")
 	public String addItem(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam("id") Long id, @RequestParam("amount") Integer integer) {
-
 		Optional<DistributorProduct> product = distributorProductCatalog.findById(id);
 
 		if (product.isPresent()) {
