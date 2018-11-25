@@ -131,11 +131,10 @@
                                 <td th:text="${customer.getStreet()}">Feldweg 43</td>
                                 <td th:text="${customer.getPhone()}"> 03514343434</td>
                                 <td th:text="${customer.getSex()}">MALE</td>
-                                <td>
+                                <td style="padding: 9px;">
                                     <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
-                                        <button class="btn btn-cyan cyan-icon-notika btn-reco-mg btn-button-mg waves-effect"
-                                                style="border-radius: 50%">
-                                            <i class="notika-icon notika-close"></i>
+                                        <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </a>
                                 </td>
