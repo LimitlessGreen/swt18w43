@@ -87,7 +87,10 @@
                     <div class="header-top-menu">
                         <ul class="nav navbar-nav notika-top-nav">
                             <li sec:authorize="isAuthenticated()">
-                                <a th:text="${'Angemeldet als ' + #authentication?.name}">Angemeldet als Nutzer</a>
+                                <a>
+                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-support"  th:text="${' '+#authentication?.name}"></i></button>
+                                </a>
+
                             </li>
                             <li>
                                 <a>
@@ -96,10 +99,10 @@
                             </li>
                             <li>
                                 <a th:href="@{/login}"  sec:authorize="!isAuthenticated()">
-                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon">&#x1F510;</i> Login</button>
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="notika-icon">&#x1F510;</i> Login</button>
                                 </a>
                                 <a th:href="@{/logout}" sec:authorize="isAuthenticated()">
-                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon">&#x1F513;</i> Logout</button>
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="notika-icon">&#x1F513;</i> Logout</button>
                                 </a>
 
 
