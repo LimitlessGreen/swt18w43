@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <!--<html lang=""> -->
 
 <head>
@@ -83,7 +84,25 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <!--TODO: Login/logout; angemeldet als und Merkzettel-->
+                    <div class="header-top-menu">
+                        <ul class="nav navbar-nav notika-top-nav">
+                            <li>
+                                <a>
+                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-star"></i> Merkzettel</button>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/login}"  sec:authorize="!isAuthenticated()">
+                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon">&#x1F510;</i> Login</button>
+                                </a>
+                                <a th:href="@{/logout}" sec:authorize="isAuthenticated()">
+                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon">&#x1F513;</i> Logout</button>
+                                </a>
+
+
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,27 +120,27 @@
                                     <a th:href="@{/}">Startseite</a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/products}">Produktübersicht</a>
+                                    <a th:href="@{/products}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Produktübersicht</a>
                                 </li>
-                                <li><a data-toggle="collapse" data-target="#m_productmanagement" href="#">Produktverwaltung</a>
-                                    <ul id="m_productmanagement" class="collapse dropdown-header-top">
+                                <li><a data-toggle="collapse" data-target="#m_productmanagement" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Produktverwaltung</a>
+                                    <ul id="m_productmanagement" class="collapse dropdown-header-top"  sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                                         </li>
                                         <li><a th:href="@{/products}">Produkte verwalten</a></li>
                                     </ul>
                                 </li>
-                                <li><a data-toggle="collapse" data-target="#m_personmanagement" href="#">Personenverwaltung</a>
-                                    <ul id="m_personmanagement" class="collapse dropdown-header-top">
+                                <li><a data-toggle="collapse" data-target="#m_personmanagement" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Personenverwaltung</a>
+                                    <ul id="m_personmanagement" class="collapse dropdown-header-top" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                                         <li><a th:href="@{/customerlist}">User verwalten</a></li>
-                                        <li><a th:href="@{/distributorlist}">Großhändlerverwalten</a></li>
+                                        <li><a th:href="@{/distributorlist}">Großhändler verwalten</a></li>
                                     </ul>
                                 </li>
-                                <li><a th:href="@{/cashiersystem}">Kasse</a></li>
-                                <li><a th:href="@{/orders}">Bestellung</a>
+                                <li><a th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Kasse</a></li>
+                                <li><a th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Bestellung</a>
                                 </li>
-                                <li><a th:href="@{/statistic}">Statistik</a>
+                                <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Statistik</a>
                                 </li>
-                                <li><a th:href="@{/datahistory}">Aktions-Verlauf</a>
+                                <li><a th:href="@{/datahistory}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Aktions-Verlauf</a>
                                 </li>
                             </ul>
                         </nav>
@@ -139,18 +158,18 @@
                     <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                         <li><a th:href="@{/}"><i class="notika-icon notika-house"></i>Startseite</a>
                         </li>
-                        <li><a th:href="@{/products}"><i class="notika-icon notika-edit"></i>Produktübersicht</a>
+                        <li><a th:href="@{/products}" sec:authorize="!hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-edit"></i>Produktübersicht</a>
                         </li>
-                        <li><a data-toggle="tab" href="#productmanagement"><i class="notika-icon notika-edit"></i>
+                        <li><a data-toggle="tab" href="#productmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-edit"></i>
                             Produktverwaltung</a>
                         </li>
-                        <li><a data-toggle="tab" href="#personmanagement"><i class="notika-icon notika-edit"></i>
+                        <li><a data-toggle="tab" href="#personmanagement" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-edit"></i>
                             Personenverwaltung</a>
                         </li>
-                        <li><a th:href="@{/cashiersystem}"><i class="notika-icon notika-dollar"></i>Kasse</a></li>
-                        <li><a th:href="@{/orders}"><i class="notika-icon notika-edit"></i>Bestellung</a>
+                        <li><a th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="notika-icon notika-dollar"></i>Kasse</a></li>
+                        <li><a th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-edit"></i>Bestellung</a>
                         </li>
-                        <li><a th:href="@{/statistic}"><i class="notika-icon notika-bar-chart"></i>Statistik</a>
+                        <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-bar-chart"></i>Statistik</a>
                         </li>
                         <li><a th:href="@{/datahistory}"><i class="notika-icon notika-edit"></i>Aktions-Verlauf</a>
                         </li>
