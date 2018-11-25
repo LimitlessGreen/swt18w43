@@ -4,6 +4,7 @@ import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -135,6 +136,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 	/*Function for customerlist.html*/
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/customerlist")
 	String customerRepository(Model model) {
 		List<Customer> customerList = customerRepository.findAll();
@@ -143,6 +145,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		return "customerlist";
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
 		customerRepository.deleteById(id);

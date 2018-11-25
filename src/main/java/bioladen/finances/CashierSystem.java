@@ -2,6 +2,7 @@ package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
 import bioladen.product.InventoryProductCatalog;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,8 @@ public class CashierSystem {
 	}
 
     // TODO Bitte nicht vergessen, für neues frontend in cashiersystem_new ändern
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/cashiersystem")
 	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
 

@@ -9,6 +9,7 @@ import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class OrderController {
 
 
 	}
-
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders")
 	public String orders(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
 		Iterable<DistributorProduct> distributorProducts = new ArrayList<>();
@@ -67,7 +68,7 @@ public class OrderController {
 		return "order";
 	}
 
-
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/orderfinished")
 	public String completeOrder(Model model, @ModelAttribute("cart") OrderCart cart, @LoggedIn Optional<UserAccount> userAccount) {
 
@@ -100,6 +101,7 @@ public class OrderController {
 		}).orElse("redirect:/login");
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/remove")
 	public String removeOrder(Model model, @RequestParam("id") String id, @ModelAttribute("cart") OrderCart cart) {
 
@@ -108,7 +110,7 @@ public class OrderController {
 		return "redirect:/orders";
 	}
 
-
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/add")
 	public String addItem(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam("id") Long id, @RequestParam("amount") Integer integer) {
 

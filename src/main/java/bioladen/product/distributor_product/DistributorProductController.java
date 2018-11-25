@@ -2,6 +2,7 @@ package bioladen.product.distributor_product;
 
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ public class DistributorProductController {
 		this.distributorRepository = distributorRepository;
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorproductlist")
 	String showDistributorProducts(Model model) {
 		List<DistributorProduct> distributorProductList = distributorProductCatalog.findAll();

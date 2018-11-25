@@ -1,5 +1,6 @@
 package bioladen.product.distributor;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class DistributorController {
 		this.distributorRepository = distributorRepository;
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorlist")
 	String showDistributors(Model model) {
 		List<Distributor> distributorList = distributorRepository.findAll();
@@ -43,6 +45,7 @@ public class DistributorController {
 		return "redirect:/distributorlist";
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorlist/delete")
 	String removeDistributor(@RequestParam("id") Long id) {
 		distributorRepository.deleteById(id);
