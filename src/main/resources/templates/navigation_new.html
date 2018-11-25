@@ -171,7 +171,7 @@
                         </li>
                         <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-bar-chart"></i>Statistik</a>
                         </li>
-                        <li><a th:href="@{/datahistory}"><i class="notika-icon notika-edit"></i>Aktions-Verlauf</a>
+                        <li><a th:href="@{/datahistory}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="notika-icon notika-edit"></i>Aktions-Verlauf</a>
                         </li>
                     </ul>
 
