@@ -74,7 +74,7 @@ public class DistributorController implements ApplicationEventPublisherAware {
                 ||----w |
                 ||     ||
 
-	 */
+	*/
 	private ApplicationEventPublisher publisher;
 
 	@Override

@@ -155,7 +155,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
                 ||----w |
                 ||     ||
 
-	 */
+	*/
 	private ApplicationEventPublisher publisher;
 
 	@Override

@@ -53,7 +53,7 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
                 ||----w |
                 ||     ||
 
-	 */
+	*/
 	private ApplicationEventPublisher publisher;
 
 	@Override

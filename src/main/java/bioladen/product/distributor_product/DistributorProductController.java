@@ -1,7 +1,11 @@
 package bioladen.product.distributor_product;
 
+import bioladen.event.EntityEvent;
+import bioladen.event.EntityLevel;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-public class DistributorProductController {
+public class DistributorProductController implements ApplicationEventPublisherAware {
 
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
@@ -62,6 +66,9 @@ public class DistributorProductController {
 				                                                       minimumOrderAmount);
 		distributorProductCatalog.save(distributorProduct);
 
+		// (👁 ᴥ 👁) Event
+		publishEvent(distributorProduct, EntityLevel.CREATED);
+
 		return "redirect:/distributorproductlist";
 	}
 
@@ -71,4 +78,26 @@ public class DistributorProductController {
 //
 //		return "redirect:/distributorlist";
 //	}
+
+	/* TODO: Event for distributor product deletions
+	 _________________
+	< Event publisher >
+	 -----------------
+        \   ^__^
+         \  (@@)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+	*/
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(DistributorProduct distributorProduct, EntityLevel entityLevel) {
+		publisher.publishEvent(new EntityEvent<>(distributorProduct, entityLevel));
+	}
 }
