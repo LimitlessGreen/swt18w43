@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.product.InventoryProductCatalog;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class CartController {
 		return new ShoppingCart();
 	}
 
-
+	@PreAuthorize("!(hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF'))")
 	@RequestMapping("/wishlist")
 	String wishlist(@ModelAttribute ShoppingCart shoppingCart, Model model) {
 		model.addAttribute("shoppingCart", shoppingCart);
