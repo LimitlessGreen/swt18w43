@@ -88,21 +88,21 @@
                         <ul class="nav navbar-nav notika-top-nav">
                             <li sec:authorize="isAuthenticated()">
                                 <a>
-                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-support"  th:text="${' '+#authentication?.name}"></i></button>
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-user-circle"></i><x th:text="${' '+#authentication?.name}"></x></button>
                                 </a>
 
                             </li>
                             <li>
                                 <a>
-                                    <button class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-star"></i> Merkzettel</button>
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-star"></i> Merkzettel</button>
                                 </a>
                             </li>
                             <li>
                                 <a th:href="@{/login}"  sec:authorize="!isAuthenticated()">
-                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="notika-icon">&#x1F510;</i> Login</button>
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-key"></i> Login</button>
                                 </a>
                                 <a th:href="@{/logout}" sec:authorize="isAuthenticated()">
-                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="notika-icon">&#x1F513;</i> Logout</button>
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-key"></i> Logout</button>
                                 </a>
 
 
