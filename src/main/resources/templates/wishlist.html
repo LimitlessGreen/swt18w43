@@ -118,24 +118,30 @@
                                 <td th:text="${item.getInventoryProduct().getPrice()}"></td>
                                 <td th:text="${item.getQuantity()}">1</td>
                                 <td th:text="${item.getPrice()}">1</td>
-                                <td>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-2">
+                                <td style="padding: 9px;">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                             <form class="form-group" method="post" th:action="@{/deleteFromWishlist}">
                                                 <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                <button type="submit" class="btn btn-danger">&#x1F5D1;</button>
+                                                <button type="submit" class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
                                             </form>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                             <form class="form-group" method="post" th:action="@{/removeOneFromWishlist}">
                                                 <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                <button type="submit" class="btn btn-danger">-1</button>
+                                                <button type="submit" class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
                                             </form>
                                         </div>
-                                        <div class="form-group col-md-2">
+                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                             <form class="form-group" method="post" th:action="@{/addOneToWishlist}">
                                                 <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                <button type="submit" class="btn btn-success">+1</button>
+                                                <button class="btn btn-success success-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </div>

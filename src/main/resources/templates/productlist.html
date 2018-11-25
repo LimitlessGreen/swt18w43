@@ -109,8 +109,8 @@
                                 <td th:text="${inventoryProduct.getInventoryAmount()}">035135426236</td>
                                 <td th:text="${inventoryProduct.getDisplayedAmount()}">035135426236</td>
                                 <td style="padding: 9px;">
-                                    <a>
-                                        <button class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                    <a th:href="@{/addToWishlist(productId = ${inventoryProduct.getProductIdentifier()})}">
+                                        <button type="submit" class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </a>

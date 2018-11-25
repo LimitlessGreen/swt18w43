@@ -41,12 +41,12 @@ public class CartController {
 	 * @param pid to the
 	 * @param shoppingCart
 	 */
-	@PostMapping("/addToWishlist")
+	@GetMapping("/addToWishlist")
 	String addToWishlist(@RequestParam("productId") Long pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
 		shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(pid).get(), 1);
 		model.addAttribute("shoppingCart", shoppingCart);
 
-		return "productlist";
+		return "redirect:/productlist";
 	}
 
 
