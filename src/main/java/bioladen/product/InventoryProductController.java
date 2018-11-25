@@ -1,6 +1,10 @@
 package bioladen.product;
 
+import bioladen.event.EntityEvent;
+import bioladen.event.EntityLevel;
 import bioladen.product.distributor_product.DistributorProductCatalog;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class InventoryProductController {
+public class InventoryProductController implements ApplicationEventPublisherAware {
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final DistributorProductCatalog distributorProductCatalog;
 
@@ -33,6 +37,31 @@ public class InventoryProductController {
 
 		inventoryProductCatalog.save(inventoryProduct);
 
+		// (👁 ᴥ 👁) Event
+		publishEvent(inventoryProduct, EntityLevel.CREATED);
+
 		return "redirect:/productlist";
+	}
+
+	/* TODO: Event for inventory product deletions
+	 _________________
+	< Event publisher >
+	 -----------------
+        \   ^__^
+         \  (@@)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+	 */
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(InventoryProduct inventoryProduct, EntityLevel entityLevel) {
+		publisher.publishEvent(new EntityEvent<>(inventoryProduct, entityLevel));
 	}
 }
