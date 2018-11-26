@@ -43,9 +43,10 @@ public class InventoryProduct {
 
 		this.name = distributorProduct.getName();
 
-		this.distributorProducts = distributorProductCatalog.findAll().stream().filter(dp -> dp.getName().equals(this.name)).collect(Collectors.toList());
+		this.distributorProducts = distributorProductCatalog.findAll().stream()
+				.filter(dp -> dp.getName().equals(this.name)).collect(Collectors.toList());
 
-		this.price = distributorProduct.getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN)); //TODO: profit margin onto WHAT price?
+		this.price = distributorProduct.getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN));
 		this.unit = distributorProduct.getUnit();
 
 		this.inventoryAmount = 0;
@@ -116,6 +117,8 @@ public class InventoryProduct {
 
 	@Override
 	public String toString() {
-		return String.format("%s: {price: %s, unit: %s, inventoryAmount: %s, displayedAmount: %s}", name, price, unit, inventoryAmount, displayedAmount);
+		return String.format(
+				"%s: {price: %s, unit: %s, inventoryAmount: %s, displayedAmount: %s}",
+				name, price, unit, inventoryAmount, displayedAmount);
 	}
 }
