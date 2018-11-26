@@ -34,4 +34,9 @@ public class Distributor {
 		this.contactName = contactName;
 		this.phone = phone;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s: {email: %s, contact: %s, phone: %s}", name, email, contactName, phone);
+	}
 }

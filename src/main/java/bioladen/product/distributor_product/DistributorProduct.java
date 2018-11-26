@@ -40,4 +40,9 @@ public class DistributorProduct {
 		this.unit = unit;
 		this.minimumOrderAmount = minimumOrderAmount;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s: {price: %s, unit: %s, minimumOrderAmount: %s}", name, price, unit, minimumOrderAmount);
+	}
 }

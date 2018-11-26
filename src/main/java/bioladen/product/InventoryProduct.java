@@ -113,4 +113,9 @@ public class InventoryProduct {
 
 		return checkSum;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s: {price: %s, unit: %s, inventoryAmount: %s, displayedAmount: %s}", name, price, unit, inventoryAmount, displayedAmount);
+	}
 }
