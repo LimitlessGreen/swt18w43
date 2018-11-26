@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Entity
@@ -16,24 +19,18 @@ public class Customer {
 		VARIOUS
 	}
 
-	private static double MANAGER_DISCOUNT = 0.20;
-	private static double STAFF_DISCOUNT = 0.15;
-	private static double MAJOR_CUSTOMER_DISCOUNT = 0.10;
-	private static double HOUSE_CUSTOMER_DISCOUNT = 0.05;
+	private static final Map<CustomerType, Double> DISCOUNTS;
+	static {
+		Map<CustomerType, Double> tempDiscounts = new HashMap<CustomerType, Double>();
+		tempDiscounts.put(CustomerType.MANAGER, 0.20);
+		tempDiscounts.put(CustomerType.STAFF, 0.15);
+		tempDiscounts.put(CustomerType.MAJOR_CUSTOMER, 0.10);
+		tempDiscounts.put(CustomerType.HOUSE_CUSTOMER, 0.05);
+		DISCOUNTS = Collections.unmodifiableMap(tempDiscounts);
+	}
 
 	public static double getDiscount(CustomerType customerType) {
-		switch (customerType) {
-			case MANAGER:
-				return MANAGER_DISCOUNT;
-			case STAFF:
-				return STAFF_DISCOUNT;
-			case MAJOR_CUSTOMER:
-				return MAJOR_CUSTOMER_DISCOUNT;
-			case HOUSE_CUSTOMER:
-				return HOUSE_CUSTOMER_DISCOUNT;
-			default:
-				return 0;
-		}
+		return DISCOUNTS.getOrDefault(customerType, 0.00);
 	}
 
 	@Id
@@ -84,7 +81,9 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return String.format("%s %s: {email: %s, phone: %s, street: %s, type: %s, sex: %s}", firstname, lastname, email, phone, street, customerType, sex);
+		return String.format(
+				"%s %s: {email: %s, phone: %s, street: %s, type: %s, sex: %s}",
+				firstname, lastname, email, phone, street, customerType, sex);
 	}
 }
 
