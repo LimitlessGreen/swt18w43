@@ -18,6 +18,8 @@ import java.util.Optional;
  * @author Lukas Petzold
  */
 public class ShoppingCart implements Streamable<CartCartItem> {
+	final static int SCALE = 2;
+	final static int TO_PERCENT = 100;
 
 	private @Getter	final Map<InventoryProduct, CartCartItem> items = new LinkedHashMap<>();
 	private @Getter @Setter Customer customer = null;
@@ -108,7 +110,6 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	 * Calculates with the userDiscount
 	 */
 	public BigDecimal getPrice() {
-
 		BigDecimal money = BigDecimal.valueOf(0);
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
@@ -116,7 +117,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		}
 
 		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));
-		money = money.setScale(2);
+		money = money.setScale(SCALE);
 
 		return money;
 	}
@@ -133,7 +134,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 			money = money.add(e.getValue().getPrice());
 		}
 
-		money = money.setScale(2);
+		money = money.setScale(SCALE);
 
 		return money;
 	}
@@ -153,9 +154,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	 * @return a formatted customerDiscount for Frontend
 	 */
 	public String getCustomerDiscountString() {
-		String customerDiscountString = getDiscount() * 100 + "%";
-
-		return customerDiscountString;
+		return getDiscount() * TO_PERCENT + "%";
 	}
 
 
