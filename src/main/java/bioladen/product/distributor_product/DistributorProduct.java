@@ -33,7 +33,12 @@ public class DistributorProduct {
 	@OneToOne
 	private @NonNull @Getter @Setter Distributor distributor;
 
-	public DistributorProduct(String name, Distributor distributor, BigDecimal price, BigDecimal unit, long minimumOrderAmount) {
+	public DistributorProduct(
+			String name,
+			Distributor distributor,
+			BigDecimal price,
+			BigDecimal unit,
+			long minimumOrderAmount) {
 		this.name = name;
 		this.distributor = distributor;
 		this.price = price;
@@ -43,6 +48,8 @@ public class DistributorProduct {
 
 	@Override
 	public String toString() {
-		return String.format("%s: {price: %s, unit: %s, minimumOrderAmount: %s}", name, price, unit, minimumOrderAmount);
+		return String.format(
+				"%s: {price: %s, unit: %s, minimumOrderAmount: %s}",
+				name, price, unit, minimumOrderAmount);
 	}
 }
