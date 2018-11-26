@@ -1,0 +1,59 @@
+= Protokoll Gruppe 43
+
+Treffen am 26.11.2018
+
+Ort:      APB E046 +
+Beginn:   14:50 Uhr +
+Ende:     16:00 Uhr
+
+__Schriftführer:__ Lisa Riedel, Lukas Petzold
+
+*Nächstes Treffen:* +
+03.12.2018, 09:40 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor)
+- Adrian Kulisch
+- Josefin Hübner
+- Jairus Behrisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Zwischenpräsentation gehalten
+- Javascript für Tabelle mit Suchen und Sortieren muss wahrscheinlich selbst geschrieben werden
+
+=== Hinweise für Präsentation
+- Departmentübersicht gut
+- Nicht jeder muss reden
+- Mehr überlegen welche Use-Cases bei Vorführung
+- Analyse in Vortrag hinzufügen
+- Folienlayout gut
+- Gute Reduzierung bei Diagrammen
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#19     |Sprint 6       |geschlossen      |Basisfunktionalitäten
+|===
+
+
+== Aktueller Stand
+Basisfunktionalitäten sind abgeschlossen bis auf die Lieferungsübersicht (OrderDepartment)
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#24     |Sprint 7     |Individuelle Vervollständigung von Muss-Kriterien und Anfang vom Testen            |alle                |offen
+|===
