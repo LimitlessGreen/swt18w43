@@ -21,11 +21,16 @@ public class Customer {
 
 	private static final Map<CustomerType, Double> DISCOUNTS;
 	static {
+		final double MANAGER_DISCOUNT = 0.20;
+		final double STAFF_DISCOUNT = 0.15;
+		final double MAJOR_CUSTOMER_DISCOUNT = 0.10;
+		final double HOUSE_CUSTOMER_DISCOUNT = 0.05;
+
 		Map<CustomerType, Double> tempDiscounts = new HashMap<CustomerType, Double>();
-		tempDiscounts.put(CustomerType.MANAGER, 0.20);
-		tempDiscounts.put(CustomerType.STAFF, 0.15);
-		tempDiscounts.put(CustomerType.MAJOR_CUSTOMER, 0.10);
-		tempDiscounts.put(CustomerType.HOUSE_CUSTOMER, 0.05);
+		tempDiscounts.put(CustomerType.MANAGER, MANAGER_DISCOUNT);
+		tempDiscounts.put(CustomerType.STAFF, STAFF_DISCOUNT);
+		tempDiscounts.put(CustomerType.MAJOR_CUSTOMER, MAJOR_CUSTOMER_DISCOUNT);
+		tempDiscounts.put(CustomerType.HOUSE_CUSTOMER, HOUSE_CUSTOMER_DISCOUNT);
 		DISCOUNTS = Collections.unmodifiableMap(tempDiscounts);
 	}
 
