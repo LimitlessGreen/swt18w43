@@ -8,8 +8,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DataHistoryManager implements ApplicationEventPublisherAware
-{
+public class DataHistoryManager implements ApplicationEventPublisherAware {
 	private final DataEntryRepository dataEntryRepository;
 	private final BusinessTime businessTime;
 
@@ -48,7 +47,9 @@ public class DataHistoryManager implements ApplicationEventPublisherAware
 	}
 
 	public <T> DataEntry push(T entity, EntityLevel entityLevel, String message) {
-		if (message == null) message = entity.toString();
+		if (message == null) {
+			message = entity.toString();
+		}
 
 		return this.log(entityLevel, entity, message);
 	}
