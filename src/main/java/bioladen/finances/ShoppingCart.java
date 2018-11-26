@@ -18,8 +18,8 @@ import java.util.Optional;
  * @author Lukas Petzold
  */
 public class ShoppingCart implements Streamable<CartCartItem> {
-	final static int SCALE = 2;
-	final static int TO_PERCENT = 100;
+	private final static int SCALE = 2;
+	private final static int TO_PERCENT = 100;
 
 	private @Getter	final Map<InventoryProduct, CartCartItem> items = new LinkedHashMap<>();
 	private @Getter @Setter Customer customer = null;
