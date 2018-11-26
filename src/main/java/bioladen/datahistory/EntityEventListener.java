@@ -22,7 +22,9 @@ public class EntityEventListener {
 	@EventListener
 	public void listenCustomerEvent(EntityEvent event) {
 		// break if is an DataEntry, to prevent event loop
-		if (event.getEntity() instanceof DataEntry) return;
+		if (event.getEntity() instanceof DataEntry) {
+			return;
+		}
 
 		dataHistoryManager.push(event);
 		logger.info(String.format("History received entity %s [%s]: {%s}",
