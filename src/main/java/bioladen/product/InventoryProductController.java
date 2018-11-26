@@ -18,7 +18,9 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final DistributorProductCatalog distributorProductCatalog;
 
-	InventoryProductController(InventoryProductCatalog inventoryProductCatalog, DistributorProductCatalog distributorProductCatalog) {
+	InventoryProductController(
+			InventoryProductCatalog inventoryProductCatalog,
+			DistributorProductCatalog distributorProductCatalog) {
 		this.inventoryProductCatalog = inventoryProductCatalog;
 		this.distributorProductCatalog = distributorProductCatalog;
 	}
@@ -33,7 +35,9 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 
 	@GetMapping("/productlist/add")
 	String addProduct(@RequestParam("id") Long distributorProductIdentifier) {
-		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(distributorProductIdentifier).get(), distributorProductCatalog);
+		InventoryProduct inventoryProduct = new InventoryProduct(
+				distributorProductCatalog.findById(distributorProductIdentifier).get(),
+				distributorProductCatalog);
 
 		inventoryProductCatalog.save(inventoryProduct);
 
@@ -48,7 +52,7 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 	< Event publisher >
 	 -----------------
         \   ^__^
-         \  (@@)\_______
+         \  (@@)\______s_
             (__)\       )\/\
                 ||----w |
                 ||     ||
