@@ -23,7 +23,9 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
 
-	DistributorProductController(DistributorProductCatalog distributorProductCatalog, DistributorRepository distributorRepository) {
+	DistributorProductController(
+			DistributorProductCatalog distributorProductCatalog,
+			DistributorRepository distributorRepository) {
 		this.distributorProductCatalog = distributorProductCatalog;
 		this.distributorRepository = distributorRepository;
 	}
