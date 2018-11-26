@@ -32,7 +32,10 @@ public class OrderController {
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders")
-	public String orders(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
+	public String orders(Model model,
+						 @ModelAttribute("cart") OrderCart cart,
+						 @RequestParam(value = "name", defaultValue = "") String name,
+						 @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
 		Iterable<DistributorProduct> distributorProducts = new ArrayList<>();
 		List<DistributorProduct> filtered = new ArrayList<>();
 
@@ -69,7 +72,9 @@ public class OrderController {
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orderFinished")
-	public String completeOrder(Model model, @ModelAttribute("cart") OrderCart cart, @LoggedIn Optional<UserAccount> userAccount) {
+	public String completeOrder(Model model,
+								@ModelAttribute("cart") OrderCart cart,
+								@LoggedIn Optional<UserAccount> userAccount) {
 
 		if (cart.isEmpty()) {
 			return "redirect:/orders";
@@ -82,7 +87,10 @@ public class OrderController {
 			int items = 0;
 			for (OrderCartItem cartItem : cart) {
 				items++;
-				distributorSetMap.computeIfAbsent(cartItem.getProduct().getDistributor(), distributor -> new OrderCart()).addOrUpdateItem(cartItem.getProduct(), cartItem.getQuantity());
+				distributorSetMap.computeIfAbsent(
+						cartItem.getProduct().getDistributor(),
+						distributor -> new OrderCart()).addOrUpdateItem(cartItem.getProduct(),
+						cartItem.getQuantity());
 				total += cartItem.getPrice().getNumber().doubleValue() * cartItem.getQuantity().getAmount().doubleValue();
 			}
 
@@ -111,7 +119,10 @@ public class OrderController {
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/add")
-	public String addItem(Model model, @ModelAttribute("cart") OrderCart cart, @RequestParam("id") Long id, @RequestParam("amount") Integer integer) {
+	public String addItem(Model model,
+						  @ModelAttribute("cart") OrderCart cart,
+						  @RequestParam("id") Long id,
+						  @RequestParam("amount") Integer integer) {
 		Optional<DistributorProduct> product = distributorProductCatalog.findById(id);
 
 		if (product.isPresent()) {
