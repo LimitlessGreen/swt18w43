@@ -48,7 +48,11 @@ public class CashierSystem {
 	 * @param shoppingCart If no product is found an error message is returned
 	 */
 	@PostMapping("/cashiersystem")
-	String addProduct(@RequestParam("pid") Long product, @RequestParam("amount") Long amount, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String addProduct(
+			@RequestParam("pid") Long product,
+			@RequestParam("amount") Long amount,
+			@ModelAttribute ShoppingCart shoppingCart,
+			Model model) {
 		try {
 			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() > amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
@@ -75,7 +79,8 @@ public class CashierSystem {
 	 */
 	@PostMapping("/deleteCartItem")
 	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
-		shoppingCart.getItem(pid).get().getInventoryProduct().removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
+		shoppingCart.getItem(pid).get().getInventoryProduct()
+				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
 		shoppingCart.removeItem(pid);
 		return "cashiersystem";
@@ -89,7 +94,10 @@ public class CashierSystem {
 	 *                     if it is lower than the sum of the shoppingCart
 	 */
 	@PostMapping("/cashiersystemCalcChange")
-	String calcChange(@RequestParam("changeInput") Double changeInput, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String calcChange(
+			@RequestParam("changeInput") Double changeInput,
+			@ModelAttribute ShoppingCart shoppingCart,
+			Model model) {
 		try {
 			BigDecimal money = BigDecimal.valueOf(changeInput);
 			money = money.subtract(shoppingCart.getPrice());
