@@ -15,6 +15,8 @@ import java.util.Optional;
 
 
 /**
+ * A ShoppingCart where Products can be stored for a sale process.
+ *
  * @author Lukas Petzold
  */
 public class ShoppingCart implements Streamable<CartCartItem> {
@@ -26,12 +28,11 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * Searcher the Map items for the
-	 * @param inventoryProduct
-	 * If it is found the
-	 * @param quantity gets added to the inventoryProduct.
-	 * If the inventoryProduct doesn't exist, a new item is added
-	 * @return the new CartCartItem
+	 * Add an item to the shoppingCart or updates the quantity.
+	 *
+	 * @param inventoryProduct The map {@link} items gets searched for the inventoryProduct.
+	 * @param quantity If it is found, the quantity gets added to the existing quantity of the item.
+	 * If the inventoryProduct doesn't exist, a new item is added.
 	 */
 	public CartCartItem addOrUpdateItem(InventoryProduct inventoryProduct, long quantity) {
 
@@ -53,7 +54,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * Calls addOrUpdateItem with a double amount
+	 * Calls addOrUpdateItem with a double amount.
 	 */
 	public CartCartItem addOrUpdateItem(InventoryProduct inventoryProduct, double amount) {
 		return addOrUpdateItem(inventoryProduct, (long) amount);
@@ -61,9 +62,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * Removes the item with the
-	 * @param identifier from the Map items
-	 * @return the removed CartCartItem
+	 * Removes an item from the shoppingCart.
+	 *
+	 * @param identifier Searches the Map {@link} items for the item with the identifier.
+	 * @return the removed CartCartItem.
 	 */
 	public Optional<CartCartItem> removeItem(String identifier) {
 
@@ -75,8 +77,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return the item with the
-	 * @param identifier
+	 * Get an item from the shoppingCart.
+	 *
+	 * @param identifier The Map {@link} items gets searched for the item with the identifier.
+	 * @return the CartCartItem.
 	 */
 	public Optional<CartCartItem> getItem(String identifier) {
 
@@ -89,7 +93,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * clears the ShoppingCart and sets the customer to null.
+	 * Clears the ShoppingCart and sets the customer to null.
 	 */
 	public void clear() {
 		customer = null;
@@ -98,7 +102,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * Checks if the ShoppingCart is empty
+	 * Checks if the ShoppingCart is empty.
 	 */
 	public boolean isEmpty() {
 		return items.isEmpty();
@@ -106,8 +110,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return the sum of the ShoppingCart
-	 * Calculates with the userDiscount
+	 * Get the sum of the shoppingCart with the userDiscount factored in.
+	 *
+	 * @return the sum of the shoppingCart.
 	 */
 	public BigDecimal getPrice() {
 		BigDecimal money = BigDecimal.valueOf(0);
@@ -124,7 +129,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return the price without calculation of discounts etc.
+	 * Get the sum of the shoppingCart without the userDiscount.
+	 *
+	 * @return the sum of the shoppingCart.
 	 */
 	public BigDecimal getBasicPrice() {
 
@@ -141,7 +148,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return the amount of items in the ShoppingCart
+	 * Get the amount of items in the shoppingCart.
 	 */
 	public int getAmountOfItems() {
 		int amount = items.size();
@@ -151,7 +158,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return a formatted customerDiscount for Frontend
+	 * @return a formatted customerDiscount String for Frontend
 	 */
 	public String getCustomerDiscountString() {
 		return getDiscount() * TO_PERCENT + "%";
@@ -159,7 +166,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 
 	/**
-	 * @return the discount if a customer is set, or 0 for a normal customer
+	 * Get the discount for the customer.
+	 * If it is not set, a 0 is returned.
+	 *
+	 * @return the customerDiscount.
 	 */
 	public double getDiscount() {
 		if (customer != null) {

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 /**
+ * A cashiersystem for the users to sell wares to the customers.
+ *
  * @author Lukas Petzold
  */
 @Controller
@@ -41,9 +43,9 @@ public class CashierSystem {
 	/**
 	 * Adds Products to ShoppingCart.
 	 *
-	 * @param product      gets added
-	 * @param amount       times into the
-	 * @param shoppingCart If no product is found an error message is returned
+	 * @param product      An entity of a product gets added to the shoppingCart.
+	 * @param amount       The number of times the product gets added.
+	 * If no product is found an error message is returned.
 	 */
 	@PostMapping("/cashiersystem")
 	String addProduct(
@@ -70,10 +72,9 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Deletes the Item with the
+	 * Deletes an item from the shoppingCart.
 	 *
-	 * @param pid          from the
-	 * @param shoppingCart
+	 * @param pid  The product with the String pid gets deleted.
 	 */
 	@PostMapping("/deleteCartItem")
 	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
@@ -85,11 +86,12 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Calculates the change with the given
+	 * Calculates the change with the money from the customer and the sum of the shoppingCart.
 	 *
-	 * @param changeInput  and the sum of the
-	 * @param shoppingCart returns an error message if no changeInput is entered or
-	 *                     if it is lower than the sum of the shoppingCart
+	 * @param changeInput  The amount of money given by the customer.
+	 * @param shoppingCart To calculate the change, the sum of the shoppingCart ist needed.
+	 * returns an error message if no changeInput is entered or
+	 *                     if it is lower than the sum of the shoppingCart.
 	 */
 	@PostMapping("/cashiersystemCalcChange")
 	String calcChange(
@@ -116,11 +118,11 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Tries finding the user with the
+	 * Adding a user to the shoppingCart so the Discount can be calculated into the sum.
 	 *
-	 * @param userId
-	 * @param model  returns an error message when no user is found.
-	 *               if 0 is entered the discount will be 0% for a NormalCustomer
+	 * @param userId  The user with the userId gets added.
+	 * returns an error message when no user is found.
+	 * if 0 is entered the discount will be 0% for a NormalCustomer.
 	 */
 	@PostMapping("/cashiersystemUser")
 	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -137,9 +139,9 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Finish the sale and clears the shoppingCart
+	 * Finish the sale and clears the shoppingCart.
 	 *
-	 * @param shoppingCart gets cleared and user set to null
+	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -149,9 +151,9 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Aborts the sale and clears the shoppingCart
+	 * Aborts the sale and clears the shoppingCart.
 	 *
-	 * @param shoppingCart gets cleared and user set to null
+	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemAbort")
 	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
