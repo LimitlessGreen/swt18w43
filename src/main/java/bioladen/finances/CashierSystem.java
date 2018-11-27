@@ -31,8 +31,6 @@ public class CashierSystem {
 		return new ShoppingCart();
 	}
 
-    // TODO Bitte nicht vergessen, für neues frontend in cashiersystem_new ändern
-
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/cashiersystem")
 	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
