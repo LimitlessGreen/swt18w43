@@ -87,7 +87,7 @@
                     <div class="header-top-menu">
                         <ul class="nav navbar-nav notika-top-nav">
                             <li sec:authorize="isAuthenticated()">
-                                <a>
+                                <a th:href="@{/profil}">
                                     <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-user-circle"></i><x th:text="${' '+#authentication?.name}"></x></button>
                                 </a>
 

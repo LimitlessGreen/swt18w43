@@ -78,33 +78,40 @@ public class CustomerController implements ApplicationEventPublisherAware {
 
 		if (firstname.equals("")) {
 			model.addAttribute("errorFirstName", true);
-			model.addAttribute("errorFirstNameMsg", "Bitte Vornamen angeben");
-			return "register";
+			model.addAttribute("errorFirstNameMsg", "Vorname wurde nicht angegeben");
+			return "redirect:/customerlist";
 		} else {
 			safeFirstName = firstname;
 		}
 
 		if (lastname.equals("")) {
 			model.addAttribute("errorLastName", true);
-			model.addAttribute("errorLastNameMsg", "Bitte Nachnamen angeben");
-			return "register";
+			model.addAttribute("errorLastNameMsg", "Nachname wurde nicht angegeben");
+			return "redirect:/customerlist";
 		} else {
 			safeLastName = lastname;
 		}
 
-		if (!customerRepository.findAll().isEmpty()) {
-			for (Customer customer : customerRepository.findAll()) {
-				if (!customer.getEmail().equals(email)) {
-					safeEmail = email;
-				} else {
-					model.addAttribute("errorEmail", true);
-					model.addAttribute("errorEmailMsg", "Diese Email ist bereits vorhanden");
-					return "register";
-				}
-			}
+		if (email.isEmpty()) {
+			model.addAttribute("errorEmail", true);
+			model.addAttribute("errorEmailMsg", "E-Mail wurde nicht angegeben");
+			return "redirect:/customerlist";
 		} else {
-			safeEmail = email;
+			if (!customerRepository.findAll().isEmpty()) {
+				for (Customer customer : customerRepository.findAll()) {
+					if (!customer.getEmail().equals(email)) {
+						safeEmail = email;
+					} else {
+						model.addAttribute("errorEmail", true);
+						model.addAttribute("errorEmailMsg", "E-Mail ist bereits in der Datenbank registriert");
+						return "redirect:/customerlist";
+					}
+				}
+			} else {
+				safeEmail = email;
+			}
 		}
+
 
 		Customer customer = new Customer(safeFirstName, safeLastName, safeEmail, customerSex, customerType);
 
@@ -133,7 +140,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		return "customerlist";
 	}
 
-	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
 		Customer customer = customerRepository.findById(id).get();
