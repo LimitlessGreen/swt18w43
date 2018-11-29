@@ -47,8 +47,8 @@ public class UserAccController {
 			model.addAttribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt.");
 
 		} else if (checkEqual(newPassword,newPasswordAgain)){
-			if (checkEqual(oldPassword, authenticationManager.getCurrentUser().get().getPassword().toString())) {
-				if (!checkEqual(newPassword, oldPassword)){
+			if (authenticationManager.matches(Password.unencrypted(oldPassword),authenticationManager.getCurrentUser().get().getPassword())) {
+				if (checkEqual(newPassword, oldPassword)){
 					model.addAttribute("errorPassword", true);
 					model.addAttribute("errorPasswordMsg", "Neues Passwort stimmt mit dem alten überein.");
 
