@@ -77,15 +77,24 @@
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                             <div class="basic-tb-hd">
                                 <h2>Personen verwalten</h2>
-                                <!--
-                                <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${errorFirstName}">
-                                    <strong>Achtung!</strong><x>Es ist ein Fehler beim Hinzufügen der Person in die Datenbank aufgetreten.</x> <p th:text="${errorFirstNameMsg}"> x</p>
-
-                                    <button type="button" class="close" data-dismiss="alert"> <span aria-hidden="true">&times;</span></button>
-                                </div>-->
+                                <div class="alert alert-danger alert-dismissible alert-mg-b-0" role="alert" th:if="${errorRegister}">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">
+                                            <i class="far fa-times-circle"></i>
+                                        </span></button>
+                                    <strong>Achtung! </strong> Es ist ein Fehler beim Erstellen der Person aufgetreten. Ursache : <x th:text="${errorRegisterMsg}"></x>
+                                </div>
+                                <div class="alert alert-success alert-dismissible alert-mg-b-0" role="alert" th:if="${successRegister}">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">
+                                            <i class="far fa-times-circle"></i>
+                                        </span></button>
+                                    <strong>Hinweis: </strong> Person wurde erfolgreich erstellt.
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
                             <button type="button" class="btn btn-info notika-btn-green" data-toggle="modal" data-target="#addUserModal"
                                     style="float: right">Person hinzufügen
                             </button>

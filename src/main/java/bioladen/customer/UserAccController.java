@@ -35,7 +35,7 @@ public class UserAccController {
 		return "profil";
 	}
 
-
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@PostMapping("/profil")
 	public String changePassword(@RequestParam("oldPassword") String oldPassword,
 								 @RequestParam("newPassword") String newPassword,
@@ -47,7 +47,8 @@ public class UserAccController {
 			model.addAttribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt.");
 
 		} else if (checkEqual(newPassword,newPasswordAgain)){
-			if (authenticationManager.matches(Password.unencrypted(oldPassword),authenticationManager.getCurrentUser().get().getPassword())) {
+			if (authenticationManager.matches(Password.unencrypted(oldPassword),
+					authenticationManager.getCurrentUser().get().getPassword())) {
 				if (checkEqual(newPassword, oldPassword)){
 					model.addAttribute("errorPassword", true);
 					model.addAttribute("errorPasswordMsg", "Neues Passwort stimmt mit dem alten überein.");

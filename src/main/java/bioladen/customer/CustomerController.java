@@ -76,35 +76,35 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		String safeLastName;
 		String safeEmail = "";
 
-		if (firstname.equals("")) {
-			model.addAttribute("errorFirstName", true);
-			model.addAttribute("errorFirstNameMsg", "Vorname wurde nicht angegeben");
-			return "redirect:/customerlist";
+		if (firstname.isEmpty()) {
+			model.addAttribute("errorRegister", true);
+			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
+			return "customerlist";
 		} else {
 			safeFirstName = firstname;
 		}
 
-		if (lastname.equals("")) {
-			model.addAttribute("errorLastName", true);
-			model.addAttribute("errorLastNameMsg", "Nachname wurde nicht angegeben");
-			return "redirect:/customerlist";
+		if (lastname.isEmpty()) {
+			model.addAttribute("errorRegister", true);
+			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
+			return "customerlist";
 		} else {
 			safeLastName = lastname;
 		}
 
 		if (email.isEmpty()) {
-			model.addAttribute("errorEmail", true);
-			model.addAttribute("errorEmailMsg", "E-Mail wurde nicht angegeben");
-			return "redirect:/customerlist";
+			model.addAttribute("errorRegister", true);
+			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
+			return "customerlist";
 		} else {
 			if (!customerRepository.findAll().isEmpty()) {
 				for (Customer customer : customerRepository.findAll()) {
 					if (!customer.getEmail().equals(email)) {
 						safeEmail = email;
 					} else {
-						model.addAttribute("errorEmail", true);
-						model.addAttribute("errorEmailMsg", "E-Mail ist bereits in der Datenbank registriert");
-						return "redirect:/customerlist";
+						model.addAttribute("errorRegister", true);
+						model.addAttribute("errorRegisterMsg", "E-Mail ist bereits im System registriert");
+						return "customerlist";
 					}
 				}
 			} else {
@@ -126,7 +126,8 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		// (👁 ᴥ 👁) Event
 		publishEvent(customer, EntityLevel.CREATED);
 
-		return "redirect:/customerlist";
+		model.addAttribute("successRegister", true);
+		return "customerlist";
 	}
 
 	/*Function for customerlist.html*/

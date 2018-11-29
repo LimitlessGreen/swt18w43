@@ -22,18 +22,10 @@
             <form method="post" th:action="@{/register}">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorFirstName}">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Achtung!</strong> <a th:text="${errorFirstNameMsg}"></a>
-                        </div>
                         <label for="inputFirstName">Vorname*</label>
                         <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Vorname">
                     </div>
                     <div class="form-group col-md-6">
-                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorLastName}">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Achtung!</strong> <a th:text="${errorLastNameMsg}"></a>
-                        </div>
                         <label for="inputName">Nachname*</label>
                         <input type="text" class="form-control" id="inputName" name="lastname" placeholder="Nachname">
                     </div>
@@ -44,10 +36,6 @@
                         <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Telefonnummer">
                     </div>
                     <div class="form-group col-md-6">
-                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorEmail}">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            <strong>Achtung!</strong> <a th:text="${errorEmailMsg}"></a>
-                        </div>
                         <label for="inputEmail">E-Mail*</label>
                         <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email">
                     </div>
