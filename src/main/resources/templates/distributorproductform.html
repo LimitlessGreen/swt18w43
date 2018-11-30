@@ -63,7 +63,15 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
+                    <label for="inputMwStCategory">MwSt.-Typ</label>
+                    <select id="inputMwStCategory" class="form-control" name="mwStCategory">
+                        <option th:each="mwStCategory : ${mwStCategories}"
+                                th:value="${mwStCategory}"
+                                th:text="${mwStCategory.getLongName()}">X</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
                     <label for="inputPfandPrice">Pfandpreis*</label>
                     <input type="text" class="form-control" id="inputPfandPrice" name="pfandPrice" placeholder="Pfandpreis">
                 </div>

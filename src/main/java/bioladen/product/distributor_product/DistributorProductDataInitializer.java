@@ -1,5 +1,6 @@
 package bioladen.product.distributor_product;
 
+import bioladen.product.MwStCategory;
 import bioladen.product.ProductCategory;
 import bioladen.product.distributor.DistributorRepository;
 import org.salespointframework.core.DataInitializer;
@@ -28,6 +29,7 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						BigDecimal.valueOf(5), // KG
 						10,
 						ProductCategory.FOOD_FRUIT_VEG,
+						MwStCategory.REDUCED,
 						null
 				)
 		);
@@ -40,6 +42,7 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						BigDecimal.valueOf(5), // KG
 						15,
 						ProductCategory.FOOD_FRUIT_VEG,
+						MwStCategory.REDUCED,
 						null
 				)
 		);
@@ -52,6 +55,7 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						BigDecimal.valueOf(1), // L
 						6,
 						ProductCategory.FOOD_DAIRY,
+						MwStCategory.REDUCED,
 						BigDecimal.valueOf(0.50)
 				)
 		);

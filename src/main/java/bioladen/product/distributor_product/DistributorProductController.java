@@ -2,6 +2,7 @@ package bioladen.product.distributor_product;
 
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
+import bioladen.product.MwStCategory;
 import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
@@ -40,6 +41,7 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 		model.addAttribute("distributorProductList", distributorProductList);
 		model.addAttribute("distributorList", distributorList);
 		model.addAttribute("productCategories", ProductCategory.values());
+		model.addAttribute("mwStCategories", MwStCategory.values());
 
 		return "distributorproductlist";
 	}
@@ -49,6 +51,7 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 		List<Distributor> distributorList = distributorRepository.findAll();
 		model.addAttribute("distributorList", distributorList);
 		model.addAttribute("productCategories", ProductCategory.values());
+		model.addAttribute("mwStCategories", MwStCategory.values());
 
 		return "distributorproductform";
 	}
@@ -60,6 +63,7 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 						  @RequestParam("unit")               String          unitString,
 						  @RequestParam("minimumOrderAmount") long            minimumOrderAmount,
 						  @RequestParam("productCategory")    ProductCategory productCategory,
+						  @RequestParam("mwStCategory")       MwStCategory    mwStCategory,
 						  @RequestParam("pfandPrice")         String          pfandPriceString) {
 
 		BigDecimal price      = new BigDecimal(priceString);
@@ -74,6 +78,7 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 				                                                       unit,
 				                                                       minimumOrderAmount,
 				                                                       productCategory,
+				                                                       mwStCategory,
 				                                                       pfandPrice);
 		distributorProductCatalog.save(distributorProduct);
 
