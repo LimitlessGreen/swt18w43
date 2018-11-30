@@ -31,7 +31,7 @@ public class OrderController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	@GetMapping("/orders")
+	@GetMapping("/order")
 	public String orders(Model model,
 						 @ModelAttribute("cart") OrderCart cart,
 						 @RequestParam(value = "name", defaultValue = "") String name,
@@ -77,7 +77,7 @@ public class OrderController {
 								@LoggedIn Optional<UserAccount> userAccount) {
 
 		if (cart.isEmpty()) {
-			return "redirect:/orders";
+			return "redirect:/order";
 		}
 
 
@@ -109,16 +109,16 @@ public class OrderController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	@GetMapping("/orders/remove")
+	@GetMapping("/order/remove")
 	public String removeOrder(Model model, @RequestParam("id") String id, @ModelAttribute("cart") OrderCart cart) {
 
 		cart.removeItem(id);
 
-		return "redirect:/orders";
+		return "redirect:/order";
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	@GetMapping("/orders/add")
+	@GetMapping("/order/add")
 	public String addItem(Model model,
 						  @ModelAttribute("cart") OrderCart cart,
 						  @RequestParam("id") Long id,
@@ -129,13 +129,18 @@ public class OrderController {
 			cart.addOrUpdateItem(product.get(), integer);
 		}
 
-		return "redirect:/orders";
+		return "redirect:/order";
 	}
+
+	//@PreAuthorize("hasRole('ROLE_MANAGER')")
+	//@GetMapping("/orderoverview")
 
 
 	@ModelAttribute("cart")
 	OrderCart initializeCart() {
 		return new OrderCart();
 	}
+
+
 
 }

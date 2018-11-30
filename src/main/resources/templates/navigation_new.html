@@ -142,7 +142,11 @@
                                     </ul>
                                 </li>
                                 <li><a th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Kasse</a></li>
-                                <li><a th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Bestellung</a>
+                                <li><a data-toggle="collapse" data-target="#m_orders" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER')">Bestellung</a>
+                                    <ul id="m_orders" class="collapse dropdown-header-top" sec:authorize="hasAnyRole('ROLE_MANAGER')">
+                                        <li><a th:href="@{/orders}">Bestellübersicht</a></li>
+                                        <li><a th:href="@{/order}">Bestellen</a></li>
+                                    </ul>
                                 </li>
                                 <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Statistik</a>
                                 </li>
@@ -173,7 +177,7 @@
                             Personenverwaltung</a>
                         </li>
                         <li><a th:href="@{/cashiersystem}" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')"><i class="fas fa-hand-holding-usd"></i>Kasse</a></li>
-                        <li><a th:href="@{/orders}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="fas fa-box"></i>Bestellung</a>
+                        <li><a data-toggle="tab" href="#ordermanagement" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="fas fa-box"></i>Bestellung</a>
                         </li>
                         <li><a th:href="@{/statistic}" sec:authorize="hasAnyRole('ROLE_MANAGER')"><i class="fas fa-chart-line"></i>Statistik</a>
                         </li>
@@ -202,6 +206,12 @@
                         </li>
                         <li><a th:href="@{/distributorlist}">Großhändler verwalten</a>
                         </li>
+                    </ul>
+                </div>
+                <div class="tab-pane notika-tab-menu-bg animated fadeIn" id="ordermanagement" sec:authorize="hasAnyRole('ROLE_MANAGER')">
+                    <ul class="notika-main-menu-dropdown border-round-bottom">
+                        <li><a th:href="@{/orders}">Bestellübersicht</a></li>
+                        <li><a th:href="@{/order}">Bestellen</a></li>
                     </ul>
                 </div>
             </div>
