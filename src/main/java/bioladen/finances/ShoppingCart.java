@@ -24,6 +24,8 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	private final static int TO_PERCENT = 100;
 
 	private @Getter	final Map<InventoryProduct, CartCartItem> items = new LinkedHashMap<>();
+	private @Getter final Map<BigDecimal, Long> pfand = new LinkedHashMap<>();
+
 	private @Getter @Setter Customer customer = null;
 
 
@@ -119,9 +121,11 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
 			money = money.add(e.getValue().getPrice());
+			money = money.add(e.getKey().getPfandPrice().multiply(BigDecimal.valueOf(e.getValue().getQuantity())));
 		}
 
 		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));
+		money = money.add(getPfandMoney());
 		money = money.setScale(SCALE);
 
 		return money;
@@ -179,6 +183,52 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		}
 	}
 
+	/**
+	 * Adds an entry to the {@link} pfand with the pfandPrice of the product and the amount.
+	 *
+	 * @param price  Searches the map {@link} pfand.
+	 *               If it finds a key equal to the price, the amount is added to the existing value.
+	 * @param amount Gets added to the key, if a key is equal to price.
+	 *               If no key equal to price is found, a new entry is added.
+	 * @return The new value of the entry is returned.
+	 */
+	public Long addOrUpdatePfand(BigDecimal price, Long amount) {
+
+		Assert.notNull(price, "InventoryProduct must not be null!");
+		Assert.notNull(amount, "Quantity must not be null!");
+
+		Map<BigDecimal, Long> pfandCopy = new LinkedHashMap<>(pfand);
+
+		for (Map.Entry<BigDecimal, Long> e : pfandCopy.entrySet()) {
+			if (e.getKey().equals(price)) {
+				pfand.put(e.getKey(), pfand.get(e.getKey()) + amount);
+
+				return pfand.get(price);
+			}
+		}
+		pfand.put(price, amount);
+
+		return pfand.get(price);
+	}
+
+	/**
+	 * Get the sum of the pfand map.
+	 *
+	 * @return the sum.
+	 */
+	public BigDecimal getPfandMoney() {
+
+		BigDecimal money = BigDecimal.valueOf(0);
+
+		for (Map.Entry<BigDecimal, Long> e : pfand.entrySet()) {
+			money = money.add(e.getKey().multiply(BigDecimal.valueOf(e.getValue())));
+		}
+
+		money = money.setScale(SCALE);
+		money = money.negate();
+
+		return money;
+	}
 
 	@Override
 	public Iterator iterator() {

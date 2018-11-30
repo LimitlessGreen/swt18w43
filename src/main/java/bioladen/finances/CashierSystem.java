@@ -53,6 +53,7 @@ public class CashierSystem {
 			@RequestParam("amount") Long amount,
 			@ModelAttribute ShoppingCart shoppingCart,
 			Model model) {
+
 		try {
 			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() > amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
@@ -136,6 +137,21 @@ public class CashierSystem {
 
 			return "cashiersystem";
 		}
+	}
+
+	@PostMapping("/cashiersystemPfand")
+	String addPfand(@RequestParam("pid") Long product,
+					@RequestParam("amount") Long amount,
+					@ModelAttribute ShoppingCart shoppingCart,
+					Model model){
+		try {
+			shoppingCart.addOrUpdatePfand(inventoryProductCatalog.findById(product).get().getPfandPrice(), amount);
+		} catch (Exception e) {
+			model.addAttribute("errorPfand", true);
+			model.addAttribute("errorPfandMsg", "Es wurde kein Produkt gefunden");
+		}
+
+		return "cashiersystem";
 	}
 
 	/**
