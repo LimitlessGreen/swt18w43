@@ -7,49 +7,60 @@ import bioladen.product.InventoryProductCatalog;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
+import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
 @SessionAttributes("cart")
+@RequiredArgsConstructor
 public class OrderController {
 
+	private final DistributorOrderRepository orderRepository;
 	private final DistributorProductCatalog distributorProductCatalog;
+	private final OrderItemRepository itemRepository;
 
-	public OrderController(DistributorProductCatalog distributorProductCatalog) {
-		this.distributorProductCatalog = distributorProductCatalog;
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@GetMapping("/orders")
+	public String orders(Model model) {
+
+		model.addAttribute("orders", orderRepository.findAll());
+
+		return "orderoverview";
 	}
+
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/order")
-	public String orders(Model model,
-						 @ModelAttribute("cart") OrderCart cart,
-						 @RequestParam(value = "name", defaultValue = "") String name,
-						 @RequestParam(value = "amount", defaultValue = "1") Integer amount) {
+	public String order(Model model,
+						@ModelAttribute("cart") OrderCart cart,
+						@RequestParam(value = "name", defaultValue = "") String name,
+						@RequestParam(value = "amount", defaultValue = "1") Integer amount) {
 		Iterable<DistributorProduct> distributorProducts = new ArrayList<>();
 		List<DistributorProduct> filtered = new ArrayList<>();
 
 
 		if (name.length() > 0) {
-			System.out.println("Filtering for " + name + " with amount " + amount);
 			((ArrayList<DistributorProduct>) distributorProducts).addAll(distributorProductCatalog.findAll());
 
 			((ArrayList<DistributorProduct>) distributorProducts).removeIf(distributorProduct -> {
-				System.out.println(distributorProduct.getDistributorProductIdentifier());
 				if (!distributorProduct.getName().contains(name)) {
 					return true;
 				}
-				if (distributorProduct.getMinimumOrderAmount() * distributorProduct.getUnit().doubleValue() > amount) {
+				if (distributorProduct.getMinimumOrderAmount() > amount) {
 					filtered.add(distributorProduct);
 					return true;
 				}
@@ -95,9 +106,10 @@ public class OrderController {
 			}
 
 			for (Distributor distributor : distributorSetMap.keySet()) {
-				/*Order order = new Order(account, distributor);
-				order.addItems(cart);
-				orderRepository.save(order);*/
+				DistributorOrder order = new DistributorOrder(account, distributor);
+				order.addItems(cart, itemRepository);
+				orderRepository.save(order);
+
 			}
 
 			model.addAttribute("totalprice", String.format("%.2f", total));
@@ -107,6 +119,7 @@ public class OrderController {
 			return "orderfinished";
 		}).orElse("redirect:/login");
 	}
+
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/order/remove")
@@ -132,15 +145,10 @@ public class OrderController {
 		return "redirect:/order";
 	}
 
-	//@PreAuthorize("hasRole('ROLE_MANAGER')")
-	//@GetMapping("/orderoverview")
-
-
 	@ModelAttribute("cart")
 	OrderCart initializeCart() {
 		return new OrderCart();
 	}
-
 
 
 }

@@ -82,10 +82,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr th:each="order : ${orders}">
                                 <td></td>
-                                <td></td>
-                                <td></td>
+                                <td th:text="${order.getDistributor().getName()}"></td>
+                                <td th:text="${order.getItems().size()}"></td>
                                 <td></td>
                                 <td></td>
                             </tr>

@@ -131,7 +131,7 @@
                             <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td>?</td>
                             <td style="padding: 9px;">
-                                <a th:href="'/order?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() * product.getUnit() , 1, 0)}">
+                                <a th:href="'/order?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() , 1, 0)}">
                                         <span class="label label-danger">Mindestbestellmenge: <span
                                                 th:text="${product.getMinimumOrderAmount()}"></span> </span>
                                 </a>
