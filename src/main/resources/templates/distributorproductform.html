@@ -52,7 +52,22 @@
                     <input type="text" class="form-control" id="inputMinimumOrderAmount" name="minimumOrderAmount" placeholder="Mindestbestellanzahl">
                 </div>
             </div>
-
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputProductCategory">Produktkategories*</label>
+                    <select id="inputProductCategory" class="form-control" name="productCategory">
+                        <option th:each="productCategory : ${productCategories}"
+                                th:value="${productCategory}"
+                                th:text="${productCategory.getDescriptionDe()}">Kategorie</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputPfandPrice">Pfandpreis*</label>
+                    <input type="text" class="form-control" id="inputPfandPrice" name="pfandPrice" placeholder="Pfandpreis">
+                </div>
+            </div>
             <button type="submit" class="btn btn-success">Großhändlerprodukt erstellen</button>
         </form>
         <br>

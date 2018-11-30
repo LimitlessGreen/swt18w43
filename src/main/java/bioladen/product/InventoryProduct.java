@@ -29,11 +29,13 @@ public class InventoryProduct {
 	@Column(name = "inventoryProductIdentifier", updatable = false, nullable = false)
 	private @Getter Long productIdentifier;
 
-	private @NonNull @Getter @Setter String      name;
-	private @NonNull @Getter @Setter BigDecimal  price;
-	private @NonNull @Getter @Setter BigDecimal  unit;
-	private          @Getter @Setter long        inventoryAmount;
-	private          @Getter @Setter long        displayedAmount;
+	private @NonNull @Getter @Setter String          name;
+	private @NonNull @Getter @Setter BigDecimal      price;
+	private @NonNull @Getter @Setter BigDecimal      unit;
+	private          @Getter @Setter long            inventoryAmount;
+	private          @Getter @Setter long            displayedAmount;
+	private @NonNull @Getter @Setter ProductCategory productCategory;
+	private          @Getter @Setter BigDecimal      pfandPrice;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
@@ -51,6 +53,9 @@ public class InventoryProduct {
 
 		this.inventoryAmount = 0;
 		this.displayedAmount = 0;
+
+		this.productCategory = distributorProduct.getProductCategory();
+		this.pfandPrice = distributorProduct.getPfandPrice();
 	}
 
 	/**

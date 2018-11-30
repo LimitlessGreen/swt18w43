@@ -1,5 +1,6 @@
 package bioladen.product.distributor_product;
 
+import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,25 +26,31 @@ public class DistributorProduct {
 	@Column(name = "id", updatable = false, nullable = false)
 	private @Getter Long distributorProductIdentifier;
 
-	private @NonNull @Getter @Setter String      name;
-	private @NonNull @Getter @Setter BigDecimal  price;
-	private @NonNull @Getter @Setter BigDecimal  unit;
-	private          @Getter @Setter long        minimumOrderAmount;
+	private @NonNull @Getter @Setter String          name;
+	private @NonNull @Getter @Setter BigDecimal      price;
+	private @NonNull @Getter @Setter BigDecimal      unit;
+	private @NonNull @Getter @Setter long            minimumOrderAmount;
+	private @NonNull @Getter @Setter ProductCategory productCategory;
+	private          @Getter @Setter BigDecimal      pfandPrice;
 
 	@OneToOne
 	private @NonNull @Getter @Setter Distributor distributor;
 
 	public DistributorProduct(
-			String name,
-			Distributor distributor,
-			BigDecimal price,
-			BigDecimal unit,
-			long minimumOrderAmount) {
-		this.name = name;
-		this.distributor = distributor;
-		this.price = price;
-		this.unit = unit;
+			String          name,
+			Distributor     distributor,
+			BigDecimal      price,
+			BigDecimal      unit,
+			long            minimumOrderAmount,
+			ProductCategory productCategory,
+			BigDecimal      pfandPrice) {
+		this.name               = name;
+		this.distributor        = distributor;
+		this.price              = price;
+		this.unit               = unit;
 		this.minimumOrderAmount = minimumOrderAmount;
+		this.productCategory    = productCategory;
+		this.pfandPrice         = pfandPrice;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package bioladen.product.distributor_product;
 
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
+import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
 import org.springframework.context.ApplicationEventPublisher;
@@ -38,6 +39,7 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 
 		model.addAttribute("distributorProductList", distributorProductList);
 		model.addAttribute("distributorList", distributorList);
+		model.addAttribute("productCategories", ProductCategory.values());
 
 		return "distributorproductlist";
 	}
@@ -46,26 +48,33 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 	String distributorForm(Model model) {
 		List<Distributor> distributorList = distributorRepository.findAll();
 		model.addAttribute("distributorList", distributorList);
+		model.addAttribute("productCategories", ProductCategory.values());
 
 		return "distributorproductform";
 	}
 
 	@PostMapping("/addDistributorProduct")
-	String addDistributor(@RequestParam("name")	              String name,
-						  @RequestParam("distributor")        Long   distributorId,
-						  @RequestParam("price")              String priceString,
-						  @RequestParam("unit")               String unitString,
-						  @RequestParam("minimumOrderAmount") long   minimumOrderAmount) {
+	String addDistributor(@RequestParam("name")	              String          name,
+						  @RequestParam("distributor")        Long            distributorId,
+						  @RequestParam("price")              String          priceString,
+						  @RequestParam("unit")               String          unitString,
+						  @RequestParam("minimumOrderAmount") long            minimumOrderAmount,
+						  @RequestParam("productCategory")    ProductCategory productCategory,
+						  @RequestParam("pfandPrice")         String          pfandPriceString) {
 
-		BigDecimal price = new BigDecimal(priceString);
-		BigDecimal unit = new BigDecimal(unitString);
+		BigDecimal price      = new BigDecimal(priceString);
+		BigDecimal unit       = new BigDecimal(unitString);
+		BigDecimal pfandPrice = new BigDecimal(pfandPriceString);
+
 		Distributor distributor = distributorRepository.findById(distributorId).get();
 
 		DistributorProduct distributorProduct = new DistributorProduct(name,
 				                                                       distributor,
 				                                                       price,
 				                                                       unit,
-				                                                       minimumOrderAmount);
+				                                                       minimumOrderAmount,
+				                                                       productCategory,
+				                                                       pfandPrice);
 		distributorProductCatalog.save(distributorProduct);
 
 		// (👁 ᴥ 👁) Event
