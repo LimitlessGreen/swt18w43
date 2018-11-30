@@ -23,11 +23,13 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	}
 
 	/*Functions for register.html*/
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/register")
 	public String register() {
 		return "register";
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@PostMapping("/register")
 	public String registerNew(@RequestParam("firstname") String firstname,
 							  @RequestParam("lastname")  String lastname,
@@ -79,7 +81,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		if (firstname.isEmpty()) {
 			model.addAttribute("errorRegister", true);
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
-			return "customerlist";
+			return "register";
 		} else {
 			safeFirstName = firstname;
 		}
@@ -87,7 +89,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		if (lastname.isEmpty()) {
 			model.addAttribute("errorRegister", true);
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
-			return "customerlist";
+			return "register";
 		} else {
 			safeLastName = lastname;
 		}
@@ -95,7 +97,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		if (email.isEmpty()) {
 			model.addAttribute("errorRegister", true);
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
-			return "customerlist";
+			return "register";
 		} else {
 			if (!customerRepository.findAll().isEmpty()) {
 				for (Customer customer : customerRepository.findAll()) {
@@ -104,7 +106,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 					} else {
 						model.addAttribute("errorRegister", true);
 						model.addAttribute("errorRegisterMsg", "E-Mail ist bereits im System registriert");
-						return "customerlist";
+						return "register";
 					}
 				}
 			} else {
@@ -127,7 +129,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		publishEvent(customer, EntityLevel.CREATED);
 
 		model.addAttribute("successRegister", true);
-		return "customerlist";
+		return "register";
 	}
 
 	/*Function for customerlist.html*/

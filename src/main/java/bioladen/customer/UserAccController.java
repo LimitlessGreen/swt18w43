@@ -42,6 +42,8 @@ public class UserAccController {
 								 @RequestParam("newPasswordAgain") String newPasswordAgain,
 								 Model model) {
 
+
+
 		if(oldPassword.isEmpty()||newPassword.isEmpty()||newPasswordAgain.isEmpty()) {
 			model.addAttribute("errorPassword", true);
 			model.addAttribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt.");
@@ -73,4 +75,20 @@ public class UserAccController {
 		return firstPassword.equals(secondPassword);
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@GetMapping("/customerlist/resetPassword")
+	String resetPassword(@RequestParam String email, Model model) {
+
+		if (authenticationManager.matches(Password.unencrypted("blattgrün43"),
+				userAccountManager.findByUsername(email).get().getPassword())){
+			model.addAttribute("errorPasswordReset", true);
+			model.addAttribute("errorPasswordResetMsg", "Passwort ist bereits das Standardpassword");
+
+		} else {
+			userAccountManager.changePassword(authenticationManager.getCurrentUser().get(), "blattgrün43");
+			model.addAttribute("successPasswordReset", true);
+		}
+
+		return "redirect:/customerlist";
+	}
 }

@@ -77,29 +77,36 @@
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                             <div class="basic-tb-hd">
                                 <h2>Personen verwalten</h2>
-                                <div class="alert alert-danger alert-dismissible alert-mg-b-0" role="alert" th:if="${errorRegister}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                            </div>
+                            <div class="alert alert-danger alert-dismissible alert-mg-b-0" role="alert" th:if="${errorPasswordReset}">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">
                                             <i class="far fa-times-circle"></i>
                                         </span></button>
-                                    <strong>Achtung! </strong> Es ist ein Fehler beim Erstellen der Person aufgetreten. Ursache : <x th:text="${errorRegisterMsg}"></x>
-                                </div>
-                                <div class="alert alert-success alert-dismissible alert-mg-b-0" role="alert" th:if="${successRegister}">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <strong>Achtung! </strong> <x th:text="${errorPasswordResetMsg}"></x>
+                            </div>
+                            <div class="alert alert-success alert-dismissible alert-mg-b-0" role="alert" th:if="${successRegisterReset}">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">
                                             <i class="far fa-times-circle"></i>
                                         </span></button>
-                                    <strong>Hinweis: </strong> Person wurde erfolgreich erstellt.
-                                </div>
+                                <strong>Hinweis: </strong> Passwort wurde erfolgreich auf das Standardpasswort <i>blattgrün43</i> zurückgesetzt
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <a th:href="@{/register}">
+                                <button type="button" class="btn btn-info notika-btn-green"
+                                        style="float: right">Person hinzufügen
+                                </button>
+                            </a>
 
+                            <!--
                             <button type="button" class="btn btn-info notika-btn-green" data-toggle="modal" data-target="#addUserModal"
                                     style="float: right">Person hinzufügen
                             </button>
 
-                            <!-- dialog: add user Start -->
+                            // dialog: add user Start //
                             <div class="modal fade" id="addUserModal" role="dialog">
                                 <div class="modal-dialog modal-large">
                                     <div class="modal-content">
@@ -116,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- dialog: add user End -->
+                            // dialog: add user End -->
                         </div>
                     </div>
 
@@ -153,13 +160,21 @@
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
                                                 <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
-                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Löschen">
                                                         <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{/customerlist/resetPassword(email = ${customer.getEmail()})}">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Password zurücksetzen">
+                                                        <i class="fas fa-key"></i>
                                                     </button>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
+                                    
                                 </td>
                             </tr>
                             </tbody>
