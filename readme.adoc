@@ -15,7 +15,7 @@ link:./src/main/asciidoc/models/analysis/readme.adoc[Analysemodelle]
 
 == Designdiagramme
 
-link:./serc/main/asciidoc/models/design/readme.adoc[Designdiagramme]
+link:./src/main/asciidoc/models/design/readme.adoc[Designdiagramme]
 
 == Pflichtenheft
 
