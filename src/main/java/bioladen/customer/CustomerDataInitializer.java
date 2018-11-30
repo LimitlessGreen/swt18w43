@@ -31,7 +31,7 @@ public class CustomerDataInitializer implements DataInitializer {
 		userAccountManager.save(managerAccount);
 
 		Customer staff = new Customer("Berta", "Bunt", "bertabunt@bio.de", Customer.Sex.FEMALE, CustomerType.STAFF);
-		staff.setStreet("Bergstarße 69, 57612 Busenhausen");
+		staff.setStreet("Bergstraße 69, 57612 Busenhausen");
 		UserAccount staffAccount = userAccountManager.create("bertabunt@bio.de", "blattgrün43", Role.of("ROLE_STAFF"));
 		userAccountManager.save(staffAccount);
 
