@@ -56,7 +56,7 @@
 /*----------------------------------------*/
 html, body {font-family: 'Roboto', sans-serif;font-weight:400;}
 body {
-    background: url("./img/background/background.jpg") no-repeat fixed center;
+    background: url("./img/background/background.jpg") no-repeat fixed center bottom 50px;
     background-size: cover;
 } <!--Backgroundcolor-->
 .floatleft {float:left}
