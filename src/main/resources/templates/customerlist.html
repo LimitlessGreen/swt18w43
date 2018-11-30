@@ -133,7 +133,7 @@
                                 <th>Adresse</th>
                                 <th>Telefonnummer</th>
                                 <th>Geschlecht</th>
-                                <th sec:authorize="hasAnyRole('ROLE_MANAGER')">Löschen?</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER')">Aktion</th>
                             </tr>
                             </thead>
                             <tbody th:remove="all-but-first">
@@ -147,11 +147,19 @@
                                 <td th:text="${customer.getPhone()}"> 03514343434</td>
                                 <td th:text="${customer.getSex()}">MALE</td>
                                 <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER')">
-                                    <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
-                                        <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-h"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -165,7 +173,7 @@
                                 <th>Adresse</th>
                                 <th>Telefonnummer</th>
                                 <th>Geschlecht</th>
-                                <th sec:authorize="hasAnyRole('ROLE_MANAGER')">Löschen?</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER')">Aktion</th>
                             </tr>
                             </tfoot>
                         </table>
