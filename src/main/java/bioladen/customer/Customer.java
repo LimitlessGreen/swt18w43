@@ -19,24 +19,6 @@ public class Customer {
 		VARIOUS
 	}
 
-	private static final Map<CustomerType, Double> DISCOUNTS;
-	static {
-		final double MANAGER_DISCOUNT = 0.20;
-		final double STAFF_DISCOUNT = 0.15;
-		final double MAJOR_CUSTOMER_DISCOUNT = 0.10;
-		final double HOUSE_CUSTOMER_DISCOUNT = 0.05;
-
-		Map<CustomerType, Double> tempDiscounts = new HashMap<CustomerType, Double>();
-		tempDiscounts.put(CustomerType.MANAGER, MANAGER_DISCOUNT);
-		tempDiscounts.put(CustomerType.STAFF, STAFF_DISCOUNT);
-		tempDiscounts.put(CustomerType.MAJOR_CUSTOMER, MAJOR_CUSTOMER_DISCOUNT);
-		tempDiscounts.put(CustomerType.HOUSE_CUSTOMER, HOUSE_CUSTOMER_DISCOUNT);
-		DISCOUNTS = Collections.unmodifiableMap(tempDiscounts);
-	}
-
-	public static double getDiscount(CustomerType customerType) {
-		return DISCOUNTS.getOrDefault(customerType, 0.00);
-	}
 
 	@Id
 	@Getter
@@ -66,7 +48,6 @@ public class Customer {
 	private @Getter
 	@Setter
 	CustomerType customerType;
-	//TODO: userAcc : UserAccount
 
 	Customer() {
 	}

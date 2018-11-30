@@ -109,14 +109,14 @@
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
                                                 <a th:href="@{/customerlist/delete(id = ${customer.getId()})}">
-                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Löschen">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Löschen" style="float: right">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li th:if="${customer.getCustomerType() == MANAGER}">
                                                 <a th:href="@{/customerlist/resetPassword(email = ${customer.getEmail()})}">
-                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Password zurücksetzen">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Password zurücksetzen" style="float: right">
                                                         <i class="fas fa-key"></i>
                                                     </button>
                                                 </a>

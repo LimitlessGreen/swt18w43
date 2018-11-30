@@ -177,7 +177,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	 */
 	public double getDiscount() {
 		if (customer != null) {
-			return Customer.getDiscount(customer.getCustomerType());
+			return customer.getCustomerType().getDiscount();
 		} else {
 			return 0;
 		}
