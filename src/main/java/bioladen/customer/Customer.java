@@ -13,12 +13,6 @@ import java.util.Map;
 @Table(name = "CUSTOMER")
 public class Customer {
 
-	public enum Sex {
-		MALE,
-		FEMALE,
-		VARIOUS
-	}
-
 
 	@Id
 	@Getter

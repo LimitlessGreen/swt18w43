@@ -97,11 +97,11 @@
                                 <td th:text="${customer.getId()}">1</td>
                                 <td th:text="${customer.getLastname()}">Feldfreude</td>
                                 <td th:text="${customer.getFirstname()}">Flori</td>
-                                <td th:text="${customer.getCustomerType()}">MANAGER</td>
+                                <td th:text="${customer.getCustomerType().getTypeName()}">MANAGER</td>
                                 <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
                                 <td th:text="${customer.getStreet()}">Feldweg 43</td>
                                 <td th:text="${customer.getPhone()}"> 03514343434</td>
-                                <td th:text="${customer.getSex()}">MALE</td>
+                                <td th:text="${customer.getSex().getSexName()}">MALE</td>
                                 <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER')">
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">

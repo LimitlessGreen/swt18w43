@@ -41,17 +41,17 @@ public class CustomerController implements ApplicationEventPublisherAware {
 							  Model model){
 
 		CustomerType customerType;
-		Customer.Sex customerSex;
+		Sex customerSex;
 
 		switch (sex) {
 			case "male":
-				customerSex = Customer.Sex.MALE;
+				customerSex = Sex.MALE;
 				break;
 			case "female":
-				customerSex = Customer.Sex.FEMALE;
+				customerSex = Sex.FEMALE;
 				break;
 			case "various":
-				customerSex = Customer.Sex.VARIOUS;
+				customerSex = Sex.VARIOUS;
 				break;
 			default:
 				throw new IllegalArgumentException(sex);

@@ -2,6 +2,7 @@ package bioladen.finances;
 
 import bioladen.customer.Customer;
 import bioladen.customer.CustomerType;
+import bioladen.customer.Sex;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import bioladen.product.distributor.Distributor;
@@ -37,7 +38,7 @@ class ShoppingCartTest {
 	private Customer customer = new Customer("Hans",
 									"Hanserich",
 									"Hans@gmx.de",
-									Customer.Sex.MALE,
+									Sex.MALE,
 									CustomerType.HOUSE_CUSTOMER);
 	
 	private final int one = 1;
