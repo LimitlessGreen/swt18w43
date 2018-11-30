@@ -112,6 +112,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Großhändler</th>
                                 <th>Preis</th>
                                 <th>Grundeinheit</th>
                                 <th>Mindestbestellanzahl</th>
@@ -122,6 +123,7 @@
                             <tr th:each="distributorProduct : ${distributorProductList}">
                                 <td th:text="${distributorProduct.getDistributorProductIdentifier()}">1</td>
                                 <td th:text="${distributorProduct.getName()}">REWE</td>
+                                <td th:text="${distributorProduct.getDistributor().getName()}"></td>
                                 <td th:text="${distributorProduct.getPrice()}">blattgrün@bioladen.de</td>
                                 <td th:text="${distributorProduct.getUnit()}">Frida</td>
                                 <td th:text="${distributorProduct.getMinimumOrderAmount()}">035135426236</td>
@@ -138,6 +140,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Großhändler</th>
                                 <th>Preis</th>
                                 <th>Grundeinheit</th>
                                 <th>Mindestbestellanzahl</th>
