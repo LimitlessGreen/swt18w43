@@ -143,6 +143,9 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
 			money = money.add(e.getValue().getPrice());
+			if(e.getKey().getPfandPrice() != null) {
+				money = money.add(e.getKey().getPfandPrice().multiply(BigDecimal.valueOf(e.getValue().getQuantity())));
+			}
 		}
 
 		money = money.setScale(SCALE);

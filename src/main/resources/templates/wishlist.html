@@ -38,7 +38,7 @@
                             <div class="row">
                                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                                     <div class="basic-tb-hd">
-                                        <h2>Personen verwalten</h2>
+                                        <h2>Merkzettel</h2>
                                     </div>
                                 </div>
                             </div>
@@ -50,10 +50,12 @@
 
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Code</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Kategorie</th>
                                 <th scope="col">Einzelpreis</th>
                                 <th scope="col">Menge</th>
                                 <th scope="col">Preis</th>
+                                <th scope="col">Pfand</th>
                                 <th scope="col">Bearbeiten</th>
                             </tr>
 
@@ -64,9 +66,11 @@
                             <tr th:each="item : ${shoppingCart} ">
                                 <td scope="row" th:text="${item.getInventoryProduct().getName()}">ProductName</td>
                                 <td th:text="${item.getInventoryProduct().getProductIdentifier()}">1</td>
+                                <td th:text="${item.getInventoryProduct().getProductCategory().getDescriptionDe()}">1</td>
                                 <td th:text="${item.getInventoryProduct().getPrice()}"></td>
                                 <td th:text="${item.getQuantity()}">1</td>
                                 <td th:text="${item.getPrice()}">1</td>
+                                <td th:text="${item.getInventoryProduct().getPfandPrice()}"></td>
                                 <td style="padding: 9px;">
                                     <div class="row">
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -100,10 +104,12 @@
                                 <tfoot>
                                 <tr>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Code</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Kategorie</th>
                                     <th scope="col">Einzelpreis</th>
                                     <th scope="col">Menge</th>
                                     <th scope="col">Preis</th>
+                                    <th scope="col">Pfand</th>
                                     <th scope="col">Bearbeiten</th>
                                 </tr>
                                 </tfoot>
