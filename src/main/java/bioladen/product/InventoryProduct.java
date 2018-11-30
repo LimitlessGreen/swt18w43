@@ -59,7 +59,35 @@ public class InventoryProduct {
 	}
 
 	/**
-	 * Removes amounts from the displayedAmount. Readd units with negative amount.
+	 * Adds the given amount to inventoryAmount.
+	 * Negative amount possible but not recommended.
+	 *
+	 * @param amount Amount to be added
+	 */
+	public void addInventoryAmount(long amount) {
+		this.inventoryAmount += amount;
+	}
+
+	/**
+	 * Removes – if possible – the given amount from inventoryAmount and adds it back to displayedAmount.
+	 *
+	 * @param amount Amount to be moved
+	 * @return true if successful; else false
+	 */
+	public boolean moveAmountFromInventoryToDisplay(long amount) {
+		if (this.inventoryAmount >= amount) {
+			this.inventoryAmount -= amount;
+			this.displayedAmount += amount;
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Removes – if possible – the given amount from the displayedAmount.
+	 * Negative amount possible but not recommended.
 	 *
 	 * @param amount Amount to be removed (added if < 0)
 	 * @return true if successful; else false
