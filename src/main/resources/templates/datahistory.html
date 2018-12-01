@@ -8,6 +8,7 @@
     <!--Import CSS-->
     <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
     <link rel="stylesheet" type="text/css" href="/css/info-box.css">
+
 </head>
 
 <body>
@@ -30,7 +31,7 @@
                         </div>
                     </div>
                     <th:block th:each="dataEntry : ${history}" th:switch="${dataEntry.getEntityLevel()}">
-                        <div th:case="'MODIFIED'" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()}">
+                        <div th:case="'MODIFIED'" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()} + ' info-box--hidden'">
                             <div class="info-box-entity">
                                 <div class="info-box-entity-heading">
                                     <div class="info-box-entity-heading-name">Fridas Hof</div>
@@ -62,7 +63,7 @@
                                 <div class="info-box-infos-info info-box-infos-info--message">Lorem ipsum dolor sit amet.</div>
                             </div>
                         </div>
-                        <div th:case="*" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()}">
+                        <div th:case="*" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()} + ' info-box--hidden'">
                             <div class="info-box-entity">
                                 <div class="info-box-entity-heading">
                                     <div class="info-box-entity-heading-name" th:text="${dataEntry.getEntity().getName()}">ENTITY_NAME</div>
@@ -97,6 +98,8 @@
 
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<script src="/js/info-box.js"></script>
 
 </body>
 </html>
