@@ -114,7 +114,7 @@
                                                     </button>
                                                 </a>
                                             </li>
-                                            <li th:if="${customer.getCustomerType() == MANAGER}">
+                                            <li th:if="${customer.getCustomerType().getTypeName() == 'Manager' or customer.getCustomerType().getTypeName() == 'Personal'}">
                                                 <a th:href="@{/customerlist/resetPassword(email = ${customer.getEmail()})}">
                                                     <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Password zurücksetzen" style="float: right">
                                                         <i class="fas fa-key"></i>
