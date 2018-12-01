@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.salespointframework.useraccount.AuthenticationManager;
 
 import java.util.List;
 
@@ -17,9 +18,11 @@ import java.util.List;
 public class CustomerController implements ApplicationEventPublisherAware {
 
 	private final CustomerRepository customerRepository;
+	private final AuthenticationManager authenticationManager;
 
-	CustomerController(CustomerRepository customerRepository) {
+	CustomerController(CustomerRepository customerRepository, AuthenticationManager authenticationManager) {
 		this.customerRepository = customerRepository;
+		this.authenticationManager = authenticationManager;
 	}
 
 	/*Functions for register.html*/
@@ -147,10 +150,14 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
 		Customer customer = customerRepository.findById(id).get();
-		customerRepository.deleteById(id);
+		if (!authenticationManager.getCurrentUser().get().getUsername().
+				equals(customerRepository.findById(id).get().getEmail())) {
+			customerRepository.deleteById(id);
 
-		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.DELETED);
+			// (👁 ᴥ 👁) Event
+			publishEvent(customer, EntityLevel.DELETED);
+		}
+
 
 		return "redirect:/customerlist";
 	}
