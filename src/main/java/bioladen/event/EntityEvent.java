@@ -10,21 +10,27 @@ public class EntityEvent<T> implements ResolvableTypeProvider {
 	private @Getter T entity;
 	private @Getter EntityLevel eventLevel;
 	private @Getter String message;
+	private @Getter String publisherName = "unknown";
 
 	public EntityEvent(T entity, EntityLevel eventLevel) {
-		this.entity = entity;
-		this.eventLevel = eventLevel;
-		this.message = entity.toString();
+		this(entity, eventLevel, entity.toString());
 	}
 
 	public EntityEvent(T entity, EntityLevel eventLevel, String message) {
 		this.entity = entity;
 		this.eventLevel = eventLevel;
 		this.message = message;
-	}
 
-	public String getPublisherName() {
-		return entity.getClass().toString();
+		StackTraceElement[] trace = new Exception().getStackTrace();
+
+		for (StackTraceElement aTrace : trace) {
+			if (aTrace.getClassName().contains("bioladen")
+					&& !aTrace.getClassName().equals(this.getClass().getName())) {
+
+				this.publisherName = aTrace.getClassName();
+				break;
+			}
+		}
 	}
 
 	@Override

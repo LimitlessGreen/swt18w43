@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.salespointframework.core.AbstractEntity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
@@ -46,6 +47,16 @@ public class DataEntry<T> {
 	}
 
 	public boolean hasInvolvedCustomer() { return involvedCustomer != null; }
+
+	/**
+	 * Returns a formatted String of the saveTime.
+	 *
+	 * @param format as defined by {@link java.time.format.DateTimeFormatter}
+	 * @return formatted saveTime String
+	 */
+	public String getFormattedSaveTime(String format) {
+		return this.saveTime.format(DateTimeFormatter.ofPattern(format));
+	}
 
 	/**
 	 * Returns an user readable String of DataEntry

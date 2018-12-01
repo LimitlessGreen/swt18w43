@@ -59,6 +59,10 @@ public class Customer {
 		return customerType == this.customerType;
 	}
 
+	public String getName() {
+		return this.lastname + ", " + this.firstname;
+	}
+
 	@Override
 	public String toString() {
 		return String.format(

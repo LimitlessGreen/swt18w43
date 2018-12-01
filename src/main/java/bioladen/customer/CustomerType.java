@@ -23,7 +23,7 @@ public enum CustomerType {
 	private final @Getter Double discount;
 
 	CustomerType(String typeName, Double discount){
-		this.discount = discount;
 		this.typeName = typeName;
+		this.discount = discount;
 	}
 }
