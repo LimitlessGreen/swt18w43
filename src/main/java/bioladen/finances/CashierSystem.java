@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
+import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * A cashiersystem for the users to sell wares to the customers.
@@ -55,7 +57,7 @@ public class CashierSystem {
 			Model model) {
 
 		try {
-			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() > amount) {
+			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() >= amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
 				shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
 				inventoryProductCatalog.save(inventoryProductCatalog.findById(product).get());
@@ -174,6 +176,12 @@ public class CashierSystem {
 	 */
 	@PostMapping("/cashiersystemAbort")
 	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+
+		for (Map.Entry<InventoryProduct, CartCartItem> e : shoppingCart.getItems().entrySet()) {
+			e.getKey().removeDisplayedAmount(-(e.getValue().getQuantity()));
+			inventoryProductCatalog.save(e.getKey());
+		}
+
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";

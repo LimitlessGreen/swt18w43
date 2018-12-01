@@ -101,6 +101,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 	public void clear() {
 		customer = null;
 		items.clear();
+		pfand.clear();
 	}
 
 
