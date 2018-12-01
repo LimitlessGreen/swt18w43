@@ -8,6 +8,7 @@ import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -120,13 +121,15 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		BigDecimal money = BigDecimal.valueOf(0);
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
-			money = money.add(e.getValue().getPrice());
-			money = money.add(e.getKey().getPfandPrice().multiply(BigDecimal.valueOf(e.getValue().getQuantity())));
+			money = money.add((e.getValue().getPrice()));							// price of CartCartItem
+			money = money.add(e.getKey().getPfandPrice()
+					.multiply(BigDecimal.valueOf(e.getValue().getQuantity())));	 	// pfand added
 		}
 
-		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));
-		money = money.add(getPfandMoney());
-		money = money.setScale(SCALE);
+		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));				// discount
+		money = money.add(getPfandMoney());											// minus pfand
+		money = money.add(getMwstMoney());											// plus MwSt.
+		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);						// round to 2 decimals after comma
 
 		return money;
 	}
@@ -229,6 +232,19 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		money = money.setScale(SCALE);
 		money = money.negate();
+
+		return money;
+	}
+
+	public BigDecimal getMwstMoney() {
+
+		BigDecimal money = BigDecimal.valueOf(0);
+
+		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
+			money = money.add(BigDecimal.valueOf(e.getKey().getMwStCategory().getPercentage()).multiply(e.getKey().getPrice()));
+		}
+
+		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);
 
 		return money;
 	}

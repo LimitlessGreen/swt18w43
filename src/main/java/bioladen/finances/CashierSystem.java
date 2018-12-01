@@ -47,7 +47,7 @@ public class CashierSystem {
 	 * @param amount       The number of times the product gets added.
 	 * If no product is found an error message is returned.
 	 */
-	@PostMapping("/cashiersystem")
+	@PostMapping("/cashiersystemAdd")
 	String addProduct(
 			@RequestParam("pid") Long product,
 			@RequestParam("amount") Long amount,
@@ -77,8 +77,8 @@ public class CashierSystem {
 	 *
 	 * @param pid  The product with the String pid gets deleted.
 	 */
-	@PostMapping("/deleteCartItem")
-	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
+	@GetMapping("/deleteCartItem")
+	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
 		shoppingCart.getItem(pid).get().getInventoryProduct()
 				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
@@ -148,7 +148,7 @@ public class CashierSystem {
 			shoppingCart.addOrUpdatePfand(inventoryProductCatalog.findById(product).get().getPfandPrice(), amount);
 		} catch (Exception e) {
 			model.addAttribute("errorPfand", true);
-			model.addAttribute("errorPfandMsg", "Es wurde kein Produkt gefunden");
+			model.addAttribute("errorPfandMsg", "Ungültiges Produkt eingegeben");
 		}
 
 		return "cashiersystem";
@@ -161,6 +161,7 @@ public class CashierSystem {
 	 */
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+		// TODO: Event for Cashiersystem
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";

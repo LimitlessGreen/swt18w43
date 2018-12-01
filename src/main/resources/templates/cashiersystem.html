@@ -19,7 +19,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-right: 5px;">
                 <div class="btn-demo-notika mg-t-30">
 
-                    <form class="form-group" method="post" th:action="@{/cashiersystem}"> <!-- Sends pid and amount -->
+                    <form class="form-group" method="post" th:action="@{/cashiersystemAdd}"> <!-- Sends pid and amount -->
                         <div class="form-group"> <!-- form for product code -->
                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPid}" id="pidError">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -137,10 +137,11 @@
                                                 <td th:text="${item.getPrice()}">1</td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <form class="form-group" method="post" th:action="@{/deleteCartItem}">
-                                                            <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                            <button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;</button>
-                                                        </form>
+                                                        <a th:href="@{/deleteCartItem(cartItemId = ${item.getId()})}">
+                                                            <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Löschen">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -343,7 +344,7 @@
                                         <input type="text" class="form-control" id="discount" name="discount" placeholder="Rabatt" th:value="${shoppingCart.getCustomerDiscountString()} " readonly>
                                         <br>
                                         <li><div class="labels-overview">MwSt.: </div></li>
-                                        <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." readonly>
+                                        <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." th:value="${shoppingCart.getMwstMoney()}" readonly>
                                         <br>
                                         <li><div class="labels-overview">Pfand: </div></li>
                                         <input type="text" class="form-control" id="pfand" name="pfand" placeholder="Pfand" th:value="${shoppingCart.getPfandMoney()}" readonly>
