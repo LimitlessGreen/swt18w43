@@ -1,5 +1,6 @@
 package bioladen.datahistory;
 
+import bioladen.customer.Customer;
 import bioladen.event.EntityLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class DataEntry<T> {
 	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
 	private EntityLevel entityLevel;
 	private String thrownBy;
+	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
 	private @Setter String message = "No message";
 	private T entity;
@@ -42,6 +44,8 @@ public class DataEntry<T> {
 	public boolean hasSaveTime() {
 		return saveTime != null;
 	}
+
+	public boolean hasInvolvedCustomer() { return involvedCustomer != null; }
 
 	/**
 	 * Returns an user readable String of DataEntry
