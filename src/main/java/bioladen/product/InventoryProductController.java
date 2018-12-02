@@ -52,7 +52,7 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 	< Event publisher >
 	 -----------------
         \   ^__^
-         \  (@@)\______s_
+         \  (@@)\_______
             (__)\       )\/\
                 ||----w |
                 ||     ||
