@@ -3,6 +3,9 @@ package bioladen.product;
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
 import bioladen.product.distributor_product.DistributorProductCatalog;
+import lombok.RequiredArgsConstructor;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Controller;
@@ -12,18 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class InventoryProductController implements ApplicationEventPublisherAware {
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final DistributorProductCatalog distributorProductCatalog;
-
-	InventoryProductController(
-			InventoryProductCatalog inventoryProductCatalog,
-			DistributorProductCatalog distributorProductCatalog) {
-		this.inventoryProductCatalog = inventoryProductCatalog;
-		this.distributorProductCatalog = distributorProductCatalog;
-	}
+	private final AuthenticationManager authenticationManager;
 
 	@RequestMapping("/productlist")
 	String showProducts(Model model) {
@@ -66,6 +65,10 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 	}
 
 	private void publishEvent(InventoryProduct inventoryProduct, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(inventoryProduct, entityLevel));
+		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
+		publisher.publishEvent(new EntityEvent<>(
+				inventoryProduct,
+				entityLevel,
+				currentUser.orElse(null)));
 	}
 }

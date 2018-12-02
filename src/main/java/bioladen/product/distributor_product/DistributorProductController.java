@@ -6,6 +6,9 @@ import bioladen.product.MwStCategory;
 import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
+import lombok.RequiredArgsConstructor;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,19 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class DistributorProductController implements ApplicationEventPublisherAware {
 
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
-
-	DistributorProductController(
-			DistributorProductCatalog distributorProductCatalog,
-			DistributorRepository distributorRepository) {
-		this.distributorProductCatalog = distributorProductCatalog;
-		this.distributorRepository = distributorRepository;
-	}
+	private final AuthenticationManager authenticationManager;
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorproductlist")
@@ -114,6 +113,10 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 	}
 
 	private void publishEvent(DistributorProduct distributorProduct, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(distributorProduct, entityLevel));
+		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
+		publisher.publishEvent(new EntityEvent<>(
+				distributorProduct,
+				entityLevel,
+				currentUser.orElse(null)));
 	}
 }
