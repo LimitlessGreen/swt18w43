@@ -127,7 +127,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Menge</th>
                                         <th scope="col">Preis</th>
-                                        <th scope="col">&#x1F5D1;</th>
+                                        <th scope="col">Bearbeiten</th>
                                     </tr>
 
                                     </thead>
@@ -138,13 +138,30 @@
                                         <td scope="row" th:text="${item.getProductName()}">ProductName</td>
                                         <td th:text="${item.getQuantity()}">1</td>
                                         <td th:text="${item.getPrice()}">1</td>
-                                        <td>
-                                            <div class="form-group">
-                                                <a th:href="@{/deleteCartItem(cartItemId = ${item.getId()})}">
-                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Löschen">
+                                        <td style="padding: 9px;">
+                                            <div class="btn-group">
+                                                <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/deleteCartItem}">
+                                                    <input type="hidden" name="cartItemId" th:value="${item.getId()}">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="Löschen">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
-                                                </a>
+                                                </form>
+
+                                                <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="amount" th:value="${-1}">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="-1">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </form>
+
+                                                <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="amount" th:value="${1}">
+                                                    <button class="btn btn-success success-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="+1">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

@@ -59,8 +59,11 @@ public class CashierSystem {
 		try {
 			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() >= amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
-				shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
+				CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
 				inventoryProductCatalog.save(inventoryProductCatalog.findById(product).get());
+				if (item.getQuantity() - 1 == 0 && amount < 0) {
+					shoppingCart.removeItem(item.getId());			// delete item when amount is negative and the remaining quantity is 1
+				}
 			} else {
 				model.addAttribute("errorProductAmount", true);
 				model.addAttribute("errorProductAmountMsg", "Vom angegebenen Produkt ist weniger vorhanden als eingegeben");
@@ -79,7 +82,7 @@ public class CashierSystem {
 	 *
 	 * @param pid  The product with the String pid gets deleted.
 	 */
-	@GetMapping("/deleteCartItem")
+	@PostMapping("/deleteCartItem")
 	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
 		shoppingCart.getItem(pid).get().getInventoryProduct()
 				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
