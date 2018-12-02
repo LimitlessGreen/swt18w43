@@ -101,6 +101,7 @@ body {
     padding-left: 12px;
     display: none;
     margin-top: 4px;
+    border-spacing: 2px;
 }
 
 .info-box-entity-attributes-table-attribute {
