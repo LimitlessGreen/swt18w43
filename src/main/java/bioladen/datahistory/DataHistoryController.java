@@ -17,7 +17,7 @@ public class DataHistoryController {
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/datahistory")
 	String datahistory(Model model){
-		model.addAttribute("history", dataEntryRepository.findAll());
+		model.addAttribute("history", dataEntryRepository.findAllByOrderBySaveTimeDesc());
 
 		return "datahistory";
 	}
