@@ -139,13 +139,13 @@ public class InventoryProduct {
 		int checkSum = 0;
 		for (int i = 0; i < id.length(); i++) {
 			if (i % 2 == 0) {
-				checkSum += (int) id.charAt(i);
+				checkSum += Integer.valueOf(id.substring(i, i + 1));
 			} else {
-				checkSum += 3 * (int) id.charAt(i);
+				checkSum += 3 * Integer.valueOf(id.substring(i, i + 1));
 			}
 		}
 
-		checkSum = 10 - (checkSum % 10);
+		checkSum = (10 - (checkSum % 10)) % 10;
 
 		return checkSum;
 	}
