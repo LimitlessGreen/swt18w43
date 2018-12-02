@@ -38,7 +38,7 @@
                         <strong>Hinweis: </strong> Person wurde erfolgreich erstellt.
                     </div>
 
-                    <form method="post" th:action="@{/register}" class="bootstrap-form needs-validation">
+                    <form method="post" th:action="@{/register}" data-toggle="validator" role="form">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputFirstName">Vorname*</label>
@@ -104,6 +104,9 @@
 
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<!-- Validator.js -->
+<script src="/js/validator.js"></script>
 
 </body>
 </html>
