@@ -1,5 +1,6 @@
 package bioladen.customer;
 
+import org.apache.commons.lang3.StringUtils;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,7 +74,7 @@ public class CustomerController {
 		String safeLastName;
 		String safeEmail = "";
 
-		if (firstname.isEmpty()) {
+		if (StringUtils.isBlank(firstname)) {
 			model.addAttribute("errorRegister", true);
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
 			return "register";
@@ -81,7 +82,7 @@ public class CustomerController {
 			safeFirstName = firstname;
 		}
 
-		if (lastname.isEmpty()) {
+		if (StringUtils.isBlank(lastname)) {
 			model.addAttribute("errorRegister", true);
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
 			return "register";
@@ -89,7 +90,7 @@ public class CustomerController {
 			safeLastName = lastname;
 		}
 
-		if (email.isEmpty()) {
+		if (StringUtils.isBlank(email)) {
 			model.addAttribute("errorRegister", true);
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
 			return "register";
@@ -112,10 +113,10 @@ public class CustomerController {
 
 		Customer customer = new Customer(safeFirstName, safeLastName, safeEmail, customerSex, customerType);
 
-		if (!phone.isEmpty()) {
+		if (StringUtils.isNotBlank(phone)) {
 			customer.setPhone(phone);
 		}
-		if (!address.isEmpty()) {
+		if (StringUtils.isNotBlank(address)) {
 			customer.setStreet(address);
 		}
 		customerManager.save(customer);
