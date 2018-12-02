@@ -28,6 +28,7 @@ public class Customer {
 	String lastname;
 	private @Getter
 	@Setter
+	@Column(unique=true)
 	String email;
 	private @Getter
 	@Setter
