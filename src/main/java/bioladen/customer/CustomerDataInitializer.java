@@ -2,6 +2,7 @@ package bioladen.customer;
 
 import java.util.Arrays;
 
+import lombok.RequiredArgsConstructor;
 import org.salespointframework.core.DataInitializer;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -9,15 +10,12 @@ import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CustomerDataInitializer implements DataInitializer {
 	private final CustomerRepository customerRepository;
 	private final UserAccountManager userAccountManager;
 
-	CustomerDataInitializer(UserAccountManager userAccountManager, CustomerRepository customerRepository) {
 
-		this.userAccountManager = userAccountManager;
-		this.customerRepository = customerRepository;
-	}
 
 	@Override
 	public void initialize() {

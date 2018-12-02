@@ -2,20 +2,22 @@ package bioladen.datahistory;
 
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
+import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.BusinessTime;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class DataHistoryManager implements ApplicationEventPublisherAware {
 	private final DataEntryRepository dataEntryRepository;
 	private final BusinessTime businessTime;
 
-	public DataHistoryManager(DataEntryRepository dataEntryRepository, BusinessTime businessTime) {
-		this.dataEntryRepository = dataEntryRepository;
-		this.businessTime = businessTime;
-	}
+	private<T> DataEntry log(
+			EntityLevel entityLevel,
+			T entity, String message,
+			String publisherName,
 
 	private<T> DataEntry log(EntityLevel entityLevel, T entity, String message, String publisherName) {
 

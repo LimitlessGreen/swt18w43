@@ -1,6 +1,7 @@
 package bioladen.customer;
 
 
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
@@ -17,16 +18,10 @@ import java.util.Locale;
 
 @Controller
 @Transactional
+@RequiredArgsConstructor
 public class UserAccController {
 	private final UserAccountManager userAccountManager;
 	private final AuthenticationManager authenticationManager;
-
-
-	UserAccController(UserAccountManager userAccountManager, AuthenticationManager authenticationManager){
-		this.userAccountManager = userAccountManager;
-		this.authenticationManager = authenticationManager;
-
-	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/profil")

@@ -1,6 +1,7 @@
 package bioladen.customer;
 
 import bioladen.event.EntityEvent;
+import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserAccEventListener {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -18,10 +20,6 @@ public class UserAccEventListener {
 	private final CustomerRepository customerRepository;
 
 
-	UserAccEventListener(UserAccountManager userAccountManager, CustomerRepository customerRepository) {
-		this.userAccountManager = userAccountManager;
-		this.customerRepository = customerRepository;
-	}
 
 	@Async
 	@EventListener
