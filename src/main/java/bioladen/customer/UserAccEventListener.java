@@ -26,21 +26,9 @@ public class UserAccEventListener {
 		switch (event.getEventLevel()) {
 			case CREATED:
 				if (customer.isCustomerType(CustomerType.STAFF)) {
-					if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_STAFF"));
-						userAccountManager.save(userAccount);
-					} else {
-						userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
-					}
-
+					this.save(customer, "ROLE_STAFF");
 				} else if (customer.isCustomerType(CustomerType.MANAGER)) {
-					if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_MANAGER"));
-						userAccountManager.save(userAccount);
-					} else {
-						userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
-					}
-
+					this.save(customer, "ROLE_MANAGER");
 				}
 				break;
 			case DELETED: //TODO in new Salespoint version delete method: userAccount.delete(userAccountManager.findByUsername(customer.getEmail()).getAll());
@@ -55,6 +43,16 @@ public class UserAccEventListener {
 				break; //TODO Customer modified
 			default:
 				break;
+		}
+	}
+
+	private void save(Customer customer, String role) {
+		if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
+			UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of(role));
+			userAccount.setEmail(customer.getEmail());
+			userAccountManager.save(userAccount);
+		} else {
+			userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
 		}
 	}
 }
