@@ -27,6 +27,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public class PdfLabelGenerator {
 
+	private static final String BASE_PATH = "src/main/resources/generated/";
+
 	private static final float MM_TO_PT = 2.834645669291f;
 
 	private static final float LABEL_WIDTH  = 70 * MM_TO_PT;
@@ -39,7 +41,7 @@ public class PdfLabelGenerator {
 	private static final float PRODUCT_NAME_POS_Y     = 43 * MM_TO_PT;
 
 	private static final float PRODUCT_DESCRIPTION_FONT_SIZE     = 12;
-	private static final float PRODUCT_DESCRIPTION_POS_X         = LABEL_MARGIN + 1 * MM_TO_PT; //14 * MM_TO_PT;
+	private static final float PRODUCT_DESCRIPTION_POS_X         = PRODUCT_NAME_POS_X + 1 * MM_TO_PT;
 	private static final float PRODUCT_DESCRIPTION_POS_Y         = 38 * MM_TO_PT;
 	private static final float PRODUCT_DESCRIPTION_MARGIN_BOTTOM =  2 * MM_TO_PT;
 
@@ -56,6 +58,8 @@ public class PdfLabelGenerator {
 	private static final float BARCODE_WHITESPACE0_LEFT = 4.5f * BARCODE_LINE_WIDTH;
 	private static final float BARCODE_WHITESPACE_WIDTH = 42 * BARCODE_LINE_WIDTH;
 	private static final float BARCODE_WHITESPACE1_LEFT = BARCODE_WHITESPACE0_LEFT + BARCODE_WHITESPACE_WIDTH + 4 * BARCODE_LINE_WIDTH;
+
+	private static final float ORGANIZATION_LOGO_WIDTH = 8.75f * MM_TO_PT;
 
 
 	public void generate(InventoryProduct inventoryProduct) {
@@ -78,30 +82,30 @@ public class PdfLabelGenerator {
 			cs.beginText();
 				cs.setFont(RobotoSlab700, PRODUCT_NAME_FONT_SIZE);
 				cs.newLineAtOffset(PRODUCT_NAME_POS_X, PRODUCT_NAME_POS_Y);
-				cs.showText("Bauernbrot");
+				cs.showText(inventoryProduct.getName());
 			cs.endText();
 
 			cs.beginText();
 				cs.setFont(Roboto500, PRODUCT_DESCRIPTION_FONT_SIZE);
 				cs.setLeading(PRODUCT_DESCRIPTION_FONT_SIZE + PRODUCT_DESCRIPTION_MARGIN_BOTTOM);
 				cs.newLineAtOffset(PRODUCT_DESCRIPTION_POS_X, PRODUCT_DESCRIPTION_POS_Y);
-				cs.showText("aus Dinkelvollkorn");
+				cs.showText("Beschreibung");
 
 				cs.newLine();
 
 				cs.setFont(Roboto400i, PRODUCT_DESCRIPTION_FONT_SIZE);
 				cs.setLeading(PRODUCT_DESCRIPTION_FONT_SIZE);
-				cs.showText("500 g");
+				cs.showText(inventoryProduct.getUnit() + " Metrik");
 				cs.newLine();
-				cs.showText("(1 kg = 5,00)");
+				cs.showText("(Grundpreis)");
 			cs.endText();
 
 			cs.beginText();
 				cs.setFont(RobotoSlab700, 32);
 				cs.newLineAtOffset(
-						LABEL_WIDTH - LABEL_MARGIN - (RobotoSlab700.getStringWidth("2,50") / 1000.0f) * 32,
+						LABEL_WIDTH - LABEL_MARGIN - (RobotoSlab700.getStringWidth(inventoryProduct.getPrice().toString()) / 1000.0f) * 32,
 						PRODUCT_PRICE_POS_Y);
-				cs.showText("2,50");
+				cs.showText(inventoryProduct.getPrice().toString());
 			cs.endText();
 
 			QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -113,24 +117,24 @@ public class PdfLabelGenerator {
 							+ "8080" // TODO: Dynamic Port Fill-In
 							+ "/product?id=" + inventoryProduct.getProductIdentifier(),
 					BarcodeFormat.QR_CODE, 1024, 1024, hints);
-			Path path = FileSystems.getDefault().getPath("qrc" + inventoryProduct.getProductIdentifier() + ".png");
+			Path path = FileSystems.getDefault().getPath(BASE_PATH + "qrc" + inventoryProduct.getProductIdentifier() + ".png");
 			MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 
 			PDImageXObject qrCode = PDImageXObject.createFromFile(
-					"qrc" + inventoryProduct.getProductIdentifier() + ".png",
+					BASE_PATH + "qrc" + inventoryProduct.getProductIdentifier() + ".png",
 					document);
 			cs.drawImage(qrCode, LABEL_MARGIN, LABEL_MARGIN, QR_CODE_SIZE, QR_CODE_SIZE);
 
 			MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 			hints.clear();
 			hints.put(EncodeHintType.MARGIN, 0);
-			bitMatrix = multiFormatWriter.encode(Long.toString(inventoryProduct.toEan13(0L)),
+			bitMatrix = multiFormatWriter.encode(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())),
 					BarcodeFormat.EAN_13, 2048, 1024, hints);
-			path = FileSystems.getDefault().getPath("brc" + inventoryProduct.getProductIdentifier() + ".png");
+			path = FileSystems.getDefault().getPath(BASE_PATH + "brc" + inventoryProduct.getProductIdentifier() + ".png");
 			MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 
 			PDImageXObject barCode = PDImageXObject.createFromFile(
-					"brc" + inventoryProduct.getProductIdentifier() + ".png",
+					BASE_PATH + "brc" + inventoryProduct.getProductIdentifier() + ".png",
 					document);
 			cs.drawImage(barCode, BARCODE_POS_X, BARCODE_POS_Y, BARCODE_WIDTH, BARCODE_HEIGHT);
 
@@ -144,20 +148,30 @@ public class PdfLabelGenerator {
 			cs.beginText();
 			cs.setFont(RobotoMono400, BARCODE_FONT_SIZE);
 			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE0_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (RobotoMono400.getStringWidth("123456") / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
-			cs.showText("123456");
+					- 0.5f * (RobotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7));
 			cs.endText();
 
 			cs.beginText();
 			cs.setFont(RobotoMono400, BARCODE_FONT_SIZE);
 			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE1_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (RobotoMono400.getStringWidth("789012") / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
-			cs.showText("789012");
+					- 0.5f * (RobotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7));
 			cs.endText();
+
+			PDImageXObject organizationLogo = PDImageXObject.createFromFile(
+					"src/main/resources/static/img/org_logos/" + inventoryProduct.getOrganization() + ".png",
+					document);
+
+			float organizationLogoPosX  = LABEL_MARGIN;
+			float organizationLogoHeight = organizationLogo.getHeight() / (float) organizationLogo.getWidth() * ORGANIZATION_LOGO_WIDTH;
+			float organizationLogoPosY  = PRODUCT_PRICE_POS_Y;
+
+			cs.drawImage(organizationLogo, organizationLogoPosX, organizationLogoPosY, ORGANIZATION_LOGO_WIDTH, organizationLogoHeight);
 
 			cs.close();
 
-			document.save("test.pdf");
+			document.save(BASE_PATH + "p" + inventoryProduct.getProductIdentifier() + ".pdf");
 			document.close();
 		} catch (WriterException | IOException e) {
 			e.printStackTrace();
