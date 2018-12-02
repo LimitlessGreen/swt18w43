@@ -37,6 +37,7 @@ public class InventoryProduct {
 	private @NonNull @Getter @Setter ProductCategory productCategory;
 	private @NonNull @Getter @Setter MwStCategory    mwStCategory;
 	private          @Getter @Setter BigDecimal      pfandPrice;
+	private          @Getter @Setter Organization    organization;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
@@ -58,6 +59,7 @@ public class InventoryProduct {
 		this.productCategory = distributorProduct.getProductCategory();
 		this.mwStCategory = distributorProduct.getMwStCategory();
 		this.pfandPrice = distributorProduct.getPfandPrice();
+		this.organization = distributorProduct.getOrganization();
 	}
 
 	/**

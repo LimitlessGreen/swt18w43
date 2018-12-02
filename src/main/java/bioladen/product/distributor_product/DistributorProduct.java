@@ -1,6 +1,7 @@
 package bioladen.product.distributor_product;
 
 import bioladen.product.MwStCategory;
+import bioladen.product.Organization;
 import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class DistributorProduct {
 	private @NonNull @Getter @Setter ProductCategory productCategory;
 	private @NonNull @Getter @Setter MwStCategory    mwStCategory;
 	private          @Getter @Setter BigDecimal      pfandPrice;
+	private          @Getter @Setter Organization    organization;
 
 	@OneToOne
 	private @NonNull @Getter @Setter Distributor distributor;
@@ -46,7 +48,8 @@ public class DistributorProduct {
 			long            minimumOrderAmount,
 			ProductCategory productCategory,
 			MwStCategory    mwStCategory,
-			BigDecimal      pfandPrice) {
+			BigDecimal      pfandPrice,
+			Organization    organization) {
 		this.name               = name;
 		this.distributor        = distributor;
 		this.price              = price;
@@ -55,6 +58,7 @@ public class DistributorProduct {
 		this.productCategory    = productCategory;
 		this.mwStCategory       = mwStCategory;
 		this.pfandPrice         = pfandPrice;
+		this.organization       = organization;
 	}
 
 	@Override

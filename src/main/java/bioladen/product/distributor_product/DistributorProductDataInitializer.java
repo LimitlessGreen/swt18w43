@@ -1,6 +1,7 @@
 package bioladen.product.distributor_product;
 
 import bioladen.product.MwStCategory;
+import bioladen.product.Organization;
 import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
@@ -49,7 +50,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						10,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
-						null
+						null,
+						Organization.BIOLAND
 				)
 		);
 
@@ -62,7 +64,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						15,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
-						null
+						null,
+						Organization.BIOLAND
 				)
 		);
 
@@ -75,7 +78,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						6,
 						ProductCategory.FOOD_DAIRY,
 						MwStCategory.REDUCED,
-						BigDecimal.valueOf(0.50)
+						BigDecimal.valueOf(0.50),
+						Organization.NATURLAND
 				)
 		);
 	}
