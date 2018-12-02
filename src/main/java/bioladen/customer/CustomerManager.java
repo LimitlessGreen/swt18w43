@@ -22,6 +22,9 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 	private final UserAccountManager userAccountManager;
 	private final AuthenticationManager authenticationManager;
 
+	/* ********************** */
+	/*        ADDS            *
+	/* ********************** */
 	public ArrayList<? extends Customer> getAll() {
 		return customerRepository.findAll();
 	}
@@ -30,21 +33,9 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerRepository.findById(id).orElse(null);
 	}
 
-	public UserAccount customerToUser(Customer customer) {
-		String email = customer.getEmail();
-		return userAccountManager.findByUsername(email).orElse(null);
-	}
-
-	public Optional<Customer> userToCustomer (UserAccount user) {
-		String email;
-		if (user == null) {
-			return Optional.empty();
-		} else {
-			email = user.getUsername();
-		}
-		return customerRepository.findByEmail(email);
-	}
-
+	/* ********************** */
+	/*         SAVES          *
+	/* ********************** */
 	public <S extends Customer> Iterable<S> saveAll(Iterable<S> customerList) {
 
 		Iterable<S> customerListTmp = customerRepository.saveAll(customerList);
@@ -66,12 +57,25 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerTmp;
 	}
 
+	/* ********************** */
+	/*       DELETIONS        *
+	/* ********************** */
+
 	public void delete(Long id) {
 		Customer customer = this.get(id);
 		customerRepository.deleteById(id);
 
 		// (👁 ᴥ 👁) Event
 		publishEvent(customer, EntityLevel.DELETED);
+	}
+
+	/* ********************** */
+	/*      CONVERSIONS       *
+	/* ********************** */
+
+	public UserAccount customerToUser(Customer customer) {
+		String email = customer.getEmail();
+		return userAccountManager.findByUsername(email).orElse(null);
 	}
 
 	/*
