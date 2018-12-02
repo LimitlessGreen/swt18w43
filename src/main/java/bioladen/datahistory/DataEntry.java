@@ -38,17 +38,6 @@ public class DataEntry<T> {
 	}
 
 	/**
-	 * Returns whether the {@link DataEntry} already has a {@link this.saveTime} set.
-	 *
-	 * @return
-	 */
-	public boolean hasSaveTime() {
-		return saveTime != null;
-	}
-
-	public boolean hasInvolvedCustomer() { return involvedCustomer != null; }
-
-	/**
 	 * Returns a formatted String of the saveTime.
 	 *
 	 * @param format as defined by {@link java.time.format.DateTimeFormatter}

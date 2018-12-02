@@ -1,9 +1,7 @@
 package bioladen.customer;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,19 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.salespointframework.useraccount.AuthenticationManager;
 
-import java.util.List;
-
 @Controller
 @Transactional
-public class CustomerController implements ApplicationEventPublisherAware {
+@RequiredArgsConstructor
+public class CustomerController {
 
-	private final CustomerRepository customerRepository;
 	private final AuthenticationManager authenticationManager;
-
-	CustomerController(CustomerRepository customerRepository, AuthenticationManager authenticationManager) {
-		this.customerRepository = customerRepository;
-		this.authenticationManager = authenticationManager;
-	}
+	private final CustomerManager customerManager;
 
 	/*Functions for register.html*/
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
@@ -102,8 +94,8 @@ public class CustomerController implements ApplicationEventPublisherAware {
 			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
 			return "register";
 		} else {
-			if (!customerRepository.findAll().isEmpty()) {
-				for (Customer customer : customerRepository.findAll()) {
+			if (!customerManager.getAll().isEmpty()) {
+				for (Customer customer : customerManager.getAll()) {
 					if (!customer.getEmail().equals(email)) {
 						safeEmail = email;
 					} else {
@@ -126,10 +118,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		if (!address.isEmpty()) {
 			customer.setStreet(address);
 		}
-		customerRepository.save(customer);
-
-		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.CREATED);
+		customerManager.save(customer);
 
 		model.addAttribute("successRegister", true);
 		return "register";
@@ -140,8 +129,7 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/customerlist")
 	String customerRepository(Model model) {
-		List<Customer> customerList = customerRepository.findAll();
-		model.addAttribute("customerList", customerList);
+		model.addAttribute("customerList", customerManager.getAll());
 
 		return "customerlist";
 	}
@@ -149,39 +137,16 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
-		Customer customer = customerRepository.findById(id).get();
+		Customer customer = customerManager.get(id);
 		if (!authenticationManager.getCurrentUser().get().getUsername().
-				equals(customerRepository.findById(id).get().getEmail())) {
-			customerRepository.deleteById(id);
+				equals(customerManager.get(id).getEmail())) {
+			customerManager.delete(id);
 
-			// (👁 ᴥ 👁) Event
-			publishEvent(customer, EntityLevel.DELETED);
 		}
 
 
 		return "redirect:/customerlist";
 	}
 
-	/*
-	 _________________
-	< Event publisher >
-	 -----------------
-        \   ^__^
-         \  (@@)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-
-	*/
-	private ApplicationEventPublisher publisher;
-
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(Customer customer, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(customer, entityLevel));
-	}
 }
 
