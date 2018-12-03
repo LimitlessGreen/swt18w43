@@ -1,0 +1,61 @@
+= Protokoll Gruppe 43
+
+Treffen am 03.12.2018
+
+Ort:      APB +
+Beginn:   09:20 Uhr +
+Ende:     10:30 Uhr
+
+__Schriftführer:__ Lukas Petzold
+
+*Nächstes Treffen:* +
+10.12.2018, 09:20 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor)
+- Adrian Kulisch
+- Josefin Hübner
+- Jairus Behrisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Javascript kann zum Sortieren und Suchen beibehalten werden
+- User bearbeiten muss möglich sein
+- Neue Kann-Kriterien:
+* Bio Label auf Etikett, wenn Produkt Bio
+* Mehrere Etiketten auf einmal generieren
+- Business Time ist nicht unbedingt notwendig zu implementieren
+- Graphen für Statistik: 4 der 6 Vorschläge aus dem Pflichtenheft
+- Nur globale Stornierung wirft ein Event
+- Vorlieben für Kunden: Das meistgekaufte wird in der Kasse angezeigt
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#24     |Sprint 7       |offen      |Großteil der Muss-Kriterien
+|===
+
+
+== Aktueller Stand
+Viele Muss-Kriterien sind schon implementiert.
+Einige größere Features wie Inventur und BNN-Listen Import fehlen noch.
+Pflichtenheft und Entwicklerdoku müssen bei Zeiten mal wieder geupdated werden.
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#24     |Sprint 7     |wichtigste Muss-Kriterien            |alle                |offen
+|#26     |Muss-Kriterien |alle Muss-Kriterien    |alle    |offen
+|===
