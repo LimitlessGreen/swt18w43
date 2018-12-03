@@ -31,7 +31,7 @@
                             </div>
 
                             <label for="pidInput">Produkt-Code</label>
-                            <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben" oninput="updatePfand()">
+                            <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="18" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben" oninput="updatePfand()">
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -84,16 +84,21 @@
                                             <script> // functions for amount
                                             var amountInput = 1;
                                             function add(amount) {
+                                                amountInput = document.getElementById('amountInput').value;
+                                                amountInput = parseInt(amountInput);
                                                 amountInput += amount;
                                                 if (amountInput == 0) {
                                                     amountInput = 1;
+                                                }
+                                                if (amountInput > 9999999999) {
+                                                    amountInput = 9999999999;
                                                 }
                                                 document.getElementById('amountInput').value=amountInput;
                                                 updatePfand();
                                             }
                                             </script>
 
-                                            <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1" oninput="updatePfand()">
+                                            <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="10" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1" oninput="updatePfand()">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div align="right">
@@ -241,7 +246,7 @@
                                         <strong>Achtung!</strong> <a th:text="${errorMsgUid}"></a>
                                     </div>
                                     <label for="userId">Kunden ID</label>
-                                    <input type="text" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben">
+                                    <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="18" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben">
                                 </div>
 
                                 <script> // functions for numpad userId
@@ -310,7 +315,7 @@
                                         </div>
 
                                         <label for="change">Bargeld</label>
-                                        <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
+                                        <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" maxlength="18" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
                                     </div>
 
 
@@ -401,6 +406,9 @@
 
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<!-- Validator.js -->
+<script src="/js/validator.js"></script>
 
 </body>
 </html>
