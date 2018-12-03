@@ -25,14 +25,14 @@ class ShoppingCartTest {
 
 	private ShoppingCart shoppingCart = new ShoppingCart();
 
-	@MockBean
+	/*@MockBean
 	private DistributorProductCatalog distributorProductCatalog;
 
 	@MockBean
 	private InventoryProductCatalog inventoryProductCatalog;
 
 	@MockBean
-	private DistributorRepository distributorRepository;
+	private DistributorRepository distributorRepository;*/
 	
 
 	private Customer customer = new Customer("Hans",

@@ -20,14 +20,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class CartCartItemTest {
 
-	@MockBean
+	/*@MockBean
 	private DistributorProductCatalog distributorProductCatalog;
 
 	@MockBean
 	private InventoryProductCatalog inventoryProductCatalog;
 
 	@MockBean
-	private DistributorRepository distributorRepository;
+	private DistributorRepository distributorRepository;*/
 
 
 	private final int one = 1;
