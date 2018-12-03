@@ -31,6 +31,7 @@ __Teilnehmer:__
 - Graphen für Statistik: 4 der 6 Vorschläge aus dem Pflichtenheft
 - Nur globale Stornierung wirft ein Event
 - Vorlieben für Kunden: Das meistgekaufte wird in der Kasse angezeigt
+- Es soll für die Anwenderdoku ein ?-Feld mit Hilfe für die jeweilige Seite geben
 
 == Retrospektive des letzten Sprints
 *Issue referenziert die Issue ID von GitHub*
