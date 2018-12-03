@@ -81,8 +81,11 @@ rectangle Bioladen {
     namespace bioladen.customer {
 
         class CustomerController <<Controller>> {
-            +createUser(UserForm) : boolean
-            +deleteUser(UserForm) : boolean
+            -authentictaionManager : AuthenticationManager
+            -customerManager : CustomerManager
+            +registerNew(String, String, String, String, String, String, String, String) : String
+            +customerRepository() : String
+            +deleteCustomer(Long) : String
 
         }
 
@@ -91,50 +94,72 @@ rectangle Bioladen {
             -firstname : String
             -lastname : String
             -email : String
-            -phoneNumber : String
+            -phone : String
             -id : CustomerIdentifier
-            -userAccount : UserAccount
-            -type : CustomerType
+            -customerType : CustomerType
             -sex : Sex
+
+            Customer(String, String, String, Sex, CustomerType)
             publishCustomerCreatedEvent(Customer) : void
-            +getType() : CustomerType
             +isCustomerType(CustomerType) : Boolean
-            +setType(CustomerType) : void
-            
-            {static}getDiscount(CustomerType) : double
+            +getName() : String
+
         }
 
-        enum CustomerType <<Entity>>{
+        enum CustomerType {
             MANAGER
             STAFF
             MAJOR_CUSTOMER
             HOUSE_CUSTOMER
-
+            -typeName : String
+            -discount : Double
         }
 
         enum Sex {
             MALE
             FEMALE
             VARIOUS
+            -sexName : String
+        }
+
+        class CustomerManager <<Service>>{
+            -authentictaionManager : AuthenticationManager
+            -customerRepository : CustomerRepository
+            -userAccountManager : UserAccountManager
+
+            +getAll() : ArrayList<? extends Customer>
+            +get(Long) : Customer
+            +saveAll(Iterable<S >) : <S extends Customer> Iterable<S>
+            +save(S) : <S extends Customer> S
+            +delete(Long) : void
+            +customerToUser(Customer) : UserAccount
+            +userToCustomer(UserAccount) : Optional<Customer>
+            +publishEvent(Customer, EntityLevel) : void
+
         }
 
 
         interface CustomerRepository <<Repository>> {
             +findAll() : ArrayList<Customer>
+            +findByEmail(String) : Optional<Customer>
         }
         
         class UserAccController <<Controller>>  {
-       
-            +resetPassword(ResetForm) : boolean
-            +setNewPassword(SetForm) : boolean
-        
+            -authentictaionManager : AuthenticationManager
+            -userAccountManager : UserAccountManager
+
+            +changePassword(String, String, String) : String
+            +resetPassword(String) : String
         }
-        
         
 
         class UserAccEventListener {
+            -logger : Logger
+            -userAccountManager : UserAccountManager
+
             UserAccEventListener(UserAccountManager, CustomerRepository)
-            + listenCustomerEvent(EntityEvent<Customer>) : void
+            +listenCustomerEvent(EntityEvent<Customer>) : void
+            +save(Customer, String) : void
         }
         note right: listen to CustomerEvent
 
@@ -143,6 +168,8 @@ rectangle Bioladen {
         Customer --> CustomerType
         CustomerRepository --> Customer
         CustomerController --> Customer
+        CustomerManager --> Customer
+        CustomerManager --> CustomerRepository
     }
 
 
@@ -167,11 +194,12 @@ rectangle Bioladen {
 
         }
 
-        VIEW(useracc.html) {
+        VIEW(profil.html) {
 
         }
 
-        useracc.html <-- bioladen.customer.UserAccController
+
+        profil.html <-- bioladen.customer.UserAccController
         customerlist.html <-- bioladen.customer.CustomerController
         register.html <-- bioladen.customer.CustomerController
         customerlist.html <.left. register.html
