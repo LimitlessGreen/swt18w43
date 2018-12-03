@@ -71,7 +71,7 @@
                                 </div>
                                 <table class="info-box-entity-attributes-table">
                                     <tr th:each="field : ${dataEntry.getEntity().getClass().getDeclaredFields()}" class="info-box-entity-attributes-table-attribute">
-                                        <td class="info-box-entity-attributes-table-attribute-type" th:text="${field.getGenericType().getTypeName().substring(field.getGenericType().getTypeName().lastIndexOf('.') + 1)}">ENTITY_ATTRIBUTE_TYPE</td>
+                                        <!--<td class="info-box-entity-attributes-table-attribute-type" th:text="${field.getGenericType().getTypeName().substring(field.getGenericType().getTypeName().lastIndexOf('.') + 1)}">ENTITY_ATTRIBUTE_TYPE</td>-->
                                         <td class="info-box-entity-attributes-table-attribute-name" th:text="${field.getName()}">ENTITY_ATTRIBUTE_NAME</td>
                                         <td class="info-box-entity-attributes-table-attribute-value" th:text="${dataEntry.getEntity().getClass().getMethod('get' + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1)).invoke(dataEntry.getEntity())}">ENTITY_ATTRIBUTE_VALUE</td>
                                     </tr>
