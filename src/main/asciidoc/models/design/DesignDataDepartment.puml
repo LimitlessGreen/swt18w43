@@ -3,114 +3,101 @@
 !include stylesheet.iuml
 
 rectangle Bioladen {
-    namespace bioladen.data.log {
+    namespace bioladen.event {
 
-        class Logger <<Service>> {
-            -log(LogLevel, Order) : boolean
-            -log(LogLevel, Sale) : boolean
-            -log(LogLevel, Cancellation) : boolean
-            -log(LogLevel, LogInventory) : boolean
-            -log(LogLevel, User) : boolean
-            +info(Object, String) : boolean
-            +warning(Object, String) : boolean
-            +error(Object, String) : boolean
-            +getLog() : Iterable<LogEntry>
-            +getLog()
-            +filterBy(Duration) : Streamable<LogEntry>
-            +filterBy(LogLevel) : Streamable<LogEntry>
-            +filterBy(ThrownBy) : Streamable<LogEntry>
-            -publishLogEvent()
+        enum EntityLevel {
+            CREATED
+            MODIFIED
+            DELETED
         }
 
-        class LogEntry <<Entity>> {
-            -logLevel : LogLevel
+        class EntityEvent<T>{
+            -entity : T
+            -eventLevel : EntityLevel
+            -message : String
+            -name : String
+            -publisherName : String
+            -involvedUser : UserAccount
+            -resolvableType : ResolvableType
+
+            EntityEvent(T, EntityLevel)
+            EntityEvent(T, EntityLevel, String)
+            EntityEvent(T, EntityLevel, UserAccount)
+            EntityEvent(T, EntityLevel, UserAccount, String)
+            +getResolvableType() : ResolvableType
+        }
+    }
+
+
+    namespace bioladen.datahistory {
+
+        class DataHistoryManager <<Service>> {
+            -customerManager : CustomerManager
+            -dataEntryRepository : DataEntryRepository
+            -businessTime : BusinessTime
+            -publisher : ApplicationEventPublisher
+            
+            -log(EntityLevel, T, String message, String publisherName, Customer) : <T> DataEntry
+            +push(T, EntityLevel, String, Customer) : <T> DataEntry
+            +push(T, EntityLevel, String) : <T> DataEntry
+            +push(T, EntityLevel, Customer) : <T> DataEntry
+            +push(T, EntityLevel) : <T> DataEntry
+            +push(T) : <T extends EntityEvent> DataEntry 
+            -publishEvent(DataEntry, String) : void
+        }
+
+        class DataEntry<T> <<Entity>>{
+            -entityLevel : EntityLevel
             -thrownBy : String
-            -logTime : LocalDateTime
-            -content : Object
+            -saveTime : LocalDateTime
+            -entity : T
+            -message : String
+            -name : String
+            -involvedCustomer : Customer
+            
+            DataEntry(String name, EntityLevel, String thrownBy, T)
+            +getFormattedSaveTime(String) : String
+            
         }
 
-        class EntityCreatedEventListener <<Service>> {
-            -listenOrderEvent(EntityCreatedEvent) : void
-            -listenSaleEvent(EntityCreatedEvent) : void
-            -listenUserEvent(EntityCreatedEvent) : void
-            -listenProductEvent(EntityCreatedEvent) : void
+        class EntityEventListener <<Service>> {
+            -dataHistoryManager: DataHistoryManager
+            -logger : Logger
+
+            EntityEventListener(DataHistoryManager, Logger)
+            -listenEvent(EntityEvent) : void
         }
 
-        enum LogLevel {
-            INFO
-            WARNING
-            ERROR
-            DATA
+        interface DataEntryRepository <<Repository>> {
+            +findAllByOrderBySaveTimeDesc() : ArrayList<DataEntry>
         }
 
-
-        class LogExplorer <<Entity>> {
-            +filterBy(Duration) : LogExplorer
-            +filterBy(LogLevel) : LogExplorer
-            +filterBy(ThrownBy) : LogExplorer
+        class DataHistoryController <<Controller>> {
+            +dataHistory() : String
         }
 
-        class LogEvent <<Entity>> {
-            +LogEvent()
-
-        }
-
-        class LogEventListener <<Service>> {
-            +onApplicationEvent(LogEvent) : void
-        }
-
-
-
-
-
-
-
-        LogEntry "1" --> "1" LogLevel
-        LogEntry "0..*" --* "1" Logger
+        DataEntry "1" --> "1" bioladen.event.EntityLevel
+        DataEntry "0..*" --* "1" DataHistoryManager
+        EntityEventListener --> DataHistoryManager
 
     }
 
-    namespace bioladen.data.statistic {
+
+
+    namespace bioladen.statistic {
         class StatisticController <<Controller>> {
-            +statistics() : String
+            +statistic() : String
         }
 
-        abstract class Chart <<static, final>>{
-            {abstract} CHART_TYPE : String
-            TEMPLATE : String
-            TEMPLATE_DATASET : String
-            generateChart(title : String, labels : List<T>, data : List<T>) : String
-            generateChart(title : String, dataset : Map<T,S>) : String
-            generateChart(title : String, labels : List<List<T>>, data : List<List<T>>) : String
-            generateChart(title : String, datasets : List<Map<T,S>>) : String
-            generateChart(title : String, labels : List<T>, data : List<T>, color : Color) : String
-            generateChart(title : String, dataset : Map<T,S>, color : Color) : String
-            generateChart(title : String, labels : List<List<T>>, data : List<List<T>>, colors : List<Color>) : String
-            generateChart(title : String, datasets : List<Map<T,S>>, colors : List<Color>) : String
+        enum ChartType {
+            BARCHART
+            PIECHART
+            LINECHART
         }
 
-        class BarChart <<Entity>> extends bioladen.data.statistic.Chart {
-            CHART_TYPE : String
-        }
-
-        class LineChart <<Entity>> extends bioladen.data.statistic.Chart {
-            CHART_TYPE : String
-        }
-
-        class PieChart <<Entity>> extends bioladen.data.statistic.Chart  {
-            CHART_TYPE : String
-        }
-
-        class Statistic <<Service>>{
+        class ChartFactory {
 
         }
-
-        PieChart "0..*" <-- "1" StatisticController
-        LineChart "0..*" <-- "1" StatisticController
-        BarChart "0..*" <-- "1" StatisticController
-        StatisticController "1" --> "1" Statistic
-        Statistic "1" --* "1" bioladen.data.log.Logger
-        StatisticController --> bioladen.data.log.Logger
 
 
     }
@@ -122,7 +109,12 @@ rectangle Bioladen {
 
         }
 
-        bioladen.data.statistic.StatisticController --> statistic.html
+        VIEW(datahistory.html) {
+
+        }
+
+        bioladen.statistic.StatisticController --> statistic.html
+        bioladen.datahistory.DataHistoryController --> datahistory.html
     }
 
 
@@ -136,7 +128,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
 
         }
 
-        BusinessTime <-right- bioladen.data.log.LogEntry
+        BusinessTime <-right- bioladen.datahistory.DataEntry
     }
 }
 
@@ -164,12 +156,27 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
         ApplicationEventPublisher "1" --> "*" ApplicationEvent
     }
 
+    namespace org.springframework.data.repository {
+        interface Repository <<Spring>> {
+
+        }
+
+        interface CrudRepository <<Spring>> {
+
+        }
+    }
+
+    namespace org.springframework.core {
+        interface ResolvableTypeProvider <<Spring>> {
+
+        }
+    }
+
 }
 
-bioladen.data.log.LogEvent --|> org.springframework.context.ApplicationEvent
-bioladen.data.log.LogEventListener --|> org.springframework.context.ApplicationListener
-bioladen.data.log.LogEvent "0..*" <-- "1" bioladen.data.log.Logger
-bioladen.data.log.LogEventListener "0..*" <-- "1" bioladen.data.statistic.Statistic
+bioladen.datahistory.DataEntryRepository --|> org.springframework.data.repository.Repository
+bioladen.datahistory.DataEntryRepository --|> org.springframework.data.repository.CrudRepository
+bioladen.event.EntityEvent ..|> org.springframework.core.ResolvableTypeProvider
 
 
 @enduml
