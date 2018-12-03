@@ -37,9 +37,10 @@ public class CartController {
 
 
 	/**
-	 * Add items with the
-	 * @param pid to the
-	 * @param shoppingCart
+	 * Add a product to the shoppingCart.
+	 *
+	 * @param pid The product with the String pid gets added to the shoppingCart.
+	 * @param shoppingCart The products get stored here.
 	 */
 	@GetMapping("/addToWishlist")
 	String addToWishlist(@RequestParam("productId") Long pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -51,9 +52,9 @@ public class CartController {
 
 
 	/**
-	 * Deletes items with the
-	 * @param pid from the
-	 * @param shoppingCart
+	 * Deletes an item from the shoppingCart.
+	 *
+	 * @param pid The item with the String pid gets removed from the shoppingCart.
 	 */
 	@PostMapping("/deleteFromWishlist")
 	String deleteFromWishlist(
@@ -68,9 +69,9 @@ public class CartController {
 
 
 	/**
-	 * Adds one quantity of the item with the
-	 * @param pid to the
-	 * @param shoppingCart
+	 * Adds one quantity of the item to the shoppingCart.
+	 *
+	 * @param pid The quantity of the item with the pid gets incremented by 1.
 	 */
 	@PostMapping("/addOneToWishlist")
 	String addOneToWishlist(
@@ -85,9 +86,9 @@ public class CartController {
 
 
 	/**
-	 * Removes one item with the
-	 * @param pid from the
-	 * @param shoppingCart
+	 * Removes one quantity of the item from the shoppingCart.
+	 *
+	 * @param pid The quantity of the item with the pid gets decremented by 1.
 	 */
 	@PostMapping("/removeOneFromWishlist")
 	String removeOneFromWishlist(

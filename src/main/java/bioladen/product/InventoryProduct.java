@@ -29,11 +29,15 @@ public class InventoryProduct {
 	@Column(name = "inventoryProductIdentifier", updatable = false, nullable = false)
 	private @Getter Long productIdentifier;
 
-	private @NonNull @Getter @Setter String      name;
-	private @NonNull @Getter @Setter BigDecimal  price;
-	private @NonNull @Getter @Setter BigDecimal  unit;
-	private          @Getter @Setter long        inventoryAmount;
-	private          @Getter @Setter long        displayedAmount;
+	private @NonNull @Getter @Setter String          name;
+	private @NonNull @Getter @Setter BigDecimal      price;
+	private @NonNull @Getter @Setter BigDecimal      unit;
+	private          @Getter @Setter long            inventoryAmount;
+	private          @Getter @Setter long            displayedAmount;
+	private @NonNull @Getter @Setter ProductCategory productCategory;
+	private @NonNull @Getter @Setter MwStCategory    mwStCategory;
+	private          @Getter @Setter BigDecimal      pfandPrice;
+	private          @Getter @Setter Organization    organization;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
@@ -51,10 +55,43 @@ public class InventoryProduct {
 
 		this.inventoryAmount = 0;
 		this.displayedAmount = 0;
+
+		this.productCategory = distributorProduct.getProductCategory();
+		this.mwStCategory = distributorProduct.getMwStCategory();
+		this.pfandPrice = distributorProduct.getPfandPrice();
+		this.organization = distributorProduct.getOrganization();
 	}
 
 	/**
-	 * Removes amounts from the displayedAmount. Readd units with negative amount.
+	 * Adds the given amount to inventoryAmount.
+	 * Negative amount possible but not recommended.
+	 *
+	 * @param amount Amount to be added
+	 */
+	public void addInventoryAmount(long amount) {
+		this.inventoryAmount += amount;
+	}
+
+	/**
+	 * Removes – if possible – the given amount from inventoryAmount and adds it back to displayedAmount.
+	 *
+	 * @param amount Amount to be moved
+	 * @return true if successful; else false
+	 */
+	public boolean moveAmountFromInventoryToDisplay(long amount) {
+		if (this.inventoryAmount >= amount) {
+			this.inventoryAmount -= amount;
+			this.displayedAmount += amount;
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Removes – if possible – the given amount from the displayedAmount.
+	 * Negative amount possible but not recommended.
 	 *
 	 * @param amount Amount to be removed (added if < 0)
 	 * @return true if successful; else false
@@ -104,13 +141,13 @@ public class InventoryProduct {
 		int checkSum = 0;
 		for (int i = 0; i < id.length(); i++) {
 			if (i % 2 == 0) {
-				checkSum += (int) id.charAt(i);
+				checkSum += Integer.valueOf(id.substring(i, i + 1));
 			} else {
-				checkSum += 3 * (int) id.charAt(i);
+				checkSum += 3 * Integer.valueOf(id.substring(i, i + 1));
 			}
 		}
 
-		checkSum = 10 - (checkSum % 10);
+		checkSum = (10 - (checkSum % 10)) % 10;
 
 		return checkSum;
 	}

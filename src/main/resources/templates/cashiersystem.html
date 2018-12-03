@@ -3,65 +3,14 @@
 <!--<html lang=""> -->
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!--Title-->
     <title>Kasse</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- favicon
-		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-		============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- font awesome CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- owl.carousel CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="css/owl.theme.css">
-    <link rel="stylesheet" href="css/owl.transitions.css">
-    <!-- meanmenu CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/meanmenu/meanmenu.min.css">
-    <!-- animate CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- normalize CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- wave CSS
-        ============================================ -->
-    <link rel="stylesheet" href="css/wave/waves.min.css">
-    <link rel="stylesheet" href="css/wave/button.css">
-    <!-- mCustomScrollbar CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/scrollbar/jquery.mCustomScrollbar.min.css">
-    <!-- Notika icon CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/notika-custom-icon.css">
-    <!-- Data Table JS
-		============================================ -->
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <!-- main CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/main.css">
-    <!-- style CSS
-		============================================ -->
-    <link rel="stylesheet" href="style.css">
-    <!-- responsive CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/responsive.css">
-    <!-- modernizr JS
-		============================================ -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--Import CSS-->
+    <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
 </head>
 <body>
-<!--Naviagtion-->
+<!--Navigation-->
 <nav th:include="navigation_new :: navigation"></nav>
 <div class="buttons-area">
     <div class="container">
@@ -70,7 +19,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-right: 5px;">
                 <div class="btn-demo-notika mg-t-30">
 
-                    <form class="form-group" method="post" th:action="@{/cashiersystem}"> <!-- Sends pid and amount -->
+                    <form class="form-group" method="post" th:action="@{/cashiersystemAdd}"> <!-- Sends pid and amount -->
                         <div class="form-group"> <!-- form for product code -->
                             <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPid}" id="pidError">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -82,7 +31,7 @@
                             </div>
 
                             <label for="pidInput">Produkt-Code</label>
-                            <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben">
+                            <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben" oninput="updatePfand()">
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -92,14 +41,17 @@
                                 function pidUpdate(char) {
                                     pidInput = pidInput + char;
                                     document.getElementById('pidInput').value=pidInput;
+                                    updatePfand();
                                 }
                                 function pidRemoveOne() {
-                                    pidInput = pidInput.substring(0, pidInput.length-1)
+                                    pidInput = pidInput.substring(0, pidInput.length-1);
                                     document.getElementById('pidInput').value=pidInput;
+                                    updatePfand();
                                 }
                                 function pidRemove() {
                                     pidInput = "";
                                     document.getElementById('pidInput').value=pidInput;
+                                    updatePfand();
                                 }
                                 </script>
 
@@ -125,7 +77,7 @@
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <label for="amountInput">Menge</label> <!-- form for amount -->
                                 <div class="form-group">
-                                    <div class="row">
+                                    <div  class="row">
 
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
@@ -137,10 +89,11 @@
                                                     amountInput = 1;
                                                 }
                                                 document.getElementById('amountInput').value=amountInput;
+                                                updatePfand();
                                             }
                                             </script>
 
-                                            <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1">
+                                            <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1" oninput="updatePfand()">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div align="right">
@@ -150,59 +103,126 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
-
-                                <div class="pre-scrollable">
-                                    <div th:if="${shoppingCart.isEmpty()}"> <!-- Handling for empty cart -->
-                                        <div class="header" align="center">
-                                            Ihr Warenkorb ist leer
-                                        </div>
-                                    </div>
-
-                                    <div th:unless="${shoppingCart.isEmpty()}"> <!-- Handling for non empty cart -->
-                                        <table class="table">
-                                            <thead> <!-- table head -->
-
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Menge</th>
-                                                <th scope="col">Preis</th>
-                                                <th scope="col">&#x1F5D1;</th>
-                                            </tr>
-
-                                            </thead>
-
-                                            <tbody> <!-- table body -->
-
-                                            <tr th:each="item : ${shoppingCart} ">
-                                                <td scope="row" th:text="${item.getProductName()}">ProductName</td>
-                                                <td th:text="${item.getQuantity()}">1</td>
-                                                <td th:text="${item.getPrice()}">1</td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <form class="form-group" method="post" th:action="@{/deleteCartItem}">
-                                                            <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                            <button type="submit" class="btn btn-danger btn-sm">&#x1F5D1;</button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            </tbody>
-                                        </table>
 
                                     </div>
                                 </div>
-                                <br>
 
                             </div>
                         </div>
                     </form>
 
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
+                        <div class="pre-scrollable" style="max-height: 200px">
+                            <div th:if="${shoppingCart.isEmpty()}"> <!-- Handling for empty cart -->
+                                <div class="header" align="center">
+                                    Ihr Warenkorb ist leer
+                                </div>
+                            </div>
+
+                            <div th:unless="${shoppingCart.isEmpty()}"> <!-- Handling for non empty cart -->
+                                <table class="table">
+                                    <thead> <!-- table head -->
+
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Menge</th>
+                                        <th scope="col">Preis</th>
+                                        <th scope="col">Bearbeiten</th>
+                                    </tr>
+
+                                    </thead>
+
+                                    <tbody> <!-- table body -->
+
+                                    <tr th:each="item : ${shoppingCart} ">
+                                        <td scope="row" th:text="${item.getProductName()}">ProductName</td>
+                                        <td th:text="${item.getQuantity()}">1</td>
+                                        <td th:text="${item.getPrice()}">1</td>
+                                        <td style="padding: 9px;">
+                                            <div class="btn-group">
+                                                <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/deleteCartItem}">
+                                                    <input type="hidden" name="cartItemId" th:value="${item.getId()}">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="Löschen">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+
+                                                <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="amount" th:value="${-1}">
+                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="-1">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </form>
+
+                                                <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="amount" th:value="${1}">
+                                                    <button class="btn btn-success success-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="+1">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPfand}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Achtung!</strong> <a th:text="${errorPfandMsg}"></a>
+                    </div>
+
+                    <div align="center">
+                        <form class="form-group" method="post" th:action="@{/cashiersystemPfand}">
+                            <input type="hidden" name="pid" id="pidPfand" value="">
+                            <input type="hidden" name="amount" id="amountPfand" value="">
+                            <script>
+                                function updatePfand() {
+                                    document.getElementById("pidPfand").value = document.getElementById("pidInput").value;
+                                    document.getElementById("amountPfand").value = document.getElementById("amountInput").value;
+                                }
+                            </script>
+                            <button type="submit" class="btn btn-lg btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="color:#fff;"><i class="fas fa-wine-bottle"></i>Pfand</button>
+                        </form>
+                    </div>
+
+                    <div class="pre-scrollable" style="max-height: 200px">
+                        <div th:if="${shoppingCart.getPfand().isEmpty()}"> <!-- Handling for empty cart -->
+                            <div class="header" align="center">
+                                Kein Pfand abgegeben
+                            </div>
+                        </div>
+
+                        <div th:unless="${shoppingCart.getPfand().isEmpty()}"> <!-- Handling for non empty cart -->
+                            <table class="table">
+                                <thead> <!-- table head -->
+
+                                <tr>
+                                    <th scope="col">Preis</th>
+                                    <th scope="col">Anzahl</th>
+                                </tr>
+
+                                </thead>
+
+                                <tbody> <!-- table body -->
+
+                                <tr th:each="entry : ${shoppingCart.pfand} ">
+                                    <td scope="row" th:text="${entry.key}">Preis</td>
+                                    <td th:text="${entry.value}">Anzahl</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -332,10 +352,10 @@
                                         <input type="text" class="form-control" id="discount" name="discount" placeholder="Rabatt" th:value="${shoppingCart.getCustomerDiscountString()} " readonly>
                                         <br>
                                         <li><div class="labels-overview">MwSt.: </div></li>
-                                        <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." readonly>
+                                        <input type="text" class="form-control" id="mwst" name="mwst" placeholder="MwSt." th:value="${shoppingCart.getMwstMoney()}" readonly>
                                         <br>
                                         <li><div class="labels-overview">Pfand: </div></li>
-                                        <input type="text" class="form-control" id="pfand" name="pfand" placeholder="Pfand" readonly>
+                                        <input type="text" class="form-control" id="pfand" name="pfand" placeholder="Pfand" th:value="${shoppingCart.getPfandMoney()}" readonly>
                                         <br>
                                     </div>
                                 </ul>
@@ -376,74 +396,11 @@
 
 </div>
 
-
 <div th:include="footer :: footer"></div>
-<!-- End Footer area-->
+<!-- Footer area END -->
 
-<!-- jquery
-        ============================================ -->
-<script src="/js/vendor/jquery-1.12.4.min.js"></script>
-<!-- bootstrap JS
-    ============================================ -->
-<script src="/js/bootstrap.min.js"></script>
-<!-- wow JS
-    ============================================ -->
-<script src="/js/wow.min.js"></script>
-<!-- price-slider JS
-    ============================================ -->
-<script src="/js/jquery-price-slider.js"></script>
-<!-- owl.carousel JS
-    ============================================ -->
-<script src="/js/owl.carousel.min.js"></script>
-<!-- scrollUp JS
-    ============================================ -->
-<script src="/js/jquery.scrollUp.min.js"></script>
-<!-- meanmenu JS
-    ============================================ -->
-<script src="/js/meanmenu/jquery.meanmenu.js"></script>
-<!-- counterup JS
-    ============================================ -->
-<script src="/js/counterup/jquery.counterup.min.js"></script>
-<script src="/js/counterup/waypoints.min.js"></script>
-<script src="/js/counterup/counterup-active.js"></script>
-<!-- mCustomScrollbar JS
-    ============================================ -->
-<script src="/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-<!-- sparkline JS
-    ============================================ -->
-<script src="/js/sparkline/jquery.sparkline.min.js"></script>
-<script src="/js/sparkline/sparkline-active.js"></script>
-<!-- flot JS
-    ============================================ -->
-<script src="/js/flot/jquery.flot.js"></script>
-<script src="/js/flot/jquery.flot.resize.js"></script>
-<script src="/js/flot/flot-active.js"></script>
-<!-- knob JS
-    ============================================ -->
-<script src="/js/knob/jquery.knob.js"></script>
-<script src="/js/knob/jquery.appear.js"></script>
-<script src="/js/knob/knob-active.js"></script>
-<!-- icheck JS
-    ============================================ -->
-<script src="/js/icheck/icheck.min.js"></script>
-<script src="/js/icheck/icheck-active.js"></script>
-<!--  wave JS
-    ============================================ -->
-<script src="/js/wave/waves.min.js"></script>
-<script src="/js/wave/wave-active.js"></script>
-<!--  Chat JS
-    ============================================ -->
-<script src="/js/chat/jquery.chat.js"></script>
-<!--  todo JS
-    ============================================ -->
-<script src="/js/todo/jquery.todo.js"></script>
-<!-- plugins JS
-    ============================================ -->
-<script src="/js/plugins.js"></script>
-<!-- main JS
-    ============================================ -->
-<script src="/js/main.js"></script>
-<!-- tawk chat JS
-    ============================================ -->
+<!--Import JS-->
+<!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
 </body>
 </html>

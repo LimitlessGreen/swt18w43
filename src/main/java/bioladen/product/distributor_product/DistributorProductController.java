@@ -2,8 +2,14 @@ package bioladen.product.distributor_product;
 
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
+import bioladen.product.MwStCategory;
+import bioladen.product.Organization;
+import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
+import lombok.RequiredArgsConstructor;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,19 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class DistributorProductController implements ApplicationEventPublisherAware {
 
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
-
-	DistributorProductController(
-			DistributorProductCatalog distributorProductCatalog,
-			DistributorRepository distributorRepository) {
-		this.distributorProductCatalog = distributorProductCatalog;
-		this.distributorRepository = distributorRepository;
-	}
+	private final AuthenticationManager authenticationManager;
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorproductlist")
@@ -38,6 +40,9 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 
 		model.addAttribute("distributorProductList", distributorProductList);
 		model.addAttribute("distributorList", distributorList);
+		model.addAttribute("productCategories", ProductCategory.values());
+		model.addAttribute("mwStCategories", MwStCategory.values());
+		model.addAttribute("organizations", Organization.values());
 
 		return "distributorproductlist";
 	}
@@ -46,26 +51,39 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 	String distributorForm(Model model) {
 		List<Distributor> distributorList = distributorRepository.findAll();
 		model.addAttribute("distributorList", distributorList);
+		model.addAttribute("productCategories", ProductCategory.values());
+		model.addAttribute("mwStCategories", MwStCategory.values());
+		model.addAttribute("organizations", Organization.values());
 
 		return "distributorproductform";
 	}
 
 	@PostMapping("/addDistributorProduct")
-	String addDistributor(@RequestParam("name")	              String name,
-						  @RequestParam("distributor")        Long   distributorId,
-						  @RequestParam("price")              String priceString,
-						  @RequestParam("unit")               String unitString,
-						  @RequestParam("minimumOrderAmount") long   minimumOrderAmount) {
+	String addDistributor(@RequestParam("name")	              String          name,
+						  @RequestParam("distributor")        Long            distributorId,
+						  @RequestParam("price")              String          priceString,
+						  @RequestParam("unit")               String          unitString,
+						  @RequestParam("minimumOrderAmount") long            minimumOrderAmount,
+						  @RequestParam("productCategory")    ProductCategory productCategory,
+						  @RequestParam("mwStCategory")       MwStCategory    mwStCategory,
+						  @RequestParam("pfandPrice")         String          pfandPriceString,
+						  @RequestParam("organization")       Organization    organization) {
 
-		BigDecimal price = new BigDecimal(priceString);
-		BigDecimal unit = new BigDecimal(unitString);
+		BigDecimal price      = new BigDecimal(priceString);
+		BigDecimal unit       = new BigDecimal(unitString);
+		BigDecimal pfandPrice = new BigDecimal(pfandPriceString);
+
 		Distributor distributor = distributorRepository.findById(distributorId).get();
 
 		DistributorProduct distributorProduct = new DistributorProduct(name,
 				                                                       distributor,
 				                                                       price,
 				                                                       unit,
-				                                                       minimumOrderAmount);
+				                                                       minimumOrderAmount,
+				                                                       productCategory,
+				                                                       mwStCategory,
+				                                                       pfandPrice,
+				                                                       organization);
 		distributorProductCatalog.save(distributorProduct);
 
 		// (👁 ᴥ 👁) Event
@@ -100,6 +118,10 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 	}
 
 	private void publishEvent(DistributorProduct distributorProduct, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(distributorProduct, entityLevel));
+		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
+		publisher.publishEvent(new EntityEvent<>(
+				distributorProduct,
+				entityLevel,
+				currentUser.orElse(null)));
 	}
 }

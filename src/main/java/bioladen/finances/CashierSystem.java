@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
+import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -8,8 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
+ * A cashiersystem for the users to sell wares to the customers.
+ *
  * @author Lukas Petzold
  */
 @Controller
@@ -31,8 +35,6 @@ public class CashierSystem {
 		return new ShoppingCart();
 	}
 
-    // TODO Bitte nicht vergessen, für neues frontend in cashiersystem_new ändern
-
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/cashiersystem")
 	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -43,21 +45,25 @@ public class CashierSystem {
 	/**
 	 * Adds Products to ShoppingCart.
 	 *
-	 * @param product      gets added
-	 * @param amount       times into the
-	 * @param shoppingCart If no product is found an error message is returned
+	 * @param product      An entity of a product gets added to the shoppingCart.
+	 * @param amount       The number of times the product gets added.
+	 * If no product is found an error message is returned.
 	 */
-	@PostMapping("/cashiersystem")
+	@PostMapping("/cashiersystemAdd")
 	String addProduct(
 			@RequestParam("pid") Long product,
 			@RequestParam("amount") Long amount,
 			@ModelAttribute ShoppingCart shoppingCart,
 			Model model) {
+
 		try {
-			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() > amount) {
+			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() >= amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
-				shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
+				CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
 				inventoryProductCatalog.save(inventoryProductCatalog.findById(product).get());
+				if (item.getQuantity() - 1 == 0 && amount < 0) {
+					shoppingCart.removeItem(item.getId());			// delete item when amount is negative and the remaining quantity is 1
+				}
 			} else {
 				model.addAttribute("errorProductAmount", true);
 				model.addAttribute("errorProductAmountMsg", "Vom angegebenen Produkt ist weniger vorhanden als eingegeben");
@@ -72,13 +78,12 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Deletes the Item with the
+	 * Deletes an item from the shoppingCart.
 	 *
-	 * @param pid          from the
-	 * @param shoppingCart
+	 * @param pid  The product with the String pid gets deleted.
 	 */
 	@PostMapping("/deleteCartItem")
-	String deleteProduct(@RequestParam("productId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
+	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
 		shoppingCart.getItem(pid).get().getInventoryProduct()
 				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
@@ -87,11 +92,12 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Calculates the change with the given
+	 * Calculates the change with the money from the customer and the sum of the shoppingCart.
 	 *
-	 * @param changeInput  and the sum of the
-	 * @param shoppingCart returns an error message if no changeInput is entered or
-	 *                     if it is lower than the sum of the shoppingCart
+	 * @param changeInput  The amount of money given by the customer.
+	 * @param shoppingCart To calculate the change, the sum of the shoppingCart ist needed.
+	 * returns an error message if no changeInput is entered or
+	 *                     if it is lower than the sum of the shoppingCart.
 	 */
 	@PostMapping("/cashiersystemCalcChange")
 	String calcChange(
@@ -118,11 +124,11 @@ public class CashierSystem {
 	}
 
 	/**
-	 * Tries finding the user with the
+	 * Adding a user to the shoppingCart so the Discount can be calculated into the sum.
 	 *
-	 * @param userId
-	 * @param model  returns an error message when no user is found.
-	 *               if 0 is entered the discount will be 0% for a NormalCustomer
+	 * @param userId  The user with the userId gets added.
+	 * returns an error message when no user is found.
+	 * if 0 is entered the discount will be 0% for a NormalCustomer.
 	 */
 	@PostMapping("/cashiersystemUser")
 	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
@@ -138,25 +144,47 @@ public class CashierSystem {
 		}
 	}
 
+	@PostMapping("/cashiersystemPfand")
+	String addPfand(@RequestParam("pid") Long product,
+					@RequestParam("amount") Long amount,
+					@ModelAttribute ShoppingCart shoppingCart,
+					Model model){
+		try {
+			shoppingCart.addOrUpdatePfand(inventoryProductCatalog.findById(product).get().getPfandPrice(), amount);
+		} catch (Exception e) {
+			model.addAttribute("errorPfand", true);
+			model.addAttribute("errorPfandMsg", "Ungültiges Produkt eingegeben");
+		}
+
+		return "cashiersystem";
+	}
+
 	/**
-	 * Finish the sale and clears the shoppingCart
+	 * Finish the sale and clears the shoppingCart.
 	 *
-	 * @param shoppingCart gets cleared and user set to null
+	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+		// TODO: Event for Cashiersystem
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";
 	}
 
 	/**
-	 * Aborts the sale and clears the shoppingCart
+	 * Aborts the sale and clears the shoppingCart.
 	 *
-	 * @param shoppingCart gets cleared and user set to null
+	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemAbort")
 	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+
+		for (Map.Entry<InventoryProduct, CartCartItem> e : shoppingCart.getItems().entrySet()) {
+			e.getKey().removeDisplayedAmount(-(e.getValue().getQuantity()));
+			inventoryProductCatalog.save(e.getKey());
+		}
+
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";

@@ -1,6 +1,7 @@
 package bioladen.customer;
 
 import bioladen.event.EntityEvent;
+import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
@@ -11,17 +12,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserAccEventListener {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final UserAccountManager userAccountManager;
-	private final CustomerRepository customerRepository;
-
-
-	UserAccEventListener(UserAccountManager userAccountManager, CustomerRepository customerRepository) {
-		this.userAccountManager = userAccountManager;
-		this.customerRepository = customerRepository;
-	}
 
 	@Async
 	@EventListener
@@ -31,26 +26,12 @@ public class UserAccEventListener {
 		switch (event.getEventLevel()) {
 			case CREATED:
 				if (customer.isCustomerType(CustomerType.STAFF)) {
-					if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_STAFF"));
-						userAccountManager.save(userAccount);
-						customerRepository.save(customer);
-					} else {
-						userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
-					}
-
+					this.save(customer, "ROLE_STAFF");
 				} else if (customer.isCustomerType(CustomerType.MANAGER)) {
-					if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-						UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of("ROLE_MANAGER"));
-						userAccountManager.save(userAccount);
-						customerRepository.save(customer);
-					} else {
-						userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
-					}
-
+					this.save(customer, "ROLE_MANAGER");
 				}
 				break;
-			case DELETED: //TODO in new Salespoint version delete method: userAccount.delete(userAccountManager.findByUsername(customer.getEmail()).get());
+			case DELETED: //TODO in new Salespoint version delete method: userAccount.delete(userAccountManager.findByUsername(customer.getEmail()).getAll());
 				if (customer.isCustomerType(CustomerType.STAFF)) {
 					userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
 				} else if (customer.isCustomerType(CustomerType.MANAGER)) {
@@ -62,6 +43,16 @@ public class UserAccEventListener {
 				break; //TODO Customer modified
 			default:
 				break;
+		}
+	}
+
+	private void save(Customer customer, String role) {
+		if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
+			UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of(role));
+			userAccount.setEmail(customer.getEmail());
+			userAccountManager.save(userAccount);
+		} else {
+			userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
 		}
 	}
 }

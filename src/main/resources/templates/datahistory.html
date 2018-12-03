@@ -2,66 +2,17 @@
 <html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Userverwaltung</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- favicon
-		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-		============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- font awesome CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- owl.carousel CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="css/owl.theme.css">
-    <link rel="stylesheet" href="css/owl.transitions.css">
-    <!-- meanmenu CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/meanmenu/meanmenu.min.css">
-    <!-- animate CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- normalize CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- wave CSS
-        ============================================ -->
-    <link rel="stylesheet" href="css/wave/waves.min.css">
-    <link rel="stylesheet" href="css/wave/button.css">
-    <!-- mCustomScrollbar CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/scrollbar/jquery.mCustomScrollbar.min.css">
-    <!-- Notika icon CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/notika-custom-icon.css">
-    <!-- Data Table JS
-		============================================ -->
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <!-- main CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/main.css">
-    <!-- style CSS
-		============================================ -->
-    <link rel="stylesheet" href="style.css">
-    <!-- responsive CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/responsive.css">
-    <!-- modernizr JS
-		============================================ -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <!--Title-->
+    <title>Aktions-Verlauf</title>
+
+    <!--Import CSS-->
+    <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
+    <link rel="stylesheet" type="text/css" href="/css/info-box.css">
+
 </head>
 
 <body>
-<!--Naviagtion-->
+<!--Navigation-->
 <nav th:include="navigation_new :: navigation"></nav>
 
 
@@ -72,45 +23,69 @@
 
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="data-table-list">
-
                     <div class="row">
                         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                             <div class="basic-tb-hd">
                                 <h2>Aktions-Verlauf</h2>
                             </div>
                         </div>
-
                     </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-
-                            <thead>
-                            <tr>
-                                <th>Zeit</th>
-                                <th>Bereich</th>
-                                <th>Aktion</th>
-                                <th>Inhalt</th>
-                            </tr>
-                            </thead>
-                            <tbody th:remove="all-but-first">
-                            <tr th:each="entry : ${history}">
-                                <td th:text="${entry.getSaveTime()}"></td>
-                                <td th:text="${entry.getEntity().getClass().getName()}"></td>
-                                <td th:text="${entry.getEntityLevel()}"></td>
-                                <td th:text="${entry.getEntity()}"></td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Zeit</th>
-                                <th>Bereich</th>
-                                <th>Aktion</th>
-                                <th>Inhalt</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                    <th:block th:each="dataEntry : ${history}" th:switch="${dataEntry.getEntityLevel()}">
+                        <div th:case="'MODIFIED'" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()} + ' info-box--hidden'">
+                            <div class="info-box-entity">
+                                <div class="info-box-entity-heading">
+                                    <div class="info-box-entity-heading-name">Fridas Hof</div>
+                                    <div class="info-box-entity-heading-class">bioladen.product.distributor.Distributor</div>
+                                </div>
+                                <table class="info-box-entity-attributes-table">
+                                    <tr class="info-box-entity-attributes-table-attribute">
+                                        <td class="info-box-entity-attributes-table-attribute-type">String</td>
+                                        <td class="info-box-entity-attributes-table-attribute-name">email</td>
+                                        <td class="info-box-entity-attributes-table-attribute-value">heinze@bauern.de</td>
+                                    </tr>
+                                    <tr class="info-box-entity-attributes-table-attribute">
+                                        <td class="info-box-entity-attributes-table-attribute-type">String</td>
+                                        <td class="info-box-entity-attributes-table-attribute-name">contactName</td>
+                                        <td class="info-box-entity-attributes-table-attribute-value">Heinz Heinze</td>
+                                    </tr>
+                                    <tr class="info-box-entity-attributes-table-attribute">
+                                        <td class="info-box-entity-attributes-table-attribute-type">String</td>
+                                        <td class="info-box-entity-attributes-table-attribute-name">phone</td>
+                                        <td class="info-box-entity-attributes-table-attribute-value">01524506154</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="info-box-infos">
+                                <div class="info-box-infos-info info-box-infos-info--date">30.11.2018</div>
+                                <div class="info-box-infos-info info-box-infos-info--time">23:17:30</div>
+                                <div class="info-box-infos-info info-box-infos-info--user">Flori Feldfreude (Manager)</div>
+                                <div class="info-box-infos-info info-box-infos-info--thrown-by">bioladen.product.distributor.DistributorController</div>
+                                <div class="info-box-infos-info info-box-infos-info--message">Lorem ipsum dolor sit amet.</div>
+                            </div>
+                        </div>
+                        <div th:case="*" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()} + ' info-box--hidden'">
+                            <div class="info-box-entity">
+                                <div class="info-box-entity-heading">
+                                    <div class="info-box-entity-heading-name" th:text="${dataEntry.getEntity().getName()}">ENTITY_NAME</div>
+                                    <div class="info-box-entity-heading-class" th:text="${dataEntry.getEntity().getClass().getName()}">ENTITY_CLASS_NAME</div>
+                                </div>
+                                <table class="info-box-entity-attributes-table">
+                                    <tr th:each="field : ${dataEntry.getEntity().getClass().getDeclaredFields()}" class="info-box-entity-attributes-table-attribute">
+                                        <td class="info-box-entity-attributes-table-attribute-type" th:text="${field.getGenericType().getTypeName().substring(field.getGenericType().getTypeName().lastIndexOf('.') + 1)}">ENTITY_ATTRIBUTE_TYPE</td>
+                                        <td class="info-box-entity-attributes-table-attribute-name" th:text="${field.getName()}">ENTITY_ATTRIBUTE_NAME</td>
+                                        <td class="info-box-entity-attributes-table-attribute-value" th:text="${dataEntry.getEntity().getClass().getMethod('get' + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1)).invoke(dataEntry.getEntity())}">ENTITY_ATTRIBUTE_VALUE</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="info-box-infos">
+                                <div class="info-box-infos-info info-box-infos-info--date" th:text="${dataEntry.getFormattedSaveTime('dd.MM.yyyy')}">DATA_ENTRY_DATE</div>
+                                <div class="info-box-infos-info info-box-infos-info--time" th:text="${dataEntry.getFormattedSaveTime('HH:mm:ss')}">DATA_ENTRY_TIME</div>
+                                <div class="info-box-infos-info info-box-infos-info--user" th:text="${dataEntry.getInvolvedCustomer() != null} ? ${dataEntry.getInvolvedCustomer().getName()} + ' (' + ${dataEntry.getInvolvedCustomer().getCustomerType().getTypeName()} + ')' : 'System'">DATA_ENTRY_INVOLVED_CUSTOMER_NAME (DATA_ENTRY_INVOLVED_CUSTOMER_CUSTOMER_TYPE)</div>
+                                <div class="info-box-infos-info info-box-infos-info--thrown-by" th:text="${dataEntry.getThrownBy()}">DATA_ENTRY_THROWN_BY</div>
+                                <div class="info-box-infos-info info-box-infos-info--message" th:text="${dataEntry.getMessage()}">DATA_ENTRY_MESSAGE</div>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
             </div>
         </div>
@@ -119,70 +94,12 @@
 <!-- Data Table area End-->
 
 <div th:include="footer :: footer"></div>
-<!-- End Footer area-->
-<!-- jquery
-    ============================================ -->
-<script src="js/vendor/jquery-1.12.4.min.js"></script>
-<!-- bootstrap JS
-    ============================================ -->
-<script src="js/bootstrap.min.js"></script>
-<!-- wow JS
-    ============================================ -->
-<script src="js/wow.min.js"></script>
-<!-- price-slider JS
-    ============================================ -->
-<script src="js/jquery-price-slider.js"></script>
-<!-- owl.carousel JS
-    ============================================ -->
-<script src="js/owl.carousel.min.js"></script>
-<!-- scrollUp JS
-    ============================================ -->
-<script src="js/jquery.scrollUp.min.js"></script>
-<!-- meanmenu JS
-    ============================================ -->
-<script src="js/meanmenu/jquery.meanmenu.js"></script>
-<!-- counterup JS
-    ============================================ -->
-<script src="js/counterup/jquery.counterup.min.js"></script>
-<script src="js/counterup/waypoints.min.js"></script>
-<script src="js/counterup/counterup-active.js"></script>
-<!-- mCustomScrollbar JS
-    ============================================ -->
-<script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-<!-- sparkline JS
-    ============================================ -->
-<script src="js/sparkline/jquery.sparkline.min.js"></script>
-<script src="js/sparkline/sparkline-active.js"></script>
-<!-- flot JS
-    ============================================ -->
-<script src="js/flot/jquery.flot.js"></script>
-<script src="js/flot/jquery.flot.resize.js"></script>
-<script src="js/flot/flot-active.js"></script>
-<!-- knob JS
-    ============================================ -->
-<script src="js/knob/jquery.knob.js"></script>
-<script src="js/knob/jquery.appear.js"></script>
-<script src="js/knob/knob-active.js"></script>
-<!--  Chat JS
-    ============================================ -->
-<script src="js/chat/jquery.chat.js"></script>
-<!--  todo JS
-    ============================================ -->
-<script src="js/todo/jquery.todo.js"></script>
-<!--  wave JS
-    ============================================ -->
-<script src="js/wave/waves.min.js"></script>
-<script src="js/wave/wave-active.js"></script>
-<!-- plugins JS
-    ============================================ -->
-<script src="js/plugins.js"></script>
-<!-- Data Table JS
-    ============================================ -->
-<script src="js/data-table/jquery.dataTables.min.js"></script>
-<script src="js/data-table/data-table-act.js"></script>
-<!-- main JS
-    ============================================ -->
-<script src="js/main.js"></script>
-</body>
+<!-- Footer area END -->
 
+<!--Import JS-->
+<!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<script src="/js/info-box.js"></script>
+
+</body>
 </html>

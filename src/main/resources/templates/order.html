@@ -2,65 +2,14 @@
 <html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!--Title-->
     <title>Bestellung</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- favicon
-		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-		============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- font awesome CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- owl.carousel CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="css/owl.theme.css">
-    <link rel="stylesheet" href="css/owl.transitions.css">
-    <!-- meanmenu CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/meanmenu/meanmenu.min.css">
-    <!-- animate CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- normalize CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- wave CSS
-        ============================================ -->
-    <link rel="stylesheet" href="css/wave/waves.min.css">
-    <link rel="stylesheet" href="css/wave/button.css">
-    <!-- mCustomScrollbar CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/scrollbar/jquery.mCustomScrollbar.min.css">
-    <!-- Notika icon CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/notika-custom-icon.css">
-    <!-- Data Table JS
-		============================================ -->
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-    <!-- main CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/main.css">
-    <!-- style CSS
-		============================================ -->
-    <link rel="stylesheet" href="style.css">
-    <!-- responsive CSS
-		============================================ -->
-    <link rel="stylesheet" href="css/responsive.css">
-    <!-- modernizr JS
-		============================================ -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!--Import CSS-->
+    <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
 </head>
 <body>
-
+<!--Navigation-->
 <nav th:include="navigation_new :: navigation"></nav>
 
 <div class="container">
@@ -95,13 +44,15 @@
 
                     </div>
                 </div>
-                <div class="bsc-tbl-hvr" style="border-bottom-style: solid;border-bottom-width: 1px;padding-bottom: 10px;">
+                <div class="bsc-tbl-hvr" style="border-bottom-style: solid;border-bottom-width: 1px;padding-bottom: 10px;"> <!--Table 1-->
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th>Name</th>
                             <th>Preis</th>
-                            <!--<th>Menge</th>-->
+                            <th>Menge</th>
+                            <th>Grundeinheit</th>
+                            <th>Kategorie</th>
                             <th>Gesamtpreis</th>
                             <th>Lagerbestand</th>
                             <th>Optionen</th>
@@ -111,32 +62,32 @@
                         <tr th:each="inventoryProduct : ${products}">
                             <td th:text="${inventoryProduct.getName()}"></td>
                             <td th:text="${#numbers.formatDecimal(inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <!--TODO:ADD Quantity-->
+                            <td th:text="${amount.toString()}"></td>
+                            <td th:text="${#numbers.formatDecimal(inventoryProduct.getUnit(), 0, 'POINT', 2, 'COMMA')}"></td>
+                            <td th:text="${(inventoryProduct.getProductCategory().getDescriptionDe())}"></td>
                             <td th:text="${#numbers.formatDecimal(amount * inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td>?</td>
                             <td style="padding: 9px;">
-                                <a th:href="'/orders/add?id=' + ${inventoryProduct.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
+                                <a th:href="'/order/add?id=' + ${inventoryProduct.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
                                     <button type="button" class="btn btn-info notika-btn-green">
                                         Hinzufügen
                                     </button>
                                 </a>
-
                             </td>
                         </tr>
 
                         <tr th:each="product : ${productsfiltered}">
                             <td th:text="${product.getName()}"></td>
                             <td th:text="${#numbers.formatDecimal(product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <!--TODO:ADD Quantity-->
+                            <td th:text="${amount.toString()}"></td>
+                            <td th:text="${#numbers.formatDecimal(product.getUnit(), 0, 'POINT', 2, 'COMMA')}"></td>
+                            <td th:text="${(product.getProductCategory().getDescriptionDe())}"></td>
                             <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td>?</td>
                             <td style="padding: 9px;">
-                                <a th:href="'/orders?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() * product.getUnit() , 1, 0)}">
+                                <a th:href="'/order?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() , 1, 0)}">
                                         <span class="label label-danger">Mindestbestellmenge: <span
                                                 th:text="${product.getMinimumOrderAmount()}"></span> </span>
-                                    <!--<span class="badge badge-danger" role="alert" style="background-color: #dc3545 !important;">
-                                        Mindestbestellmenge: <span th:text="${product.getMinimumOrderAmount() }"></span>
-                                    </span>-->
                                 </a>
                             </td>
                         </tr>
@@ -145,7 +96,7 @@
                 </div>
 
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> <!--Table 2 -->
                 <div class="basic-tb-hd" style="margin-bottom: 0px; margin-top: 20px;">
                     <h2>Übersicht</h2>
 
@@ -170,7 +121,7 @@
                             <td th:text="${#numbers.formatDecimal(item.getQuantity().getAmount().doubleValue() * item.getPrice().getNumber().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td>?</td>
                             <td style="padding: 9px;">
-                                <a th:href="'/orders/remove?id=' + ${item.getId()}">
+                                <a th:href="'/order/remove?id=' + ${item.getId()}">
                                     <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -199,232 +150,19 @@
                                     </a>
                                 </div>
                             </div>
-
                         </div>
-
-                    </div>
-                </div>
-            </div>
-            <!---->
-
-
-        </div>
-    </div>
-</div>
-</div>
-
-
-
-<div class="buttons-area">
-    <div class="container">
-        <div class="container-fluid">
-            <div class="col-md-12">
-                <div class="btn-demo-notika mg-t-30">
-                    <div class="order">
-                        <h2>Bestellung</h2>
-                        <form action="" method="get" style="width: 100%">
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Produktname eingeben"
-                                               name="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <input type="number" class="form-control" placeholder="Menge" name="amount">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-info notika-btn-green"
-                                            style="float: left">Suchen
-                                    </button>
-                                </div>
-
-
-                            </div>
-                        </form>
-
-                        <br>
-
-                        <table style="width: 100%; font-size: 16px;">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Preis</th>
-                                <th>Gesamtpreis</th>
-                                <th>Lagerbestand</th>
-                                <th>Optionen</th>
-                            </tr>
-                            </thead>
-
-
-                            <tbody>
-                            <tr th:each="inventoryProduct : ${products}">
-                                <td th:text="${inventoryProduct.getName()}"></td>
-                                <td th:text="${#numbers.formatDecimal(inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td th:text="${#numbers.formatDecimal(amount * inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td>?</td>
-                                <td>
-                                    <a th:href="'/orders/add?id=' + ${inventoryProduct.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
-                                        <button type="button" class="btn btn-info notika-btn-green">
-                                            Hinzufügen
-                                        </button>
-                                    </a>
-
-                                </td>
-                            </tr>
-
-                            <tr th:each="product : ${productsfiltered}">
-                                <td th:text="${product.getName()}"></td>
-                                <td th:text="${#numbers.formatDecimal(product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td>?</td>
-                                <td>
-                                    <a th:href="'/orders?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() * product.getUnit() , 1, 0)}">
-                                        <span class="label label-danger">Mindestbestellmenge: <span
-                                                th:text="${product.getMinimumOrderAmount()}"></span> </span>
-                                        <!--<span class="badge badge-danger" role="alert" style="background-color: #dc3545 !important;">
-                                            Mindestbestellmenge: <span th:text="${product.getMinimumOrderAmount() }"></span>
-                                        </span>-->
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <hr>
-                        <br>
-                        <h5>Bestellübersicht</h5>
-
-                        <table style="width: 100%; font-size: 16px;">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Preis</th>
-                                <th>Menge</th>
-                                <th>Gesamtpreis</th>
-                                <th>Lagerbestand</th>
-                                <th>Löschen?</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr th:each="item : ${cart}">
-                                <td th:text="${item.getProductName()}"></td>
-                                <td th:text="${#numbers.formatDecimal(item.getProduct().getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td th:text="${item.getQuantity().toString()}"></td>
-                                <td th:text="${#numbers.formatDecimal(item.getQuantity().getAmount().doubleValue() * item.getPrice().getNumber().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td>?</td>
-                                <td><a th:href="'/orders/remove?id=' + ${item.getId()}">
-                                    <button type="button" class="btn btn-danger notika-btn-red" style="float:inside"><i
-                                            class="fas fa-trash-alt"></i></button>
-                                </a></td>
-                            </tr>
-                            </tbody>
-
-                        </table>
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h6>Anzahl der Artikel: <span th:text="${articles}"></span></h6>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <h6>Summe: <span th:text="${totalprice}"></span> €</h6>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="offset-lg-3 col-lg-1">
-                                <a href="orderFinished">
-                                    <button type="button" class="btn btn-info notika-btn-green"
-                                            style="float: left">Bestellen
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <div th:include="footer :: footer"></div>
-<!-- End Footer area-->
+<!-- Footer area END -->
 
-<!-- jquery
-    ============================================ -->
-<script src="js/vendor/jquery-1.12.4.min.js"></script>
-<!-- bootstrap JS
-    ============================================ -->
-<script src="js/bootstrap.min.js"></script>
-<!-- wow JS
-    ============================================ -->
-<script src="js/wow.min.js"></script>
-<!-- price-slider JS
-    ============================================ -->
-<script src="js/jquery-price-slider.js"></script>
-<!-- owl.carousel JS
-    ============================================ -->
-<script src="js/owl.carousel.min.js"></script>
-<!-- scrollUp JS
-    ============================================ -->
-<script src="js/jquery.scrollUp.min.js"></script>
-<!-- meanmenu JS
-    ============================================ -->
-<script src="js/meanmenu/jquery.meanmenu.js"></script>
-<!-- counterup JS
-    ============================================ -->
-<script src="js/counterup/jquery.counterup.min.js"></script>
-<script src="js/counterup/waypoints.min.js"></script>
-<script src="js/counterup/counterup-active.js"></script>
-<!-- mCustomScrollbar JS
-    ============================================ -->
-<script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-<!-- sparkline JS
-    ============================================ -->
-<script src="js/sparkline/jquery.sparkline.min.js"></script>
-<script src="js/sparkline/sparkline-active.js"></script>
-<!-- flot JS
-    ============================================ -->
-<script src="js/flot/jquery.flot.js"></script>
-<script src="js/flot/jquery.flot.resize.js"></script>
-<script src="js/flot/flot-active.js"></script>
-<!-- knob JS
-    ============================================ -->
-<script src="js/knob/jquery.knob.js"></script>
-<script src="js/knob/jquery.appear.js"></script>
-<script src="js/knob/knob-active.js"></script>
-<!--  Chat JS
-    ============================================ -->
-<script src="js/chat/jquery.chat.js"></script>
-<!--  todo JS
-    ============================================ -->
-<script src="js/todo/jquery.todo.js"></script>
-<!--  wave JS
-    ============================================ -->
-<script src="js/wave/waves.min.js"></script>
-<script src="js/wave/wave-active.js"></script>
-<!-- plugins JS
-    ============================================ -->
-<script src="js/plugins.js"></script>
-<!-- Data Table JS
-    ============================================ -->
-<script src="js/data-table/jquery.dataTables.min.js"></script>
-<script src="js/data-table/data-table-act.js"></script>
-<!-- main JS
-    ============================================ -->
-<script src="js/main.js"></script>
+<!--Import JS-->
+<!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
 </body>
-
 </html>

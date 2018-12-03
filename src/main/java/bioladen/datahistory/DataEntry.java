@@ -1,11 +1,13 @@
 package bioladen.datahistory;
 
+import bioladen.customer.Customer;
 import bioladen.event.EntityLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.salespointframework.core.AbstractEntity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
@@ -21,6 +23,7 @@ public class DataEntry<T> {
 	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
 	private EntityLevel entityLevel;
 	private String thrownBy;
+	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
 	private @Setter String message = "No message";
 	private T entity;
@@ -35,12 +38,13 @@ public class DataEntry<T> {
 	}
 
 	/**
-	 * Returns whether the {@link DataEntry} already has a {@link this.saveTime} set.
+	 * Returns a formatted String of the saveTime.
 	 *
-	 * @return
+	 * @param format as defined by {@link java.time.format.DateTimeFormatter}
+	 * @return formatted saveTime String
 	 */
-	public boolean hasSaveTime() {
-		return saveTime != null;
+	public String getFormattedSaveTime(String format) {
+		return this.saveTime.format(DateTimeFormatter.ofPattern(format));
 	}
 
 	/**

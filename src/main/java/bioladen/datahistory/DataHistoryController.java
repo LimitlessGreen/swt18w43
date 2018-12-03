@@ -5,17 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.lang.reflect.Field;
+
 @Controller
-public class HistoryController {
+public class DataHistoryController {
 	private final DataEntryRepository dataEntryRepository;
 
-	HistoryController(DataEntryRepository dataEntryRepository) {
+	DataHistoryController(DataEntryRepository dataEntryRepository) {
 		this.dataEntryRepository = dataEntryRepository;
 	}
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/datahistory")
 	String datahistory(Model model){
-		model.addAttribute("history", dataEntryRepository.findAll());
+		model.addAttribute("history", dataEntryRepository.findAllByOrderBySaveTimeDesc());
+
 		return "datahistory";
 	}
 }

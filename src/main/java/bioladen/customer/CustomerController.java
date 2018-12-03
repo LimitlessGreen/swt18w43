@@ -1,33 +1,31 @@
 package bioladen.customer;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
+import org.apache.commons.lang3.StringUtils;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.salespointframework.useraccount.AuthenticationManager;
 
 @Controller
 @Transactional
-public class CustomerController implements ApplicationEventPublisherAware {
+@RequiredArgsConstructor
+public class CustomerController {
 
-	private final CustomerRepository customerRepository;
-
-	CustomerController(CustomerRepository customerRepository) {
-		this.customerRepository = customerRepository;
-	}
+	private final AuthenticationManager authenticationManager;
+	private final CustomerManager customerManager;
 
 	/*Functions for register.html*/
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/register")
 	public String register() {
 		return "register";
 	}
 
+	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@PostMapping("/register")
 	public String registerNew(@RequestParam("firstname") String firstname,
 							  @RequestParam("lastname")  String lastname,
@@ -39,17 +37,17 @@ public class CustomerController implements ApplicationEventPublisherAware {
 							  Model model){
 
 		CustomerType customerType;
-		Customer.Sex customerSex;
+		Sex customerSex;
 
 		switch (sex) {
 			case "male":
-				customerSex = Customer.Sex.MALE;
+				customerSex = Sex.MALE;
 				break;
 			case "female":
-				customerSex = Customer.Sex.FEMALE;
+				customerSex = Sex.FEMALE;
 				break;
 			case "various":
-				customerSex = Customer.Sex.VARIOUS;
+				customerSex = Sex.VARIOUS;
 				break;
 			default:
 				throw new IllegalArgumentException(sex);
@@ -76,50 +74,55 @@ public class CustomerController implements ApplicationEventPublisherAware {
 		String safeLastName;
 		String safeEmail = "";
 
-		if (firstname.equals("")) {
-			model.addAttribute("errorFirstName", true);
-			model.addAttribute("errorFirstNameMsg", "Bitte Vornamen angeben");
+		if (StringUtils.isBlank(firstname)) {
+			model.addAttribute("errorRegister", true);
+			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
 			return "register";
 		} else {
 			safeFirstName = firstname;
 		}
 
-		if (lastname.equals("")) {
-			model.addAttribute("errorLastName", true);
-			model.addAttribute("errorLastNameMsg", "Bitte Nachnamen angeben");
+		if (StringUtils.isBlank(lastname)) {
+			model.addAttribute("errorRegister", true);
+			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
 			return "register";
 		} else {
 			safeLastName = lastname;
 		}
 
-		if (!customerRepository.findAll().isEmpty()) {
-			for (Customer customer : customerRepository.findAll()) {
-				if (!customer.getEmail().equals(email)) {
-					safeEmail = email;
-				} else {
-					model.addAttribute("errorEmail", true);
-					model.addAttribute("errorEmailMsg", "Diese Email ist bereits vorhanden");
-					return "register";
-				}
-			}
+		if (StringUtils.isBlank(email)) {
+			model.addAttribute("errorRegister", true);
+			model.addAttribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt.");
+			return "register";
 		} else {
-			safeEmail = email;
+			if (!customerManager.getAll().isEmpty()) {
+				for (Customer customer : customerManager.getAll()) {
+					if (!customer.getEmail().equals(email)) {
+						safeEmail = email;
+					} else {
+						model.addAttribute("errorRegister", true);
+						model.addAttribute("errorRegisterMsg", "E-Mail ist bereits im System registriert");
+						return "register";
+					}
+				}
+			} else {
+				safeEmail = email;
+			}
 		}
+
 
 		Customer customer = new Customer(safeFirstName, safeLastName, safeEmail, customerSex, customerType);
 
-		if (!phone.isEmpty()) {
+		if (StringUtils.isNotBlank(phone)) {
 			customer.setPhone(phone);
 		}
-		if (!address.isEmpty()) {
+		if (StringUtils.isNotBlank(address)) {
 			customer.setStreet(address);
 		}
-		customerRepository.save(customer);
+		customerManager.save(customer);
 
-		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.CREATED);
-
-		return "redirect:/customerlist";
+		model.addAttribute("successRegister", true);
+		return "register";
 	}
 
 	/*Function for customerlist.html*/
@@ -127,44 +130,24 @@ public class CustomerController implements ApplicationEventPublisherAware {
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/customerlist")
 	String customerRepository(Model model) {
-		List<Customer> customerList = customerRepository.findAll();
-		model.addAttribute("customerList", customerList);
+		model.addAttribute("customerList", customerManager.getAll());
 
 		return "customerlist";
 	}
 
-	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
-		Customer customer = customerRepository.findById(id).get();
-		customerRepository.deleteById(id);
+		Customer customer = customerManager.get(id);
+		if (!authenticationManager.getCurrentUser().get().getUsername().
+				equals(customerManager.get(id).getEmail())) {
+			customerManager.delete(id);
 
-		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.DELETED);
+		}
+
 
 		return "redirect:/customerlist";
 	}
 
-	/*
-	 _________________
-	< Event publisher >
-	 -----------------
-        \   ^__^
-         \  (@@)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-
-	*/
-	private ApplicationEventPublisher publisher;
-
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(Customer customer, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(customer, entityLevel));
-	}
 }
 

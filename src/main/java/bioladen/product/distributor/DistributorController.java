@@ -2,6 +2,9 @@ package bioladen.product.distributor;
 
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
+import lombok.RequiredArgsConstructor;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,15 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class DistributorController implements ApplicationEventPublisherAware {
 
 	private final DistributorRepository distributorRepository;
-
-	DistributorController(DistributorRepository distributorRepository) {
-		this.distributorRepository = distributorRepository;
-	}
+	private final AuthenticationManager authenticationManager;
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorlist")
@@ -83,6 +85,10 @@ public class DistributorController implements ApplicationEventPublisherAware {
 	}
 
 	private void publishEvent(Distributor distributor, EntityLevel entityLevel) {
-		publisher.publishEvent(new EntityEvent<>(distributor, entityLevel));
+		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
+		publisher.publishEvent(new EntityEvent<>(
+				distributor,
+				entityLevel,
+				currentUser.orElse(null)));
 	}
 }
