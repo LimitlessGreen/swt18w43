@@ -39,11 +39,15 @@
                                 <script> // functions for numpad pid
                                 var pidInput = "";
                                 function pidUpdate(char) {
-                                    pidInput = pidInput + char;
-                                    document.getElementById('pidInput').value=pidInput;
-                                    updatePfand();
+                                    if (document.getElementById('pidInput').value.length < 18) {
+                                        pidInput = document.getElementById('pidInput').value;
+                                        pidInput = pidInput + char;
+                                        document.getElementById('pidInput').value = pidInput;
+                                        updatePfand();
+                                    }
                                 }
                                 function pidRemoveOne() {
+                                    pidInput = document.getElementById('pidInput').value;
                                     pidInput = pidInput.substring(0, pidInput.length-1);
                                     document.getElementById('pidInput').value=pidInput;
                                     updatePfand();
@@ -246,16 +250,21 @@
                                         <strong>Achtung!</strong> <a th:text="${errorMsgUid}"></a>
                                     </div>
                                     <label for="userId">Kunden ID</label>
-                                    <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="18" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben">
+                                    <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="18" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben" required>
                                 </div>
 
                                 <script> // functions for numpad userId
                                 var userIdInput = "";
                                 function userIdUpdate(char) {
-                                    userIdInput = userIdInput + char;
-                                    document.getElementById('userId').value=userIdInput;
+                                    if (document.getElementById('userId').value.length < 18) {
+                                        userIdInput = document.getElementById('userId').value;
+                                        userIdInput = userIdInput + char;
+                                        document.getElementById('userId').value=userIdInput;
+                                    }
+
                                 }
                                 function userIdRemoveOne() {
+                                    userIdInput = document.getElementById('userId').value;
                                     userIdInput = userIdInput.substring(0, userIdInput.length-1)
                                     document.getElementById('userId').value=userIdInput;
                                 }
@@ -290,10 +299,14 @@
                                 <script> // functions for numpad change
                                 var changeInput = "";
                                 function changeUpdate(char) {
-                                    changeInput = changeInput + char;
-                                    document.getElementById('change').value=changeInput;
+                                    if (document.getElementById('change').value.length < 18) {
+                                        changeInput = document.getElementById('change').value;
+                                        changeInput = changeInput + char;
+                                        document.getElementById('change').value = changeInput;
+                                    }
                                 }
                                 function changeRemoveOne() {
+                                    changeInput = document.getElementById('change').value;
                                     changeInput = changeInput.substring(0, changeInput.length-1)
                                     document.getElementById('change').value=changeInput;
                                 }
