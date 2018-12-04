@@ -23,3 +23,6 @@ Desktop.ini
 # H2 database files
 *.mv.db
 *.h2.db
+
+# Generated QRCodes, Barcodes and Label PDFs
+src/main/resources/generated/
