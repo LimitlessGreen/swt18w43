@@ -11,11 +11,13 @@ import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,15 +27,12 @@ class ShoppingCartTest {
 
 	private ShoppingCart shoppingCart = new ShoppingCart();
 
-	/*@MockBean
+	@Autowired
 	private DistributorProductCatalog distributorProductCatalog;
 
-	@MockBean
+	@Autowired
 	private InventoryProductCatalog inventoryProductCatalog;
 
-	@MockBean
-	private DistributorRepository distributorRepository;*/
-	
 
 	private Customer customer = new Customer("Hans",
 									"Hanserich",
@@ -44,74 +43,38 @@ class ShoppingCartTest {
 	private final int one = 1;
 	private final int two = 2;
 	private final int five = 5;
-	private final int seven = 7;
 
-	/*
-	 * FIXME: Adapt Tests to new DistributorProduct (with category and pfand)
-	 */
 
-//	@Test
-//	void addOrUpdateItem() {
-//		Distributor distributor = new Distributor("Heinz",
-//				"heinz@bauern.de",
-//				"Hermann",
-//				"012354123");
-//		distributorRepository.save(distributor);
-//		DistributorProduct distributorProduct = new DistributorProduct("Milch",
-//				distributor,
-//				BigDecimal.valueOf(five),
-//				BigDecimal.valueOf(one),
-//				seven);
-//		distributorProductCatalog.save(distributorProduct);
-//		InventoryProduct inventoryProduct = new InventoryProduct(distributorProduct, distributorProductCatalog);
-//		inventoryProductCatalog.save(inventoryProduct);
-//
-//		shoppingCart.addOrUpdateItem(inventoryProduct, five);
-//		assertTrue(shoppingCart.getItems().containsKey(inventoryProduct));
-//	}
 
-//	@Test
-//	void removeItem() {
-//		Distributor distributor = new Distributor("Heinz",
-//				"heinz@bauern.de",
-//				"Hermann",
-//				"012354123");
-//		distributorRepository.save(distributor);
-//		DistributorProduct distributorProduct = new DistributorProduct("Milch",
-//				distributor,
-//				BigDecimal.valueOf(five),
-//				BigDecimal.valueOf(one),
-//				seven);
-//		distributorProductCatalog.save(distributorProduct);
-//		InventoryProduct inventoryProduct = new InventoryProduct(distributorProduct, distributorProductCatalog);
-//		inventoryProductCatalog.save(inventoryProduct);
-//
-//		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, five);
-//
-//		shoppingCart.removeItem(item.getId());
-//		assertFalse(shoppingCart.getItems().containsKey(inventoryProduct));
-//	}
+	@Test
+	void addOrUpdateItem() {
 
-//	@Test
-//	void getItem() {
-//		Distributor distributor = new Distributor("Heinz",
-//				"heinz@bauern.de",
-//				"Hermann",
-//				"012354123");
-//		distributorRepository.save(distributor);
-//		DistributorProduct distributorProduct = new DistributorProduct("Milch",
-//				distributor,
-//				BigDecimal.valueOf(five),
-//				BigDecimal.valueOf(one),
-//				seven);
-//		distributorProductCatalog.save(distributorProduct);
-//		InventoryProduct inventoryProduct = new InventoryProduct(distributorProduct, distributorProductCatalog);
-//		inventoryProductCatalog.save(inventoryProduct);
-//
-//		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, five);
-//
-//		assertEquals(item, shoppingCart.getItem(item.getId()).get());
-//	}
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+
+		shoppingCart.addOrUpdateItem(inventoryProduct, five);
+		assertTrue(shoppingCart.getItems().containsKey(inventoryProduct));
+	}
+
+	@Test
+	void removeItem() {
+
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+
+		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, five);
+
+		shoppingCart.removeItem(item.getId());
+		assertFalse(shoppingCart.getItems().containsKey(inventoryProduct));
+	}
+
+	@Test
+	void getItem() {
+
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+
+		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, five);
+
+		assertEquals(item, shoppingCart.getItem(item.getId()).get());
+	}
 
 	@Test
 	void clear() {
@@ -127,78 +90,45 @@ class ShoppingCartTest {
 		assertTrue(shoppingCart.getItems().isEmpty());
 	}
 
-//	@Test
-//	void getPrice() {
-//		shoppingCart.setCustomer(customer);
-//
-//		Distributor distributor = new Distributor("Heinz",
-//				"heinz@bauern.de",
-//				"Hermann",
-//				"012354123");
-//		distributorRepository.save(distributor);
-//		DistributorProduct distributorProduct = new DistributorProduct("Milch",
-//				distributor,
-//				BigDecimal.valueOf(five),
-//				BigDecimal.valueOf(one),
-//				seven);
-//		distributorProductCatalog.save(distributorProduct);
-//		InventoryProduct inventoryProduct = new InventoryProduct(distributorProduct, distributorProductCatalog);
-//		inventoryProductCatalog.save(inventoryProduct);
+	@Test
+	void getPrice() {
+		shoppingCart.setCustomer(customer);
 
-//		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, one);
-//		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice(); // quantity = one --> price = price of product
-//		double discount = Customer.getDiscount(customer.getCustomerType());
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(3L).get(), distributorProductCatalog);
 
-//		assertEquals(price.multiply(BigDecimal.valueOf(one - discount)).setScale(two), shoppingCart.getPrice());
-//	}
+		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, one);
+		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice(); // quantity = one --> price = price of product
+		double discount = customer.getCustomerType().getDiscount();
+		price = price.add(item.getInventoryProduct().getPfandPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+		price = price.multiply(BigDecimal.valueOf(one - discount));
+		price = price.add(shoppingCart.getMwstMoney());
 
-//	@Test
-//	void getBasicPrice() {
-//		shoppingCart.setCustomer(customer);
-//
-//		Distributor distributor = new Distributor("Heinz",
-//				"heinz@bauern.de",
-//				"Hermann",
-//				"012354123");
-//		distributorRepository.save(distributor);
-//		DistributorProduct distributorProduct = new DistributorProduct("Milch",
-//				distributor,
-//				BigDecimal.valueOf(five),
-//				BigDecimal.valueOf(one),
-//				seven);
-//		distributorProductCatalog.save(distributorProduct);
-//		InventoryProduct inventoryProduct = new InventoryProduct(distributorProduct, distributorProductCatalog);
-//		inventoryProductCatalog.save(inventoryProduct);
-//
-//		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, one);
-//		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice(); // quantity = one --> price = price of product
-//		double discount = Customer.getDiscount(customer.getCustomerType());
-//
-//		assertEquals(price.setScale(two), shoppingCart.getBasicPrice());
-//	}
+		assertEquals(price.setScale(two, RoundingMode.HALF_EVEN), shoppingCart.getPrice());
+	}
 
-//	@Test
-//	void getAmountOfItems() {
-//		shoppingCart.setCustomer(customer);
-//
-//		Distributor distributor = new Distributor("Heinz",
-//				"heinz@bauern.de",
-//				"Hermann",
-//				"012354123");
-//		distributorRepository.save(distributor);
-//		DistributorProduct distributorProduct = new DistributorProduct("Milch",
-//				distributor,
-//				BigDecimal.valueOf(five),
-//				BigDecimal.valueOf(one),
-//				seven);
-//		distributorProductCatalog.save(distributorProduct);
-//		InventoryProduct inventoryProduct = new InventoryProduct(distributorProduct, distributorProductCatalog);
-//		inventoryProductCatalog.save(inventoryProduct);
-//
-//		shoppingCart.addOrUpdateItem(inventoryProduct, two);
-//
-//		assertEquals(one, shoppingCart.getAmountOfItems());
-//	}
+	@Test
+	void getBasicPrice() {
+		shoppingCart.setCustomer(customer);
+
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(3L).get(), distributorProductCatalog);
+
+		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, one);
+		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice().add(item.getInventoryProduct().getPfandPrice()); // quantity = one --> price = price of product
+		double discount = customer.getCustomerType().getDiscount();
+
+		assertEquals(price.setScale(two, RoundingMode.HALF_EVEN), shoppingCart.getBasicPrice());
+	}
+
+	@Test
+	void getAmountOfItems() {
+		shoppingCart.setCustomer(customer);
+
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+
+		shoppingCart.addOrUpdateItem(inventoryProduct, two);
+
+		assertEquals(one, shoppingCart.getAmountOfItems());
+	}
 
 	@Test
 	void getCustomerDiscountString() {

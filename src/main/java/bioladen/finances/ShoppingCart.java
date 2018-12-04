@@ -152,7 +152,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 			}
 		}
 
-		money = money.setScale(SCALE);
+		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);
 
 		return money;
 	}
