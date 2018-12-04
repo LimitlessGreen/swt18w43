@@ -1,7 +1,6 @@
 package bioladen.order;
 
 
-import bioladen.customer.CustomerRepository;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import bioladen.product.distributor.Distributor;
@@ -12,15 +11,9 @@ import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -30,6 +23,7 @@ public class OrderController {
 
 	private final DistributorOrderRepository orderRepository;
 	private final DistributorProductCatalog distributorProductCatalog;
+	private final InventoryProductCatalog inventoryProductCatalog;
 	private final OrderItemRepository itemRepository;
 
 
@@ -42,6 +36,27 @@ public class OrderController {
 		return "orderoverview";
 	}
 
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@GetMapping("/orders/delete/{order}")
+	public String deleteOrder( @PathVariable DistributorOrder order ) {
+		orderRepository.delete(order);
+		return "redirect:/orders";
+	}
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@GetMapping("/orders/complete/{order}")
+	public String completeOrder( @PathVariable DistributorOrder order ) {
+
+		order.getItems().forEach(orderItem -> {
+			InventoryProduct product = null; // inventoryProductCatalog; // TODO get real Product by distributorproduct
+			product.setInventoryAmount(product.getInventoryAmount() + orderItem.getQuantity().getAmount().longValue());
+			inventoryProductCatalog.save(product);
+		});
+
+		orderRepository.delete(order);
+		return "redirect:/orders";
+	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/order")

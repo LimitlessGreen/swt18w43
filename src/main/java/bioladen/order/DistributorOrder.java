@@ -4,8 +4,11 @@ import bioladen.product.distributor.Distributor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.javamoney.moneta.Money;
 import org.salespointframework.useraccount.UserAccount;
 
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,16 @@ public class DistributorOrder {
 		orderCart.clear();
 	}
 
+	public MonetaryAmount getPrice() {
+		MonetaryAmount price = Money.of(0, "EUR");
+
+		for (OrderItem item : items) {
+			price = price.add(Money.of(item.getPrice(), "EUR"));
+
+		}
+
+		return price;
+	}
 
 
 }
