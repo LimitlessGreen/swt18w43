@@ -120,6 +120,7 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 	private void publishEvent(DistributorProduct distributorProduct, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
 		publisher.publishEvent(new EntityEvent<>(
+				distributorProduct.getName(),
 				distributorProduct,
 				entityLevel,
 				currentUser.orElse(null)));

@@ -18,7 +18,7 @@ public class EntityEventListener {
 
 	@Async
 	@EventListener
-	public void listenCustomerEvent(EntityEvent event) {
+	public void listenEvent(EntityEvent event) {
 		// break if is an DataEntry, to prevent event loop
 		if (event.getEntity() instanceof DataEntry) {
 			return;

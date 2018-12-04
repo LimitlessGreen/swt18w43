@@ -95,6 +95,7 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 	private void publishEvent(InventoryProduct inventoryProduct, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
 		publisher.publishEvent(new EntityEvent<>(
+				inventoryProduct.getName(),
 				inventoryProduct,
 				entityLevel,
 				currentUser.orElse(null)));

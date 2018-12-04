@@ -1,8 +1,15 @@
 package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
+import bioladen.event.EntityEvent;
+import bioladen.event.EntityLevel;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
+import lombok.RequiredArgsConstructor;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.UserAccount;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A cashiersystem for the users to sell wares to the customers.
@@ -17,17 +25,14 @@ import java.util.Map;
  * @author Lukas Petzold
  */
 @Controller
+@RequiredArgsConstructor
 @SessionAttributes({"shoppingCart"})
 
-public class CashierSystem {
+public class CashierSystem implements ApplicationEventPublisherAware {
 
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final CustomerRepository customerRepository;
-
-	CashierSystem(InventoryProductCatalog inventoryProductCatalog, CustomerRepository customerRepository) {
-		this.inventoryProductCatalog = inventoryProductCatalog;
-		this.customerRepository = customerRepository;
-	}
+	private final AuthenticationManager authenticationManager;
 
 	@ModelAttribute("shoppingCart")
 	ShoppingCart initializeShoppingCart() {
@@ -166,7 +171,9 @@ public class CashierSystem {
 	 */
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
-		// TODO: Event for Cashiersystem
+		// (👁 ᴥ 👁) Event
+		publishEvent(shoppingCart, EntityLevel.CREATED, "Verkauf");
+
 		shoppingCart.clear();
 
 		return "redirect:/cashiersystem";
@@ -180,6 +187,9 @@ public class CashierSystem {
 	@PostMapping("/cashiersystemAbort")
 	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
 
+		// (👁 ᴥ 👁) Event
+		publishEvent(shoppingCart, EntityLevel.DELETED, "Stornierung");
+
 		for (Map.Entry<InventoryProduct, CartCartItem> e : shoppingCart.getItems().entrySet()) {
 			e.getKey().removeDisplayedAmount(-(e.getValue().getQuantity()));
 			inventoryProductCatalog.save(e.getKey());
@@ -190,4 +200,30 @@ public class CashierSystem {
 		return "redirect:/cashiersystem";
 	}
 
+	/*
+         _________________
+        < Event publisher >
+         -----------------
+            \   ^__^
+             \  (@@)\_______
+                (__)\       )\/\
+                    ||----w |
+                    ||     ||
+
+    */
+	private ApplicationEventPublisher publisher;
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+		this.publisher = publisher;
+	}
+
+	private void publishEvent(ShoppingCart shoppingCart, EntityLevel entityLevel, String name) {
+		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
+		publisher.publishEvent(new EntityEvent<>(
+				name,
+				shoppingCart,
+				entityLevel,
+				currentUser.orElse(null)));
+	}
 }

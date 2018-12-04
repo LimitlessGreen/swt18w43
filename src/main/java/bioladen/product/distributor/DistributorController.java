@@ -87,6 +87,7 @@ public class DistributorController implements ApplicationEventPublisherAware {
 	private void publishEvent(Distributor distributor, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
 		publisher.publishEvent(new EntityEvent<>(
+				distributor.getName(),
 				distributor,
 				entityLevel,
 				currentUser.orElse(null)));

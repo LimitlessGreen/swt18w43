@@ -109,6 +109,7 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 	private void publishEvent(Customer customer, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
 		publisher.publishEvent(new EntityEvent<>(
+				customer.getName(),
 				customer,
 				entityLevel,
 				currentUser.orElse(null)));

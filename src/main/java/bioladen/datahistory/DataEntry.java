@@ -26,12 +26,13 @@ public class DataEntry<T> {
 	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
 	private @Setter String message = "No message";
+	private @Setter String name = null;
 	private T entity;
-	// TODO for later usage: add a user, who interacted with the push
 
 	public DataEntry() {}
 
-	public DataEntry(EntityLevel entityLevel, String thrownBy, T entity) {
+	DataEntry(String name, EntityLevel entityLevel, String thrownBy, T entity) {
+		this.name = name;
 		this.entityLevel = entityLevel;
 		this.thrownBy = thrownBy;
 		this.entity = entity;
