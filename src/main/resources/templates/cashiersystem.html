@@ -405,6 +405,7 @@
                             <br>
 
                         </div>
+                        <div id="qrcode"></div>
                     </div>
                 </div>
             </div>
@@ -422,6 +423,34 @@
 
 <!-- Validator.js -->
 <script src="/js/validator.js"></script>
+
+<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script th:inline="javascript">
+    /*[+
+
+    $('#qrcode').qrcode('http://' + [[${hostname}]] + ':8080/shoppingCartScanner?sc_id=' + [[${sc_id}]]);
+
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/websocket');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected');
+            stompClient.subscribe('/topic/receiveId/' + [[${sc_id}]], function(message) {
+                $('#pidInput').val(message.body);
+            });
+        });
+    }
+
+    $(function() {
+        connect();
+    });
+
+    +]*/
+</script>
 
 </body>
 </html>

@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,7 +44,9 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/cashiersystem")
-	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "cashiersystem";
 	}
@@ -59,7 +63,7 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 			@RequestParam("pid") Long product,
 			@RequestParam("amount") Long amount,
 			@ModelAttribute ShoppingCart shoppingCart,
-			Model model) {
+			Model model) throws UnknownHostException {
 
 		final Long EAN13 = 2000000000000L;
 		final int EAN13_LENGTH = 13;
@@ -85,6 +89,9 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 			model.addAttribute("errorMsgPid", "Kein Produkt gefunden");
 		}
 
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		return "cashiersystem";
 	}
 
@@ -94,11 +101,15 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	 * @param pid  The product with the String pid gets deleted.
 	 */
 	@PostMapping("/deleteCartItem")
-	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
+	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 		shoppingCart.getItem(pid).get().getInventoryProduct()
 				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
 		shoppingCart.removeItem(pid);
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		return "cashiersystem";
 	}
 
@@ -114,7 +125,11 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	String calcChange(
 			@RequestParam("changeInput") Double changeInput,
 			@ModelAttribute ShoppingCart shoppingCart,
-			Model model) {
+			Model model) throws UnknownHostException {
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		try {
 			BigDecimal money = BigDecimal.valueOf(changeInput);
 			money = money.subtract(shoppingCart.getPrice());
@@ -142,7 +157,10 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	 * if 0 is entered the discount will be 0% for a NormalCustomer.
 	 */
 	@PostMapping("/cashiersystemUser")
-	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		try {
 			shoppingCart.setCustomer(customerRepository.findById(userId).get());
 
@@ -159,13 +177,16 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	String addPfand(@RequestParam("pid") Long product,
 					@RequestParam("amount") Long amount,
 					@ModelAttribute ShoppingCart shoppingCart,
-					Model model){
+					Model model) throws UnknownHostException {
 		try {
 			shoppingCart.addOrUpdatePfand(inventoryProductCatalog.findById(product).get().getPfandPrice(), amount);
 		} catch (Exception e) {
 			model.addAttribute("errorPfand", true);
 			model.addAttribute("errorPfandMsg", "Ungültiges Produkt eingegeben");
 		}
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "cashiersystem";
 	}
@@ -176,11 +197,14 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemFinish")
-	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 		// (👁 ᴥ 👁) Event
 		publishEvent(shoppingCart, EntityLevel.CREATED, "Verkauf");
 
 		shoppingCart.clear();
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "redirect:/cashiersystem";
 	}
@@ -191,7 +215,7 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemAbort")
-	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 
 		// (👁 ᴥ 👁) Event
 		publishEvent(shoppingCart, EntityLevel.DELETED, "Stornierung");
@@ -202,6 +226,9 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 		}
 
 		shoppingCart.clear();
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "redirect:/cashiersystem";
 	}

@@ -4677,3 +4677,7 @@ body.box-layout {
 /*----------------------------------------*/
 .mCS-light-1.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{ background-color: #146b4a; }
 .mCS-light-1.mCSB_scrollTools .mCSB_draggerRail{ background-color: #ccc; }
+
+#qrcode > * {
+    padding: 8px;
+}
