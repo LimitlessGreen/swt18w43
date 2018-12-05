@@ -6,7 +6,6 @@ import bioladen.event.EntityLevel;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import lombok.RequiredArgsConstructor;
-import org.salespointframework.catalog.Product;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
