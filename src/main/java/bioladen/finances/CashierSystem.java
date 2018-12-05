@@ -6,6 +6,7 @@ import bioladen.event.EntityLevel;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import lombok.RequiredArgsConstructor;
+import org.salespointframework.catalog.Product;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
@@ -61,7 +62,13 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 			@ModelAttribute ShoppingCart shoppingCart,
 			Model model) {
 
+		final Long EAN13 = 2000000000000L;
+		final int EAN13_LENGTH = 13;
+
 		try {
+			if (product >= EAN13 && product.toString().length() == EAN13_LENGTH && product.toString().startsWith("2")) {
+				product = InventoryProduct.fromEan13(product);
+			}
 			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() >= amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
 				CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);

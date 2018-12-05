@@ -123,8 +123,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
 			money = money.add((e.getValue().getPrice()));							// price of CartCartItem
-			money = money.add(e.getKey().getPfandPrice()
-					.multiply(BigDecimal.valueOf(e.getValue().getQuantity())));	 	// pfand added
+			if(e.getKey().getPfandPrice() != null) {
+				money = money.add(e.getKey().getPfandPrice()
+						.multiply(BigDecimal.valueOf(e.getValue().getQuantity())));        // pfand added
+			}
 		}
 
 		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));				// discount
