@@ -159,15 +159,15 @@ public class PdfLabelGenerator {
 			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7));
 			cs.endText();
 
-			PDImageXObject organizationLogo = PDImageXObject.createFromFile(
-					"src/main/resources/static/img/org_logos/" + inventoryProduct.getOrganization() + ".png",
-					document);
-
-			float organizationLogoPosX  = LABEL_MARGIN;
-			float organizationLogoHeight = organizationLogo.getHeight() / (float) organizationLogo.getWidth() * ORGANIZATION_LOGO_WIDTH;
-			float organizationLogoPosY  = PRODUCT_PRICE_POS_Y;
-
-			cs.drawImage(organizationLogo, organizationLogoPosX, organizationLogoPosY, ORGANIZATION_LOGO_WIDTH, organizationLogoHeight);
+//			PDImageXObject organizationLogo = PDImageXObject.createFromFile(
+//					"src/main/resources/static/img/org_logos/" + inventoryProduct.getOrganization() + ".png",
+//					document);
+//
+//			float organizationLogoPosX  = LABEL_MARGIN;
+//			float organizationLogoHeight = organizationLogo.getHeight() / (float) organizationLogo.getWidth() * ORGANIZATION_LOGO_WIDTH;
+//			float organizationLogoPosY  = PRODUCT_PRICE_POS_Y;
+//
+//			cs.drawImage(organizationLogo, organizationLogoPosX, organizationLogoPosY, ORGANIZATION_LOGO_WIDTH, organizationLogoHeight);
 
 			cs.close();
 
