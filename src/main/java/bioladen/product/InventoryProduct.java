@@ -111,7 +111,7 @@ public class InventoryProduct {
 	 *
 	 * @return the ean-13 id
 	 */
-	public long toEan13(long id) {
+	public static long toEan13(long id) {
 		final long ean13Base = 200000000000L;
 
 		long ean13id = (id + ean13Base);
@@ -125,7 +125,7 @@ public class InventoryProduct {
 	 *
 	 * @return the id
 	 */
-	public long fromEan13(long ean13id) {
+	public static long fromEan13(long ean13id) {
 		final long ean13Base = 200000000000L;
 
 		return ean13id / 10 - ean13Base;
@@ -137,7 +137,7 @@ public class InventoryProduct {
 	 * @param  id the id (the 12 digits before)
 	 * @return    the checksum of the given id
 	 */
-	private int getCheckSum(String id) {
+	private static int getCheckSum(String id) {
 		int checkSum = 0;
 		for (int i = 0; i < id.length(); i++) {
 			if (i % 2 == 0) {
