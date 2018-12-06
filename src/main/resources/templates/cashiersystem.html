@@ -356,7 +356,7 @@
                             <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" th:value="${change}" readonly>
 
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="background-color: #146b4a">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="background-color: #146b4a; margin-bottom: 6px;">
 
                             <div>
                                 <div class="labels-overview">Anzahl der Artikel: </div>
@@ -405,7 +405,27 @@
                             <br>
 
                         </div>
-                        <div id="qrcode"></div>
+
+                        <script>
+                            function QrCodeChange() {
+                                var qrCode = document.getElementById('qrcode');
+                                var qrCodeText = document.getElementById('qrcodeText');
+
+                                if (qrCode.style.visibility === 'hidden') {
+                                    qrCode.style.visibility = 'visible';
+                                    qrCodeText.value = 'QR-Code ausblenden';
+                                } else {
+                                    qrCode.style.visibility = 'hidden';
+                                    qrCodeText.value = 'QR-Code anzeigen';
+                                }
+                            }
+                        </script>
+
+                        <div align="center">
+                            <input type="button" id="qrcodeText" class="btn btn-primary" value="QR-Code anzeigen" onclick="QrCodeChange()" style="background-color: #337ab7;">
+                            <div id="qrcode" style="visibility: hidden"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
