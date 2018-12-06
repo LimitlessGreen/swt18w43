@@ -22,9 +22,10 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 	private final UserAccountManager userAccountManager;
 	private final AuthenticationManager authenticationManager;
 
-	/* ********************** */
-	/*        ADDS            *
-	/* ********************** */
+	/*----------------------*/
+	/*  1. ADDS
+	/*----------------------*/
+
 	public ArrayList<? extends Customer> getAll() {
 		return customerRepository.findAll();
 	}
@@ -33,9 +34,10 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerRepository.findById(id).orElse(null);
 	}
 
-	/* ********************** */
-	/*         SAVES          *
-	/* ********************** */
+	/*------------------------*/
+	/*  2. SAVES
+	/*------------------------*/
+
 	public <S extends Customer> Iterable<S> saveAll(Iterable<S> customerList) {
 
 		Iterable<S> customerListTmp = customerRepository.saveAll(customerList);
@@ -57,9 +59,9 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerTmp;
 	}
 
-	/* ********************** */
-	/*       DELETIONS        *
-	/* ********************** */
+	/*------------------------*/
+	/*  3. DELETIONS
+	/*------------------------*/
 
 	public void delete(Long id) {
 		Customer customer = this.get(id);
@@ -69,9 +71,9 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		publishEvent(customer, EntityLevel.DELETED);
 	}
 
-	/* ********************** */
-	/*      MODIFICATION      *
-	/* ********************** */
+	/*------------------------*/
+	/*  4. MODIFICATIONS
+	/*------------------------*/
 
 	public <S extends Customer> S modified(S customer){
 		S customerTmp = customerRepository.save(customer);
@@ -82,9 +84,11 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerTmp;
 	}
 
-	/* ********************** */
-	/*      CONVERSIONS       *
-	/* ********************** */
+
+
+	/*------------------------*/
+	/*  5. CONVERSIONS
+	/*------------------------*/
 
 	public UserAccount customerToUser(Customer customer) {
 		String email = customer.getEmail();
