@@ -18,6 +18,10 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 	private final DataEntryRepository dataEntryRepository;
 	private final BusinessTime businessTime;
 
+	/*----------------------*/
+	/*  1. Log
+	/*----------------------*/
+
 	private<T> DataEntry log(
 			String name,
 			T entity, EntityLevel entityLevel,
@@ -49,6 +53,8 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 		dataEntry.setInvolvedCustomer(involvedCustomer);
 
 		dataEntryRepository.save(dataEntry);
+
+		// (👁 ᴥ 👁) Event
 		publishEvent(dataEntry, message);
 
 		return dataEntry;
@@ -89,7 +95,22 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 				customerManager.userToCustomer(entityEvent.getInvolvedUser()).orElse(null));
 	}
 
-	/* Event publisher */
+	/*----------------------*/
+	/*  2. FindBys
+	/*----------------------*/
+
+
+	/*
+         _________________
+        < Event publisher >
+         -----------------
+            \   ^__^
+             \  (@@)\_______
+                (__)\       )\/\
+                    ||----w |
+                    ||     ||
+
+    */
 
 	private ApplicationEventPublisher publisher;
 
