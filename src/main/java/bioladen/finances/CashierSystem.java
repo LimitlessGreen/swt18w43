@@ -101,7 +101,9 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	 * @param pid  The product with the String pid gets deleted.
 	 */
 	@PostMapping("/deleteCartItem")
-	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+	String deleteProduct(@RequestParam("cartItemId") String pid,
+						 @ModelAttribute ShoppingCart shoppingCart,
+						 Model model) throws UnknownHostException {
 		shoppingCart.getItem(pid).get().getInventoryProduct()
 				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
@@ -157,7 +159,9 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	 * if 0 is entered the discount will be 0% for a NormalCustomer.
 	 */
 	@PostMapping("/cashiersystemUser")
-	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+	String userId(@RequestParam("userId") long userId,
+				  @ModelAttribute ShoppingCart shoppingCart,
+				  Model model) throws UnknownHostException {
 		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
 		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
