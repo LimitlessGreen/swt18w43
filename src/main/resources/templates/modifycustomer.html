@@ -3,7 +3,7 @@
 
 <head>
     <!--Title-->
-    <title>Personenregistrierung</title>
+    <title>Personenbearbeitung</title>
 
     <!--Import CSS-->
     <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
@@ -21,65 +21,61 @@
 
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="data-table-list">
-                    <h1 align="center">User hinzufügen</h1>
+                    <h1 align="center">Personbezogene Daten bearbeiten</h1>
                     <br>
-                    <div class="alert alert-danger alert-dismissible alert-mg-b-0" role="alert" th:if="${errorRegister}">
+                    <div class="alert alert-danger alert-dismissible alert-mg-b-0" role="alert" th:if="${errorModified}">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">
                                             <i class="far fa-times-circle"></i>
                                         </span></button>
-                        <strong>Achtung! </strong> Es ist ein Fehler beim Erstellen der Person aufgetreten. Ursache : <x th:text="${errorRegisterMsg}"></x>
+                        <strong>Achtung! </strong> Es ist ein Fehler beim Bearbeiten aufgetreten. Ursache : <x th:text="${errorModifiedMsg}"></x>
                     </div>
-                    <div class="alert alert-success alert-dismissible alert-mg-b-0" role="alert" th:if="${successRegister}">
+                    <div class="alert alert-success alert-dismissible alert-mg-b-0" role="alert" th:if="${successModiefied}">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">
                                             <i class="far fa-times-circle"></i>
                                         </span></button>
-                        <strong>Hinweis: </strong> Person wurde erfolgreich erstellt.
+                        <strong>Hinweis: </strong> Änderungen wurden erfolgreich gespeichert.
                     </div>
 
-                    <form method="post" th:action="@{/register}" data-toggle="validator" role="form">
+                    <form method="post" th:action="@{/modified}" data-toggle="validator" role="form">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputFirstName" class="control-label">Vorname*</label>
-                                <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Vorname" pattern="^[a-zA-Z][a-zA-Z- ÄäÜüÖöß]{1,30}$" required>
+                                <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Vorname" th:value="${firstname}" pattern="^[a-zA-Z][a-zA-Z- ÄäÜüÖöß]{1,30}$" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputName" class="control-label">Nachname*</label>
-                                <input type="text" class="form-control" id="inputName" name="lastname" placeholder="Nachname" pattern="^[a-zA-Z][a-zA-Z- ÄäÜüÖöß]{1,30}$" required>
+                                <input type="text" class="form-control" id="inputName" name="lastname" placeholder="Nachname" th:value="${lastname}" pattern="^[a-zA-Z][a-zA-Z- ÄäÜüÖöß]{1,30}$" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPhoneNumber" class="control-label">Telefonnummer</label>
-                                <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Telefonnummer" pattern="^[0-9 +]{3,16}$">
+                                <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Telefonnummer" th:value="${phone}" pattern="^[0-9 +]{3,16}$">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputEmail" class="control-label">E-Mail*</label>
-                                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
+                                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" th:value="${email}" required>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inputAddress" class="control-label">Adresse</label>
-                                <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Adresse" pattern="[0-9A-Za-z ÄäÜüÖöß‘.,;-]{5,}">
+                                <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Adresse" th:value="${street}" pattern="[0-9A-Za-z ÄäÜüÖöß‘.,;-]{5,}">
                             </div>
                         </div>
                         <div class="form-row">
 
-                            <div class="form-group col-md-6">
-                                <label for="inputCustomer">Kunden-Art*</label>
-                                <select id="inputCustomer" class="form-control" name="type">
-                                    <option value="House" selected>Hauskunde</option>
-                                    <option value="Major" sec:authorize="hasAnyRole('ROLE_MANAGER')">Großkunde</option>
-                                    <option value="Staff" sec:authorize="hasAnyRole('ROLE_MANAGER')">Personal</option>
-                                </select>
+                            <div class="form-group col-md-4">
+                                <label for="inputCustomer">Kunden-Art</label>
+                                <input type="text" class="form-control" id="inputCustomer" name="type" placeholder="Typ" th:value="${type}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputsex">Geschlecht*</label>
-                                <select id="inputsex" class="form-control" name="sex">
-                                    <option value="male" selected>männlich</option>
-                                    <option value="female">weiblich</option>
-                                    <option value="various">divers</option>
-                                </select>
+                            <div class="form-group col-md-4">
+                                <label for="inputsex">Geschlecht</label>
+                                <input type="text" class="form-control" id="inputsex" name="sex" placeholder="Geschlecht" th:value="${sex}" readonly>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputid">ID</label>
+                                <input type="text" class="form-control" id="inputid" name="id" placeholder="ID" th:value="${id}" readonly>
                             </div>
                         </div>
 
@@ -87,14 +83,15 @@
                             <div class="col-md-6" align="left">
                                 <a th:href="@{/customerlist}">
                                     <button type="button" class="btn btn-success"
-                                            style="float: left">zurück zur Übersicht
+                                            style="float: left">Änderungen verwerfen
                                     </button>
                                 </a>
                             </div>
                             <div class="col-md-6" align="right">
-                                <button type="submit" class="btn btn-success" >User erstellen</button>
+                                <button type="submit" class="btn btn-success" >Änderungen speichern</button>
                             </div>
                         </div>
+
 
                     </form>
 

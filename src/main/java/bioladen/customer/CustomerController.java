@@ -149,5 +149,113 @@ public class CustomerController {
 		return "redirect:/customerlist";
 	}
 
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@GetMapping("/customerlist/modify")
+	String modifyCustomer(@RequestParam Long id, Model model) {
+		Customer customer = customerManager.get(id);
+		model.addAttribute("firstname", customerManager.get(id).getFirstname());
+		model.addAttribute("lastname", customerManager.get(id).getLastname());
+		model.addAttribute("email", customerManager.get(id).getEmail());
+		model.addAttribute("street", customerManager.get(id).getStreet());
+		model.addAttribute("phone", customerManager.get(id).getPhone());
+		model.addAttribute("sex", customerManager.get(id).getSex().getSexName());
+		model.addAttribute("type", customerManager.get(id).getCustomerType().getTypeName());
+		model.addAttribute("id", customerManager.get(id).getId());
+
+		return "modifycustomer";
+	}
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@PostMapping("/modified")
+	String modifiedCustomer(@RequestParam("firstname") String firstname,
+							@RequestParam("lastname")  String lastname,
+							@RequestParam("phone")     String phone,
+							@RequestParam("email")     String email,
+							@RequestParam("sex")       String sex,
+							@RequestParam("address")   String address,
+							@RequestParam("type")      String type,
+							@RequestParam("id")		   Long id,
+
+							Model model){
+		CustomerType customerType;
+		Sex customerSex;
+
+		switch (sex) {
+			case "männlich":
+				customerSex = Sex.MALE;
+				break;
+			case "weiblich":
+				customerSex = Sex.FEMALE;
+				break;
+			case "divers":
+				customerSex = Sex.VARIOUS;
+				break;
+			default:
+				throw new IllegalArgumentException(sex);
+		}
+
+		switch (type) {
+			case "Manager":
+				customerType = CustomerType.MANAGER;
+				break;
+			case "Personal":
+				customerType = CustomerType.STAFF;
+				break;
+			case "Großkunde":
+				customerType = CustomerType.MAJOR_CUSTOMER;
+				break;
+			case "Hauskunde":
+				customerType = CustomerType.HOUSE_CUSTOMER;
+				break;
+			default:
+				throw new IllegalArgumentException(type);
+		}
+
+
+		String safeFirstName;
+		String safeLastName;
+		String safeEmail;
+
+		if (!firstname.equals(customerManager.get(id).getFirstname())){
+			safeFirstName = firstname;
+		} else {
+			safeFirstName = customerManager.get(id).getFirstname();
+		}
+		if (!lastname.equals(customerManager.get(id).getLastname())){
+			safeLastName = lastname;
+		} else {
+			safeLastName = customerManager.get(id).getLastname();
+		}
+		if (!email.equals(customerManager.get(id).getEmail())){
+			safeEmail = email;
+		} else {
+			safeEmail = customerManager.get(id).getEmail();
+		}
+		 Customer customer = new Customer(safeFirstName,safeLastName, safeEmail, customerSex, customerType);
+
+		if (!address.equals(customerManager.get(id).getStreet())){
+			if (StringUtils.isNotBlank(address)){
+				customer.setStreet(address);
+			} else {
+				customer.setStreet(null);
+			}
+		}
+		if (!phone.equals(customerManager.get(id).getPhone()) && StringUtils.isNotBlank(phone)){
+			if (StringUtils.isNotBlank(phone)){
+				customer.setPhone(phone);
+			} else {
+				customer.setPhone(null);
+			}
+		}
+
+		customer.setId(id);
+
+		customerManager.modified(customer);
+
+		return "redirect:/customerlist";
+	}
+
+
 }
 

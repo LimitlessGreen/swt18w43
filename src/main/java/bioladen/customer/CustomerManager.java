@@ -70,6 +70,19 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 	}
 
 	/* ********************** */
+	/*      MODIFICATION      *
+	/* ********************** */
+
+	public <S extends Customer> S modified(S customer){
+		S customerTmp = customerRepository.save(customer);
+
+		// (👁 ᴥ 👁) Event
+		publishEvent(customer, EntityLevel.MODIFIED);
+
+		return customerTmp;
+	}
+
+	/* ********************** */
 	/*      CONVERSIONS       *
 	/* ********************** */
 
@@ -77,6 +90,7 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		String email = customer.getEmail();
 		return userAccountManager.findByUsername(email).orElse(null);
 	}
+
 
 	public Optional<Customer> userToCustomer (UserAccount user) {
 		String email;

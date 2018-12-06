@@ -97,11 +97,11 @@
                                 <td th:text="${customer.getId()}">1</td>
                                 <td th:text="${customer.getLastname()}">Feldfreude</td>
                                 <td th:text="${customer.getFirstname()}">Flori</td>
-                                <td th:text="${customer.getCustomerType().getTypeName()}">MANAGER</td>
+                                <td th:text="${customer.getCustomerType().getTypeName()}">Manager</td>
                                 <td th:text="${customer.getEmail()}">blattgrün@bioladen.de</td>
                                 <td th:text="${customer.getStreet()}">Feldweg 43</td>
                                 <td th:text="${customer.getPhone()}"> 03514343434</td>
-                                <td th:text="${customer.getSex().getSexName()}">MALE</td>
+                                <td th:text="${customer.getSex().getSexName()}">männlich</td>
                                 <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER')">
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -116,8 +116,15 @@
                                             </li>
                                             <li th:if="${customer.getCustomerType().getTypeName() == 'Manager' or customer.getCustomerType().getTypeName() == 'Personal'}">
                                                 <a th:href="@{/customerlist/resetPassword(email = ${customer.getEmail()})}">
-                                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Password zurücksetzen" style="float: right">
+                                                    <button class="btn btn-orange orange-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Password zurücksetzen" style="float: right">
                                                         <i class="fas fa-key"></i>
+                                                    </button>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{/customerlist/modify(id = ${customer.getId()})}">
+                                                    <button class="btn btn-amber amber-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="left" title="" data-original-title="Bearbeiten" style="float: right">
+                                                        <i class="fas fa-pencil-alt"></i>
                                                     </button>
                                                 </a>
                                             </li>

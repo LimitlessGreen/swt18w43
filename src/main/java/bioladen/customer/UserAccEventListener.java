@@ -40,6 +40,11 @@ public class UserAccEventListener {
 				break;
 
 			case MODIFIED:
+				if (customer.isCustomerType(CustomerType.STAFF)) {
+
+				} else if (customer.isCustomerType(CustomerType.MANAGER)) {
+
+				}
 				break; //TODO Customer modified
 			default:
 				break;
