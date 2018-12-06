@@ -4,11 +4,18 @@ import bioladen.customer.Customer;
 import bioladen.customer.CustomerManager;
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.BusinessTime;
+import org.salespointframework.time.Interval;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -99,6 +106,21 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 	/*  2. FindBys
 	/*----------------------*/
 
+	public LinkedList findBy(Class entityClass, EntityLevel entityLevel, Interval interval) {
+
+		LinkedList<DataEntry> output = new LinkedList<>();
+
+		for (DataEntry entry : dataEntryRepository.findByEntityLevelAndSaveTimeBetween
+				(entityLevel, interval.getStart(), interval.getEnd())) {
+
+			if (entry.getEntity().getClass().equals(entityClass)) {
+				output.add(entry);
+			}
+		}
+
+		return output;
+
+	}
 
 	/*
          _________________
