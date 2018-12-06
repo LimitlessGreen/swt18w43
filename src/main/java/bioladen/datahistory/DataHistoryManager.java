@@ -106,7 +106,7 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 	/*  2. FindBys
 	/*----------------------*/
 
-	public LinkedList findBy(Class entityClass, EntityLevel entityLevel, Interval interval) {
+	public LinkedList<DataEntry> findBy(Class entityClass, EntityLevel entityLevel, Interval interval) {
 
 		LinkedList<DataEntry> output = new LinkedList<>();
 
