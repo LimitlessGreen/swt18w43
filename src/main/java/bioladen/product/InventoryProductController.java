@@ -52,12 +52,35 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
 	}
 
 	@GetMapping("/product/label")
-	public HttpEntity<Resource> download(@RequestParam(value = "id") long id) {
+	public HttpEntity<Resource> downloadLabel(@RequestParam(value = "id") long id) {
 
 		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator();
 		pdfLabelGenerator.generate(inventoryProductCatalog.findById(id).orElse(null));
 
 		File file = new File("src/main/resources/generated/p" + id + ".pdf");
+
+		ContentDisposition disposition = ContentDisposition //
+				.builder("inline") //
+				.filename(file.getName()) //
+				.build();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDisposition(disposition);
+		headers.setContentLength(file.length());
+
+		return ResponseEntity.ok() //
+				.headers(headers) //
+				.body(new FileSystemResource(file));
+	}
+
+	@GetMapping("/productlist/labels")
+	public HttpEntity<Resource> downloadAllLabels() {
+
+		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator();
+		pdfLabelGenerator.generateAll(inventoryProductCatalog.findAll());
+
+		File file = new File("src/main/resources/generated/pAll.pdf");
 
 		ContentDisposition disposition = ContentDisposition //
 				.builder("inline") //

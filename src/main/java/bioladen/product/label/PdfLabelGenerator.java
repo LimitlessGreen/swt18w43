@@ -61,39 +61,47 @@ public class PdfLabelGenerator {
 
 	private static final float ORGANIZATION_LOGO_WIDTH = 8.75f * MM_TO_PT;
 
+	private PDDocument document = new PDDocument();
 
-	public void generate(InventoryProduct inventoryProduct) {
+	private PDFont roboto400i, roboto500, robotoSlab700, robotoMono400;
+
+	{
 		try {
-			PDDocument document = new PDDocument();
-
-			PDFont Roboto400i = PDType0Font.load(document,
+			roboto400i = PDType0Font.load(document,
 					new File("src/main/resources/static/pdffonts/Roboto/Roboto-Italic.ttf"));
-			PDFont Roboto500  = PDType0Font.load(document,
+			roboto500  = PDType0Font.load(document,
 					new File("src/main/resources/static/pdffonts/Roboto/Roboto-Medium.ttf"));
-			PDFont RobotoSlab700 = PDType0Font.load(document,
+			robotoSlab700 = PDType0Font.load(document,
 					new File("src/main/resources/static/pdffonts/Roboto_Slab/RobotoSlab-Bold.ttf"));
-			PDFont RobotoMono400 = PDType0Font.load(document,
+			robotoMono400 = PDType0Font.load(document,
 					new File("src/main/resources/static/pdffonts/Roboto_Mono/RobotoMono-Regular.ttf"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	public void addLabel(InventoryProduct inventoryProduct) {
+		try {
 			PDPage labelPage = new PDPage(new PDRectangle(LABEL_WIDTH, LABEL_HEIGHT));
 			document.addPage(labelPage);
 			PDPageContentStream cs = new PDPageContentStream(document, labelPage);
 
 			cs.beginText();
-				cs.setFont(RobotoSlab700, PRODUCT_NAME_FONT_SIZE);
+				cs.setFont(this.robotoSlab700, PRODUCT_NAME_FONT_SIZE);
 				cs.newLineAtOffset(PRODUCT_NAME_POS_X, PRODUCT_NAME_POS_Y);
 				cs.showText(inventoryProduct.getName());
 			cs.endText();
 
 			cs.beginText();
-				cs.setFont(Roboto500, PRODUCT_DESCRIPTION_FONT_SIZE);
+				cs.setFont(roboto500, PRODUCT_DESCRIPTION_FONT_SIZE);
 				cs.setLeading(PRODUCT_DESCRIPTION_FONT_SIZE + PRODUCT_DESCRIPTION_MARGIN_BOTTOM);
 				cs.newLineAtOffset(PRODUCT_DESCRIPTION_POS_X, PRODUCT_DESCRIPTION_POS_Y);
 				cs.showText("Beschreibung");
 
 				cs.newLine();
 
-				cs.setFont(Roboto400i, PRODUCT_DESCRIPTION_FONT_SIZE);
+				cs.setFont(roboto400i, PRODUCT_DESCRIPTION_FONT_SIZE);
 				cs.setLeading(PRODUCT_DESCRIPTION_FONT_SIZE);
 				cs.showText(inventoryProduct.getUnit() + " Metrik");
 				cs.newLine();
@@ -101,9 +109,9 @@ public class PdfLabelGenerator {
 			cs.endText();
 
 			cs.beginText();
-				cs.setFont(RobotoSlab700, 32);
+				cs.setFont(robotoSlab700, 32);
 				cs.newLineAtOffset(
-						LABEL_WIDTH - LABEL_MARGIN - (RobotoSlab700.getStringWidth(inventoryProduct.getPrice().toString()) / 1000.0f) * 32,
+						LABEL_WIDTH - LABEL_MARGIN - (robotoSlab700.getStringWidth(inventoryProduct.getPrice().toString()) / 1000.0f) * 32,
 						PRODUCT_PRICE_POS_Y);
 				cs.showText(inventoryProduct.getPrice().toString());
 			cs.endText();
@@ -146,16 +154,16 @@ public class PdfLabelGenerator {
 
 			cs.setNonStrokingColor(Color.BLACK);
 			cs.beginText();
-			cs.setFont(RobotoMono400, BARCODE_FONT_SIZE);
+			cs.setFont(robotoMono400, BARCODE_FONT_SIZE);
 			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE0_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (RobotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+					- 0.5f * (robotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
 			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7));
 			cs.endText();
 
 			cs.beginText();
-			cs.setFont(RobotoMono400, BARCODE_FONT_SIZE);
+			cs.setFont(robotoMono400, BARCODE_FONT_SIZE);
 			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE1_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (RobotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+					- 0.5f * (robotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
 			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7));
 			cs.endText();
 
@@ -170,10 +178,29 @@ public class PdfLabelGenerator {
 //			cs.drawImage(organizationLogo, organizationLogoPosX, organizationLogoPosY, ORGANIZATION_LOGO_WIDTH, organizationLogoHeight);
 
 			cs.close();
+		} catch (WriterException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public void generate(InventoryProduct inventoryProduct) {
+		try {
+			addLabel(inventoryProduct);
 			document.save(BASE_PATH + "p" + inventoryProduct.getProductIdentifier() + ".pdf");
 			document.close();
-		} catch (WriterException | IOException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void generateAll(Iterable<InventoryProduct> inventoryProducts) {
+		try {
+			for (InventoryProduct inventoryProduct : inventoryProducts) {
+				addLabel(inventoryProduct);
+			}
+			document.save(BASE_PATH + "pAll.pdf");
+			document.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
