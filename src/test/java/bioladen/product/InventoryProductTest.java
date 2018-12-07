@@ -1,11 +1,15 @@
 package bioladen.product;
 
+import bioladen.BioLaden;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,5 +77,21 @@ class InventoryProductTest {
 		assertEquals(1, id);
 	}
 
+	@Test
+	void getterMethods() {
+		InventoryProduct product = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+
+		final double PROFIT_MARGIN = 0.20;
+
+		assertEquals("Kartoffeln", product.getName());
+		assertEquals(BigDecimal.valueOf(4.99).multiply(BigDecimal.valueOf(PROFIT_MARGIN + 1)), product.getPrice());
+		assertEquals(BigDecimal.valueOf(5.00).setScale(2, RoundingMode.DOWN), product.getUnit());
+		assertEquals(0, product.getInventoryAmount());
+		assertEquals(0, product.getDisplayedAmount());
+		assertEquals(ProductCategory.FOOD_FRUIT_VEG, product.getProductCategory());
+		assertEquals(MwStCategory.REDUCED, product.getMwStCategory());
+		assertEquals(null, product.getPfandPrice());
+		assertEquals(Organization.BIOLAND, product.getOrganization());
+	}
 
 }
