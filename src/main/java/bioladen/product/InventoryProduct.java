@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.springframework.data.geo.Metric;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -78,14 +79,10 @@ public class InventoryProduct {
 	 * @param amount Amount to be moved
 	 * @return true if successful; else false
 	 */
-	public boolean moveAmountFromInventoryToDisplay(long amount) {
+	public void moveAmountFromInventoryToDisplay(long amount) {
 		if (this.inventoryAmount >= amount) {
 			this.inventoryAmount -= amount;
 			this.displayedAmount += amount;
-
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -96,13 +93,9 @@ public class InventoryProduct {
 	 * @param amount Amount to be removed (added if < 0)
 	 * @return true if successful; else false
 	 */
-	public boolean removeDisplayedAmount(long amount) {
+	public void removeDisplayedAmount(long amount) {
 		if (displayedAmount >= amount) {
 			displayedAmount -= amount;
-
-			return true;
-		} else {
-			return false;
 		}
 	}
 
