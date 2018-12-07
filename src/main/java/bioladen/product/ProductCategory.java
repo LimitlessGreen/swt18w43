@@ -59,7 +59,7 @@ public enum ProductCategory {
 	),
 	FOOD_COCOA_COFFEE_TEA(
 			"Cocoa and Cocoa Preparations, Coffee and Tea",
-			"Kakao und Kakaozuberetungen, Kaffee und Tee"
+			"Kakao und Kakaozubereitungen, Kaffee und Tee"
 	),
 	FOOD_CONFECTIONARY(
 			"Confectionery",
