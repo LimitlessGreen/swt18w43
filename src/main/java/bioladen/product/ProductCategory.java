@@ -19,7 +19,7 @@ public enum ProductCategory {
 	),
 	FOOD_FISH(
 			"Fish, Shellfish and Molluscs",
-			"Fisch, Schalentiere, Wichtier"
+			"Fisch, Schalentiere, Weichtier"
 	),
 	FOOD_FAT_OIL(
 			"Fats and Oils",
