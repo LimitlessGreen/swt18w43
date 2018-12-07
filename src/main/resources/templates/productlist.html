@@ -23,15 +23,22 @@
                 <div class="data-table-list">
 
                     <div class="row">
-                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="basic-tb-hd">
                                 <h2>Produktliste</h2>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                            <a href="/distributorproductlist">
-                                <button type="button" class="btn btn-info notika-btn-green" style="float: right">Produkt
-                                    hinzufügen
+                            <a href="/productlist/labels" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                                <button type="button" class="btn btn-info notika-btn-green" style="float: right">
+                                    <i class="fas fa-tags"></i> Alle Etiketten anzeigen
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <a href="/distributorproductlist" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                                <button type="button" class="btn btn-info notika-btn-green" style="float: right">
+                                    Produkt hinzufügen
                                 </button>
                             </a>
                         </div>
@@ -46,20 +53,29 @@
                                 <th>Name</th>
                                 <th>Preis</th>
                                 <th>Grundeinheit</th>
-                                <th>Anzahl Inventar</th>
-                                <th>Anzahl Austellfläche</th>
-                                <th>Auf den Merkzettel</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Inventar</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Austellfläche</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Etikett anzeigen</th>
+                                <th sec:authorize="!hasAnyRole('ROLE_MANAGER') && !hasAnyRole('ROLE_STAFF')">Auf den Merkzettel</th>
                             </tr>
                             </thead>
                             <tbody th:remove="all-but-first">
                             <tr th:each="inventoryProduct : ${inventoryProductList}">
                                 <td th:text="${inventoryProduct.getProductIdentifier()}">1</td>
-                                <td th:text="${inventoryProduct.getName()}">REWE</td>
-                                <td th:text="${inventoryProduct.getPrice()}">blattgrün@bioladen.de</td>
-                                <td th:text="${inventoryProduct.getUnit()}">Frida</td>
-                                <td th:text="${inventoryProduct.getInventoryAmount()}">035135426236</td>
-                                <td th:text="${inventoryProduct.getDisplayedAmount()}">035135426236</td>
-                                <td style="padding: 9px;">
+                                <td th:text="${inventoryProduct.getName()}">Kartofeel</td>
+                                <td th:text="${inventoryProduct.getPrice()}">27.99</td>
+                                <td th:text="${inventoryProduct.getUnit()}">5.0</td>
+                                <td th:text="${inventoryProduct.getInventoryAmount()}" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">42</td>
+                                <td th:text="${inventoryProduct.getDisplayedAmount()}" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">17</td>
+                                <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                                    <a th:href="@{/product/label(id = ${inventoryProduct.getProductIdentifier()})}">
+                                        <button type="submit"
+                                                class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                            <i class="fas fa-tag"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                                <td style="padding: 9px;" sec:authorize="!hasAnyRole('ROLE_MANAGER') && !hasAnyRole('ROLE_STAFF')">
                                     <a th:href="@{/addToWishlist(productId = ${inventoryProduct.getProductIdentifier()})}">
                                         <button type="submit"
                                                 class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect">
@@ -75,9 +91,10 @@
                                 <th>Name</th>
                                 <th>Preis</th>
                                 <th>Grundeinheit</th>
-                                <th>Anzahl Inventar</th>
-                                <th>Anzahl Austellfläche</th>
-                                <th>Auf den Merkzettel</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Inventar</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Austellfläche</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Etikett anzeigen</th>
+                                <th sec:authorize="!hasAnyRole('ROLE_MANAGER') && !hasAnyRole('ROLE_STAFF')">Auf den Merkzettel</th>
                             </tr>
                             </tfoot>
                         </table>
