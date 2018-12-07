@@ -14,7 +14,7 @@ interface DataEntryRepository
 
 	ArrayList<DataEntry> findAllByOrderBySaveTimeDesc();
 
-	ArrayList<DataEntry> findByEntityLevelAndSaveTimeBetween
+	ArrayList<DataEntry> findByEntityLevelAndSaveTimeBetweenOrderBySaveTimeDesc
 			(EntityLevel entityLevel, LocalDateTime from, LocalDateTime to);
 }
 
