@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
+import bioladen.datahistory.RawEntry;
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
 import bioladen.product.InventoryProduct;
@@ -30,7 +31,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @SessionAttributes({"shoppingCart"})
 
-public class CashierSystem implements ApplicationEventPublisherAware {
+public class CashierSystem implements ApplicationEventPublisherAware, RawEntry {
+
+	//TODO: pls add id!
 
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final CustomerRepository customerRepository;

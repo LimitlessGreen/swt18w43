@@ -14,7 +14,7 @@ import org.springframework.data.keyvalue.annotation.KeySpace;
 
 @KeySpace("dataHistory")
 @Getter
-public class DataEntry<T> {
+public class DataEntry<T extends RawEntry> implements RawEntry{
 
 	@Id //
 	private Long id;

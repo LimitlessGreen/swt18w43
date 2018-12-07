@@ -1,5 +1,6 @@
 package bioladen.customer;
 
+import bioladen.datahistory.RawEntry;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 @Entity
 @Table(name = "CUSTOMER")
-public class Customer {
+public class Customer implements RawEntry {
 
 
 	@Id

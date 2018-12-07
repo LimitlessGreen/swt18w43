@@ -1,5 +1,6 @@
 package bioladen.product.distributor;
 
+import bioladen.datahistory.RawEntry;
 import lombok.NoArgsConstructor;
 
 import lombok.Getter;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "DISTRIBUTOR")
 @NoArgsConstructor
-public class Distributor {
+public class Distributor implements RawEntry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

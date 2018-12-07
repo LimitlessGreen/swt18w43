@@ -1,5 +1,6 @@
 package bioladen.product;
 
+import bioladen.datahistory.RawEntry;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "INVENTORY_PRODUCT")
 @NoArgsConstructor
-public class InventoryProduct {
+public class InventoryProduct implements RawEntry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

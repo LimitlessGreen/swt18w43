@@ -2,9 +2,7 @@ package bioladen.order;
 
 import bioladen.product.distributor_product.DistributorProduct;
 import org.javamoney.moneta.Money;
-import org.salespointframework.catalog.Product;
 import org.salespointframework.core.Currencies;
-import org.salespointframework.order.CartItem;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;

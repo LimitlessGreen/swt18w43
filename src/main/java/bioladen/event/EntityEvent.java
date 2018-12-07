@@ -1,5 +1,6 @@
 package bioladen.event;
 
+import bioladen.datahistory.RawEntry;
 import lombok.Getter;
 import lombok.Setter;
 import org.salespointframework.useraccount.UserAccount;
@@ -9,12 +10,12 @@ import org.springframework.core.ResolvableTypeProvider;
 import java.util.Optional;
 
 @Getter
-public class EntityEvent<T> implements ResolvableTypeProvider {
+public class EntityEvent<T extends RawEntry> implements ResolvableTypeProvider {
 
 
 	private T entity;
-	@Setter
 	private T entityBeforeModified = null;
+	@Setter
 	private EntityLevel eventLevel;
 	private String name;
 	private String message = "No message";
