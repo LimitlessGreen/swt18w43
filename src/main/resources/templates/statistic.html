@@ -15,6 +15,34 @@
 
 <!--Page Stuff-->
 
+<!--Profit Margin-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="inline-form-wrap">
+                <div class="row">
+                    <form class="from-group" method="post" th:action="@{/setProfitMargin}">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            <h3>Gewinnpozentsatz: </h3>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12" align="rigth">
+                            <div class="input-group">
+                                <input class="form-control span2" type="number" min="0" max="100" step="0.01" name="profitMargin" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" placeholder="Gewinnprozentsatz eingeben">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" align="rigth">
+                            <button type="submit" class="btn btn-success notika-btn-success waves-effect">Absenden</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Statistic area Begin-->
 <div class="statistic-area mg-b-100">
     <div class="container">

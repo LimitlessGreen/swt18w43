@@ -2918,6 +2918,12 @@ textarea.auto-size {
     margin: 1px;
     color: #fff;
 }
+
+.inline-form-wrap {
+    background-color: #fff;
+    margin-bottom: 15px;
+    padding: 15px;
+}
 /*----------------------------------------*/
 /*  36.  Form Components CSS
 /*----------------------------------------*/
