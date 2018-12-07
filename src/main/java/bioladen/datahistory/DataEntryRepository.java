@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 interface DataEntryRepository
-		extends Repository<DataEntry, String>, CrudRepository<DataEntry, String> {
+		extends Repository<DataEntry, Long>, CrudRepository<DataEntry, Long> {
 
 	ArrayList<DataEntry> findAllByOrderBySaveTimeDesc();
 

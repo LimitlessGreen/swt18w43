@@ -32,7 +32,7 @@ public class OrderCart implements Streamable<OrderCartItem> {
 
 
 		for (DistributorProduct distributorProduct : new HashSet<>(items.keySet())) {
-			if (distributorProduct.getDistributorProductIdentifier() == product.getDistributorProductIdentifier()) {
+			if (distributorProduct.getId() == product.getId()) {
 				return items.put(distributorProduct, new OrderCartItem(
 															distributorProduct,
 															quantity.add(items.get(distributorProduct).getQuantity())));

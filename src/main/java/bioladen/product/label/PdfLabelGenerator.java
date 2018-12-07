@@ -123,26 +123,26 @@ public class PdfLabelGenerator {
 			BitMatrix bitMatrix = qrCodeWriter.encode(
 					"http://" + InetAddress.getLocalHost().getHostName() + ":"
 							+ "8080" // TODO: Dynamic Port Fill-In
-							+ "/product?id=" + inventoryProduct.getProductIdentifier(),
+							+ "/product?id=" + inventoryProduct.getId(),
 					BarcodeFormat.QR_CODE, 1024, 1024, hints);
-			Path path = FileSystems.getDefault().getPath(BASE_PATH + "qrc" + inventoryProduct.getProductIdentifier() + ".png");
+			Path path = FileSystems.getDefault().getPath(BASE_PATH + "qrc" + inventoryProduct.getId() + ".png");
 			MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 
 			PDImageXObject qrCode = PDImageXObject.createFromFile(
-					BASE_PATH + "qrc" + inventoryProduct.getProductIdentifier() + ".png",
+					BASE_PATH + "qrc" + inventoryProduct.getId() + ".png",
 					document);
 			cs.drawImage(qrCode, LABEL_MARGIN, LABEL_MARGIN, QR_CODE_SIZE, QR_CODE_SIZE);
 
 			MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 			hints.clear();
 			hints.put(EncodeHintType.MARGIN, 0);
-			bitMatrix = multiFormatWriter.encode(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())),
+			bitMatrix = multiFormatWriter.encode(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())),
 					BarcodeFormat.EAN_13, 2048, 1024, hints);
-			path = FileSystems.getDefault().getPath(BASE_PATH + "brc" + inventoryProduct.getProductIdentifier() + ".png");
+			path = FileSystems.getDefault().getPath(BASE_PATH + "brc" + inventoryProduct.getId() + ".png");
 			MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 
 			PDImageXObject barCode = PDImageXObject.createFromFile(
-					BASE_PATH + "brc" + inventoryProduct.getProductIdentifier() + ".png",
+					BASE_PATH + "brc" + inventoryProduct.getId() + ".png",
 					document);
 			cs.drawImage(barCode, BARCODE_POS_X, BARCODE_POS_Y, BARCODE_WIDTH, BARCODE_HEIGHT);
 
@@ -156,15 +156,15 @@ public class PdfLabelGenerator {
 			cs.beginText();
 			cs.setFont(robotoMono400, BARCODE_FONT_SIZE);
 			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE0_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (robotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
-			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(1, 7));
+					- 0.5f * (robotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())).substring(1, 7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())).substring(1, 7));
 			cs.endText();
 
 			cs.beginText();
 			cs.setFont(robotoMono400, BARCODE_FONT_SIZE);
 			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE1_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (robotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
-			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getProductIdentifier())).substring(7));
+					- 0.5f * (robotoMono400.getStringWidth(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())).substring(7)) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())).substring(7));
 			cs.endText();
 
 //			PDImageXObject organizationLogo = PDImageXObject.createFromFile(
@@ -186,7 +186,7 @@ public class PdfLabelGenerator {
 	public void generate(InventoryProduct inventoryProduct) {
 		try {
 			addLabel(inventoryProduct);
-			document.save(BASE_PATH + "p" + inventoryProduct.getProductIdentifier() + ".pdf");
+			document.save(BASE_PATH + "p" + inventoryProduct.getId() + ".pdf");
 			document.close();
 		} catch (IOException e) {
 			e.printStackTrace();

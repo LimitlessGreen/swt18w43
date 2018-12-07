@@ -45,7 +45,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		Map<InventoryProduct, CartCartItem> itemsCopy = new LinkedHashMap<>(items);
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : itemsCopy.entrySet()) {
-			if (e.getKey().getProductIdentifier().equals(inventoryProduct.getProductIdentifier())) {
+			if (e.getKey().getId().equals(inventoryProduct.getId())) {
 				items.put(e.getKey(), items.get(e.getKey()).add(quantity));
 				return e.getValue();
 			}

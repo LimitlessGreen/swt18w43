@@ -28,7 +28,7 @@ public class InventoryProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "inventoryProductIdentifier", updatable = false, nullable = false)
-	private @Getter Long productIdentifier;
+	private @Getter Long id;
 
 	private @NonNull @Getter @Setter String          name;
 	private @NonNull @Getter @Setter BigDecimal      price;

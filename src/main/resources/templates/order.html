@@ -68,7 +68,7 @@
                             <td th:text="${#numbers.formatDecimal(amount * inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td>?</td>
                             <td style="padding: 9px;">
-                                <a th:href="'/order/add?id=' + ${inventoryProduct.getDistributorProductIdentifier()} + '&amount=' + ${amount}">
+                                <a th:href="'/order/add?id=' + ${inventoryProduct.getId()} + '&amount=' + ${amount}">
                                     <button type="button" class="btn btn-info notika-btn-green">
                                         Hinzufügen
                                     </button>

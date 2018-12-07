@@ -17,7 +17,7 @@ import org.springframework.data.keyvalue.annotation.KeySpace;
 public class DataEntry<T> {
 
 	@Id //
-	private String dataEntryIdentifier;
+	private Long id;
 
 	// (｡◕‿◕｡)
 	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden

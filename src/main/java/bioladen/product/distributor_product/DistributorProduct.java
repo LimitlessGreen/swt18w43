@@ -26,7 +26,7 @@ public class DistributorProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
-	private @Getter Long distributorProductIdentifier;
+	private @Getter Long id;
 
 	private @NonNull @Getter @Setter String          name;
 	private @NonNull @Getter @Setter BigDecimal      price;
