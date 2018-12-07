@@ -4,18 +4,15 @@ import bioladen.customer.Customer;
 import bioladen.customer.CustomerManager;
 import bioladen.event.EntityEvent;
 import bioladen.event.EntityLevel;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.BusinessTime;
 import org.salespointframework.time.Interval;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +31,8 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 			T entity, EntityLevel entityLevel,
 			String message,
 			String publisherName,
-			Customer involvedCustomer) {
+			Customer involvedCustomer,
+			T entityBeforeModified) {
 
 		//get classname of caller, needs to search back in StackTrace
 
@@ -58,6 +56,7 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 
 		dataEntry.setSaveTime(businessTime.getTime());
 		dataEntry.setInvolvedCustomer(involvedCustomer);
+		dataEntry.setEntityBeforeModified(entityBeforeModified);
 
 		dataEntryRepository.save(dataEntry);
 
@@ -68,26 +67,30 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 	}
 
 	// normal push in some variations
-	public <T> DataEntry push(String name, T entity, EntityLevel entityLevel, String message, Customer involvedCustomer) {
+	public <T> DataEntry push(String name,
+							  T entity,
+							  EntityLevel entityLevel,
+							  String message,
+							  Customer involvedCustomer,
+							  T entityBeforeModified) {
 		if (message == null) {
 			message = entity.toString();
 		}
 
-		return this.log(name, entity, entityLevel, message, null, involvedCustomer);
+		return this.log(name, entity, entityLevel, message, null, involvedCustomer, entityBeforeModified);
 	}
 	public <T> DataEntry push(String name, T entity, EntityLevel entityLevel, String message) {
 
-		return this.push(name, entity, entityLevel, message, null);
+		return this.push(name, entity, entityLevel, message, null, null);
 	}
 
 	public <T> DataEntry push(String name, T entity, EntityLevel entityLevel, Customer involvedCustomer) {
 
-		return this.push(name, entity, entityLevel, null, involvedCustomer);
+		return this.push(name, entity, entityLevel, null, involvedCustomer, null);
 	}
-
 	public <T> DataEntry push(String name, T entity, EntityLevel entityLevel) {
 
-		return this.push(name, entity, entityLevel, null, null);
+		return this.push(name, entity, entityLevel, null, null, null);
 	}
 
 	// only for events
@@ -99,7 +102,8 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 				entityEvent.getEventLevel(),
 				entityEvent.getMessage(),
 				entityEvent.getPublisherName(),
-				customerManager.userToCustomer(entityEvent.getInvolvedUser()).orElse(null));
+				customerManager.userToCustomer(entityEvent.getInvolvedUser()).orElse(null),
+				entityEvent.getEntityBeforeModified().orElse(null));
 	}
 
 	/*----------------------*/
@@ -110,7 +114,7 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 
 		LinkedList<DataEntry> output = new LinkedList<>();
 
-		for (DataEntry entry : dataEntryRepository.findByEntityLevelAndSaveTimeBetween
+		for (DataEntry entry : dataEntryRepository.findByEntityLevelAndSaveTimeBetweenOrderBySaveTimeDesc
 				(entityLevel, interval.getStart(), interval.getEnd())) {
 
 			if (entry.getEntity().getClass().equals(entityClass)) {

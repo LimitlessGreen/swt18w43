@@ -28,6 +28,7 @@ public class DataEntry<T> {
 	private @Setter String message = "No message";
 	private @Setter String name = null;
 	private T entity;
+	private @Setter T entityBeforeModified = null;
 
 	public DataEntry() {}
 
@@ -46,6 +47,10 @@ public class DataEntry<T> {
 	 */
 	public String getFormattedSaveTime(String format) {
 		return this.saveTime.format(DateTimeFormatter.ofPattern(format));
+	}
+
+	public Optional<T> getEntityBeforeModified() {
+		return Optional.ofNullable(entityBeforeModified);
 	}
 
 	/**

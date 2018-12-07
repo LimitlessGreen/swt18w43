@@ -1,19 +1,25 @@
 package bioladen.event;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
 
+import java.util.Optional;
+
+@Getter
 public class EntityEvent<T> implements ResolvableTypeProvider {
 
 
-	private @Getter T entity;
-	private @Getter EntityLevel eventLevel;
-	private @Getter String name;
-	private @Getter String message = "No message";
-	private @Getter String publisherName = "unknown";
-	private @Getter UserAccount involvedUser = null;
+	private T entity;
+	@Setter
+	private T entityBeforeModified = null;
+	private EntityLevel eventLevel;
+	private String name;
+	private String message = "No message";
+	private String publisherName = "unknown";
+	private UserAccount involvedUser = null;
 
 	public EntityEvent(String name, T entity, EntityLevel eventLevel) {
 		this(name, entity, eventLevel, null, null);
@@ -44,6 +50,10 @@ public class EntityEvent<T> implements ResolvableTypeProvider {
 				break;
 			}
 		}
+	}
+
+	public Optional<T> getEntityBeforeModified() {
+		return Optional.ofNullable(entityBeforeModified);
 	}
 
 	@Override
