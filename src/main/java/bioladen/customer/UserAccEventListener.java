@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserAccEventListener {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final UserAccountManager userAccountManager;
 
 	@Async
