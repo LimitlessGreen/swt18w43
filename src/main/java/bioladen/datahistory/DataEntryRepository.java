@@ -16,6 +16,6 @@ interface DataEntryRepository
 	ArrayList<DataEntry> findByEntityLevelAndSaveTimeBetweenOrderBySaveTimeDesc
 			(EntityLevel entityLevel, LocalDateTime from, LocalDateTime to);
 
-	DataEntry findTopByEntityAndEntityLevelIsNotIn (RawEntry rawEntry, EntityLevel entityLevel);
+	DataEntry findTopByEntityAndEntityLevelIsNotIn (RawEntry entity, EntityLevel entityLevel);
 }
 

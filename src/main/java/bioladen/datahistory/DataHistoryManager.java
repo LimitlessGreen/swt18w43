@@ -52,7 +52,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 
 		if (entityLevel.equals(EntityLevel.MODIFIED)) {
 			dataEntry.setEntityBeforeModified(
-					dataEntryRepository.findTopByEntityAndEntityLevelIsNotIn(entity, EntityLevel.DELETED)
+					findLatestCreatedOrModified(entity)
 			);
 		}
 
@@ -107,6 +107,24 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 
 			if (entry.getEntity().getClass().equals(entityClass)) {
 				output.add(entry);
+			}
+		}
+
+		return output;
+
+	}
+
+	public DataEntry findLatestCreatedOrModified(T entity) {
+
+		Class entityClass = entity.getClass();
+
+		DataEntry output = null;
+		for (DataEntry entry : dataEntryRepository.findAllByOrderById()) {
+
+			if (entry.getEntity().getClass().equals(entityClass)
+					&& entry.getEntityLevel() != EntityLevel.DELETED
+					&& entry.getEntity().equals(entity)) {
+				output = entry;
 			}
 		}
 
