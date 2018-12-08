@@ -438,6 +438,9 @@
 <div th:include="footer :: footer"></div>
 <!-- Footer area END -->
 
+<!-- beep for scan -->
+<audio id="audio" src="/audio/beep.wav"></audio>
+
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
 
@@ -451,6 +454,7 @@
     /*[+
 
     $('#qrcode').qrcode('http://' + [[${hostname}]] + ':8080/shoppingCartScanner?sc_id=' + [[${sc_id}]]);
+    $('#qrcode').wrap('<a href="http://' + [[${hostname}]] + ':8080/shoppingCartScanner?sc_id=' + [[${sc_id}]] + '"></a>');
 
     var stompClient = null;
 
@@ -460,7 +464,11 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected');
             stompClient.subscribe('/topic/receiveId/' + [[${sc_id}]], function(message) {
-                $('#pidInput').val(message.body);
+                if ($('#pidInput').val() != message.body) {
+                    $('#pidInput').val(message.body);
+                    var sound = document.getElementById("audio");
+                    sound.play();
+                }
             });
         });
     }
