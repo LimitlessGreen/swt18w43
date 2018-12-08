@@ -55,7 +55,7 @@
 
                             <tr th:each="item : ${shoppingCart} ">
                                 <td scope="row" th:text="${item.getInventoryProduct().getName()}">ProductName</td>
-                                <td th:text="${item.getInventoryProduct().getProductIdentifier()}">1</td>
+                                <td th:text="${item.getInventoryProduct().getId()}">1</td>
                                 <td th:text="${item.getInventoryProduct().getProductCategory().getDescriptionDe()}">1</td>
                                 <td th:text="${item.getInventoryProduct().getPrice()}"></td>
                                 <td th:text="${item.getQuantity()}">1</td>
