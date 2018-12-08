@@ -1,6 +1,6 @@
 package bioladen.customer;
 
-import bioladen.event.EntityEvent;
+import bioladen.datahistory.DataEntry;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -17,11 +17,11 @@ public class UserAccEventListener {
 
 	@Async
 	@EventListener
-	public void listenCustomerEvent(EntityEvent<Customer> event) {
+	public void listenCustomerEvent(DataEntry<Customer> event) {
 		Customer customer = event.getEntity();
 		Customer oldCustomer = event.getEntityBeforeModified().orElse(null);
 
-		switch (event.getEventLevel()) {
+		switch (event.getEntityLevel()) {
 			case CREATED:
 				this.create(customer);
 				break;

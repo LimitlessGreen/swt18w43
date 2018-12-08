@@ -1,12 +1,10 @@
 package bioladen.product.distributor;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +18,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class DistributorController implements ApplicationEventPublisherAware {
+public class DistributorController {
 
 	private final DistributorRepository distributorRepository;
 	private final AuthenticationManager authenticationManager;
@@ -49,7 +47,7 @@ public class DistributorController implements ApplicationEventPublisherAware {
 		distributorRepository.save(distributor);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(distributor, EntityLevel.CREATED);
+		pushDistributor(distributor, EntityLevel.CREATED);
 
 		return "redirect:/distributorlist";
 	}
@@ -61,7 +59,7 @@ public class DistributorController implements ApplicationEventPublisherAware {
 		distributorRepository.deleteById(id);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(distributor, EntityLevel.DELETED);
+		pushDistributor(distributor, EntityLevel.DELETED);
 
 		return "redirect:/distributorlist";
 	}
@@ -77,19 +75,14 @@ public class DistributorController implements ApplicationEventPublisherAware {
                 ||     ||
 
 	*/
-	private ApplicationEventPublisher publisher;
+	private final DataHistoryManager<Distributor> dataHistoryManager;
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(Distributor distributor, EntityLevel entityLevel) {
+	private void pushDistributor(Distributor distributor, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
-		publisher.publishEvent(new EntityEvent<>(
+		dataHistoryManager.push(
 				distributor.getName(),
 				distributor,
 				entityLevel,
-				currentUser.orElse(null)));
+				currentUser.orElse(null));
 	}
 }

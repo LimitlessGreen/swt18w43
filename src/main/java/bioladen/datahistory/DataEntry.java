@@ -1,34 +1,35 @@
 package bioladen.datahistory;
 
 import bioladen.customer.Customer;
-import bioladen.event.EntityLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.salespointframework.core.AbstractEntity;
+import org.springframework.core.ResolvableType;
+import org.springframework.core.ResolvableTypeProvider;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.keyvalue.annotation.KeySpace;
 
 @KeySpace("dataHistory")
 @Getter
-public class DataEntry<T extends RawEntry> implements RawEntry{
+public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypeProvider {
 
 	@Id //
 	private Long id;
 
 	// (｡◕‿◕｡)
 	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
-	private EntityLevel entityLevel;
-	private String thrownBy;
+	private         T entity;
+	private         T entityBeforeModified = null;
+	private         EntityLevel entityLevel;
+	private         String thrownBy;
+	private @Setter String name = null;
+	private         String publisherName = "unknown";
 	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
-	private @Setter String message = "No message";
-	private @Setter String name = null;
-	private T entity;
-	private @Setter T entityBeforeModified = null;
+	private         String message = "No message";
 
 	public DataEntry() {}
 
@@ -37,6 +38,17 @@ public class DataEntry<T extends RawEntry> implements RawEntry{
 		this.entityLevel = entityLevel;
 		this.thrownBy = thrownBy;
 		this.entity = entity;
+
+		StackTraceElement[] trace = new Exception().getStackTrace();
+
+		for (StackTraceElement aTrace : trace) {
+			if (aTrace.getClassName().contains("bioladen")
+					&& !aTrace.getClassName().equals(this.getClass().getName())) {
+
+				this.publisherName = aTrace.getClassName();
+				break;
+			}
+		}
 	}
 
 	/**
@@ -51,6 +63,16 @@ public class DataEntry<T extends RawEntry> implements RawEntry{
 
 	public Optional<T> getEntityBeforeModified() {
 		return Optional.ofNullable(entityBeforeModified);
+	}
+
+	@Override
+	public ResolvableType getResolvableType() {
+		return ResolvableType.forClassWithGenerics(getClass(),
+				ResolvableType.forInstance(entity));
+	}
+
+	public void setMessage(String message) {
+		this.message = (message != null) ? message : this.message;
 	}
 
 	/**

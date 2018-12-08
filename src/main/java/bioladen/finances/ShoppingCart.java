@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.Customer;
+import bioladen.datahistory.RawEntry;
 import bioladen.product.InventoryProduct;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ import java.util.Optional;
  *
  * @author Lukas Petzold
  */
-public class ShoppingCart implements Streamable<CartCartItem> {
+public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 	private final static int SCALE = 2;
 	private final static int TO_PERCENT = 100;
 
@@ -250,6 +251,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);
 
 		return money;
+	}
+
+	public Long getId() {
+		return 0L;
 	}
 
 	@Override

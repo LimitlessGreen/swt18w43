@@ -1,4 +1,4 @@
-package bioladen.event;
+package bioladen.datahistory;
 
 import lombok.Getter;
 

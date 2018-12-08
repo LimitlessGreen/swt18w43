@@ -1,14 +1,13 @@
 package bioladen.product;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.label.PdfLabelGenerator;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -24,7 +23,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class InventoryProductController implements ApplicationEventPublisherAware {
+public class InventoryProductController {
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final AuthenticationManager authenticationManager;
@@ -108,19 +107,14 @@ public class InventoryProductController implements ApplicationEventPublisherAwar
                 ||     ||
 
 	*/
-	private ApplicationEventPublisher publisher;
-
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
+	private final DataHistoryManager<InventoryProduct> dataHistoryManager;
 
 	private void publishEvent(InventoryProduct inventoryProduct, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
-		publisher.publishEvent(new EntityEvent<>(
+		dataHistoryManager.push(
 				inventoryProduct.getName(),
 				inventoryProduct,
 				entityLevel,
-				currentUser.orElse(null)));
+				currentUser.orElse(null));
 	}
 }

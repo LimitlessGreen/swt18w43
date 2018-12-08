@@ -1,22 +1,19 @@
 package bioladen.customer;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerManager implements ApplicationEventPublisherAware {
+public class CustomerManager {
 
 	private final CustomerRepository customerRepository;
 	private final UserAccountManager userAccountManager;
@@ -44,7 +41,7 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 
 		for(S customer: customerList){
 			// (👁 ᴥ 👁) Event
-			publishEvent(customer, EntityLevel.CREATED);
+			pushCustomer(customer, EntityLevel.CREATED);
 		}
 
 		return customerListTmp;
@@ -54,7 +51,7 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		S customerTmp = customerRepository.save(customer);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.CREATED);
+		pushCustomer(customer, EntityLevel.CREATED);
 
 		return customerTmp;
 	}
@@ -68,7 +65,7 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		customerRepository.deleteById(id);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.DELETED);
+		pushCustomer(customer, EntityLevel.DELETED);
 	}
 
 	/*------------------------*/
@@ -79,7 +76,7 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		S customerTmp = customerRepository.save(customer);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.MODIFIED);
+		pushCustomer(customer, EntityLevel.MODIFIED);
 
 		return customerTmp;
 	}
@@ -95,20 +92,11 @@ public class CustomerManager implements ApplicationEventPublisherAware {
                     ||     ||
 
     */
-	private ApplicationEventPublisher publisher;
+	private final DataHistoryManager<Customer> dataHistoryManager;
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(Customer customer, EntityLevel entityLevel) {
+	private void pushCustomer(Customer customer, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
-		publisher.publishEvent(new EntityEvent<>(
-				customer.getName(),
-				customer,
-				entityLevel,
-				currentUser.orElse(null)));
+		dataHistoryManager.push(customer.getName(), customer, entityLevel, currentUser.orElse(null));
 	}
 }
 

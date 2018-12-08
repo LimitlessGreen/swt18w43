@@ -1,19 +1,15 @@
 package bioladen.datahistory;
 
-import bioladen.customer.Customer;
-import bioladen.customer.CustomerManager;
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.customer.CustomerTools;
 import lombok.RequiredArgsConstructor;
-import org.salespointframework.core.AbstractEntity;
 import org.salespointframework.time.BusinessTime;
 import org.salespointframework.time.Interval;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +28,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 			T entity, EntityLevel entityLevel,
 			String message,
 			String publisherName,
-			Customer involvedCustomer) {
+			UserAccount involvedUser) {
 
 		//get classname of caller, needs to search back in StackTrace
 
@@ -54,13 +50,14 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 
 		DataEntry dataEntry = new DataEntry(name, entityLevel, thrownBy, entity);
 
+		dataEntry.setMessage(message);
 		dataEntry.setSaveTime(businessTime.getTime());
 		dataEntry.setInvolvedCustomer(customerTools.userToCustomer(involvedUser).orElse(null));
 
 		dataEntryRepository.save(dataEntry);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(dataEntry, message);
+		publishEvent(dataEntry);
 
 		return dataEntry;
 	}
@@ -70,37 +67,22 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 							  T entity,
 							  EntityLevel entityLevel,
 							  String message,
-							  Customer involvedCustomer) {
-		if (message == null) {
-			message = entity.toString();
-		}
+							  UserAccount involvedUser) {
 
-		return this.log(name, entity, entityLevel, message, null, involvedCustomer);
+		return this.log(name, entity, entityLevel, message, null, involvedUser);
 	}
 	public DataEntry push(String name, T entity, EntityLevel entityLevel, String message) {
 
 		return this.push(name, entity, entityLevel, message, null);
 	}
 
-	public DataEntry push(String name, T entity, EntityLevel entityLevel, Customer involvedCustomer) {
+	public DataEntry push(String name, T entity, EntityLevel entityLevel, UserAccount involvedUser) {
 
-		return this.push(name, entity, entityLevel, null, involvedCustomer);
+		return this.push(name, entity, entityLevel, null, involvedUser);
 	}
 	public DataEntry push(String name, T entity, EntityLevel entityLevel) {
 
 		return this.push(name, entity, entityLevel, null, null);
-	}
-
-	// only for events
-	public <S extends EntityEvent<T>> DataEntry push(S entityEvent) {
-
-		return this.log(
-				entityEvent.getName(),
-				entityEvent.getEntity(),
-				entityEvent.getEventLevel(),
-				entityEvent.getMessage(),
-				entityEvent.getPublisherName(),
-				customerManager.userToCustomer(entityEvent.getInvolvedUser()).orElse(null));
 	}
 
 	/*----------------------*/
@@ -142,7 +124,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 		this.publisher = publisher;
 	}
 
-	private void publishEvent(DataEntry dataEntry, String message) {
-		publisher.publishEvent(new EntityEvent<>(null, dataEntry, EntityLevel.CREATED, message));
+	private void publishEvent(DataEntry dataEntry) {
+		publisher.publishEvent(dataEntry);
 	}
 }

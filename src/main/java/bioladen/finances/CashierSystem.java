@@ -1,16 +1,13 @@
 package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
-import bioladen.datahistory.RawEntry;
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @SessionAttributes({"shoppingCart"})
 
-public class CashierSystem implements ApplicationEventPublisherAware {
+public class CashierSystem {
 
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final CustomerRepository customerRepository;
@@ -204,7 +201,7 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 		// (👁 ᴥ 👁) Event
-		publishEvent(shoppingCart, EntityLevel.CREATED, "Verkauf");
+		pushShoppingCart(shoppingCart, EntityLevel.CREATED, "Verkauf");
 
 		shoppingCart.clear();
 
@@ -223,7 +220,7 @@ public class CashierSystem implements ApplicationEventPublisherAware {
 	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(shoppingCart, EntityLevel.DELETED, "Stornierung");
+		pushShoppingCart(shoppingCart, EntityLevel.DELETED, "Stornierung");
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : shoppingCart.getItems().entrySet()) {
 			e.getKey().removeDisplayedAmount(-(e.getValue().getQuantity()));
@@ -249,19 +246,14 @@ public class CashierSystem implements ApplicationEventPublisherAware {
                     ||     ||
 
     */
-	private ApplicationEventPublisher publisher;
+	private final DataHistoryManager<ShoppingCart> dataHistoryManager;
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(ShoppingCart shoppingCart, EntityLevel entityLevel, String name) {
+	private void pushShoppingCart(ShoppingCart shoppingCart, EntityLevel entityLevel, String name) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
-		publisher.publishEvent(new EntityEvent<>(
+		dataHistoryManager.push(
 				name,
 				shoppingCart,
 				entityLevel,
-				currentUser.orElse(null)));
+				currentUser.orElse(null));
 	}
 }
