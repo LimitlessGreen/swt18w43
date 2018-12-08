@@ -23,7 +23,7 @@ public class CustomerManager {
 	/*  1. ADDS
 	/*----------------------*/
 
-	public ArrayList<? extends Customer> getAll() {
+	public ArrayList<Customer> getAll() {
 		return customerRepository.findAll();
 	}
 
@@ -35,11 +35,11 @@ public class CustomerManager {
 	/*  2. SAVES
 	/*------------------------*/
 
-	public <S extends Customer> Iterable<S> saveAll(Iterable<S> customerList) {
+	public Iterable<Customer> saveAll(Iterable<Customer> customerList) {
 
-		Iterable<S> customerListTmp = customerRepository.saveAll(customerList);
+		Iterable<Customer> customerListTmp = customerRepository.saveAll(customerList);
 
-		for(S customer: customerList){
+		for(Customer customer: customerList){
 			// (👁 ᴥ 👁) Event
 			pushCustomer(customer, EntityLevel.CREATED);
 		}
@@ -47,8 +47,8 @@ public class CustomerManager {
 		return customerListTmp;
 	}
 
-	public <S extends Customer> S save(S customer) {
-		S customerTmp = customerRepository.save(customer);
+	public Customer save(Customer customer) {
+		Customer customerTmp = customerRepository.save(customer);
 
 		// (👁 ᴥ 👁) Event
 		pushCustomer(customer, EntityLevel.CREATED);
@@ -72,8 +72,9 @@ public class CustomerManager {
 	/*  4. MODIFICATIONS
 	/*------------------------*/
 
-	public <S extends Customer> S modified(S customer){
-		S customerTmp = customerRepository.save(customer);
+	public Customer modified(Customer customer){
+
+		Customer customerTmp = customerRepository.save(customer);
 
 		// (👁 ᴥ 👁) Event
 		pushCustomer(customer, EntityLevel.MODIFIED);

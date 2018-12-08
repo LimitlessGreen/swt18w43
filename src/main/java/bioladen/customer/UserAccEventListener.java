@@ -6,8 +6,9 @@ import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -15,11 +16,10 @@ public class UserAccEventListener {
 
 	private final UserAccountManager userAccountManager;
 
-	@Async
 	@EventListener
 	public void listenCustomerEvent(DataEntry<Customer> event) {
 		Customer customer = event.getEntity();
-		Customer oldCustomer = event.getEntityBeforeModified().orElse(null);
+
 
 		switch (event.getEntityLevel()) {
 			case CREATED:
@@ -30,7 +30,8 @@ public class UserAccEventListener {
 				break;
 
 			case MODIFIED:
-				this.modified(oldCustomer, customer);
+				//assert oldCustomer != null;
+				this.modified(event.getEntityBeforeModified(), customer);
 				break;
 			default:
 				break;
@@ -43,15 +44,17 @@ public class UserAccEventListener {
 			userAccount.setEmail(customer.getEmail());
 			userAccountManager.save(userAccount);
 		} else {
-			userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
+			userAccountManager.enable(Objects.requireNonNull(
+					userAccountManager.findByUsername(customer.getEmail()).orElse(null)).getId());
 		}
 	}
 
 	private void delete(Customer customer){
 		if (customer.isCustomerType(CustomerType.STAFF)) {
-			userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
+			userAccountManager.disable(Objects.requireNonNull(
+					userAccountManager.findByUsername(customer.getEmail()).orElse(null)).getId());
 		} else if (customer.isCustomerType(CustomerType.MANAGER)) {
-			userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
+			userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).orElse(null).getId());
 		}
 	}
 
@@ -63,33 +66,23 @@ public class UserAccEventListener {
 		}
 	}
 
-	private void update(Customer oldCustomer, Customer customer, String role){
-		if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
-			UserAccount userAccount = userAccountManager.create(customer.getEmail(),
-					String.valueOf(userAccountManager.findByUsername(oldCustomer.getEmail()).get().getPassword()),
-					Role.of(role));
-			userAccount.setEmail(customer.getEmail());
+	private void update(Customer oldCustomer, Customer customer,String oldRole, String role){
+		UserAccount userAccount = userAccountManager.findByUsername(customer.getEmail()).orElse(null);
+		if (userAccount != null) {
+			userAccount.remove(Role.of(oldRole));
+			userAccount.add(Role.of(role));
 			userAccountManager.save(userAccount);
-		} else {
-			userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
 		}
 
 	}
 
-	private void modified(Customer oldCustomer, Customer customer){
+	private<T extends Customer> void modified(T oldCustomer, T customer){
 		if (!oldCustomer.getCustomerType().equals(customer.getCustomerType())){
 			if (oldCustomer.isCustomerType(CustomerType.STAFF) && customer.isCustomerType(CustomerType.MANAGER)){
-				if(!oldCustomer.getEmail().equals(customer.getEmail())){
-					this.update(oldCustomer, customer, "ROLE_MANAGER");
-				} else {
-					this.update(customer, customer, "ROLE_MANAGER");
-				}
+				this.update(oldCustomer, customer,"ROLE_STAFF", "ROLE_MANAGER");
+
 			} else if (oldCustomer.isCustomerType(CustomerType.MANAGER) && customer.isCustomerType(CustomerType.STAFF)){
-				if(!oldCustomer.getEmail().equals(customer.getEmail())){
-					this.update(oldCustomer, customer, "ROLE_STAFF");
-				} else {
-					this.update(customer, customer, "ROLE_STAFF");
-				}
+				this.update(oldCustomer, customer,"ROLE_MANAGER", "ROLE_STAFF");
 			}
 			if ((oldCustomer.isCustomerType(CustomerType.MANAGER) ||
 					oldCustomer.isCustomerType(CustomerType.STAFF)) &&

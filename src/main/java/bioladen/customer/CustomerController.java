@@ -1,14 +1,16 @@
 package bioladen.customer;
 
-import org.apache.commons.lang3.StringUtils;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.salespointframework.useraccount.AuthenticationManager;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.salespointframework.useraccount.AuthenticationManager;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Transactional
@@ -237,16 +239,16 @@ public class CustomerController {
 		if (!address.equals(customerManager.get(id).getStreet())){
 			if (StringUtils.isNotBlank(address)){
 				customer.setStreet(address);
-			} else {
-				customer.setStreet(null);
 			}
+		} else {
+			customer.setStreet(address);
 		}
 		if (!phone.equals(customerManager.get(id).getPhone()) && StringUtils.isNotBlank(phone)){
 			if (StringUtils.isNotBlank(phone)){
 				customer.setPhone(phone);
-			} else {
-				customer.setPhone(null);
 			}
+		} else {
+			customer.setStreet(phone);
 		}
 
 		customer.setId(id);
