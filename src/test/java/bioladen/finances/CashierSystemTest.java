@@ -1,6 +1,5 @@
 package bioladen.finances;
 
-import bioladen.product.InventoryProductCatalog;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,15 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
-
 import org.springframework.http.HttpHeaders;
-
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -62,5 +58,39 @@ class CashierSystemTest {
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("shoppingCart"));
 	}
+
+	@Test
+	void cashiersystemAdd() throws Exception {
+		mvc.perform(post("/cashiersystemAdd").with(user("manager").roles("MANAGER"))
+				.param("pid", "1").param("amount", "1"))
+				.andDo(print())
+				.andExpect(model().attributeHasNoErrors("shoppingCart"));
+
+	}
+
+	@Test
+	void cashiersystemCalcChange() throws Exception {
+		mvc.perform(post("/cashiersystemCalcChange").with(user("manager").roles("MANAGER"))
+				.param("changeInput", "10.00"))
+				.andDo(print())
+				.andExpect(model().attributeHasNoErrors("shoppingCart"));
+	}
+
+	@Test
+	void cashiersystemUser() throws Exception {
+		mvc.perform(post("/cashiersystemUser").with(user("manager").roles("MANAGER"))
+				.param("userId", "1"))
+				.andDo(print())
+				.andExpect(model().attributeHasNoErrors("shoppingCart"));
+	}
+
+	@Test
+	void cashiersystemPfand() throws Exception {
+		mvc.perform((post("/cashiersystemPfand").with(user("manager").roles("MANAGER"))
+				.param("pid", "1")).param("amount", "1"))
+				.andDo(print())
+				.andExpect(model().attributeHasNoErrors("shoppingCart"));
+	}
+
 
 }
