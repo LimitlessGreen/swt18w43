@@ -2,7 +2,7 @@ package bioladen.statistic;
 
 import bioladen.customer.Customer;
 import bioladen.datahistory.DataHistoryManager;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.EntityLevel;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.Interval;
 import org.springframework.stereotype.Service;
