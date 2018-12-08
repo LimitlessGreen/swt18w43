@@ -9,4 +9,6 @@ import java.util.ArrayList;
  */
 public interface InventoryProductCatalog extends CrudRepository<InventoryProduct, Long> {
 	public ArrayList<InventoryProduct> findAll();
+
+	public InventoryProduct findByName();
 }
