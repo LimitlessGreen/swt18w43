@@ -30,7 +30,7 @@ class DistributorProductTest {
 		DistributorProduct product = distributorProductCatalog.findById(1L).get();
 
 
-		assertEquals(1, (long)product.getDistributorProductIdentifier());
+		assertEquals(1, (long)product.getId());
 		assertEquals("Kartoffeln", product.getName());
 		assertEquals(1, (long)product.getDistributor().getId());
 		assertEquals(BigDecimal.valueOf(4.99), product.getPrice());

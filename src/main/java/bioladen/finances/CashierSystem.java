@@ -31,9 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @SessionAttributes({"shoppingCart"})
 
-public class CashierSystem implements ApplicationEventPublisherAware, RawEntry {
-
-	//TODO: pls add id!
+public class CashierSystem implements ApplicationEventPublisherAware {
 
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final CustomerRepository customerRepository;
