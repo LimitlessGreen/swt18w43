@@ -253,8 +253,9 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 		return money;
 	}
 
+	@Override
 	public Long getId() {
-		return 0L;
+		return (long) this.hashCode();
 	}
 
 	@Override
