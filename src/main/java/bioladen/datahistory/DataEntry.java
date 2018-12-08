@@ -6,12 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
-import org.springframework.data.keyvalue.annotation.KeySpace;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor
@@ -63,9 +62,6 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 		return this.saveTime.format(DateTimeFormatter.ofPattern(format));
 	}
 
-	public Optional<T> getEntityBeforeModified() {
-		return Optional.ofNullable(entityBeforeModified);
-	}
 
 	@Override
 	public ResolvableType getResolvableType() {
