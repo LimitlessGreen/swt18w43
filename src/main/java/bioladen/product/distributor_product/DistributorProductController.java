@@ -105,11 +105,11 @@ public class DistributorProductController {
 		BufferedReader br = new BufferedReader(new InputStreamReader(bnnFile.getInputStream()));
 		for (Object line : br.lines().toArray()) {
 			String[] lineFields = line.toString().split(";");
-			distributorProductCatalog.save(new DistributorProduct(
+			pushDistributorProduct(distributorProductCatalog.save(new DistributorProduct(
 					lineFields[0], distributor, new BigDecimal(lineFields[1]), new BigDecimal(lineFields[2]),
 					Long.valueOf(lineFields[3]), ProductCategory.valueOf(lineFields[4]), MwStCategory.valueOf(lineFields[5]),
 					new BigDecimal(lineFields[6]), Organization.valueOf(lineFields[7])
-				));
+				)), EntityLevel.CREATED);
 		}
 
 		return "redirect:/distributorproductlist";
