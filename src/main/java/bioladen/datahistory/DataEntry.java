@@ -2,6 +2,7 @@ package bioladen.datahistory;
 
 import bioladen.customer.Customer;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
@@ -12,27 +13,27 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-@KeySpace("dataHistory")
 @Getter
+@NoArgsConstructor
+@KeySpace("dataHistory")
 public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypeProvider {
 
 	@Id
 	@Setter
 	private Long id;
 
-	// (｡◕‿◕｡)
-	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
-	private         T entity;
+	private T entity;
+
+	private EntityLevel entityLevel;
+
+	private String thrownBy;
+	private String publisherName = "unknown";
+	private String message = "No message";
+
 	private @Setter T entityBeforeModified = null;
-	private         EntityLevel entityLevel;
-	private         String thrownBy;
 	private @Setter String name = null;
-	private         String publisherName = "unknown";
 	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
-	private         String message = "No message";
-
-	public DataEntry() {}
 
 	DataEntry(String name, EntityLevel entityLevel, String thrownBy, T entity) {
 		this.name = name;
