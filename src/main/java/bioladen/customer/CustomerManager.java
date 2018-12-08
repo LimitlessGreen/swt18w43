@@ -84,28 +84,6 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerTmp;
 	}
 
-
-
-	/*------------------------*/
-	/*  5. CONVERSIONS
-	/*------------------------*/
-
-	public UserAccount customerToUser(Customer customer) {
-		String email = customer.getEmail();
-		return userAccountManager.findByUsername(email).orElse(null);
-	}
-
-
-	public Optional<Customer> userToCustomer (UserAccount user) {
-		String email;
-		if (user == null) {
-			return Optional.empty();
-		} else {
-			email = user.getUsername();
-		}
-		return customerRepository.findByEmail(email);
-	}
-
 	/*
          _________________
         < Event publisher >

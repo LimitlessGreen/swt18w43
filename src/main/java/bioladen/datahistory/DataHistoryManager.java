@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DataHistoryManager<T extends RawEntry> implements ApplicationEventPublisherAware {
 
-	private final CustomerManager customerManager;
+	private final CustomerTools customerTools;
 	private final DataEntryRepository dataEntryRepository;
 	private final BusinessTime businessTime;
 
@@ -55,7 +55,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 		DataEntry dataEntry = new DataEntry(name, entityLevel, thrownBy, entity);
 
 		dataEntry.setSaveTime(businessTime.getTime());
-		dataEntry.setInvolvedCustomer(involvedCustomer);
+		dataEntry.setInvolvedCustomer(customerTools.userToCustomer(involvedUser).orElse(null));
 
 		dataEntryRepository.save(dataEntry);
 
