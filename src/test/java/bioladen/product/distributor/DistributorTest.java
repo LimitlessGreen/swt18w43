@@ -1,4 +1,4 @@
-package bioladen.product;
+package bioladen.product.distributor;
 
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;

@@ -1,8 +1,12 @@
-package bioladen.product;
+package bioladen.product.distributor_product;
 
+import bioladen.product.MwStCategory;
+import bioladen.product.Organization;
+import bioladen.product.ProductCategory;
 import bioladen.product.distributor.DistributorRepository;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +40,10 @@ class DistributorProductTest {
 		assertEquals(BigDecimal.valueOf(4.99), product.getPrice());
 		assertEquals(BigDecimal.valueOf(5).setScale(2, RoundingMode.DOWN), product.getUnit());
 		assertEquals(10, product.getMinimumOrderAmount());
-		assertEquals(ProductCategory.FOOD_FRUIT_VEG, product.getProductCategory());
-		assertEquals(MwStCategory.REDUCED, product.getMwStCategory());
+		Assertions.assertEquals(ProductCategory.FOOD_FRUIT_VEG, product.getProductCategory());
+		Assertions.assertEquals(MwStCategory.REDUCED, product.getMwStCategory());
 		assertEquals(null, product.getPfandPrice());
-		assertEquals(Organization.BIOLAND, product.getOrganization());
+		Assertions.assertEquals(Organization.BIOLAND, product.getOrganization());
 	}
 
 }
