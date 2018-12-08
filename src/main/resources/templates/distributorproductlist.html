@@ -51,6 +51,40 @@
                                 </div>
                             </div>
                             <!-- dialog: add distributor End -->
+
+                            <!-- dialog: BNN import -->
+                            <div class="modal fade" id="bnnImportModal" role="dialog">
+                                <div class="modal-dialog modal-large">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" th:action="@{/importBnn}" enctype="multipart/form-data">
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="inputBnnFile">BNN-Datei*</label>
+                                                        <input type="file" class="form-control-file" id="inputBnnFile" name="bnnFile" accept="text/comma-separated-values">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="inputDistributor">Großhändler*</label>
+                                                    <select class="form-control" id="inputDistributor" name="distributor">
+                                                        <option th:each="distributor : ${distributorList}" th:value="${distributor.getId()}" th:text="${distributor.getName()}">REWE</option>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-success">Datei einlesen</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- dialog: BNN import -->
                         </div>
                     </div>
 

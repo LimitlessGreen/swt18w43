@@ -19,8 +19,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +94,26 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 
 		// (👁 ᴥ 👁) Event
 		publishEvent(distributorProduct, EntityLevel.CREATED);
+
+		return "redirect:/distributorproductlist";
+	}
+
+	@PostMapping("/importBnn")
+	String readBnn(@RequestParam("distributor") Long          distributorId,
+				   @RequestParam("bnnFile")     MultipartFile bnnFile        ) throws IOException {
+		Distributor distributor = distributorRepository.findById(distributorId).get();
+
+		List<String> csv = new ArrayList<String>();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(bnnFile.getInputStream()));
+		for (Object line : br.lines().toArray()) {
+			String[] lineFields = line.toString().split(";");
+			distributorProductCatalog.save(new DistributorProduct(
+					lineFields[0], distributor, new BigDecimal(lineFields[1]), new BigDecimal(lineFields[2]),
+					Long.valueOf(lineFields[3]), ProductCategory.valueOf(lineFields[4]), MwStCategory.valueOf(lineFields[5]),
+					new BigDecimal(lineFields[6]), Organization.valueOf(lineFields[7])
+				));
+		}
 
 		return "redirect:/distributorproductlist";
 	}
