@@ -48,11 +48,20 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 			}
 		}
 
-		DataEntry dataEntry = new DataEntry(name, entityLevel, thrownBy, entity);
+		DataEntry dataEntry = new DataEntry<>(name, entityLevel, thrownBy, entity);
+
+		if (entityLevel.equals(EntityLevel.MODIFIED)) {
+			dataEntry.setEntityBeforeModified(
+					dataEntryRepository.findTopByEntityAndEntityLevelIsNotIn(entity, EntityLevel.DELETED)
+			);
+		}
 
 		dataEntry.setMessage(message);
 		dataEntry.setSaveTime(businessTime.getTime());
 		dataEntry.setInvolvedCustomer(customerTools.userToCustomer(involvedUser).orElse(null));
+
+		//TODO: auto generate incremented id!
+		dataEntry.setId(dataEntryRepository.findAllByOrderById().size() + 1L);
 
 		dataEntryRepository.save(dataEntry);
 

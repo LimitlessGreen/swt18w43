@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.ResolvableTypeProvider;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,13 +16,14 @@ import java.util.Optional;
 @Getter
 public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypeProvider {
 
-	@Id //
+	@Id
+	@Setter
 	private Long id;
 
 	// (｡◕‿◕｡)
 	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
 	private         T entity;
-	private         T entityBeforeModified = null;
+	private @Setter T entityBeforeModified = null;
 	private         EntityLevel entityLevel;
 	private         String thrownBy;
 	private @Setter String name = null;

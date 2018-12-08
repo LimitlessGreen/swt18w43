@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.lang.reflect.Field;
-
 @Controller
 public class DataHistoryController {
 	private final DataEntryRepository dataEntryRepository;
@@ -17,7 +15,7 @@ public class DataHistoryController {
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/datahistory")
 	String datahistory(Model model){
-		model.addAttribute("history", dataEntryRepository.findAllByOrderBySaveTimeDesc());
+		model.addAttribute("history", dataEntryRepository.findAllByOrderByIdDesc());
 
 		return "datahistory";
 	}
