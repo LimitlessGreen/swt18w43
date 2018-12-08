@@ -52,7 +52,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 
 		if (entityLevel.equals(EntityLevel.MODIFIED)) {
 			dataEntry.setEntityBeforeModified(
-					findLatestCreatedOrModified(entity)
+					findLatestCreatedOrModified(entity).getEntity()
 			);
 		}
 
@@ -63,7 +63,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 		//TODO: auto generate incremented id!
 		dataEntry.setId(dataEntryRepository.findAllByOrderById().size() + 1L);
 
-		dataEntryRepository.save(dataEntry);
+		dataEntry = dataEntryRepository.save(dataEntry);
 
 		// (👁 ᴥ 👁) Event
 		publishEvent(dataEntry);
@@ -118,18 +118,15 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 
 		Class entityClass = entity.getClass();
 
-		DataEntry output = null;
-		for (DataEntry entry : dataEntryRepository.findAllByOrderById()) {
+		for (DataEntry entry : dataEntryRepository.findAllByOrderByIdDesc()) {
 
 			if (entry.getEntity().getClass().equals(entityClass)
 					&& entry.getEntityLevel() != EntityLevel.DELETED
-					&& entry.getEntity().equals(entity)) {
-				output = entry;
+					&& entry.getEntity().getId().equals(entity.getId())) {
+				return entry;
 			}
 		}
-
-		return output;
-
+		return null;
 	}
 
 	/*
