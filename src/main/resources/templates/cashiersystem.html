@@ -157,7 +157,7 @@
                                                 </form>
 
                                                 <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
-                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getId()}">
                                                     <input type="hidden" name="amount" th:value="${-1}">
                                                     <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="-1">
                                                         <i class="fas fa-minus"></i>
@@ -165,7 +165,7 @@
                                                 </form>
 
                                                 <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
-                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getId()}">
                                                     <input type="hidden" name="amount" th:value="${1}">
                                                     <button class="btn btn-success success-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="+1">
                                                         <i class="fas fa-plus"></i>
@@ -183,11 +183,6 @@
 
                     </div>
 
-                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPfand}">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Achtung!</strong> <a th:text="${errorPfandMsg}"></a>
-                    </div>
-
                     <div align="center">
                         <form class="form-group" method="post" th:action="@{/cashiersystemPfand}">
                             <input type="hidden" name="pid" id="pidPfand" value="">
@@ -200,6 +195,11 @@
                             </script>
                             <button type="submit" class="btn btn-lg btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="color:#fff;"><i class="fas fa-wine-bottle"></i>Pfand</button>
                         </form>
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPfand}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Achtung!</strong> <a th:text="${errorPfandMsg}"></a>
                     </div>
 
                     <div class="pre-scrollable" style="max-height: 200px">
