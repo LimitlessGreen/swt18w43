@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.Customer;
+import bioladen.datahistory.RawEntry;
 import bioladen.product.InventoryProduct;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ import java.util.Optional;
  *
  * @author Lukas Petzold
  */
-public class ShoppingCart implements Streamable<CartCartItem> {
+public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 	private final static int SCALE = 2;
 	private final static int TO_PERCENT = 100;
 
@@ -45,7 +46,7 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		Map<InventoryProduct, CartCartItem> itemsCopy = new LinkedHashMap<>(items);
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : itemsCopy.entrySet()) {
-			if (e.getKey().getProductIdentifier().equals(inventoryProduct.getProductIdentifier())) {
+			if (e.getKey().getId().equals(inventoryProduct.getId())) {
 				items.put(e.getKey(), items.get(e.getKey()).add(quantity));
 				return e.getValue();
 			}
@@ -123,8 +124,10 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
 			money = money.add((e.getValue().getPrice()));							// price of CartCartItem
-			money = money.add(e.getKey().getPfandPrice()
-					.multiply(BigDecimal.valueOf(e.getValue().getQuantity())));	 	// pfand added
+			if(e.getKey().getPfandPrice() != null) {
+				money = money.add(e.getKey().getPfandPrice()
+						.multiply(BigDecimal.valueOf(e.getValue().getQuantity())));        // pfand added
+			}
 		}
 
 		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));				// discount
@@ -248,6 +251,11 @@ public class ShoppingCart implements Streamable<CartCartItem> {
 		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);
 
 		return money;
+	}
+
+	@Override
+	public Long getId() {
+		return (long) this.hashCode();
 	}
 
 	@Override

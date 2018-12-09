@@ -1,15 +1,23 @@
 package bioladen.finances;
 
 import bioladen.customer.CustomerRepository;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import bioladen.product.InventoryProduct;
 import bioladen.product.InventoryProductCatalog;
+import lombok.RequiredArgsConstructor;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A cashiersystem for the users to sell wares to the customers.
@@ -17,17 +25,14 @@ import java.util.Map;
  * @author Lukas Petzold
  */
 @Controller
+@RequiredArgsConstructor
 @SessionAttributes({"shoppingCart"})
 
 public class CashierSystem {
 
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final CustomerRepository customerRepository;
-
-	CashierSystem(InventoryProductCatalog inventoryProductCatalog, CustomerRepository customerRepository) {
-		this.inventoryProductCatalog = inventoryProductCatalog;
-		this.customerRepository = customerRepository;
-	}
+	private final AuthenticationManager authenticationManager;
 
 	@ModelAttribute("shoppingCart")
 	ShoppingCart initializeShoppingCart() {
@@ -37,7 +42,9 @@ public class CashierSystem {
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/cashiersystem")
-	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+	public String cashiersystem(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "cashiersystem";
 	}
@@ -54,9 +61,15 @@ public class CashierSystem {
 			@RequestParam("pid") Long product,
 			@RequestParam("amount") Long amount,
 			@ModelAttribute ShoppingCart shoppingCart,
-			Model model) {
+			Model model) throws UnknownHostException {
+
+		final Long EAN13 = 2000000000000L;
+		final int EAN13_LENGTH = 13;
 
 		try {
+			if (product >= EAN13 && product.toString().length() == EAN13_LENGTH && product.toString().startsWith("2")) {
+				product = InventoryProduct.fromEan13(product);
+			}
 			if (inventoryProductCatalog.findById(product).get().getDisplayedAmount() >= amount) {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
 				CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
@@ -74,6 +87,9 @@ public class CashierSystem {
 			model.addAttribute("errorMsgPid", "Kein Produkt gefunden");
 		}
 
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		return "cashiersystem";
 	}
 
@@ -83,11 +99,17 @@ public class CashierSystem {
 	 * @param pid  The product with the String pid gets deleted.
 	 */
 	@PostMapping("/deleteCartItem")
-	String deleteProduct(@RequestParam("cartItemId") String pid, @ModelAttribute ShoppingCart shoppingCart) {
+	String deleteProduct(@RequestParam("cartItemId") String pid,
+						 @ModelAttribute ShoppingCart shoppingCart,
+						 Model model) throws UnknownHostException {
 		shoppingCart.getItem(pid).get().getInventoryProduct()
 				.removeDisplayedAmount(-(shoppingCart.getItem(pid).get().getQuantity()));
 		inventoryProductCatalog.save(shoppingCart.getItem(pid).get().getInventoryProduct());
 		shoppingCart.removeItem(pid);
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		return "cashiersystem";
 	}
 
@@ -103,7 +125,11 @@ public class CashierSystem {
 	String calcChange(
 			@RequestParam("changeInput") Double changeInput,
 			@ModelAttribute ShoppingCart shoppingCart,
-			Model model) {
+			Model model) throws UnknownHostException {
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		try {
 			BigDecimal money = BigDecimal.valueOf(changeInput);
 			money = money.subtract(shoppingCart.getPrice());
@@ -131,7 +157,12 @@ public class CashierSystem {
 	 * if 0 is entered the discount will be 0% for a NormalCustomer.
 	 */
 	@PostMapping("/cashiersystemUser")
-	String userId(@RequestParam("userId") long userId, @ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String userId(@RequestParam("userId") long userId,
+				  @ModelAttribute ShoppingCart shoppingCart,
+				  Model model) throws UnknownHostException {
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		try {
 			shoppingCart.setCustomer(customerRepository.findById(userId).get());
 
@@ -148,13 +179,16 @@ public class CashierSystem {
 	String addPfand(@RequestParam("pid") Long product,
 					@RequestParam("amount") Long amount,
 					@ModelAttribute ShoppingCart shoppingCart,
-					Model model){
+					Model model) throws UnknownHostException {
 		try {
 			shoppingCart.addOrUpdatePfand(inventoryProductCatalog.findById(product).get().getPfandPrice(), amount);
 		} catch (Exception e) {
 			model.addAttribute("errorPfand", true);
 			model.addAttribute("errorPfandMsg", "Ungültiges Produkt eingegeben");
 		}
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "cashiersystem";
 	}
@@ -165,9 +199,14 @@ public class CashierSystem {
 	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemFinish")
-	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) {
-		// TODO: Event for Cashiersystem
+	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+		// (👁 ᴥ 👁) Event
+		pushShoppingCart(shoppingCart, EntityLevel.CREATED, "Verkauf");
+
 		shoppingCart.clear();
+
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		return "redirect:/cashiersystem";
 	}
@@ -178,7 +217,10 @@ public class CashierSystem {
 	 * @param shoppingCart gets cleared and user set to null.
 	 */
 	@PostMapping("/cashiersystemAbort")
-	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) {
+	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
+
+		// (👁 ᴥ 👁) Event
+		pushShoppingCart(shoppingCart, EntityLevel.DELETED, "Stornierung");
 
 		for (Map.Entry<InventoryProduct, CartCartItem> e : shoppingCart.getItems().entrySet()) {
 			e.getKey().removeDisplayedAmount(-(e.getValue().getQuantity()));
@@ -187,7 +229,31 @@ public class CashierSystem {
 
 		shoppingCart.clear();
 
+		model.addAttribute("sc_id", shoppingCart.toString().substring(shoppingCart.toString().lastIndexOf('@') + 1));
+		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
+
 		return "redirect:/cashiersystem";
 	}
 
+	/*
+         _________________
+        < Event publisher >
+         -----------------
+            \   ^__^
+             \  (@@)\_______
+                (__)\       )\/\
+                    ||----w |
+                    ||     ||
+
+    */
+	private final DataHistoryManager<ShoppingCart> dataHistoryManager;
+
+	private void pushShoppingCart(ShoppingCart shoppingCart, EntityLevel entityLevel, String name) {
+		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
+		dataHistoryManager.push(
+				name,
+				shoppingCart,
+				entityLevel,
+				currentUser.orElse(null));
+	}
 }

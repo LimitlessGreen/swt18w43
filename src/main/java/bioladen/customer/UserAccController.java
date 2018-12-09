@@ -1,6 +1,6 @@
 package bioladen.customer;
 
-
+import org.apache.commons.lang3.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.salespointframework.useraccount.UserAccount;
@@ -39,7 +39,7 @@ public class UserAccController {
 
 
 
-		if(oldPassword.isEmpty()||newPassword.isEmpty()||newPasswordAgain.isEmpty()) {
+		if(StringUtils.isBlank(oldPassword)||StringUtils.isBlank(newPassword)||StringUtils.isBlank(newPasswordAgain)) {
 			model.addAttribute("errorPassword", true);
 			model.addAttribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt.");
 

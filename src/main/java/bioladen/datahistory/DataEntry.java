@@ -1,40 +1,55 @@
 package bioladen.datahistory;
 
 import bioladen.customer.Customer;
-import bioladen.event.EntityLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.salespointframework.core.AbstractEntity;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import org.springframework.core.ResolvableType;
+import org.springframework.core.ResolvableTypeProvider;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
 
-@KeySpace("dataHistory")
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
-public class DataEntry<T> {
+@NoArgsConstructor
+@KeySpace("dataHistory")
+public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypeProvider {
 
-	@Id //
-	private String dataEntryIdentifier;
+	@Id
+	@Setter
+	private Long id;
 
-	// (｡◕‿◕｡)
-	// primitve Typen oder Strings müssen nicht extra für JPA annotiert werden
+	private T entity;
+
 	private EntityLevel entityLevel;
+
 	private String thrownBy;
+	private String publisherName = "unknown";
+	private String message = "No message";
+
+	private @Setter T entityBeforeModified = null;
+	private @Setter String name = null;
 	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
-	private @Setter String message = "No message";
-	private T entity;
-	// TODO for later usage: add a user, who interacted with the push
 
-	public DataEntry() {}
-
-	public DataEntry(EntityLevel entityLevel, String thrownBy, T entity) {
+	DataEntry(String name, EntityLevel entityLevel, String thrownBy, T entity) {
+		this.name = name;
 		this.entityLevel = entityLevel;
 		this.thrownBy = thrownBy;
 		this.entity = entity;
+
+		StackTraceElement[] trace = new Exception().getStackTrace();
+
+		for (StackTraceElement aTrace : trace) {
+			if (aTrace.getClassName().contains("bioladen")
+					&& !aTrace.getClassName().equals(this.getClass().getName())) {
+
+				this.publisherName = aTrace.getClassName();
+				break;
+			}
+		}
 	}
 
 	/**
@@ -45,6 +60,17 @@ public class DataEntry<T> {
 	 */
 	public String getFormattedSaveTime(String format) {
 		return this.saveTime.format(DateTimeFormatter.ofPattern(format));
+	}
+
+
+	@Override
+	public ResolvableType getResolvableType() {
+		return ResolvableType.forClassWithGenerics(getClass(),
+				ResolvableType.forInstance(entity));
+	}
+
+	public void setMessage(String message) {
+		this.message = (message != null) ? message : this.message;
 	}
 
 	/**

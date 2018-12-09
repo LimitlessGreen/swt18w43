@@ -19,6 +19,12 @@
     <div th:fragment="distributorproductform">
         <h1 align="center">Großhändlerprodukt hinzufügen</h1>
         <br>
+        <div align="center">
+            <button class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="modal" data-target="#bnnImportModal, #addDistributorProductModal">
+                <i class="fas fa-file-export"></i> BNN-Import
+            </button>
+        </div>
+
         <form method="post" th:action="@{/addDistributorProduct}">
             <div class="form-row">
                 <div class="form-group col-md-12">

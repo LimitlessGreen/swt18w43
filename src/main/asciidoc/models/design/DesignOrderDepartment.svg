@@ -122,7 +122,7 @@ rectangle salespoint-framework-7.0.0.RELEASE.jar {
         class OrderLine <<Salespoint>> {
             +getId() : OrderLineIdentifier
             +getPrice() : MonetaryAmount
-            +getProductIdentifier() : ProductIdentifier
+            +getId() : ProductIdentifier
             +getProductName() : String
             +getQuantity() : Quantity
             +sumUp(Iterable<? extends Priced>) : MonetaryAmount

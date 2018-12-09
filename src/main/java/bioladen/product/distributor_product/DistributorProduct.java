@@ -1,5 +1,6 @@
 package bioladen.product.distributor_product;
 
+import bioladen.datahistory.RawEntry;
 import bioladen.product.MwStCategory;
 import bioladen.product.Organization;
 import bioladen.product.ProductCategory;
@@ -21,12 +22,12 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "DISTRIBUTOR_PRODUCT")
 @NoArgsConstructor
-public class DistributorProduct {
+public class DistributorProduct implements RawEntry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
-	private @Getter Long distributorProductIdentifier;
+	private @Getter Long id;
 
 	private @NonNull @Getter @Setter String          name;
 	private @NonNull @Getter @Setter BigDecimal      price;

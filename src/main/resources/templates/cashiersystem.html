@@ -31,7 +31,7 @@
                             </div>
 
                             <label for="pidInput">Produkt-Code</label>
-                            <input type="text" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben" oninput="updatePfand()">
+                            <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="18" class="form-control" id="pidInput" name="pid" placeholder="Produkt-Code eingeben" oninput="updatePfand()">
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -39,11 +39,15 @@
                                 <script> // functions for numpad pid
                                 var pidInput = "";
                                 function pidUpdate(char) {
-                                    pidInput = pidInput + char;
-                                    document.getElementById('pidInput').value=pidInput;
-                                    updatePfand();
+                                    if (document.getElementById('pidInput').value.length < 18) {
+                                        pidInput = document.getElementById('pidInput').value;
+                                        pidInput = pidInput + char;
+                                        document.getElementById('pidInput').value = pidInput;
+                                        updatePfand();
+                                    }
                                 }
                                 function pidRemoveOne() {
+                                    pidInput = document.getElementById('pidInput').value;
                                     pidInput = pidInput.substring(0, pidInput.length-1);
                                     document.getElementById('pidInput').value=pidInput;
                                     updatePfand();
@@ -84,16 +88,21 @@
                                             <script> // functions for amount
                                             var amountInput = 1;
                                             function add(amount) {
+                                                amountInput = document.getElementById('amountInput').value;
+                                                amountInput = parseInt(amountInput);
                                                 amountInput += amount;
                                                 if (amountInput == 0) {
                                                     amountInput = 1;
+                                                }
+                                                if (amountInput > 9999999999) {
+                                                    amountInput = 9999999999;
                                                 }
                                                 document.getElementById('amountInput').value=amountInput;
                                                 updatePfand();
                                             }
                                             </script>
 
-                                            <input type="text" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1" oninput="updatePfand()">
+                                            <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="10" class="form-control" id="amountInput" name="amount" placeholder="Menge eingeben" value="1" oninput="updatePfand()">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div align="right">
@@ -148,7 +157,7 @@
                                                 </form>
 
                                                 <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
-                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getId()}">
                                                     <input type="hidden" name="amount" th:value="${-1}">
                                                     <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="-1">
                                                         <i class="fas fa-minus"></i>
@@ -156,7 +165,7 @@
                                                 </form>
 
                                                 <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/cashiersystemAdd}">
-                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getProductIdentifier()}">
+                                                    <input type="hidden" name="pid" th:value="${item.getInventoryProduct().getId()}">
                                                     <input type="hidden" name="amount" th:value="${1}">
                                                     <button class="btn btn-success success-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="tooltip" data-placement="top" title="" data-original-title="+1">
                                                         <i class="fas fa-plus"></i>
@@ -174,11 +183,6 @@
 
                     </div>
 
-                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPfand}">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>Achtung!</strong> <a th:text="${errorPfandMsg}"></a>
-                    </div>
-
                     <div align="center">
                         <form class="form-group" method="post" th:action="@{/cashiersystemPfand}">
                             <input type="hidden" name="pid" id="pidPfand" value="">
@@ -191,6 +195,11 @@
                             </script>
                             <button type="submit" class="btn btn-lg btn-black notika-btn-black black-icon-notika btn-reco-mg btn-button-mg waves-effect" style="color:#fff;"><i class="fas fa-wine-bottle"></i>Pfand</button>
                         </form>
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorPfand}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Achtung!</strong> <a th:text="${errorPfandMsg}"></a>
                     </div>
 
                     <div class="pre-scrollable" style="max-height: 200px">
@@ -241,16 +250,21 @@
                                         <strong>Achtung!</strong> <a th:text="${errorMsgUid}"></a>
                                     </div>
                                     <label for="userId">Kunden ID</label>
-                                    <input type="text" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben">
+                                    <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)?)" maxlength="18" class="form-control" id="userId" name="userId" placeholder="Kunden ID eingeben" required>
                                 </div>
 
                                 <script> // functions for numpad userId
                                 var userIdInput = "";
                                 function userIdUpdate(char) {
-                                    userIdInput = userIdInput + char;
-                                    document.getElementById('userId').value=userIdInput;
+                                    if (document.getElementById('userId').value.length < 18) {
+                                        userIdInput = document.getElementById('userId').value;
+                                        userIdInput = userIdInput + char;
+                                        document.getElementById('userId').value=userIdInput;
+                                    }
+
                                 }
                                 function userIdRemoveOne() {
+                                    userIdInput = document.getElementById('userId').value;
                                     userIdInput = userIdInput.substring(0, userIdInput.length-1)
                                     document.getElementById('userId').value=userIdInput;
                                 }
@@ -285,10 +299,14 @@
                                 <script> // functions for numpad change
                                 var changeInput = "";
                                 function changeUpdate(char) {
-                                    changeInput = changeInput + char;
-                                    document.getElementById('change').value=changeInput;
+                                    if (document.getElementById('change').value.length < 18) {
+                                        changeInput = document.getElementById('change').value;
+                                        changeInput = changeInput + char;
+                                        document.getElementById('change').value = changeInput;
+                                    }
                                 }
                                 function changeRemoveOne() {
+                                    changeInput = document.getElementById('change').value;
                                     changeInput = changeInput.substring(0, changeInput.length-1)
                                     document.getElementById('change').value=changeInput;
                                 }
@@ -310,7 +328,7 @@
                                         </div>
 
                                         <label for="change">Bargeld</label>
-                                        <input type="text" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
+                                        <input type="text" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" maxlength="18" class="form-control" id="change" name="changeInput" placeholder="Bargeld Betrag">
                                     </div>
 
 
@@ -338,7 +356,7 @@
                             <input type="text" class="form-control" id="changeValue" name="changeValueInput" placeholder="Wechselgeld Betrag" th:value="${change}" readonly>
 
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="background-color: #146b4a">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="background-color: #146b4a; margin-bottom: 6px;">
 
                             <div>
                                 <div class="labels-overview">Anzahl der Artikel: </div>
@@ -387,6 +405,27 @@
                             <br>
 
                         </div>
+
+                        <script>
+                            function QrCodeChange() {
+                                var qrCode = document.getElementById('qrcode');
+                                var qrCodeText = document.getElementById('qrcodeText');
+
+                                if (qrCode.style.visibility === 'hidden') {
+                                    qrCode.style.visibility = 'visible';
+                                    qrCodeText.value = 'QR-Code ausblenden';
+                                } else {
+                                    qrCode.style.visibility = 'hidden';
+                                    qrCodeText.value = 'QR-Code anzeigen';
+                                }
+                            }
+                        </script>
+
+                        <div align="center">
+                            <input type="button" id="qrcodeText" class="btn btn-primary" value="QR-Code anzeigen" onclick="QrCodeChange()" style="background-color: #337ab7;">
+                            <div id="qrcode" style="visibility: hidden"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -399,8 +438,47 @@
 <div th:include="footer :: footer"></div>
 <!-- Footer area END -->
 
+<!-- beep for scan -->
+<audio id="audio" src="/audio/beep.wav"></audio>
+
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<!-- Validator.js -->
+<script src="/js/validator.js"></script>
+
+<script type="text/javascript" src="/js/jquery.qrcode.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script th:inline="javascript">
+    /*[+
+
+    $('#qrcode').qrcode('http://' + [[${hostname}]] + ':8080/shoppingCartScanner?sc_id=' + [[${sc_id}]]);
+    $('#qrcode').wrap('<a href="http://' + [[${hostname}]] + ':8080/shoppingCartScanner?sc_id=' + [[${sc_id}]] + '"></a>');
+
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/websocket');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected');
+            stompClient.subscribe('/topic/receiveId/' + [[${sc_id}]], function(message) {
+                if ($('#pidInput').val() != message.body) {
+                    $('#pidInput').val(message.body);
+                    var sound = document.getElementById("audio");
+                    sound.play();
+                }
+            });
+        });
+    }
+
+    $(function() {
+        connect();
+    });
+
+    +]*/
+</script>
 
 </body>
 </html>

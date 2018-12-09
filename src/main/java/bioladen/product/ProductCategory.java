@@ -19,7 +19,7 @@ public enum ProductCategory {
 	),
 	FOOD_FISH(
 			"Fish, Shellfish and Molluscs",
-			"Fisch, Schalentiere, Wichtier"
+			"Fisch, Schalentiere, Weichtier"
 	),
 	FOOD_FAT_OIL(
 			"Fats and Oils",
@@ -59,7 +59,7 @@ public enum ProductCategory {
 	),
 	FOOD_COCOA_COFFEE_TEA(
 			"Cocoa and Cocoa Preparations, Coffee and Tea",
-			"Kakao und Kakaozuberetungen, Kaffee und Tee"
+			"Kakao und Kakaozubereitungen, Kaffee und Tee"
 	),
 	FOOD_CONFECTIONARY(
 			"Confectionery",

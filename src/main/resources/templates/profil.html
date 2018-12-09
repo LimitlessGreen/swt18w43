@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-element-list">
-                    <form method="post" th:action="@{/profil}">
+                    <form method="post" th:action="@{/profil}" data-toggle="validator">
                         <h1 align="center">Profil</h1>
                         <br>
                         <div class="form-row center-block">
@@ -46,34 +46,39 @@
                                 </div>
 
                                 <div class="form-group  col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label for="username">Benutzername</label>
+
                                     <div class="col-sm-10 form-group">
+                                        <label for="username" class="control-label">Benutzername</label>
                                         <input type="text" class="form-control" id="username"
-                                               th:value="${#authentication?.name}" readonly>
+                                               th:value="${#authentication?.name}" readonly required>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label for="inputOldPassword">Altes Passwort</label>
+
                                     <div class="col-sm-10 form-group">
+                                        <label for="inputOldPassword" class="control-label">Altes Passwort</label>
                                         <input type="password" class="form-control" id="inputOldPassword"
-                                               name="oldPassword" placeholder="Altes Passwort">
+                                               name="oldPassword" placeholder="Altes Passwort" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label for="inputNewPassword">Neues Passwort</label>
+
                                     <div class="col-sm-10 form-group">
-                                        <input type="password" class="form-control" id="inputNewPassword"
-                                               name="newPassword" placeholder="Neues Passwort">
+                                        <label for="inputNewPassword" class="control-label">Neues Passwort</label>
+                                        <input minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$"  type="password" class="form-control" id="inputNewPassword"
+                                               name="newPassword" placeholder="Neues Passwort" required>
+                                        <div class="help-block">mindestens 6 Zeichen, darunter mind. ein Groß- und Kleinbuchstaben und eine Zahl</div>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <label for="inputNewPasswordAgain">Neues Passwort wiederholen</label>
+
                                     <div class="col-sm-10 form-group">
-                                        <input type="password" class="form-control" id="inputNewPasswordAgain"
-                                               name="newPasswordAgain" placeholder="Neues Passwort">
+                                        <label for="inputNewPasswordAgain" class="control-label">Neues Passwort wiederholen</label>
+                                        <input minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" type="password" class="form-control" id="inputNewPasswordAgain"
+                                               name="newPasswordAgain" placeholder="Neues Passwort" required>
                                     </div>
                                 </div>
 
@@ -93,6 +98,9 @@
 
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<!-- Validator.js -->
+<script src="/js/validator.js"></script>
 
 </body>
 </html>

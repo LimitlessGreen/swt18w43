@@ -1,7 +1,7 @@
 package bioladen.product.distributor_product;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import bioladen.product.MwStCategory;
 import bioladen.product.Organization;
 import bioladen.product.ProductCategory;
@@ -10,8 +10,6 @@ import bioladen.product.distributor.DistributorRepository;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +17,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class DistributorProductController implements ApplicationEventPublisherAware {
+public class DistributorProductController {
 
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
@@ -87,7 +90,27 @@ public class DistributorProductController implements ApplicationEventPublisherAw
 		distributorProductCatalog.save(distributorProduct);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(distributorProduct, EntityLevel.CREATED);
+		pushDistributorProduct(distributorProduct, EntityLevel.CREATED);
+
+		return "redirect:/distributorproductlist";
+	}
+
+	@PostMapping("/importBnn")
+	String readBnn(@RequestParam("distributor") Long          distributorId,
+				   @RequestParam("bnnFile")     MultipartFile bnnFile        ) throws IOException {
+		Distributor distributor = distributorRepository.findById(distributorId).get();
+
+		List<String> csv = new ArrayList<String>();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(bnnFile.getInputStream()));
+		for (Object line : br.lines().toArray()) {
+			String[] lineFields = line.toString().split(";");
+			pushDistributorProduct(distributorProductCatalog.save(new DistributorProduct(
+					lineFields[0], distributor, new BigDecimal(lineFields[1]), new BigDecimal(lineFields[2]),
+					Long.valueOf(lineFields[3]), ProductCategory.valueOf(lineFields[4]), MwStCategory.valueOf(lineFields[5]),
+					new BigDecimal(lineFields[6]), Organization.valueOf(lineFields[7])
+				)), EntityLevel.CREATED);
+		}
 
 		return "redirect:/distributorproductlist";
 	}
@@ -110,18 +133,14 @@ public class DistributorProductController implements ApplicationEventPublisherAw
                 ||     ||
 
 	*/
-	private ApplicationEventPublisher publisher;
+	private final DataHistoryManager<DistributorProduct> dataHistoryManager;
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(DistributorProduct distributorProduct, EntityLevel entityLevel) {
+	private void pushDistributorProduct(DistributorProduct distributorProduct, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
-		publisher.publishEvent(new EntityEvent<>(
+		dataHistoryManager.push(
+				distributorProduct.getName(),
 				distributorProduct,
 				entityLevel,
-				currentUser.orElse(null)));
+				currentUser.orElse(null));
 	}
 }

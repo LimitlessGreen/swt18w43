@@ -1,5 +1,6 @@
 package bioladen.product;
 
+import bioladen.datahistory.RawEntry;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.springframework.data.geo.Metric;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -22,12 +24,12 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "INVENTORY_PRODUCT")
 @NoArgsConstructor
-public class InventoryProduct {
+public class InventoryProduct implements RawEntry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "inventoryProductIdentifier", updatable = false, nullable = false)
-	private @Getter Long productIdentifier;
+	private @Getter Long id;
 
 	private @NonNull @Getter @Setter String          name;
 	private @NonNull @Getter @Setter BigDecimal      price;
@@ -78,14 +80,10 @@ public class InventoryProduct {
 	 * @param amount Amount to be moved
 	 * @return true if successful; else false
 	 */
-	public boolean moveAmountFromInventoryToDisplay(long amount) {
+	public void moveAmountFromInventoryToDisplay(long amount) {
 		if (this.inventoryAmount >= amount) {
 			this.inventoryAmount -= amount;
 			this.displayedAmount += amount;
-
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -96,13 +94,9 @@ public class InventoryProduct {
 	 * @param amount Amount to be removed (added if < 0)
 	 * @return true if successful; else false
 	 */
-	public boolean removeDisplayedAmount(long amount) {
+	public void removeDisplayedAmount(long amount) {
 		if (displayedAmount >= amount) {
 			displayedAmount -= amount;
-
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -111,7 +105,7 @@ public class InventoryProduct {
 	 *
 	 * @return the ean-13 id
 	 */
-	public long toEan13(long id) {
+	public static long toEan13(long id) {
 		final long ean13Base = 200000000000L;
 
 		long ean13id = (id + ean13Base);
@@ -125,7 +119,7 @@ public class InventoryProduct {
 	 *
 	 * @return the id
 	 */
-	public long fromEan13(long ean13id) {
+	public static long fromEan13(long ean13id) {
 		final long ean13Base = 200000000000L;
 
 		return ean13id / 10 - ean13Base;
@@ -137,7 +131,7 @@ public class InventoryProduct {
 	 * @param  id the id (the 12 digits before)
 	 * @return    the checksum of the given id
 	 */
-	private int getCheckSum(String id) {
+	private static int getCheckSum(String id) {
 		int checkSum = 0;
 		for (int i = 0; i < id.length(); i++) {
 			if (i % 2 == 0) {

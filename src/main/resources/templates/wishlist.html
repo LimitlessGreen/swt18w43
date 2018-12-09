@@ -33,16 +33,6 @@
                 <div class="row">
 
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="data-table-list">
-
-                            <div class="row">
-                                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                                    <div class="basic-tb-hd">
-                                        <h2>Merkzettel</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="table-responsive">
                             <table id="data-table-basic" class="table table-striped">
@@ -65,40 +55,12 @@
 
                             <tr th:each="item : ${shoppingCart} ">
                                 <td scope="row" th:text="${item.getInventoryProduct().getName()}">ProductName</td>
-                                <td th:text="${item.getInventoryProduct().getProductIdentifier()}">1</td>
+                                <td th:text="${item.getInventoryProduct().getId()}">1</td>
                                 <td th:text="${item.getInventoryProduct().getProductCategory().getDescriptionDe()}">1</td>
                                 <td th:text="${item.getInventoryProduct().getPrice()}"></td>
                                 <td th:text="${item.getQuantity()}">1</td>
                                 <td th:text="${item.getPrice()}">1</td>
                                 <td th:text="${item.getInventoryProduct().getPfandPrice()}"></td>
-                                <!--<td style="padding: 9px;">
-                                    <div class="row">
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <form class="form-group" method="post" th:action="@{/deleteFromWishlist}">
-                                                <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                <button type="submit" class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <form class="form-group" method="post" th:action="@{/removeOneFromWishlist}">
-                                                <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                <button type="submit" class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <form class="form-group" method="post" th:action="@{/addOneToWishlist}">
-                                                <input type="hidden" name="productId" th:value="${item.getId()}">
-                                                <button class="btn btn-success success-icon-notika btn-reco-mg btn-button-mg waves-effect">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>-->
                                 <td style="padding: 9px;">
                                     <div class="btn-group">
                                         <form class="btn-group" style="padding-right: 3px;" method="post" th:action="@{/deleteFromWishlist}">
@@ -144,10 +106,16 @@
             </div>
 
 
-            <div class="col"> <!-- Sum of CartItems -->
-                <div class="align-content-center">
-                    <div class="label" align="center"><h2>Summe:</h2></div>
-                    <div class="value" align="center"><h2 th:text="${shoppingCart.getBasicPrice()}">1337</h2></div>
+            <div class="row"> <!-- Sum of CartItems -->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div align="center">
+                        <h2>Summe: <span th:text="${shoppingCart.getBasicPrice()}">0</span></h2>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div align="center">
+                        <h2>Anzahl Artikel: <span th:text="${shoppingCart.getAmountOfItems()}">0</span></h2>
+                    </div>
                 </div>
             </div>
 

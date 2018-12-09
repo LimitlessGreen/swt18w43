@@ -1,30 +1,34 @@
 package bioladen.datahistory;
 
-import bioladen.customer.Customer;
-import bioladen.customer.CustomerManager;
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.customer.CustomerTools;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.BusinessTime;
+import org.salespointframework.time.Interval;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.LinkedList;
 
 @Service
 @RequiredArgsConstructor
-public class DataHistoryManager implements ApplicationEventPublisherAware {
+public class DataHistoryManager<T extends RawEntry> implements ApplicationEventPublisherAware {
 
-	private final CustomerManager customerManager;
+	private final CustomerTools customerTools;
 	private final DataEntryRepository dataEntryRepository;
 	private final BusinessTime businessTime;
 
-	private<T> DataEntry log(
-			EntityLevel entityLevel,
-			T entity, String message,
+	/*----------------------*/
+	/*  1. Log
+	/*----------------------*/
+
+	private DataEntry log(
+			String name,
+			T entity, EntityLevel entityLevel,
+			String message,
 			String publisherName,
-			Customer involvedCustomer) {
+			UserAccount involvedUser) {
 
 		//get classname of caller, needs to search back in StackTrace
 
@@ -44,52 +48,98 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 			}
 		}
 
-		DataEntry dataEntry = new DataEntry(entityLevel, thrownBy, entity);
+		DataEntry dataEntry = new DataEntry<>(name, entityLevel, thrownBy, entity);
 
+		if (entityLevel.equals(EntityLevel.MODIFIED)) {
+			dataEntry.setEntityBeforeModified(
+					findLatestCreatedOrModified(entity).getEntity()
+			);
+		}
+
+		dataEntry.setMessage(message);
 		dataEntry.setSaveTime(businessTime.getTime());
-		dataEntry.setInvolvedCustomer(involvedCustomer);
+		dataEntry.setInvolvedCustomer(customerTools.userToCustomer(involvedUser).orElse(null));
 
-		dataEntryRepository.save(dataEntry);
-		publishEvent(dataEntry, message);
+		//TODO: auto generate incremented id!
+		dataEntry.setId(dataEntryRepository.findAllByOrderById().size() + 1L);
+
+		dataEntry = dataEntryRepository.save(dataEntry);
+
+		// (👁 ᴥ 👁) Event
+		publishEvent(dataEntry);
 
 		return dataEntry;
 	}
 
 	// normal push in some variations
-	public <T> DataEntry push(T entity, EntityLevel entityLevel, String message, Customer involvedCustomer) {
-		if (message == null) {
-			message = entity.toString();
+	public DataEntry push(String name,
+							  T entity,
+							  EntityLevel entityLevel,
+							  String message,
+							  UserAccount involvedUser) {
+
+		return this.log(name, entity, entityLevel, message, null, involvedUser);
+	}
+	public DataEntry push(String name, T entity, EntityLevel entityLevel, String message) {
+
+		return this.push(name, entity, entityLevel, message, null);
+	}
+
+	public DataEntry push(String name, T entity, EntityLevel entityLevel, UserAccount involvedUser) {
+
+		return this.push(name, entity, entityLevel, null, involvedUser);
+	}
+	public DataEntry push(String name, T entity, EntityLevel entityLevel) {
+
+		return this.push(name, entity, entityLevel, null, null);
+	}
+
+	/*----------------------*/
+	/*  2. FindBys
+	/*----------------------*/
+
+	public LinkedList<DataEntry> findBy(Class entityClass, EntityLevel entityLevel, Interval interval) {
+
+		LinkedList<DataEntry> output = new LinkedList<>();
+
+		for (DataEntry entry : dataEntryRepository.findByEntityLevelAndSaveTimeBetweenOrderBySaveTimeDesc
+				(entityLevel, interval.getStart(), interval.getEnd())) {
+
+			if (entry.getEntity().getClass().equals(entityClass)) {
+				output.add(entry);
+			}
 		}
 
-		return this.log(entityLevel, entity, message, null, involvedCustomer);
-	}
-	public <T> DataEntry push(T entity, EntityLevel entityLevel, String message) {
+		return output;
 
-		return this.push(entity, entityLevel, message, null);
 	}
 
-	public <T> DataEntry push(T entity, EntityLevel entityLevel, Customer involvedCustomer) {
+	public DataEntry findLatestCreatedOrModified(T entity) {
 
-		return this.push(entity, entityLevel, null, involvedCustomer);
+		Class entityClass = entity.getClass();
+
+		for (DataEntry entry : dataEntryRepository.findAllByOrderByIdDesc()) {
+
+			if (entry.getEntity().getClass().equals(entityClass)
+					&& entry.getEntityLevel() != EntityLevel.DELETED
+					&& entry.getEntity().getId().equals(entity.getId())) {
+				return entry;
+			}
+		}
+		return null;
 	}
 
-	public <T> DataEntry push(T entity, EntityLevel entityLevel) {
+	/*
+         _________________
+        < Event publisher >
+         -----------------
+            \   ^__^
+             \  (@@)\_______
+                (__)\       )\/\
+                    ||----w |
+                    ||     ||
 
-		return this.push(entity, entityLevel, null, null);
-	}
-
-	// only for events
-	public <T extends EntityEvent> DataEntry push(T entityEvent) {
-
-		return this.log(
-				entityEvent.getEventLevel(),
-				entityEvent.getEntity(),
-				entityEvent.getMessage(),
-				entityEvent.getPublisherName(),
-				customerManager.userToCustomer(entityEvent.getInvolvedUser()).orElse(null));
-	}
-
-	/* Event publisher */
+    */
 
 	private ApplicationEventPublisher publisher;
 
@@ -98,7 +148,7 @@ public class DataHistoryManager implements ApplicationEventPublisherAware {
 		this.publisher = publisher;
 	}
 
-	private void publishEvent(DataEntry dataEntry, String message) {
-		publisher.publishEvent(new EntityEvent<>(dataEntry, EntityLevel.CREATED, message));
+	private void publishEvent(DataEntry dataEntry) {
+		publisher.publishEvent(dataEntry);
 	}
 }

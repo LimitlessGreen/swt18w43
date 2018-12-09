@@ -42,25 +42,25 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputFirstName" class="control-label">Vorname*</label>
-                                <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Vorname" required>
+                                <input type="text" class="form-control" id="inputFirstName" name="firstname" placeholder="Vorname" pattern="^[a-zA-Z][a-zA-Z- ÄäÜüÖöß]{1,30}$" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputName" class="control-label">Nachname*</label>
-                                <input type="text" class="form-control" id="inputName" name="lastname" placeholder="Nachname" required>
+                                <input type="text" class="form-control" id="inputName" name="lastname" placeholder="Nachname" pattern="^[a-zA-Z][a-zA-Z- ÄäÜüÖöß]{1,30}$" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputPhoneNumber">Telefonnummer</label>
-                                <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Telefonnummer">
+                                <label for="inputPhoneNumber" class="control-label">Telefonnummer</label>
+                                <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Telefonnummer" pattern="^[0-9 +]{3,16}$">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputEmail" class="control-label">E-Mail*</label>
                                 <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputAddress">Adresse</label>
-                                <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Adresse">
+                                <label for="inputAddress" class="control-label">Adresse</label>
+                                <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Adresse" pattern="[0-9A-Za-z ÄäÜüÖöß‘.,;-]{5,}">
                             </div>
                         </div>
                         <div class="form-row">
@@ -83,13 +83,19 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6" align="left">
+                                <a th:href="@{/customerlist}">
+                                    <button type="button" class="btn btn-success"
+                                            style="float: left">zurück zur Übersicht
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-md-6" align="right">
+                                <button type="submit" class="btn btn-success" >User erstellen</button>
+                            </div>
+                        </div>
 
-                        <a th:href="@{/customerlist}">
-                            <button type="button" class="btn btn-success"
-                                    style="float: left">zurück zur Übersicht
-                            </button>
-                        </a>
-                        <button type="submit" class="btn btn-success" >User erstellen</button>
                     </form>
 
                 </div>

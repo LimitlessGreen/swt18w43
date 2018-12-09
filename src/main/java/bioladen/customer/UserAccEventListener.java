@@ -1,46 +1,38 @@
 package bioladen.customer;
 
-import bioladen.event.EntityEvent;
+import bioladen.datahistory.DataEntry;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class UserAccEventListener {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final UserAccountManager userAccountManager;
 
-	@Async
 	@EventListener
-	public void listenCustomerEvent(EntityEvent<Customer> event) {
+	public void listenCustomerEvent(DataEntry<Customer> event) {
 		Customer customer = event.getEntity();
 
-		switch (event.getEventLevel()) {
+
+		switch (event.getEntityLevel()) {
 			case CREATED:
-				if (customer.isCustomerType(CustomerType.STAFF)) {
-					this.save(customer, "ROLE_STAFF");
-				} else if (customer.isCustomerType(CustomerType.MANAGER)) {
-					this.save(customer, "ROLE_MANAGER");
-				}
+				this.create(customer);
 				break;
-			case DELETED: //TODO in new Salespoint version delete method: userAccount.delete(userAccountManager.findByUsername(customer.getEmail()).getAll());
-				if (customer.isCustomerType(CustomerType.STAFF)) {
-					userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
-				} else if (customer.isCustomerType(CustomerType.MANAGER)) {
-					userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
-				}
+			case DELETED: //new Salespoint delete-method:
+				this.delete(customer); //userAccount.delete(userAccountManager.findByUsername(customer.getEmail()).getAll());
 				break;
 
 			case MODIFIED:
-				break; //TODO Customer modified
+				//assert oldCustomer != null;
+				this.modified(event.getEntityBeforeModified(), customer);
+				break;
 			default:
 				break;
 		}
@@ -52,7 +44,58 @@ public class UserAccEventListener {
 			userAccount.setEmail(customer.getEmail());
 			userAccountManager.save(userAccount);
 		} else {
-			userAccountManager.enable(userAccountManager.findByUsername(customer.getEmail()).get().getId());
+			userAccountManager.enable(Objects.requireNonNull(
+					userAccountManager.findByUsername(customer.getEmail()).orElse(null)).getId());
+		}
+	}
+
+	private void delete(Customer customer){
+		if (customer.isCustomerType(CustomerType.STAFF)) {
+			userAccountManager.disable(Objects.requireNonNull(
+					userAccountManager.findByUsername(customer.getEmail()).orElse(null)).getId());
+		} else if (customer.isCustomerType(CustomerType.MANAGER)) {
+			userAccountManager.disable(userAccountManager.findByUsername(customer.getEmail()).orElse(null).getId());
+		}
+	}
+
+	private void create(Customer customer){
+		if (customer.isCustomerType(CustomerType.STAFF)) {
+			this.save(customer, "ROLE_STAFF");
+		} else if (customer.isCustomerType(CustomerType.MANAGER)) {
+			this.save(customer, "ROLE_MANAGER");
+		}
+	}
+
+	private void update(Customer oldCustomer, Customer customer,String oldRole, String role){
+		UserAccount userAccount = userAccountManager.findByUsername(customer.getEmail()).orElse(null);
+		if (userAccount != null) {
+			userAccount.remove(Role.of(oldRole));
+			userAccount.add(Role.of(role));
+			userAccountManager.save(userAccount);
+		}
+
+	}
+
+	private<T extends Customer> void modified(T oldCustomer, T customer){
+		if (!oldCustomer.getCustomerType().equals(customer.getCustomerType())){
+			if (oldCustomer.isCustomerType(CustomerType.STAFF) && customer.isCustomerType(CustomerType.MANAGER)){
+				this.update(oldCustomer, customer,"ROLE_STAFF", "ROLE_MANAGER");
+
+			} else if (oldCustomer.isCustomerType(CustomerType.MANAGER) && customer.isCustomerType(CustomerType.STAFF)){
+				this.update(oldCustomer, customer,"ROLE_MANAGER", "ROLE_STAFF");
+			}
+			if ((oldCustomer.isCustomerType(CustomerType.MANAGER) ||
+					oldCustomer.isCustomerType(CustomerType.STAFF)) &&
+					(customer.isCustomerType(CustomerType.HOUSE_CUSTOMER) ||
+							customer.isCustomerType(CustomerType.MAJOR_CUSTOMER))){
+				this.delete(oldCustomer);
+
+			} else if ((oldCustomer.isCustomerType(CustomerType.HOUSE_CUSTOMER) ||
+					oldCustomer.isCustomerType(CustomerType.MAJOR_CUSTOMER)) &&
+					(customer.isCustomerType(CustomerType.MANAGER) ||
+							customer.isCustomerType(CustomerType.STAFF))){
+				this.create(customer);
+			}
 		}
 	}
 }

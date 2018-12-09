@@ -1,31 +1,29 @@
 package bioladen.customer;
 
-import bioladen.event.EntityEvent;
-import bioladen.event.EntityLevel;
+import bioladen.datahistory.DataHistoryManager;
+import bioladen.datahistory.EntityLevel;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerManager implements ApplicationEventPublisherAware {
+public class CustomerManager {
 
 	private final CustomerRepository customerRepository;
 	private final UserAccountManager userAccountManager;
 	private final AuthenticationManager authenticationManager;
 
-	/* ********************** */
-	/*        ADDS            *
-	/* ********************** */
-	public ArrayList<? extends Customer> getAll() {
+	/*----------------------*/
+	/*  1. ADDS
+	/*----------------------*/
+
+	public ArrayList<Customer> getAll() {
 		return customerRepository.findAll();
 	}
 
@@ -33,59 +31,55 @@ public class CustomerManager implements ApplicationEventPublisherAware {
 		return customerRepository.findById(id).orElse(null);
 	}
 
-	/* ********************** */
-	/*         SAVES          *
-	/* ********************** */
-	public <S extends Customer> Iterable<S> saveAll(Iterable<S> customerList) {
+	/*------------------------*/
+	/*  2. SAVES
+	/*------------------------*/
 
-		Iterable<S> customerListTmp = customerRepository.saveAll(customerList);
+	public Iterable<Customer> saveAll(Iterable<Customer> customerList) {
 
-		for(S customer: customerList){
+		Iterable<Customer> customerListTmp = customerRepository.saveAll(customerList);
+
+		for(Customer customer: customerList){
 			// (👁 ᴥ 👁) Event
-			publishEvent(customer, EntityLevel.CREATED);
+			pushCustomer(customer, EntityLevel.CREATED);
 		}
 
 		return customerListTmp;
 	}
 
-	public <S extends Customer> S save(S customer) {
-		S customerTmp = customerRepository.save(customer);
+	public Customer save(Customer customer) {
+		Customer customerTmp = customerRepository.save(customer);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.CREATED);
+		pushCustomer(customer, EntityLevel.CREATED);
 
 		return customerTmp;
 	}
 
-	/* ********************** */
-	/*       DELETIONS        *
-	/* ********************** */
+	/*------------------------*/
+	/*  3. DELETIONS
+	/*------------------------*/
 
 	public void delete(Long id) {
 		Customer customer = this.get(id);
 		customerRepository.deleteById(id);
 
 		// (👁 ᴥ 👁) Event
-		publishEvent(customer, EntityLevel.DELETED);
+		pushCustomer(customer, EntityLevel.DELETED);
 	}
 
-	/* ********************** */
-	/*      CONVERSIONS       *
-	/* ********************** */
+	/*------------------------*/
+	/*  4. MODIFICATIONS
+	/*------------------------*/
 
-	public UserAccount customerToUser(Customer customer) {
-		String email = customer.getEmail();
-		return userAccountManager.findByUsername(email).orElse(null);
-	}
+	public Customer modified(Customer customer){
 
-	public Optional<Customer> userToCustomer (UserAccount user) {
-		String email;
-		if (user == null) {
-			return Optional.empty();
-		} else {
-			email = user.getUsername();
-		}
-		return customerRepository.findByEmail(email);
+		Customer customerTmp = customerRepository.save(customer);
+
+		// (👁 ᴥ 👁) Event
+		pushCustomer(customer, EntityLevel.MODIFIED);
+
+		return customerTmp;
 	}
 
 	/*
@@ -99,19 +93,11 @@ public class CustomerManager implements ApplicationEventPublisherAware {
                     ||     ||
 
     */
-	private ApplicationEventPublisher publisher;
+	private final DataHistoryManager<Customer> dataHistoryManager;
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
-
-	private void publishEvent(Customer customer, EntityLevel entityLevel) {
+	private void pushCustomer(Customer customer, EntityLevel entityLevel) {
 		Optional<UserAccount> currentUser = this.authenticationManager.getCurrentUser();
-		publisher.publishEvent(new EntityEvent<>(
-				customer,
-				entityLevel,
-				currentUser.orElse(null)));
+		dataHistoryManager.push(customer.getName(), customer, entityLevel, currentUser.orElse(null));
 	}
 }
 

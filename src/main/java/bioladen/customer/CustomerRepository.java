@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-	public ArrayList<Customer> findAll();
+	ArrayList<Customer> findAll();
 
-	public Optional<Customer> findByEmail (String email);
+	Optional<Customer> findByEmail (String email);
 
 }

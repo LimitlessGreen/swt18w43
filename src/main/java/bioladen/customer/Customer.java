@@ -1,5 +1,6 @@
 package bioladen.customer;
 
+import bioladen.datahistory.RawEntry;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +12,14 @@ import java.util.Map;
 
 @Entity
 @Table(name = "CUSTOMER")
-public class Customer {
+public class Customer implements RawEntry {
 
 
 	@Id
 	@Getter
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // for autoincrement column in database
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	private @Setter Long id;
 
 	private @Getter
 	@Setter
