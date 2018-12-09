@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.Interval;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
+
 @Service
 @RequiredArgsConstructor
 public  class CustomerStatistic {
@@ -27,7 +29,21 @@ public  class CustomerStatistic {
 
 	int amountOfCustomersModifiedBetween(Interval interval){
 		return dataHistoryManager.findBy(Customer.class, EntityLevel.MODIFIED, interval).size();
-
 	}
 
+	/*------------------------*/
+	/*  2. Data Lists
+	/*------------------------*/
+
+	LinkedList customersCreatedBetween(Interval interval) {
+		return dataHistoryManager.findBy(Customer.class, EntityLevel.CREATED, interval);
+	}
+
+	LinkedList customersDeletedBetween(Interval interval) {
+		return dataHistoryManager.findBy(Customer.class, EntityLevel.DELETED, interval);
+	}
+
+	LinkedList customersModifiedBetween(Interval interval) {
+		return dataHistoryManager.findBy(Customer.class, EntityLevel.MODIFIED, interval);
+	}
 }
