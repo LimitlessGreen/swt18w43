@@ -218,6 +218,8 @@ public class CustomerController {
 		String safeFirstName;
 		String safeLastName;
 		String safeEmail;
+		String streetTmp = customerManager.get(id).getStreet();
+		String phoneTmp = customerManager.get(id).getPhone();
 
 		if (!firstname.equals(customerManager.get(id).getFirstname())){
 			safeFirstName = firstname;
@@ -236,19 +238,17 @@ public class CustomerController {
 		}
 		 Customer customer = new Customer(safeFirstName,safeLastName, safeEmail, customerSex, customerType);
 
-		if (!address.equals(customerManager.get(id).getStreet())){
-			if (StringUtils.isNotBlank(address)){
+		if (!address.equals(streetTmp) && StringUtils.isNotBlank(address)){
 				customer.setStreet(address);
-			}
-		} else {
-			customer.setStreet(address);
+		}else {
+			customer.setStreet(streetTmp);
 		}
-		if (!phone.equals(customerManager.get(id).getPhone()) && StringUtils.isNotBlank(phone)){
-			if (StringUtils.isNotBlank(phone)){
-				customer.setPhone(phone);
-			}
+
+		if (!phone.equals(phoneTmp) && StringUtils.isNotBlank(phone)){
+			customer.setPhone(phone);
+
 		} else {
-			customer.setStreet(phone);
+			customer.setStreet(phoneTmp);
 		}
 
 		customer.setId(id);
