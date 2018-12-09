@@ -47,26 +47,9 @@
 <div class="statistic-area mg-b-100">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="line-chart-wp chart-display-nn">
-                    <canvas height="140vh" width="180vw" id="basiclinechart"></canvas>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="line-chart-wp sm-res-mg-t-30 chart-display-nn">
-                    <canvas height="140vh" width="180vw" id="linechartinterpolation"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="line-chart-wp mg-t-30 chart-display-nn">
-                    <canvas height="140vh" width="180vw" id="linechartstyles"></canvas>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="line-chart-wp mg-t-30 chart-mg-nt">
-                    <canvas height="140vh" width="180vw" id="linechartpointcircle"></canvas>
+                    <canvas height="140vh" width="180vw" id="customerchart"></canvas>
                 </div>
             </div>
         </div>
@@ -84,7 +67,75 @@
 <!-- Charts JS
     ============================================ -->
 <script src="/js/charts/Chart.js"></script>
-<script src="/js/charts/line-chart.js"></script>
+
+<script th:inline="javascript">
+    /*[+
+
+
+    (function ($) {
+        "use strict";
+
+        /*----------------------------------------*/
+        /*  1.  Basic Line Chart
+        /*----------------------------------------*/
+        var ctx = document.getElementById("customerchart");
+        var basiclinechart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [[${labels}]],
+                datasets: [{
+                    label: "User erstellt",
+                    fill: false,
+                    backgroundColor: '#00c292',
+                    borderColor: '#00c292',
+                    data: [[${data1}]]
+                },
+                    {
+                        label: "User gelöscht",
+                        fill: false,
+                        backgroundColor: '#fb9678',
+                        borderColor: '#fb9678',
+                        data: [[${data2}]]
+
+                    }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Aktivitäten mit Usern in der letzten Stunde'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                }
+            }
+        });
+    })(jQuery);
+
+    +]*/
+
+</script>
 
 </body>
 </html>
