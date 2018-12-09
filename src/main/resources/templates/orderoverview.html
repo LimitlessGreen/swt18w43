@@ -37,12 +37,12 @@
                                 <td th:text="${order.getItems().size()}"></td>
                                 <td th:text="${#numbers.formatDecimal(order.getPrice().getNumber().doubleValue(),0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                                 <td>
-                                    <a th:href="'/order/complete/' + ${order.getId()}">
+                                    <a th:href="@{/orders/complete(id = ${order.getId()})}">
                                         <button type="button" class="btn btn-info notika-btn-green">
                                             <i class="fas fa-truck-loading"></i></i>
                                         </button>
                                     </a>
-                                    <a th:href="'/order/delete/' + ${order.getId()}">
+                                    <a th:href="@{/orders/delete(id = ${order.getId()})}">
                                         <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>

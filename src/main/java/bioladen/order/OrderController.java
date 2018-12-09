@@ -38,18 +38,30 @@ public class OrderController {
 
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	@GetMapping("/orders/delete/{order}")
-	public String deleteOrder( @PathVariable DistributorOrder order ) {
+	@GetMapping("/orders/delete")
+	public String deleteOrder(@RequestParam Long id) {
+		DistributorOrder order = orderRepository.findById(id).orElse(null);
+
 		orderRepository.delete(order);
 		return "redirect:/orders";
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	@GetMapping("/orders/complete/{order}")
-	public String completeOrder( @PathVariable DistributorOrder order ) {
+	@GetMapping("/orders/complete")
+	public String completeOrder(@RequestParam Long id) {
+		DistributorOrder order = orderRepository.findById(id).orElse(null);
 
 		order.getItems().forEach(orderItem -> {
-			InventoryProduct product = null; // inventoryProductCatalog; // TODO get real Product by distributorproduct
+			InventoryProduct product = inventoryProductCatalog.findByName(orderItem.getProduct().getName());
+			if (product == null) {
+				InventoryProduct inventoryProduct = new InventoryProduct(
+						distributorProductCatalog.findById(orderItem.getProduct().getId()).get(),
+						distributorProductCatalog);
+
+				inventoryProductCatalog.save(inventoryProduct);
+				product = inventoryProduct;
+			}
+
 			product.setInventoryAmount(product.getInventoryAmount() + orderItem.getQuantity().getAmount().longValue());
 			inventoryProductCatalog.save(product);
 		});
