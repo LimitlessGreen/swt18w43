@@ -1,0 +1,50 @@
+= Protokoll Gruppe XX
+
+Treffen am 10.12.2018
+
+Ort:      APB +
+Beginn:   09:20 Uhr +
+Ende:     10:40 Uhr
+
+__Schriftführer:__ Lukas Petzold
+
+*Nächstes Treffen:* +
+17.12.2018, 09:20 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor)
+- Adrian Kulisch
+- Josefin Hübner
+- Jairus Behrisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Das Cross-Testing beginnt am Mittwoch Abend. Bis dahin müssen die nötigen Dateien geschickt sein
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#24     |Sprint 7       |geschlossen      |die meisten Basisfunktionalitäten
+|===
+
+
+== Aktueller Stand
+Die meisten Basisfunktionalitäten sind fertig. Nur einige Features müssen noch implementiert werden.
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#28    |Sprint 8     |Verbleibende Muss-Kriterien            |alle                |offen
+|===
