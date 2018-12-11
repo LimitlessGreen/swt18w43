@@ -10,6 +10,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import bioladen.product.InventoryProduct;
+import bioladen.product.InventoryProductCatalog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -17,6 +18,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -25,7 +27,9 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+@RequiredArgsConstructor
 public class PdfLabelGenerator {
+	private final InventoryProductCatalog inventoryProductCatalog;
 
 	private static final String BASE_PATH = "src/main/resources/generated/";
 
@@ -81,7 +85,7 @@ public class PdfLabelGenerator {
 	}
 
 
-	public void addLabel(InventoryProduct inventoryProduct) {
+	private void addLabel(InventoryProduct inventoryProduct) {
 		try {
 			PDPage labelPage = new PDPage(new PDRectangle(LABEL_WIDTH, LABEL_HEIGHT));
 			document.addPage(labelPage);
@@ -167,26 +171,20 @@ public class PdfLabelGenerator {
 			cs.showText(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())).substring(7));
 			cs.endText();
 
-//			PDImageXObject organizationLogo = PDImageXObject.createFromFile(
-//					"src/main/resources/static/img/org_logos/" + inventoryProduct.getOrganization() + ".png",
-//					document);
-//
-//			float organizationLogoPosX  = LABEL_MARGIN;
-//			float organizationLogoHeight = organizationLogo.getHeight() / (float) organizationLogo.getWidth() * ORGANIZATION_LOGO_WIDTH;
-//			float organizationLogoPosY  = PRODUCT_PRICE_POS_Y;
-//
-//			cs.drawImage(organizationLogo, organizationLogoPosX, organizationLogoPosY, ORGANIZATION_LOGO_WIDTH, organizationLogoHeight);
-
 			cs.close();
 		} catch (WriterException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void generate(InventoryProduct inventoryProduct) {
+	public void generate(long id) {
+		InventoryProduct inventoryProduct = inventoryProductCatalog.findById(id).orElse(null);
+
 		try {
-			addLabel(inventoryProduct);
-			document.save(BASE_PATH + "p" + inventoryProduct.getId() + ".pdf");
+			if (inventoryProduct != null) {
+				addLabel(inventoryProduct);
+			}
+			document.save(BASE_PATH + "p" + id + ".pdf");
 			document.close();
 		} catch (IOException e) {
 			e.printStackTrace();

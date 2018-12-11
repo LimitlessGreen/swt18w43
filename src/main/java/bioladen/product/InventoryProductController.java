@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +54,8 @@ public class InventoryProductController {
 	@GetMapping("/product/label")
 	public HttpEntity<Resource> downloadLabel(@RequestParam(value = "id") long id) {
 
-		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator();
-		pdfLabelGenerator.generate(inventoryProductCatalog.findById(id).orElse(null));
+		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator(inventoryProductCatalog);
+		pdfLabelGenerator.generate(id);
 
 		File file = new File("src/main/resources/generated/p" + id + ".pdf");
 
@@ -76,7 +77,7 @@ public class InventoryProductController {
 	@GetMapping("/productlist/labels")
 	public HttpEntity<Resource> downloadAllLabels() {
 
-		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator();
+		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator(inventoryProductCatalog);
 		pdfLabelGenerator.generateAll(inventoryProductCatalog.findAll());
 
 		File file = new File("src/main/resources/generated/pAll.pdf");
