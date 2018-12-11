@@ -31,38 +31,6 @@
                         </div>
                     </div>
                     <th:block th:each="dataEntry : ${history}" th:switch="${dataEntry.getEntityLevel()}">
-                        <div th:case="'MODIFIED'" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()} + ' info-box--hidden'">
-                            <div class="info-box-entity">
-                                <div class="info-box-entity-heading">
-                                    <div class="info-box-entity-heading-name">Fridas Hof</div>
-                                    <div class="info-box-entity-heading-class">bioladen.product.distributor.Distributor</div>
-                                </div>
-                                <table class="info-box-entity-attributes-table">
-                                    <tr class="info-box-entity-attributes-table-attribute">
-                                        <td class="info-box-entity-attributes-table-attribute-type">String</td>
-                                        <td class="info-box-entity-attributes-table-attribute-name">email</td>
-                                        <td class="info-box-entity-attributes-table-attribute-value">heinze@bauern.de</td>
-                                    </tr>
-                                    <tr class="info-box-entity-attributes-table-attribute">
-                                        <td class="info-box-entity-attributes-table-attribute-type">String</td>
-                                        <td class="info-box-entity-attributes-table-attribute-name">contactName</td>
-                                        <td class="info-box-entity-attributes-table-attribute-value">Heinz Heinze</td>
-                                    </tr>
-                                    <tr class="info-box-entity-attributes-table-attribute">
-                                        <td class="info-box-entity-attributes-table-attribute-type">String</td>
-                                        <td class="info-box-entity-attributes-table-attribute-name">phone</td>
-                                        <td class="info-box-entity-attributes-table-attribute-value">01524506154</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="info-box-infos">
-                                <div class="info-box-infos-info info-box-infos-info--date">30.11.2018</div>
-                                <div class="info-box-infos-info info-box-infos-info--time">23:17:30</div>
-                                <div class="info-box-infos-info info-box-infos-info--user">Flori Feldfreude (Manager)</div>
-                                <div class="info-box-infos-info info-box-infos-info--thrown-by">bioladen.product.distributor.DistributorController</div>
-                                <div class="info-box-infos-info info-box-infos-info--message">Lorem ipsum dolor sit amet.</div>
-                            </div>
-                        </div>
                         <div th:case="*" th:class="'info-box info-box--' + ${dataEntry.getEntityLevel().getClassName()} + ' info-box--hidden'">
                             <div class="info-box-entity">
                                 <div class="info-box-entity-heading">
