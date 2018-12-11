@@ -14,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -95,6 +96,23 @@ public class InventoryProductController {
 		return ResponseEntity.ok() //
 				.headers(headers) //
 				.body(new FileSystemResource(file));
+	}
+
+	@PostMapping("/product/move")
+	public String moveAmount(
+			@RequestParam("id")			long inventoryProductId,
+			@RequestParam("moveAmount") long moveAmount,
+			Model model) {
+		InventoryProduct inventoryProduct = inventoryProductCatalog.findById(inventoryProductId).get();
+
+		boolean success = inventoryProduct.moveAmountFromInventoryToDisplay(moveAmount);
+		publishEvent(inventoryProductCatalog.save(inventoryProduct), EntityLevel.MODIFIED);
+
+		if (!success) {
+			model.addAttribute("error", "Ungültige Eingabe");
+		}
+
+		return "redirect:/productlist";
 	}
 
 	/* TODO: Event for inventory product deletions
