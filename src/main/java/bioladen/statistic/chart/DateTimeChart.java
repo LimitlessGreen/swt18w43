@@ -43,9 +43,9 @@ public abstract class DateTimeChart implements Chart {
 
 	private LinkedHashMap<LocalDateTime, Double> generateRawMap(ChronoUnit resolution, Interval interval) {
 
-		long daysPerWeek = 7;
-		long daysPerMonth = 30L;
-		double zero = 0D;
+		final long daysPerWeek = 7;
+		final long daysPerMonth = 30L;
+		final double zero = 0D;
 
 		LinkedHashMap<LocalDateTime, Double> output = new LinkedHashMap<>();
 
