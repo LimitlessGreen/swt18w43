@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.toIntExact;
+
 /**
  * A product.
  *
@@ -153,5 +155,24 @@ public class InventoryProduct implements RawEntry {
 		return String.format(
 				"%s: {price: %s, unit: %s, inventoryAmount: %s, displayedAmount: %s}",
 				name, price, unit, inventoryAmount, displayedAmount);
+	}
+
+	@Override
+	public int hashCode() {
+		return toIntExact(id);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof InventoryProduct)) {
+			return false;
+		}
+
+		if (o == this) {
+			return true;
+		}
+
+		InventoryProduct i = (InventoryProduct) o;
+		return this.id.equals(i.getId());
 	}
 }
