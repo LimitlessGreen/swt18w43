@@ -8,6 +8,10 @@
 
     <!--Import CSS-->
     <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
+
+    <!-- animate CSS
+       ============================================ -->
+    <link rel="stylesheet" href="css/animate.css">
 </head>
 <body>
 <!--Navigation-->
@@ -39,6 +43,76 @@
                 </div>
             </div>
         </div>
+        <!--->
+        <div class="notika-status-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30">
+                            <div class="website-traffic-ctn">
+                                <h2><span class="counter">50,000</span></h2>
+                                <p>Umsatz</p>
+                            </div>
+                            <div class="email-signle-gp">
+                                <canvas width="50" height="50"></canvas>
+                                    <input type="text" class="knob" value="0" data-rel="75" data-linecap="round" data-width="90"
+                                           data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true"
+                                           disabled="" readonly="readonly" style="width: 49px; height: 30px; position: absolute;
+                                           vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px none;
+                                           background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; font: bold 18px Arial;
+                                           text-align: center; color: rgb(0, 194, 146); padding: 0px; -moz-appearance: none;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30">
+                            <div class="website-traffic-ctn">
+                                <h2><span class="counter">90,000</span>k</h2>
+                                <p>Einnahmen</p>
+                            </div>
+                            <div class="sparkline-bar-stats2"><canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;" width="58" height="36"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
+                            <div class="website-traffic-ctn">
+                                <h2>$<span class="counter">40,000</span></h2>
+                                <p>Ausgaben</p>
+                            </div>
+                            <div class="sparkline-bar-stats3"><canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;" width="58" height="36"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
+                            <div class="website-traffic-ctn">
+                                <h2><span class="counter">1,000</span></h2>
+                                <p>Pfand</p>
+                            </div>
+                            <div class="sparkline-bar-stats4"><canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;" width="58" height="36"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
+                            <div class="website-traffic-ctn">
+                                <h2><span class="counter">1,000</span></h2>
+                                <p>Steuerklasse A</p>
+                            </div>
+                            <div class="sparkline-bar-stats4"><canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;" width="58" height="36"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
+                            <div class="website-traffic-ctn">
+                                <h2><span class="counter">1,000</span></h2>
+                                <p>Steuerklasse B</p>
+                            </div>
+                            <div class="sparkline-bar-stats4"><canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;" width="58" height="36"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--->
     </div>
 </div>
 
@@ -67,6 +141,12 @@
 <!-- Charts JS
     ============================================ -->
 <script src="/js/charts/Chart.js"></script>
+
+<!-- jvectormap JS
+============================================
+<script src="js/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="js/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="js/jvectormap/jvectormap-active.js"></script>-->
 
 <script th:inline="javascript">
     /*[+
