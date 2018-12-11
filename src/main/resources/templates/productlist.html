@@ -28,14 +28,21 @@
                                 <h2>Produktliste</h2>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <a href="/stockTaking/begin" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                                <button type="button" class="btn btn-info notika-btn-green" style="float: right">
+                                    <i class="fas fa-clipboard-list"></i> [Debug] Inventur starten
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                             <a href="/productlist/labels" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
                                 <button type="button" class="btn btn-info notika-btn-green" style="float: right">
                                     <i class="fas fa-tags"></i> Alle Etiketten anzeigen
                                 </button>
                             </a>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                             <a href="/distributorproductlist" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
                                 <button type="button" class="btn btn-info notika-btn-green" style="float: right">
                                     Produkt hinzufügen
@@ -54,8 +61,10 @@
                                 <th>Preis</th>
                                 <th>Grundeinheit</th>
                                 <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Inventar</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">Inventur Lager</th>
                                 <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Austellfläche</th>
-                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Warenbewegung</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">Inventur Ausstellfläche</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${!stockTaking.isOnGoing()}">Warenbewegung</th>
                                 <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Etikett anzeigen</th>
                                 <th sec:authorize="!hasAnyRole('ROLE_MANAGER') && !hasAnyRole('ROLE_STAFF')">Auf den Merkzettel</th>
                             </tr>
@@ -67,8 +76,76 @@
                                 <td th:text="${inventoryProduct.getPrice()}">27.99</td>
                                 <td th:text="${inventoryProduct.getUnit()}">5.0</td>
                                 <td th:text="${inventoryProduct.getInventoryAmount()}" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">42</td>
+                                <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">
+                                    <button type="button" class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="modal" th:data-target="${'#inventoryStockTakingModal' + inventoryProduct.getId()}">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </button>
+
+                                    <!-- dialog: Inventur Inventar Start -->
+                                    <div class="modal fade" th:id="${'inventoryStockTakingModal' + inventoryProduct.getId()}" role="dialog">
+                                        <div class="modal-dialog modal-large">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h3 th:text="${inventoryProduct.getName()}"></h3>
+                                                    <form method="post" th:action="@{/product/inventoryStockTaking}" enctype="multipart/form-data">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label for="countedAmountInput">Vorhandene Anzahl</label>
+                                                                <input type="number" class="form-control" id="countedAmountInput" name="countedAmount" th:value="${inventoryProduct.getInventoryAmount()}" min="0" step="1">
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="id" th:value="${inventoryProduct.getId()}">
+                                                        <button type="submit" class="btn btn-success">Anzahl bestätigen</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- dialog: move between Inventory and Display End -->
+                                </td>
                                 <td th:text="${inventoryProduct.getDisplayedAmount()}" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">17</td>
-                                <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                                <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">
+                                    <button type="button" class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="modal" th:data-target="${'#displayedStockTakingModal' + inventoryProduct.getId()}">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </button>
+
+                                    <!-- dialog: Inventur Inventar Start -->
+                                    <div class="modal fade" th:id="${'displayedStockTakingModal' + inventoryProduct.getId()}" role="dialog">
+                                        <div class="modal-dialog modal-large">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h3 th:text="${inventoryProduct.getName()}"></h3>
+                                                    <form method="post" th:action="@{/product/displayedStockTaking}" enctype="multipart/form-data">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label for="countedAmountInput">Vorhandene Anzahl</label>
+                                                                <input type="number" class="form-control" id="countedAmountInput" name="countedAmount" th:value="${inventoryProduct.getDisplayedAmount()}" min="0" step="1">
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="id" th:value="${inventoryProduct.getId()}">
+                                                        <button type="submit" class="btn btn-success">Anzahl bestätigen</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- dialog: move between Inventory and Display End -->
+                                </td>
+                                <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${!stockTaking.isOnGoing()}">
                                     <button type="button" class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="modal" th:data-target="${'#moveModal' + inventoryProduct.getId()}">
                                         <i class="fas fa-people-carry"></i>
                                     </button>
@@ -134,8 +211,10 @@
                                 <th>Preis</th>
                                 <th>Grundeinheit</th>
                                 <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Inventar</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">Inventur Lager</th>
                                 <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Anzahl Austellfläche</th>
-                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Warenbewegung</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">Inventur Ausstellfläche</th>
+                                <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${!stockTaking.isOnGoing()}">Warenbewegung</th>
                                 <th sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">Etikett anzeigen</th>
                                 <th sec:authorize="!hasAnyRole('ROLE_MANAGER') && !hasAnyRole('ROLE_STAFF')">Auf den Merkzettel</th>
                             </tr>

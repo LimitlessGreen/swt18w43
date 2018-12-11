@@ -4,6 +4,7 @@ import bioladen.datahistory.DataHistoryManager;
 import bioladen.datahistory.EntityLevel;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.label.PdfLabelGenerator;
+import bioladen.product.stock_taking.StockTaking;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
@@ -29,11 +30,14 @@ public class InventoryProductController {
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final AuthenticationManager authenticationManager;
+	private final StockTaking stockTaking;
 
 	@RequestMapping("/productlist")
 	String showProducts(Model model) {
 		List<InventoryProduct> inventoryProductList = inventoryProductCatalog.findAll();
 		model.addAttribute("inventoryProductList", inventoryProductList);
+
+		model.addAttribute("stockTaking", stockTaking);
 
 		return "productlist";
 	}

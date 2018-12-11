@@ -1,0 +1,73 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--Title-->
+    <title>Inventurliste</title>
+
+    <!--Import CSS-->
+    <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
+</head>
+
+<body>
+<!--Navigation-->
+<nav th:include="navigation_new :: navigation"></nav>
+
+
+<!-- Data Table area Start-->
+<div class="data-table-area">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="data-table-list">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="basic-tb-hd">
+                                <h2><Inventurliste></Inventurliste></h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="data-table-basic" class="table table-striped">
+
+                            <thead>
+                            <tr>
+                                <th>Produktname</th>
+                                <th>Gezählte Anzahl Lager</th>
+                                <th>Gezählte Anzahl Ausstellfläche</th>
+                            </tr>
+                            </thead>
+                            <tbody th:remove="all-but-first">
+                            <tr th:each="entry : ${stockTakingTable}">
+                                <td th:text="${entry.getKey().getName()}">Kartofeel</td>
+                                <td th:text="${entry.getValue()[0]}">3</td>
+                                <td th:text="${entry.getValue()[1]}">28</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Produktname</th>
+                                <th>Gezählte Anzahl Lager</th>
+                                <th>Gezählte Anzahl Ausstellfläche</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Data Table area End-->
+
+<div th:include="footer :: footer"></div>
+<!-- Footer area END -->
+
+<!--Import JS-->
+<!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+</body>
+</html>
