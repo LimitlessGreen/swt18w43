@@ -9,8 +9,11 @@ import org.springframework.core.ResolvableTypeProvider;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 
 @Getter
 @NoArgsConstructor
@@ -28,6 +31,7 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 	private String thrownBy;
 	private String publisherName = "unknown";
 	private String message = "No message";
+	private LinkedHashMap<String, Object> declaredFields = new LinkedHashMap<>();
 
 	private @Setter T entityBeforeModified = null;
 	private @Setter String name = null;
@@ -42,6 +46,7 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 
 		StackTraceElement[] trace = new Exception().getStackTrace();
 
+		// search for the publisher name
 		for (StackTraceElement aTrace : trace) {
 			if (aTrace.getClassName().contains("bioladen")
 					&& !aTrace.getClassName().equals(this.getClass().getName())) {
@@ -50,6 +55,21 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 				break;
 			}
 		}
+
+		// fill the declared fields to show in frontend
+		Field[] fields = entity.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			try {
+					declaredFields.put(field.getName(),
+							entity.getClass()
+									.getMethod("get" + field.getName().substring(0, 1).toUpperCase()
+													+ field.getName().substring(1)).invoke(entity));
+				}
+				catch (NoSuchMethodException e) { }
+				catch (IllegalAccessException e) { }
+				catch (InvocationTargetException e) { }
+				catch (NullPointerException e) { }
+			}
 	}
 
 	/**
