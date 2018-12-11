@@ -80,11 +80,14 @@ public class InventoryProduct implements RawEntry {
 	 * @param amount Amount to be moved
 	 * @return true if successful; else false
 	 */
-	public void moveAmountFromInventoryToDisplay(long amount) {
-		if (this.inventoryAmount >= amount) {
+	public boolean moveAmountFromInventoryToDisplay(long amount) {
+		if (this.inventoryAmount >= amount && this.displayedAmount >= -amount) {
 			this.inventoryAmount -= amount;
 			this.displayedAmount += amount;
+
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -92,7 +95,6 @@ public class InventoryProduct implements RawEntry {
 	 * Negative amount possible but not recommended.
 	 *
 	 * @param amount Amount to be removed (added if < 0)
-	 * @return true if successful; else false
 	 */
 	public void removeDisplayedAmount(long amount) {
 		if (displayedAmount >= amount) {
