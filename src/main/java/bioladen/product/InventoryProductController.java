@@ -115,6 +115,11 @@ public class InventoryProductController {
 		return "redirect:/productlist";
 	}
 
+	@PostMapping("/setProfitMargin")
+	public String setProfitMargin() {
+		return "redirect:/statistic";
+	}
+
 	/* TODO: Event for inventory product deletions
 	 _________________
 	< Event publisher >

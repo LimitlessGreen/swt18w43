@@ -64,13 +64,14 @@
 
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12">
-                                                        <label for="inputBnnFile">BNN-Datei*</label>
+                                                        <label for="inputBnnFile">BNN-Datei</label>
                                                         <input type="file" class="form-control-file" id="inputBnnFile" name="bnnFile" accept="text/comma-separated-values">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label for="inputDistributor">Großhändler*</label>
-                                                    <select class="form-control" id="inputDistributor" name="distributor">
+                                                    <select class="form-control" id="inputDistributor" name="distributor" required>
+                                                        <option disabled selected>Großhändler</option>
                                                         <option th:each="distributor : ${distributorList}" th:value="${distributor.getId()}" th:text="${distributor.getName()}">REWE</option>
                                                     </select>
                                                 </div>

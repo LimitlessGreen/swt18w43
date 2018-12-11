@@ -23,25 +23,25 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputName">Name*</label>
-                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
+                    <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" pattern="^[a-zA-Z- ÄäÜüÖö][a-zA-Z- ÄäÜüÖöß]{1,}$" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputEmail">E-Mail*</label>
-                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="E-Mail">
+                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="E-Mail" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputContactName">Kontaktperson*</label>
-                    <input type="text" class="form-control" id="inputContactName" name="contactName" placeholder="Konstaktperson">
+                    <input type="text" class="form-control" id="inputContactName" name="contactName" placeholder="Konstaktperson" pattern="^[a-zA-Z- ÄäÜüÖö][a-zA-Z- ÄäÜüÖöß]{1,}$" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="inputPhone">Telefonnummer*</label>
-                    <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefonnummer">
+                    <label for="inputPhone">Telefonnummer</label>
+                    <input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefonnummer" pattern="[0-9]*\/*(\+49)*[ ]*(\([0-9]+\))*([ ]*(-|–)*[ ]*[0-9]+)*" maxlength="25" minlength="3">
                 </div>
             </div>
 
