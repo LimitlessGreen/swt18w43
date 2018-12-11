@@ -135,6 +135,12 @@ endif::[]
 |Lisa, Lukas
 |Muss-Kriterien überarbeitet
 
+|1.1.1
+|abgeschlossen
+|11.12.2018
+|Adrian
+|Musskriterien für Datenbankbegrenzung gestrichen
+
 |===
 
 toc::[]
@@ -602,15 +608,12 @@ ID: 1. Buchstabe: A - Allgemein U - UserDepartment, P - ProductDepartment , D - 
 |#P-F-02
 |Gewinnprozentsatz
 |Der Manager kann den Prozentsatz für die Gewinnberechnung für die Produktpreise ändern
+|===
 
-|#P-F-03
-|Ausstellungsfläche :heavy_check_mark:
-|Es können nur 999 Produkte im Laden ausgestellt werden
+_#P-F-03 und #P-F-04 entfallen_
 
-|#P-F-04
-|Größe Einkaufsdatenbank :heavy_check_mark:
-|Es können bis zu 10000 Artikel in der Einkaufdatenbank sein
-
+[cols="^1h,1,3"]
+|===
 |#P-F-05
 |Inventur
 |Nach der Inventur muss der Lagerbestand wenn nötig angepasst werden können
