@@ -65,7 +65,7 @@ public class DistributorProduct implements RawEntry {
 	@Override
 	public String toString() {
 		return String.format(
-				"%s: {price: %s, unit: %s, minimumOrderAmount: %s}",
-				name, price, unit, minimumOrderAmount);
+				"%s: {distributor: %s, price: %s, unit: %s, minimumOrderAmount: %s}",
+				name, distributor.getName(), price, unit, minimumOrderAmount);
 	}
 }
