@@ -1,20 +1,24 @@
 package bioladen.customer;
 
-import java.util.Arrays;
-
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.core.DataInitializer;
-import org.salespointframework.useraccount.Role;
-import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
+/**
+ * @author Lisa Riedel
+ */
 @Component
 @RequiredArgsConstructor
 public class CustomerDataInitializer implements DataInitializer {
 	private final UserAccountManager userAccountManager;
 	private final CustomerManager customerManager;
 
+	/**
+	 * Initialized some customer
+	 */
 	@Override
 	public void initialize() {
 

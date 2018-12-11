@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Controller
+ * @author Lisa Riedel
+ */
+
 @Controller
 @Transactional
 @RequiredArgsConstructor
@@ -20,13 +25,28 @@ public class CustomerController {
 	private final AuthenticationManager authenticationManager;
 	private final CustomerManager customerManager;
 
-	/*Functions for register.html*/
+	/**
+	 * Request for register Customer only for Staff and Manager
+	 * @return String
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@RequestMapping("/register")
 	public String register() {
 		return "register";
 	}
 
+	/**
+	 * Get all params to creat a new {@link Customer}
+	 * @param firstname must not be	{@literal null}
+	 * @param lastname must not be {@literal null}
+	 * @param phone can be {@literal null}
+	 * @param email must not be	{@literal null}
+	 * @param sex must not be {@literal null}
+	 * @param address can be {@literal null}
+	 * @param type must not be {@literal null}
+	 * @param model only for errors
+	 * @return String
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@PostMapping("/register")
 	public String registerNew(@RequestParam("firstname") String firstname,
@@ -127,8 +147,10 @@ public class CustomerController {
 		return "register";
 	}
 
-	/*Function for customerlist.html*/
-
+	/**
+	 * Returns all register Customer
+	 * @return String
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/customerlist")
 	String customerRepository(Model model) {
@@ -137,6 +159,11 @@ public class CustomerController {
 		return "customerlist";
 	}
 
+	/**
+	 * Delete Customer except himself
+	 * @param id
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/customerlist/delete")
 	String deleteCustomer(@RequestParam Long id) {
@@ -151,7 +178,12 @@ public class CustomerController {
 		return "redirect:/customerlist";
 	}
 
-
+	/**
+	 * Provides data for modification
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/customerlist/modify")
 	String modifyCustomer(@RequestParam Long id, Model model) {
@@ -168,6 +200,19 @@ public class CustomerController {
 		return "modifycustomer";
 	}
 
+	/**
+	 * Get modified data
+	 * @param firstname must not be	{@literal null}
+	 * @param lastname must not be {@literal null}
+	 * @param phone can be {@literal null}
+	 * @param email must not be	{@literal null}
+	 * @param sex must not be {@literal null}
+	 * @param address must not be {@literal null}
+	 * @param type must not be {@literal null}
+	 * @param id must not be {@literal null}
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@PostMapping("/modified")
 	String modifiedCustomer(@RequestParam("firstname") String firstname,

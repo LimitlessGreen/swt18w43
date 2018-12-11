@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
+/**
+ * a Customer
+ *
+ * @author Lisa Riedel
+ */
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -45,9 +47,20 @@ public class Customer implements RawEntry {
 	@Setter
 	CustomerType customerType;
 
+	/**
+	 * empty Constructor
+	 */
 	Customer() {
 	}
 
+	/**
+	 * Creates a new {@link Customer}.
+	 * @param firstname must not be {@literal null}
+	 * @param lastname must not be {@literal null}
+	 * @param email must not be {@literal null}
+	 * @param sex must not be {@literal null}
+	 * @param customerType must not be {@literal null}
+	 */
 	public Customer(String firstname, String lastname, String email, Sex sex, CustomerType customerType) {
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -56,14 +69,27 @@ public class Customer implements RawEntry {
 		this.customerType = customerType;
 	}
 
-
+	/**
+	 * Checks if Customer is a certain type
+	 * @param customerType must not be {@literal null}
+	 * @return boolean
+	 */
 	public boolean isCustomerType(CustomerType customerType) {
 		return customerType == this.customerType;
 	}
 
+	/**
+	 *Convert lastname and firstname into a String
+	 *@return String
+	 */
 	public String getName() {
 		return this.lastname + ", " + this.firstname;
 	}
+
+	/**
+	 * Convert a Customer in a String for {@link bioladen.datahistory.DataHistoryLogger}
+	 * @return String
+	 */
 
 	@Override
 	public String toString() {
