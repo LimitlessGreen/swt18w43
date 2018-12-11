@@ -291,11 +291,15 @@ public class CustomerController {
 
 		if (!address.equals(streetTmp) && StringUtils.isNotBlank(address)){
 				customer.setStreet(address);
+		} else if (address.equals(streetTmp)){
+			customer.setStreet(streetTmp);
 		}
 
 		if (!phone.equals(phoneTmp) && StringUtils.isNotBlank(phone)){
 			customer.setPhone(phone);
 
+		}else if (address.equals(phone)){
+			customer.setStreet(phoneTmp);
 		}
 
 		customer.setId(id);
