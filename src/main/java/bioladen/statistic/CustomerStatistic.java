@@ -20,15 +20,15 @@ public  class CustomerStatistic {
 	/*------------------------*/
 
 	int amountOfCustomersCreatedBetween(Interval interval) {
-		return dataHistoryManager.findBy(Customer.class, EntityLevel.CREATED, interval).size();
+		return customersCreatedBetween(interval).size();
 	}
 
 	int amountOfCustomersDeletedBetween(Interval interval) {
-		return dataHistoryManager.findBy(Customer.class, EntityLevel.DELETED, interval).size();
+		return customersDeletedBetween(interval).size();
 	}
 
 	int amountOfCustomersModifiedBetween(Interval interval){
-		return dataHistoryManager.findBy(Customer.class, EntityLevel.MODIFIED, interval).size();
+		return customersModifiedBetween(interval).size();
 	}
 
 	/*------------------------*/
