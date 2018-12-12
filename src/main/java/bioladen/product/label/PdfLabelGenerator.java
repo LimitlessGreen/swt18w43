@@ -181,6 +181,7 @@ public class PdfLabelGenerator {
 		InventoryProduct inventoryProduct = inventoryProductCatalog.findById(id).orElse(null);
 
 		try {
+			new File(BASE_PATH).mkdirs();
 			if (inventoryProduct != null) {
 				addLabel(inventoryProduct);
 			}
@@ -193,6 +194,7 @@ public class PdfLabelGenerator {
 
 	public void generateAll(Iterable<InventoryProduct> inventoryProducts) {
 		try {
+			new File(BASE_PATH).mkdirs();
 			for (InventoryProduct inventoryProduct : inventoryProducts) {
 				addLabel(inventoryProduct);
 			}
