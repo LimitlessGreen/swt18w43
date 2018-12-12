@@ -1,6 +1,7 @@
 package bioladen.product;
 
 import bioladen.datahistory.DataHistoryRequest;
+import bioladen.datahistory.EntityLevel;
 import bioladen.datahistory.RawEntry;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
@@ -177,14 +178,25 @@ public class InventoryProduct implements RawEntry {
 	}
 
 
-	//TODO: pls implement!
 	@Override
 	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
-		return null;
+		LinkedHashMap<String, DataHistoryRequest> output = new LinkedHashMap<>();
+
+		output.put("Bestand (Lager)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Bestand (Austellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+
+		return output;
 	}
 
 	@Override
 	public Double sumUp(String chartName, Double currentValue) {
-		return null;
+		switch (chartName) {
+			case "Bestand (Lager)":
+				return currentValue + this.inventoryAmount;
+			case "Bestand (Ausstellfläche)":
+				return currentValue + this.displayedAmount;
+			default:
+				return currentValue + 1D;
+		}
 	}
 }
