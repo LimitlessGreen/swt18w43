@@ -67,16 +67,18 @@
 
                             <div class="form-group col-md-6">
                                 <label for="inputCustomer">Kunden-Art*</label>
-                                <select id="inputCustomer" class="form-control" name="type">
-                                    <option value="House" selected>Hauskunde</option>
+                                <select id="inputCustomer" class="form-control" name="type" required>
+                                    <option disabled selected>Bitte den Typ auswählen</option>
+                                    <option value="House" >Hauskunde</option>
                                     <option value="Major" sec:authorize="hasAnyRole('ROLE_MANAGER')">Großkunde</option>
                                     <option value="Staff" sec:authorize="hasAnyRole('ROLE_MANAGER')">Personal</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputsex">Geschlecht*</label>
-                                <select id="inputsex" class="form-control" name="sex">
-                                    <option value="male" selected>männlich</option>
+                                <select id="inputsex" class="form-control" name="sex" required>
+                                    <option disabled selected>Bitte das Geschlecht auswählen</option>
+                                    <option value="male">männlich</option>
                                     <option value="female">weiblich</option>
                                     <option value="various">divers</option>
                                 </select>
