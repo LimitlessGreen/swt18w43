@@ -23,10 +23,17 @@
                 <div class="data-table-list">
 
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="basic-tb-hd">
                                 <h2><Inventurliste></Inventurliste></h2>
                             </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <a href="/stockTaking/begin" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                                <button type="button" class="btn btn-info notika-btn-green" style="float: right">
+                                    <i class="fas fa-clipboard-list"></i> Inventur starten
+                                </button>
+                            </a>
                         </div>
                     </div>
 
