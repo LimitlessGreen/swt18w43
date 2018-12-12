@@ -2,9 +2,8 @@ package bioladen.statistic;
 
 import bioladen.customer.Customer;
 import bioladen.datahistory.DataHistoryManager;
-import bioladen.datahistory.EntityLevel;
-import bioladen.statistic.chart.Chart;
 import bioladen.statistic.chart.ChartFactory;
+import bioladen.statistic.chart.LineCharts;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.BusinessTime;
 import org.salespointframework.time.Interval;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,36 +21,24 @@ public class StatisticController {
 
 	private final BusinessTime businessTime;
 	private final DataHistoryManager dataHistoryManager;
+	private final ChartFactory chartFactory;
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/statistic")
 	String datahistory(Model model){
 
-		LinkedList listAdded = dataHistoryManager.findBy
-				(Customer.class,
-						EntityLevel.CREATED,
-						Interval.from(businessTime.getTime().minusMonths(1)).to(businessTime.getTime()));
+		LinkedHashMap<String, String> charts = new LinkedHashMap<>();
 
-		LinkedList listDeleted = dataHistoryManager.findBy
-				(Customer.class,
-						EntityLevel.DELETED,
-						Interval.from(businessTime.getTime().minusMonths(1)).to(businessTime.getTime()));
+		LineCharts customerChart = chartFactory.getBarChart(
+				ChronoUnit.MINUTES,
+				Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime()),
+				new Customer());
 
-		ChartFactory chartFactory = new ChartFactory();
-		Chart customerAddedChart = chartFactory.getBarChart(
-				ChronoUnit.MINUTES, Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime()), listAdded);
-		customerAddedChart.fillChart();
+		charts.put("customerChart", customerChart.getJsonCharts());
 
-		Chart customerDeletedChart = chartFactory.getBarChart(
-				ChronoUnit.MINUTES, Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime()), listDeleted);
-		customerDeletedChart.fillChart();
+		model.addAttribute("charts", charts);
 
-		LinkedHashMap chartMap1 = customerAddedChart.getChartMap();
-		LinkedHashMap chartMap2 = customerDeletedChart.getChartMap();
-
-		model.addAttribute("labels", chartMap1.keySet());
-		model.addAttribute("data1", chartMap1.values());
-		model.addAttribute("data2", chartMap2.values());
+		model.addAttribute("customerJson", customerChart.getJsonCharts());
 
 		return "statistic";
 	}
