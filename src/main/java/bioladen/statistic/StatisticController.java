@@ -75,12 +75,7 @@ public class StatisticController {
 
 		model.addAttribute("charts", charts);
 		model.addAttribute("dataTable", dataTable);
-
-		model.addAttribute("customerJson", customerChart.getJsonCharts());
-		model.addAttribute("salesJson", salesChart.getJsonCharts());
-		model.addAttribute("cancelsJson", cancelsChart.getJsonCharts());
-		model.addAttribute("productsJson", productsChart.getJsonCharts());
-
+		
 		return "statistic";
 	}
 }
