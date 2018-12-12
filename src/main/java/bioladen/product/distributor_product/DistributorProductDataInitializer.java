@@ -71,6 +71,48 @@ public class DistributorProductDataInitializer implements DataInitializer {
 
 		distributorProductCatalog.save(
 				new DistributorProduct(
+						"Kartoffeln",
+						distributorRepository.findById(2L).get(),
+						BigDecimal.valueOf(3.50),
+						BigDecimal.valueOf(5), // KG
+						3,
+						ProductCategory.FOOD_FRUIT_VEG,
+						MwStCategory.REDUCED,
+						null,
+						Organization.BIOLAND
+				)
+		);
+
+		distributorProductCatalog.save(
+				new DistributorProduct(
+						"Kakao",
+						distributorRepository.findById(2L).get(),
+						BigDecimal.valueOf(1.50),
+						BigDecimal.valueOf(1), // KG
+						4,
+						ProductCategory.FOOD_FRUIT_VEG,
+						MwStCategory.REDUCED,
+						null,
+						Organization.BIOLAND
+				)
+		);
+
+		distributorProductCatalog.save(
+				new DistributorProduct(
+						"Kakao",
+						distributorRepository.findById(1L).get(),
+						BigDecimal.valueOf(59.00),
+						BigDecimal.valueOf(1), // KG
+						4,
+						ProductCategory.FOOD_FRUIT_VEG,
+						MwStCategory.REDUCED,
+						null,
+						Organization.BIOLAND
+				)
+		);
+
+		distributorProductCatalog.save(
+				new DistributorProduct(
 						"Milch",
 						distributorRepository.findById(2L).get(),
 						BigDecimal.valueOf(1.50),
