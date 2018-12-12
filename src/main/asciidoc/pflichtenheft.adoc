@@ -141,6 +141,14 @@ endif::[]
 |Adrian
 |Musskriterien für Datenbankbegrenzung gestrichen
 
+|1.1.2
+|...
+|12.12.2018
+|Josi
+|Muss-Kriterien überarbeitet
+
+
+
 |===
 
 toc::[]
@@ -687,21 +695,22 @@ _#P-F-03 und #P-F-04 entfallen_
 |Beschreibung
 
 |#O-F-01
+|Nachbestellen :heavy_check_mark:
+|Der Manager kann Produkte über den Bestellassistenten nachbestellen. Dieser unterstützt ihn, in dem er das preislich beste Produkt markiert
+
+|#O-F-02
 |Lieferungsübersicht :heavy_check_mark:
 |Es muss eine Übersicht von den bestellten Lieferungen geben
 
-|#O-F-02
-|Lieferprobleme
-|- Falls ein Lieferant nicht mehr liefert, müssen diese Produkte angepasst werden können +
-- Es kann sein, dass Lieferungen Probleme haben und nicht ankommen. Die muss abgefangen werden
-
 |#O-F-03
-|Mindestbestellmenge
-|Es gibt eine Mindestbestellmenge für jedes Produkt bei Händlern
+|Lieferungen
+|- Der Manager muss Lieferungen dem Lager hinzufügen können +
+- Falls eine Lieferung nicht ankommt, muss diese gelöscht werden können
 
 |#O-F-04
-|Nachbestellen :heavy_check_mark:
-|Der Manager kann Produkte über den Bestellassistenten nachbestellen
+|Mindestbestellmenge
+|Es gibt eine Mindestbestellmenge für jedes Produkt bei Händlern. Diese muss im Bestellvorgang berücksichtigt werden
+
 |===
 
 *6. User-Departement*
@@ -724,6 +733,10 @@ _#P-F-03 und #P-F-04 entfallen_
 |#U-F-03
 |Passwort zurücksetzen
 |Der Manager kann das Passwort von allen Mitarbeitern zurücksetzen (Standardpasswort)
+
+|#U-F-04
+|User bearbeiten
+|Der Manager muss User bearbeiten können
 
 |===
 
