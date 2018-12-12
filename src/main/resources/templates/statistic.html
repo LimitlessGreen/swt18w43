@@ -170,8 +170,13 @@
     (function ($) {
         "use strict";
 
-    var ctx = document.getElementById("customerChart");
-    var customer = new Chart(ctx, [(${customerJson})]);
+        var ctx = document.getElementById("customerChart");
+        var customer = new Chart(ctx, [(${customerJson})]);
+
+        var ctx = document.getElementById("salesChart");
+        var sales = new Chart(ctx, [(${salesJson})]);
+
+
     })
     (jQuery);
 

@@ -1,6 +1,7 @@
 package bioladen.statistic.chart;
 
 import be.ceau.chart.LineChart;
+import be.ceau.chart.color.Color;
 import be.ceau.chart.data.LineData;
 import be.ceau.chart.dataset.LineDataset;
 import bioladen.datahistory.DataEntry;
@@ -27,10 +28,13 @@ public class LineCharts extends DateTimeCharts {
 				.setLabels(this.getChartLabels());
 
 		for (Map.Entry<String, double[]> chart: this.getChartData().entrySet()) {
+			Color color = Color.random();
 			LineDataset dataSet = new LineDataset()
 					.setLabel(chart.getKey())
 					.setData(chart.getValue())
-					.setBorderWidth(2);
+					.setBorderWidth(2)
+					.setBorderColor(color)
+					.setBackgroundColor(color);
 
 			data.addDataset(dataSet);
 		}
