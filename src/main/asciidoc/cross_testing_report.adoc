@@ -11,7 +11,8 @@ Welche Aufgabe/Problemstellung löst die Anwendung.
 [options="header"]
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
-| … | … | … | … |
+|/users |username = admin |Man kann den admin Account löschen und sich anschließend noch mit dem Account einloggen |keine 
+|  |  |  |  
 |===
 
 == Sonstiges
