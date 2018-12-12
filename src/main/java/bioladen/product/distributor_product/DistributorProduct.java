@@ -98,15 +98,14 @@ public class DistributorProduct implements RawEntry, Comparable<DistributorProdu
 
 	@Override
 	public int compareTo(DistributorProduct distributorProduct) {
-		//a negative integer, zero, or a positive integer as this object
-		//is less than, equal to, or greater than the specified object.
 		final int nameCompare = getName().compareTo(distributorProduct.getName());
 		final int priceCompare = getPrice().compareTo(distributorProduct.getPrice());
 
-		if (nameCompare == 0 && priceCompare == 0)
+		if (nameCompare == 0 && priceCompare == 0) {
 			return getId().compareTo(distributorProduct.getId());
-		else if (nameCompare == 0)
+		} else if (nameCompare == 0) {
 			return priceCompare;
+		}
 
 		return nameCompare;
 	}
