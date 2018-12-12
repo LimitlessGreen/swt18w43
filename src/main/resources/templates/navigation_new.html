@@ -78,7 +78,8 @@
                                     <ul id="m_productmanagement" class="collapse dropdown-header-top"  sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">
                                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                                         </li>
-                                        <li><a th:href="@{/productlisr}">Produkte verwalten</a></li>
+                                        <li><a th:href="@{/productlist}">Produkte verwalten</a></li>
+                                        <li><a th:href="@{/stockTaking}">Inventurverwaltung</a></li>
                                     </ul>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_personmanagement" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Personenverwaltung</a>
@@ -143,6 +144,8 @@
                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                         </li>
                         <li><a th:href="@{/productlist}">Produkte verwalten</a>
+                        </li>
+                        <li><a th:href="@{/stockTaking}">Inventurverwaltung</a>
                         </li>
                     </ul>
                 </div>
