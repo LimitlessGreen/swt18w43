@@ -254,6 +254,20 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 		return money;
 	}
 
+	public BigDecimal getSaleMoney() {
+		BigDecimal money = BigDecimal.valueOf(0);
+
+		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
+			money = money.add((e.getValue().getPrice()));
+		}
+
+		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));
+		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);
+
+		return money;
+
+	}
+
 	@Override
 	public Long getId() {
 		return (long) this.hashCode();
