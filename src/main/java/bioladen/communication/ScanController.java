@@ -11,6 +11,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+
 @Controller
 @RequiredArgsConstructor
 public class ScanController {
@@ -19,7 +21,7 @@ public class ScanController {
 
 	@MessageMapping("/sendId/{sc_id}")
 	@SendTo("/topic/receiveId/{sc_id}")
-	public String scan(@DestinationVariable String sc_id, String message) throws Exception {
+	public String scan(@DestinationVariable String sc_id, String message) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode codeResultNode = objectMapper.readTree(message).path("message").path("codeResult");
 		if (codeResultNode.path("format").asText().equals("ean_13")) {

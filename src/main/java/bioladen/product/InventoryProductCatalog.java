@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * @author Adrian Kulisch
  */
 public interface InventoryProductCatalog extends CrudRepository<InventoryProduct, Long> {
-	public ArrayList<InventoryProduct> findAll();
+	ArrayList<InventoryProduct> findAll();
 
-	public InventoryProduct findByName(String name);
+	InventoryProduct findByName(String name);
+
 }

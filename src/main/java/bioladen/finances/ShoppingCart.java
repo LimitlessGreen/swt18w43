@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.Customer;
+import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.RawEntry;
 import bioladen.product.InventoryProduct;
 import lombok.Getter;
@@ -253,6 +254,20 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 		return money;
 	}
 
+	public BigDecimal getSaleMoney() {
+		BigDecimal money = BigDecimal.valueOf(0);
+
+		for (Map.Entry<InventoryProduct, CartCartItem> e : items.entrySet()) {
+			money = money.add((e.getValue().getPrice()));
+		}
+
+		money = money.multiply(BigDecimal.valueOf(1 - getDiscount()));
+		money = money.setScale(SCALE, RoundingMode.HALF_EVEN);
+
+		return money;
+
+	}
+
 	@Override
 	public Long getId() {
 		return (long) this.hashCode();
@@ -261,5 +276,16 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 	@Override
 	public Iterator iterator() {
 		return items.values().iterator();
+	}
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
 	}
 }

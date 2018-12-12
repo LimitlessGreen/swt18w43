@@ -12,9 +12,15 @@ import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes("cart")
@@ -70,43 +76,111 @@ public class OrderController {
 		return "redirect:/orders";
 	}
 
+
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/order")
 	public String order(Model model,
 						@ModelAttribute("cart") OrderCart cart,
 						@RequestParam(value = "name", defaultValue = "") String name,
 						@RequestParam(value = "amount", defaultValue = "1") Integer amount) {
-		Iterable<DistributorProduct> distributorProducts = new ArrayList<>();
-		List<DistributorProduct> filtered = new ArrayList<>();
+		List<DistributorProduct> productsOverMinimumOrderAmount = new ArrayList<>(); //all products with searched name and amount over minimumOrderAmount
+		List<DistributorProduct> productsUnderMinimumOrderAmount = new ArrayList<>();  //all products with searched name and amount under minimumOrderAmount
 
+		List<DistributorProduct> list = distributorProductCatalog.findAll().stream().filter(product -> product.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
 
-		if (name.length() > 0) {
-			((ArrayList<DistributorProduct>) distributorProducts).addAll(distributorProductCatalog.findAll());
+		list.sort((o1, o2) -> {
+			boolean b1 = o1.getMinimumOrderAmount() > amount;
+			boolean b2 = o2.getMinimumOrderAmount() > amount;
+			if (b1 == b2) {
+				return o1.compareTo(o2);
+			} else if (b1) {
+				return 1;
+			} else {
+				return -1;
+			}
+		});
 
-			((ArrayList<DistributorProduct>) distributorProducts).removeIf(distributorProduct -> {
-				if (!distributorProduct.getName().contains(name)) {
-					return true;
+		model.addAttribute("storage", (Function<DistributorProduct, Long>) distributorProduct -> getInventoryAmount(distributorProduct));
+
+		if (!name.isEmpty()) {
+			for (DistributorProduct product : list) {
+				if (product.getMinimumOrderAmount() > amount) {
+					productsUnderMinimumOrderAmount.add(product);
+				} else {
+					productsOverMinimumOrderAmount.add(product);
 				}
-				if (distributorProduct.getMinimumOrderAmount() > amount) {
-					filtered.add(distributorProduct);
-					return true;
-				}
-				return false;
-			});
+			}
 		}
+
+
+		Map<String, BigDecimal> bestPriceAmount = new HashMap<>();
+
+		for (DistributorProduct distributorProduct : productsOverMinimumOrderAmount) {
+			bestPriceAmount.compute(distributorProduct.getName(), (s, bigDecimal) -> smaller(bigDecimal, distributorProduct.getPrice()));
+		}
+
+		Map<String, BigDecimal> bestPriceAll = new HashMap<>(bestPriceAmount);
+
+		for (DistributorProduct distributorProduct : productsUnderMinimumOrderAmount) {
+			bestPriceAll.compute(distributorProduct.getName(), (s, bigDecimal) -> smaller(bigDecimal, distributorProduct.getPrice()));
+		}
+
+		model.addAttribute("note", (Function<DistributorProduct, String>) product -> {
+			if (product.getMinimumOrderAmount() > amount) {
+				if (product.getPrice().equals(bestPriceAll.get(product.getName()))) {
+
+					return "insgesamt bester Preis für " + product.getName();
+				}
+			} else {
+				if (product.getPrice().equals(bestPriceAmount.get(product.getName()))) {
+					if (product.getPrice().equals(bestPriceAll.get(product.getName()))) {
+						return "insgesamt bester Preis für " + product.getName();
+					}
+					return "bester Preis für die gewählte Menge " + product.getName();
+				}
+			}
+
+			return "";
+		});
+
 
 		double total = 0;
 		for (OrderCartItem orderCartItem : cart) {
 			total += orderCartItem.getPrice().getNumber().doubleValue() * orderCartItem.getQuantity().getAmount().doubleValue();
 		}
 
+		for (DistributorProduct distributorProduct : list) {
+
+		}
+
 		model.addAttribute("amount", amount);
 		model.addAttribute("articles", cart.get().count());
 		model.addAttribute("totalprice", String.format("%.2f", total));
-		model.addAttribute("products", distributorProducts);
-		model.addAttribute("productsfiltered", filtered);
+		model.addAttribute("productsOverMinimumOrderAmount", productsOverMinimumOrderAmount);
+		model.addAttribute("productsUnderMinimumOrderAmount", productsUnderMinimumOrderAmount);
+		model.addAttribute("list", list);
+		model.addAttribute("inventoryProductCatalog", inventoryProductCatalog);
 		return "order";
 	}
+
+	private long getInventoryAmount(DistributorProduct distributorProduct) {
+		InventoryProduct inventoryProduct = inventoryProductCatalog.findByName(distributorProduct.getName());
+		return inventoryProduct == null ? 0 : inventoryProduct.getInventoryAmount();
+	}
+
+	private <T extends Comparable> T smaller(T o1, T o2) {
+		if (o2 == null) {
+			return o1;
+		}
+		if (o1 == null) {
+			return o2;
+		}
+		if (o1.compareTo(o2) == 1) {
+			return o2;
+		}
+		return o1;
+	}
+
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orderFinished")
@@ -120,28 +194,33 @@ public class OrderController {
 
 
 		return userAccount.map(account -> {
-			Map<Distributor, OrderCart> distributorSetMap = new HashMap<>();
+			Map<Long, OrderCart> distributorOrders = new HashMap<>();
+			Map<Long, Distributor> distributorMap = new HashMap<>();
 			double total = 0;
 			int items = 0;
 			for (OrderCartItem cartItem : cart) {
 				items++;
-				distributorSetMap.computeIfAbsent(
-						cartItem.getProduct().getDistributor(),
+				distributorOrders.computeIfAbsent(
+						cartItem.getProduct().getDistributor().getId(),
 						distributor -> new OrderCart()).addOrUpdateItem(cartItem.getProduct(),
 						cartItem.getQuantity());
+				distributorMap.put(cartItem.getProduct().getDistributor().getId(), cartItem.getProduct().getDistributor());
 				total += cartItem.getPrice().getNumber().doubleValue() * cartItem.getQuantity().getAmount().doubleValue();
+
 			}
 
-			for (Distributor distributor : distributorSetMap.keySet()) {
-				DistributorOrder order = new DistributorOrder(account, distributor);
-				order.addItems(cart, itemRepository);
+			for (Long distributor : distributorOrders.keySet()) {
+				DistributorOrder order = new DistributorOrder(account, distributorMap.get(distributor));
+				order.addItems(distributorOrders.get(distributor), itemRepository);
 				orderRepository.save(order);
 
 			}
 
 			model.addAttribute("totalprice", String.format("%.2f", total));
 			model.addAttribute("productcount", items);
-			model.addAttribute("distributorcount", distributorSetMap.size());
+			model.addAttribute("distributorcount", distributorOrders.size());
+
+			cart.clear();
 
 			return "orderfinished";
 		}).orElse("redirect:/login");

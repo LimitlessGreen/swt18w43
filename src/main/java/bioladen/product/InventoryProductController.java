@@ -4,6 +4,7 @@ import bioladen.datahistory.DataHistoryManager;
 import bioladen.datahistory.EntityLevel;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.label.PdfLabelGenerator;
+import bioladen.product.stock_taking.StockTaking;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
@@ -14,10 +15,12 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +30,14 @@ public class InventoryProductController {
 	private final InventoryProductCatalog inventoryProductCatalog;
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final AuthenticationManager authenticationManager;
+	private final StockTaking stockTaking;
 
 	@RequestMapping("/productlist")
 	String showProducts(Model model) {
 		List<InventoryProduct> inventoryProductList = inventoryProductCatalog.findAll();
 		model.addAttribute("inventoryProductList", inventoryProductList);
+
+		model.addAttribute("stockTaking", stockTaking);
 
 		return "productlist";
 	}
@@ -53,8 +59,8 @@ public class InventoryProductController {
 	@GetMapping("/product/label")
 	public HttpEntity<Resource> downloadLabel(@RequestParam(value = "id") long id) {
 
-		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator();
-		pdfLabelGenerator.generate(inventoryProductCatalog.findById(id).orElse(null));
+		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator(inventoryProductCatalog);
+		pdfLabelGenerator.generate(id);
 
 		File file = new File("src/main/resources/generated/p" + id + ".pdf");
 
@@ -76,7 +82,7 @@ public class InventoryProductController {
 	@GetMapping("/productlist/labels")
 	public HttpEntity<Resource> downloadAllLabels() {
 
-		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator();
+		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator(inventoryProductCatalog);
 		pdfLabelGenerator.generateAll(inventoryProductCatalog.findAll());
 
 		File file = new File("src/main/resources/generated/pAll.pdf");
@@ -94,6 +100,28 @@ public class InventoryProductController {
 		return ResponseEntity.ok() //
 				.headers(headers) //
 				.body(new FileSystemResource(file));
+	}
+
+	@PostMapping("/product/move")
+	public String moveAmount(
+			@RequestParam("id")			long inventoryProductId,
+			@RequestParam("moveAmount") long moveAmount,
+			Model model) {
+		InventoryProduct inventoryProduct = inventoryProductCatalog.findById(inventoryProductId).get();
+
+		boolean success = inventoryProduct.moveAmountFromInventoryToDisplay(moveAmount);
+		publishEvent(inventoryProductCatalog.save(inventoryProduct), EntityLevel.MODIFIED);
+
+		if (!success) {
+			model.addAttribute("error", "Ungültige Eingabe");
+		}
+
+		return "redirect:/productlist";
+	}
+
+	@PostMapping("/setProfitMargin")
+	public String setProfitMargin() {
+		return "redirect:/statistic";
 	}
 
 	/* TODO: Event for inventory product deletions

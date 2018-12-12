@@ -1,14 +1,19 @@
 package bioladen.customer;
 
+import bioladen.datahistory.DataHistoryRequest;
+import bioladen.datahistory.EntityLevel;
 import bioladen.datahistory.RawEntry;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
+/**
+ * a Customer
+ *
+ * @author Lisa Riedel
+ */
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -45,9 +50,20 @@ public class Customer implements RawEntry {
 	@Setter
 	CustomerType customerType;
 
-	Customer() {
+	/**
+	 * empty Constructor
+	 */
+	public Customer() {
 	}
 
+	/**
+	 * Creates a new {@link Customer}.
+	 * @param firstname must not be {@literal null}
+	 * @param lastname must not be {@literal null}
+	 * @param email must not be {@literal null}
+	 * @param sex must not be {@literal null}
+	 * @param customerType must not be {@literal null}
+	 */
 	public Customer(String firstname, String lastname, String email, Sex sex, CustomerType customerType) {
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -56,20 +72,51 @@ public class Customer implements RawEntry {
 		this.customerType = customerType;
 	}
 
-
+	/**
+	 * Checks if Customer is a certain type
+	 * @param customerType must not be {@literal null}
+	 * @return boolean
+	 */
 	public boolean isCustomerType(CustomerType customerType) {
 		return customerType == this.customerType;
 	}
 
+	/**
+	 *Convert lastname and firstname into a String
+	 *@return String
+	 */
 	public String getName() {
 		return this.lastname + ", " + this.firstname;
 	}
+
+	/**
+	 * Convert a Customer in a String for {@link bioladen.datahistory.DataHistoryLogger}
+	 * @return String
+	 */
 
 	@Override
 	public String toString() {
 		return String.format(
 				"%s %s: {email: %s, phone: %s, street: %s, type: %s, sex: %s}",
 				firstname, lastname, email, phone, street, customerType, sex);
+	}
+
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		LinkedHashMap<String, DataHistoryRequest> output = new LinkedHashMap<>();
+
+		output.put("Benutzer erstellt", new DataHistoryRequest(Customer.class, EntityLevel.CREATED));
+		output.put("Benutzer gelöscht", new DataHistoryRequest(Customer.class, EntityLevel.DELETED));
+		return output;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		if (chartName.equals("Benutzer erstellt") || chartName.equals("Benutzer gelöscht")) {
+
+			return currentValue + 1D;
+		}
+		return currentValue + 1D;
 	}
 }
 

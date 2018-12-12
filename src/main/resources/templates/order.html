@@ -22,7 +22,8 @@
                         <form action="" method="get">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 form-group">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Produktname eingeben" name="name">
+                                    <input type="text" class="form-control" placeholder="Produktname eingeben"
+                                           name="name">
                                 </div>
 
                             </div>
@@ -44,7 +45,8 @@
 
                     </div>
                 </div>
-                <div class="bsc-tbl-hvr" style="border-bottom-style: solid;border-bottom-width: 1px;padding-bottom: 10px;"> <!--Table 1-->
+                <div class="bsc-tbl-hvr"
+                     style="border-bottom-style: solid;border-bottom-width: 1px;padding-bottom: 10px;"> <!--Table 1-->
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -56,40 +58,37 @@
                             <th>Gesamtpreis</th>
                             <th>Lagerbestand</th>
                             <th>Optionen</th>
+                            <th>Notizen</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="inventoryProduct : ${products}">
-                            <td th:text="${inventoryProduct.getName()}"></td>
-                            <td th:text="${#numbers.formatDecimal(inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <td th:text="${amount.toString()}"></td>
-                            <td th:text="${#numbers.formatDecimal(inventoryProduct.getUnit(), 0, 'POINT', 2, 'COMMA')}"></td>
-                            <td th:text="${(inventoryProduct.getProductCategory().getDescriptionDe())}"></td>
-                            <td th:text="${#numbers.formatDecimal(amount * inventoryProduct.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <td>?</td>
-                            <td style="padding: 9px;">
-                                <a th:href="'/order/add?id=' + ${inventoryProduct.getId()} + '&amount=' + ${amount}">
-                                    <button type="button" class="btn btn-info notika-btn-green">
-                                        Hinzufügen
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
 
-                        <tr th:each="product : ${productsfiltered}">
+                        <tr th:each="product : ${list}">
                             <td th:text="${product.getName()}"></td>
                             <td th:text="${#numbers.formatDecimal(product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td th:text="${amount.toString()}"></td>
                             <td th:text="${#numbers.formatDecimal(product.getUnit(), 0, 'POINT', 2, 'COMMA')}"></td>
                             <td th:text="${(product.getProductCategory().getDescriptionDe())}"></td>
                             <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <td>?</td>
-                            <td style="padding: 9px;">
-                                <a th:href="'/order?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() , 1, 0)}">
+                            <td th:text="${storage.apply(product)}"></td>
+                            <div th:if="${product.getMinimumOrderAmount() <= amount}">
+                                <td style="padding: 9px;">
+                                    <a th:href="'/order/add?id=' + ${product.getId()} + '&amount=' + ${amount}">
+                                        <button type="button" class="btn btn-info notika-btn-green">
+                                            Hinzufügen
+                                        </button>
+                                    </a>
+                                </td>
+                            </div>
+                            <div th:if="${product.getMinimumOrderAmount() > amount}">
+                                <td style="padding: 9px;">
+                                    <a th:href="'/order?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() , 1, 0)}">
                                         <span class="label label-danger">Mindestbestellmenge: <span
                                                 th:text="${product.getMinimumOrderAmount()}"></span> </span>
-                                </a>
-                            </td>
+                                    </a>
+                                </td>
+                            </div>
+                            <th th:text="${note.apply(product)}"></th>
                         </tr>
                         </tbody>
                     </table>
@@ -101,7 +100,8 @@
                     <h2>Übersicht</h2>
 
                 </div>
-                <div class="bsc-tbl-hvr"  style="border-bottom-style: solid;border-bottom-width: 1px;padding-bottom: 10px;">
+                <div class="bsc-tbl-hvr"
+                     style="border-bottom-style: solid;border-bottom-width: 1px;padding-bottom: 10px;">
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -119,7 +119,7 @@
                             <td th:text="${#numbers.formatDecimal(item.getProduct().getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td th:text="${item.getQuantity().toString()}"></td>
                             <td th:text="${#numbers.formatDecimal(item.getQuantity().getAmount().doubleValue() * item.getPrice().getNumber().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <td>?</td>
+                            <td th:text="${storage.apply(item.getProduct())}"></td>
                             <td style="padding: 9px;">
                                 <a th:href="'/order/remove?id=' + ${item.getId()}">
                                     <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">

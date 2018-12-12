@@ -1,12 +1,13 @@
 package bioladen.product.distributor;
 
+import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.RawEntry;
-import lombok.NoArgsConstructor;
-
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedHashMap;
 
 /**
  * A distributor.
@@ -39,5 +40,16 @@ public class Distributor implements RawEntry {
 	@Override
 	public String toString() {
 		return String.format("%s: {email: %s, contact: %s, phone: %s}", name, email, contactName, phone);
+	}
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
 	}
 }

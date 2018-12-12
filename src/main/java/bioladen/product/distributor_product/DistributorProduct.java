@@ -1,5 +1,6 @@
 package bioladen.product.distributor_product;
 
+import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.RawEntry;
 import bioladen.product.MwStCategory;
 import bioladen.product.Organization;
@@ -12,6 +13,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
 /**
  * A offered product of a distributor.
@@ -22,7 +24,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "DISTRIBUTOR_PRODUCT")
 @NoArgsConstructor
-public class DistributorProduct implements RawEntry {
+public class DistributorProduct implements RawEntry, Comparable<DistributorProduct> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +67,32 @@ public class DistributorProduct implements RawEntry {
 	@Override
 	public String toString() {
 		return String.format(
-				"%s: {price: %s, unit: %s, minimumOrderAmount: %s}",
-				name, price, unit, minimumOrderAmount);
+				"%s: {distributor: %s, price: %s, unit: %s, minimumOrderAmount: %s}",
+				name, distributor.getName(), price, unit, minimumOrderAmount);
+	}
+
+	@Override
+	public int compareTo(DistributorProduct distributorProduct) {
+		final int nameCompare = getName().compareTo(distributorProduct.getName());
+		final int priceCompare = getPrice().compareTo(distributorProduct.getPrice());
+
+		if (nameCompare == 0 && priceCompare == 0) {
+			return getId().compareTo(distributorProduct.getId());
+		} else if (nameCompare == 0) {
+			return priceCompare;
+		}
+
+		return nameCompare;
+	}
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
 	}
 }

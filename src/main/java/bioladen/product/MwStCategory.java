@@ -15,6 +15,7 @@ public enum MwStCategory {
 		this.percentage = percentage;
 	}
 
+
 	public String getLongName() {
 		final int TO_PERCENT = 100;
 

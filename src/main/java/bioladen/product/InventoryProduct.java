@@ -1,19 +1,22 @@
 package bioladen.product;
 
+import bioladen.datahistory.DataHistoryRequest;
+import bioladen.datahistory.EntityLevel;
 import bioladen.datahistory.RawEntry;
-import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.data.geo.Metric;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Math.toIntExact;
 
 /**
  * A product.
@@ -80,11 +83,14 @@ public class InventoryProduct implements RawEntry {
 	 * @param amount Amount to be moved
 	 * @return true if successful; else false
 	 */
-	public void moveAmountFromInventoryToDisplay(long amount) {
-		if (this.inventoryAmount >= amount) {
+	public boolean moveAmountFromInventoryToDisplay(long amount) {
+		if (this.inventoryAmount >= amount && this.displayedAmount >= -amount) {
 			this.inventoryAmount -= amount;
 			this.displayedAmount += amount;
+
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -92,7 +98,6 @@ public class InventoryProduct implements RawEntry {
 	 * Negative amount possible but not recommended.
 	 *
 	 * @param amount Amount to be removed (added if < 0)
-	 * @return true if successful; else false
 	 */
 	public void removeDisplayedAmount(long amount) {
 		if (displayedAmount >= amount) {
@@ -151,5 +156,50 @@ public class InventoryProduct implements RawEntry {
 		return String.format(
 				"%s: {price: %s, unit: %s, inventoryAmount: %s, displayedAmount: %s}",
 				name, price, unit, inventoryAmount, displayedAmount);
+	}
+
+	@Override
+	public int hashCode() {
+		return toIntExact(id);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof InventoryProduct)) {
+			return false;
+		}
+
+		if (o == this) {
+			return true;
+		}
+
+		InventoryProduct i = (InventoryProduct) o;
+		return this.id.equals(i.getId());
+	}
+
+
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		LinkedHashMap<String, DataHistoryRequest> output = new LinkedHashMap<>();
+
+		output.put("Bestand (Lager)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Bestand (Austellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Gesamtwarenwert", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+
+		return output;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		switch (chartName) {
+			case "Bestand (Lager)":
+				return currentValue + this.inventoryAmount;
+			case "Bestand (Ausstellfläche)":
+				return currentValue + this.displayedAmount;
+			case "Gesamtwarenwert":
+				return currentValue + ((this.inventoryAmount + this.displayedAmount) * this.price.doubleValue());
+			default:
+				return currentValue + 1D;
+		}
 	}
 }

@@ -1,0 +1,37 @@
+= CrossTesting Readme Gruppe 43
+
+== LoginDaten
+
+- MANAGER:  feldfreude@bio.de,  blattgrün43
+- STAFF: bertabunt@bio.de,  blattgrün43
+
+Hinweis: Standardpasswort für alle neu erstellen Staff und Manager ist auch blattgrün43
+
+== Starten der Anwendung
+
+Hinweis: Zum Starten der Anwendung wird mindestens Java 8 und Maven 3 benötigt
+
+[source, shell]
+----
+$ java -jar NameDerJar.jar
+----
+
+== Verwenden der Scan Funktion des Kassensystems
+
+Hinweis: Sie müssen sich in einem Netzwerk befinden, in welchem die Geräte untereinander kommunizieren können
+
+- Auf der Seite des Kassensystem ("/cashiersystem) den QR-Code anzeigen lassen
+- Diesen QR-Code mit dem Handy scannen und dem Browser den Zugriff auf die Kamera erlauben
+- Dann damit die EAN-Codes der Labels scannen
+- Diese werden dann automatisch in das Produktcode Eingabefeld in der Kasse eingegeben
+
+== Verwenden der Import Funktion von Produktlisten
+
+- Es liegt eine Beispiel BNN-Liste vor, welche verwendet werden kann
+- Es können auch selber Listen geschrieben werden, welche dem gleichen Format folgen müssen:
+    * Keine Leerzeichen
+    * Einzelne Werte mit Simikolon getrennt
+    * Für jedes Produkt eine Zeile
+    * Am Ende der Zeile kein Simikolon
+    * Werte in der Reihenfolge: Name;Preis;Einheit;Mindestbestellanzahl;Kategorie;MwSt.-Kategorie;Pfandpreis;Organisation
+   

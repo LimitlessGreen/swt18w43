@@ -2,9 +2,11 @@ package bioladen.statistic;
 
 import bioladen.customer.Customer;
 import bioladen.datahistory.DataHistoryManager;
-import bioladen.datahistory.EntityLevel;
-import bioladen.statistic.chart.Chart;
+import bioladen.finances.ShoppingCartCancel;
+import bioladen.finances.ShoppingCartSale;
+import bioladen.product.InventoryProduct;
 import bioladen.statistic.chart.ChartFactory;
+import bioladen.statistic.chart.LineCharts;
 import lombok.RequiredArgsConstructor;
 import org.salespointframework.time.BusinessTime;
 import org.salespointframework.time.Interval;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,36 +24,62 @@ public class StatisticController {
 
 	private final BusinessTime businessTime;
 	private final DataHistoryManager dataHistoryManager;
+	private final ChartFactory chartFactory;
+	private final CustomerStatistic customerStatistic;
+	private final FinancesStatistic financesStatistic;
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/statistic")
 	String datahistory(Model model){
 
-		LinkedList listAdded = dataHistoryManager.findBy
-				(Customer.class,
-						EntityLevel.CREATED,
-						Interval.from(businessTime.getTime().minusMonths(1)).to(businessTime.getTime()));
+		LinkedHashMap<String, String> charts = new LinkedHashMap<>();
+		LinkedHashMap<String, String> dataTable = new LinkedHashMap<>();
 
-		LinkedList listDeleted = dataHistoryManager.findBy
-				(Customer.class,
-						EntityLevel.DELETED,
-						Interval.from(businessTime.getTime().minusMonths(1)).to(businessTime.getTime()));
+		Interval interval = Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime());
+		ChronoUnit resolution = ChronoUnit.MINUTES;
 
-		ChartFactory chartFactory = new ChartFactory();
-		Chart customerAddedChart = chartFactory.getBarChart(
-				ChronoUnit.MINUTES, Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime()), listAdded);
-		customerAddedChart.fillChart();
+		LineCharts customerChart = chartFactory.getBarChart(
+				resolution,
+				interval,
+				new Customer()
+		);
 
-		Chart customerDeletedChart = chartFactory.getBarChart(
-				ChronoUnit.MINUTES, Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime()), listDeleted);
-		customerDeletedChart.fillChart();
+		LineCharts salesChart = chartFactory.getBarChart(
+				resolution,
+				interval,
+				new ShoppingCartSale()
+		);
 
-		LinkedHashMap chartMap1 = customerAddedChart.getChartMap();
-		LinkedHashMap chartMap2 = customerDeletedChart.getChartMap();
+		LineCharts cancelsChart = chartFactory.getBarChart(
+				resolution,
+				interval,
+				new ShoppingCartCancel()
+		);
 
-		model.addAttribute("labels", chartMap1.keySet());
-		model.addAttribute("data1", chartMap1.values());
-		model.addAttribute("data2", chartMap2.values());
+		LineCharts productsChart = chartFactory.getBarChart(
+				resolution,
+				interval,
+				new InventoryProduct()
+		);
+
+
+		dataTable.put("Benutzer erstellt", String.valueOf(customerStatistic.amountOfCustomersCreatedBetween(interval)));
+		dataTable.put("Benutzer gelöscht", String.valueOf(customerStatistic.amountOfCustomersDeletedBetween(interval)));
+		dataTable.put("Anzahl Einkäufe", String.valueOf(financesStatistic.amountOfSalesBetween(interval)));
+		dataTable.put("Anzahl Stornierungen", String.valueOf(financesStatistic.amountOfCancelsBetween(interval)));
+
+		charts.put("customerChart", customerChart.getJsonCharts());
+		charts.put("salesChart", salesChart.getJsonCharts());
+		charts.put("cancelsChart", cancelsChart.getJsonCharts());
+		charts.put("productsChart", productsChart.getJsonCharts());
+
+		model.addAttribute("charts", charts);
+		model.addAttribute("dataTable", dataTable);
+
+		model.addAttribute("customerJson", customerChart.getJsonCharts());
+		model.addAttribute("salesJson", salesChart.getJsonCharts());
+		model.addAttribute("cancelsJson", cancelsChart.getJsonCharts());
+		model.addAttribute("productsJson", productsChart.getJsonCharts());
 
 		return "statistic";
 	}
