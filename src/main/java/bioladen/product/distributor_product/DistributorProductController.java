@@ -2,9 +2,7 @@ package bioladen.product.distributor_product;
 
 import bioladen.datahistory.DataHistoryManager;
 import bioladen.datahistory.EntityLevel;
-import bioladen.product.MwStCategory;
-import bioladen.product.Organization;
-import bioladen.product.ProductCategory;
+import bioladen.product.*;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +32,7 @@ public class DistributorProductController {
 	private final DistributorProductCatalog distributorProductCatalog;
 	private final DistributorRepository distributorRepository;
 	private final AuthenticationManager authenticationManager;
+	private final InventoryProductCatalog inventoryProductCatalog;
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@GetMapping("/distributorproductlist")
@@ -46,6 +45,7 @@ public class DistributorProductController {
 		model.addAttribute("productCategories", ProductCategory.values());
 		model.addAttribute("mwStCategories", MwStCategory.values());
 		model.addAttribute("organizations", Organization.values());
+		model.addAttribute("inventoryProductCatalog", inventoryProductCatalog);
 
 		return "distributorproductlist";
 	}
