@@ -2,9 +2,11 @@ package bioladen.finances;
 
 import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.EntityLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.LinkedHashMap;
 
+@NoArgsConstructor
 public class ShoppingCartCancel extends ShoppingCart{
 
 	public ShoppingCart shoppingCart;

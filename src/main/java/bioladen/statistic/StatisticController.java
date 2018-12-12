@@ -2,7 +2,9 @@ package bioladen.statistic;
 
 import bioladen.customer.Customer;
 import bioladen.datahistory.DataHistoryManager;
+import bioladen.finances.ShoppingCartCancel;
 import bioladen.finances.ShoppingCartSale;
+import bioladen.product.InventoryProduct;
 import bioladen.statistic.chart.ChartFactory;
 import bioladen.statistic.chart.LineCharts;
 import lombok.RequiredArgsConstructor;
@@ -48,20 +50,36 @@ public class StatisticController {
 				new ShoppingCartSale()
 		);
 
+		LineCharts cancelsChart = chartFactory.getBarChart(
+				resolution,
+				interval,
+				new ShoppingCartCancel()
+		);
 
-		dataTable.put("Benutzer erstellt", customerStatistic.customersCreatedBetween(interval).toString());
-		dataTable.put("Benutzer gelöscht", customerStatistic.customersDeletedBetween(interval).toString());
-		dataTable.put("Anzahl Einkäufe", financesStatistic.salesBetween(interval).toString());
-		dataTable.put("Anzahl Stornierungen", financesStatistic.cancelsBetween(interval).toString());
+		LineCharts productsChart = chartFactory.getBarChart(
+				resolution,
+				interval,
+				new InventoryProduct()
+		);
+
+
+		dataTable.put("Benutzer erstellt", String.valueOf(customerStatistic.amountOfCustomersCreatedBetween(interval)));
+		dataTable.put("Benutzer gelöscht", String.valueOf(customerStatistic.amountOfCustomersDeletedBetween(interval)));
+		dataTable.put("Anzahl Einkäufe", String.valueOf(financesStatistic.amountOfSalesBetween(interval)));
+		dataTable.put("Anzahl Stornierungen", String.valueOf(financesStatistic.amountOfCancelsBetween(interval)));
 
 		charts.put("customerChart", customerChart.getJsonCharts());
 		charts.put("salesChart", salesChart.getJsonCharts());
+		charts.put("cancelsChart", cancelsChart.getJsonCharts());
+		charts.put("productsChart", productsChart.getJsonCharts());
 
 		model.addAttribute("charts", charts);
 		model.addAttribute("dataTable", dataTable);
 
 		model.addAttribute("customerJson", customerChart.getJsonCharts());
 		model.addAttribute("salesJson", salesChart.getJsonCharts());
+		model.addAttribute("cancelsJson", cancelsChart.getJsonCharts());
+		model.addAttribute("productsJson", productsChart.getJsonCharts());
 
 		return "statistic";
 	}

@@ -51,7 +51,7 @@
         <div class="notika-status-area">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                    <!--<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
                         <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30">
                             <div class="website-traffic-ctn">
                                 <h2><span class="counter">50,000</span></h2>
@@ -69,64 +69,12 @@
                                            text-align: center; color: rgb(0, 194, 146); padding: 0px; -moz-appearance: none;">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                    </div>-->
+                    <div th:each="entry : ${dataTable}" class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mg-b-15">
                         <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30">
                             <div class="website-traffic-ctn">
-                                <h2><span class="counter">90,000</span>k</h2>
-                                <p>Einnahmen</p>
-                            </div>
-                            <div class="sparkline-bar-stats2">
-                                <canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;"
-                                        width="58" height="36"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
-                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
-                            <div class="website-traffic-ctn">
-                                <h2>$<span class="counter">40,000</span></h2>
-                                <p>Ausgaben</p>
-                            </div>
-                            <div class="sparkline-bar-stats3">
-                                <canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;"
-                                        width="58" height="36"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
-                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
-                            <div class="website-traffic-ctn">
-                                <h2><span class="counter">1,000</span></h2>
-                                <p>Pfand</p>
-                            </div>
-                            <div class="sparkline-bar-stats4">
-                                <canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;"
-                                        width="58" height="36"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
-                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
-                            <div class="website-traffic-ctn">
-                                <h2><span class="counter">1,000</span></h2>
-                                <p>Steuerklasse A</p>
-                            </div>
-                            <div class="sparkline-bar-stats4">
-                                <canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;"
-                                        width="58" height="36"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 mg-b-15">
-                        <div class="wb-traffic-inner notika-shadow sm-res-mg-t-30 tb-res-mg-t-30 dk-res-mg-t-30">
-                            <div class="website-traffic-ctn">
-                                <h2><span class="counter">1,000</span></h2>
-                                <p>Steuerklasse B</p>
-                            </div>
-                            <div class="sparkline-bar-stats4">
-                                <canvas style="display: inline-block; width: 58px; height: 36px; vertical-align: top;"
-                                        width="58" height="36"></canvas>
+                                <h2><span class="counter" th:text="${entry.value}">90,000</span></h2>
+                                <p th:text="${entry.key}">Verkäufe</p>
                             </div>
                         </div>
                     </div>
@@ -142,8 +90,8 @@
 <div class="statistic-area mg-b-100">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div th:each="chart : ${charts}" class="line-chart-wp chart-display-nn">
+            <div th:each="chart : ${charts}" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mg-b-15">
+                <div class="line-chart-wp chart-display-nn">
                     <canvas height="140vh" width="180vw" th:id="${chart.key}"></canvas>
                 </div>
             </div>
@@ -176,7 +124,11 @@
         var ctx = document.getElementById("salesChart");
         var sales = new Chart(ctx, [(${salesJson})]);
 
+        var ctx = document.getElementById("cancelsChart");
+        var cancels = new Chart(ctx, [(${cancelsJson})]);
 
+        var ctx = document.getElementById("productsChart");
+        var products = new Chart(ctx, [(${productsJson})]);
     })
     (jQuery);
 

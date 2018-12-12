@@ -27,8 +27,16 @@ public class LineCharts extends DateTimeCharts {
 		LineData data = new LineData()
 				.setLabels(this.getChartLabels());
 
+		Color color = Color.random();
 		for (Map.Entry<String, double[]> chart: this.getChartData().entrySet()) {
-			Color color = Color.random();
+
+			final int colorRandomizingOffset = 150;
+
+			color = new Color(
+					(color.getR() + colorRandomizingOffset) % 0x100,
+					(color.getG() + colorRandomizingOffset) % 0x100,
+					(color.getB() + colorRandomizingOffset) % 0x100);
+
 			LineDataset dataSet = new LineDataset()
 					.setLabel(chart.getKey())
 					.setData(chart.getValue())
