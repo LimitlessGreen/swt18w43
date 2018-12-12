@@ -184,6 +184,7 @@ public class InventoryProduct implements RawEntry {
 
 		output.put("Bestand (Lager)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 		output.put("Bestand (Austellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Gesamtwarenwert", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 
 		return output;
 	}
@@ -195,6 +196,8 @@ public class InventoryProduct implements RawEntry {
 				return currentValue + this.inventoryAmount;
 			case "Bestand (Ausstellfläche)":
 				return currentValue + this.displayedAmount;
+			case "Gesamtwarenwert":
+				return currentValue + ((this.inventoryAmount + this.displayedAmount) * this.price.doubleValue());
 			default:
 				return currentValue + 1D;
 		}
