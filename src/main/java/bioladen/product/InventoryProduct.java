@@ -1,17 +1,17 @@
 package bioladen.product;
 
+import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.RawEntry;
-import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor_product.DistributorProduct;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.data.geo.Metric;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -174,5 +174,17 @@ public class InventoryProduct implements RawEntry {
 
 		InventoryProduct i = (InventoryProduct) o;
 		return this.id.equals(i.getId());
+	}
+
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
 	}
 }

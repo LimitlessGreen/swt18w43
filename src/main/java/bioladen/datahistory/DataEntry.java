@@ -105,4 +105,15 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 				this.entityLevel,
 				this.message);
 	}
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
+	}
 }

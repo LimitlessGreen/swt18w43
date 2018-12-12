@@ -1,5 +1,6 @@
 package bioladen.product.distributor_product;
 
+import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.RawEntry;
 import bioladen.product.MwStCategory;
 import bioladen.product.Organization;
@@ -12,6 +13,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
 /**
  * A offered product of a distributor.
@@ -107,5 +109,16 @@ public class DistributorProduct implements RawEntry, Comparable<DistributorProdu
 			return priceCompare;
 
 		return nameCompare;
+	}
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
 	}
 }

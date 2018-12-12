@@ -1,6 +1,7 @@
 package bioladen.finances;
 
 import bioladen.customer.Customer;
+import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.RawEntry;
 import bioladen.product.InventoryProduct;
 import lombok.Getter;
@@ -261,5 +262,16 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 	@Override
 	public Iterator iterator() {
 		return items.values().iterator();
+	}
+
+	//TODO: pls implement!
+	@Override
+	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
+		return null;
+	}
+
+	@Override
+	public Double sumUp(String chartName, Double currentValue) {
+		return null;
 	}
 }
