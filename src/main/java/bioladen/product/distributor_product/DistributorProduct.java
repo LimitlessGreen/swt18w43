@@ -29,64 +29,39 @@ public class DistributorProduct implements RawEntry, Comparable<DistributorProdu
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
-	private @Getter
-	Long id;
+	private @Getter Long id;
 
-	private @NonNull
-	@Getter
-	@Setter
-	String name;
-	private @NonNull
-	@Getter
-	@Setter
-	BigDecimal price;
-	private @NonNull
-	@Getter
-	@Setter
-	BigDecimal unit;
-	private @Getter
-	@Setter
-	long minimumOrderAmount;
-	private @NonNull
-	@Getter
-	@Setter
-	ProductCategory productCategory;
-	private @NonNull
-	@Getter
-	@Setter
-	MwStCategory mwStCategory;
-	private @Getter
-	@Setter
-	BigDecimal pfandPrice;
-	private @Getter
-	@Setter
-	Organization organization;
+	private @NonNull @Getter @Setter String          name;
+	private @NonNull @Getter @Setter BigDecimal      price;
+	private @NonNull @Getter @Setter BigDecimal      unit;
+	private          @Getter @Setter long            minimumOrderAmount;
+	private @NonNull @Getter @Setter ProductCategory productCategory;
+	private @NonNull @Getter @Setter MwStCategory    mwStCategory;
+	private          @Getter @Setter BigDecimal      pfandPrice;
+	private          @Getter @Setter Organization    organization;
 
 	@OneToOne
-	private @NonNull
-	@Getter
-	@Setter
-	Distributor distributor;
+	private @NonNull @Getter @Setter Distributor distributor;
 
 	public DistributorProduct(
-			String name,
-			Distributor distributor,
-			BigDecimal price,
-			BigDecimal unit,
-			long minimumOrderAmount,
+			String          name,
+			Distributor     distributor,
+			BigDecimal      price,
+			BigDecimal      unit,
+			long            minimumOrderAmount,
 			ProductCategory productCategory,
-			MwStCategory mwStCategory,
-			BigDecimal pfandPrice,
-			Organization organization) {
-		this.name = name;
-		this.distributor = distributor;
-		this.price = price;
-		this.unit = unit;
+			MwStCategory    mwStCategory,
+			BigDecimal      pfandPrice,
+			Organization    organization) {
+		this.name               = name;
+		this.distributor        = distributor;
+		this.price              = price;
+		this.unit               = unit;
 		this.minimumOrderAmount = minimumOrderAmount;
-		this.productCategory = productCategory;
-		this.mwStCategory = mwStCategory;
-		this.pfandPrice = pfandPrice;
-		this.organization = organization;
+		this.productCategory    = productCategory;
+		this.mwStCategory       = mwStCategory;
+		this.pfandPrice         = pfandPrice;
+		this.organization       = organization;
 	}
 
 	@Override
