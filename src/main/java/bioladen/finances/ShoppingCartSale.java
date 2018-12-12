@@ -21,6 +21,7 @@ public class ShoppingCartSale extends ShoppingCart {
 
 		output.put("Ausgaben (Pfand)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 		output.put("Ausgaben (Steuer)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Einnahmen (Umsatz)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 		return output;
 	}
 
@@ -29,9 +30,11 @@ public class ShoppingCartSale extends ShoppingCart {
 
 		switch (chartName) {
 			case "Ausgaben (Pfand)":
-				return currentValue + this.getMwstMoney().doubleValue();
+				return currentValue + this.getPfandMoney().doubleValue();
 			case "Ausgaben (Steuer)":
 				return currentValue + this.getMwstMoney().doubleValue();
+			case "Einnahmen (Umsatz)":
+				return currentValue + this.getSaleMoney().doubleValue();
 			default:
 				return currentValue + 1D;
 		}
