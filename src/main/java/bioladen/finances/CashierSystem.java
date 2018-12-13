@@ -201,7 +201,10 @@ public class CashierSystem {
 	@PostMapping("/cashiersystemFinish")
 	String finish(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 
-		ShoppingCartSale shoppingCartSale = new ShoppingCartSale(shoppingCart);
+		ShoppingCartSale shoppingCartSale = new ShoppingCartSale(shoppingCart.getCustomer(),
+																 shoppingCart.getPfandMoney(),
+																 shoppingCart.getMwstMoney(),
+																 shoppingCart.getSaleMoney());
 
 		// (👁 ᴥ 👁) Event
 		pushShoppingCart(shoppingCartSale, EntityLevel.CREATED, "Verkauf");
@@ -222,7 +225,8 @@ public class CashierSystem {
 	@PostMapping("/cashiersystemAbort")
 	String abort(@ModelAttribute ShoppingCart shoppingCart, Model model) throws UnknownHostException {
 
-		ShoppingCartCancel shoppingCartCancel = new ShoppingCartCancel(shoppingCart);
+		ShoppingCartCancel shoppingCartCancel = new ShoppingCartCancel(shoppingCart.getCustomer(),
+																	   shoppingCart.getAmountOfItems());
 
 		// (👁 ᴥ 👁) Event
 		pushShoppingCart(shoppingCartCancel, EntityLevel.DELETED, "Stornierung");

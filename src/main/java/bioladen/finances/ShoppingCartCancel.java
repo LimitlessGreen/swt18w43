@@ -1,7 +1,9 @@
 package bioladen.finances;
 
+import bioladen.customer.Customer;
 import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.EntityLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.LinkedHashMap;
@@ -9,10 +11,12 @@ import java.util.LinkedHashMap;
 @NoArgsConstructor
 public class ShoppingCartCancel extends ShoppingCart{
 
-	public ShoppingCart shoppingCart;
+	private @Getter Customer customer;
+	private @Getter int amountOfItems;
 
-	ShoppingCartCancel(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
+	ShoppingCartCancel(Customer customer, int amountOfItems) {
+		this.customer = customer;
+		this.amountOfItems = amountOfItems;
 	}
 
 	@Override
@@ -25,7 +29,6 @@ public class ShoppingCartCancel extends ShoppingCart{
 
 	@Override
 	public Double sumUp(String chartName, Double currentValue) {
-
 		switch (chartName) {
 			case "Anzahl Stornierungen":
 				return currentValue + 1D;

@@ -1,19 +1,29 @@
 package bioladen.finances;
 
+import bioladen.customer.Customer;
 import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.EntityLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 @NoArgsConstructor
 public class ShoppingCartSale extends ShoppingCart {
 
-	public ShoppingCart shoppingCart;
+	private @Getter	Customer customer;
+	private @Getter BigDecimal pfandMoney;
+	private @Getter BigDecimal mwstMoney;
+	private @Getter BigDecimal saleMoney;
 
-	public ShoppingCartSale(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
+	public ShoppingCartSale(Customer customer, BigDecimal pfandMoney, BigDecimal mwstMoney, BigDecimal saleMoney) {
+		this.customer = customer;
+		this.pfandMoney = pfandMoney;
+		this.mwstMoney = mwstMoney;
+		this.saleMoney = saleMoney;
 	}
+
 
 	@Override
 	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
@@ -30,11 +40,11 @@ public class ShoppingCartSale extends ShoppingCart {
 
 		switch (chartName) {
 			case "Ausgaben (Pfand)":
-				return currentValue + this.getPfandMoney().doubleValue();
+				return currentValue + this.pfandMoney.doubleValue();
 			case "Ausgaben (Steuer)":
-				return currentValue + this.getMwstMoney().doubleValue();
+				return currentValue + this.mwstMoney.doubleValue();
 			case "Einnahmen (Umsatz)":
-				return currentValue + this.getSaleMoney().doubleValue();
+				return currentValue + this.saleMoney.doubleValue();
 			default:
 				return currentValue + 1D;
 		}
