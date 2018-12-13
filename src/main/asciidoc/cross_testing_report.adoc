@@ -8,10 +8,10 @@ __Anwendung von Gruppe:__ Gruppe 28
 [options="interactive"]
 .Kunde:
 * [ ] Waren im Katalog ansehen
-- [ ] Suchfuntkion
+- [ ] [line-through]*Suchfuntkion*
 * [ ] Warenkorb erstellen
 Artikel in den Warenkorb legen
-- [ ] < Maximum zum Verkauf stehenden Artikel
+- [ ] [line-through]*< Maximum zum Verkauf stehenden Artikel*
 * [ ] Artikel aus dem Warenkorb stornieren
 * [ ] gesamten Warenkorb stornieren
 * [ ] Informationen zum Artikel [UC101]
@@ -20,18 +20,16 @@ Artikel in den Warenkorb legen
 .Angestellte (employee):
 * [ ] einloggen
 * [ ] ausloggen
-- [ ] fragen ob er sich ausloggen möchte [AT002]
-* [ ] eigenen Account eingeschränkt bearbeiten
+- [ ] [line-through]*fragen ob er sich ausloggen möchte [AT002]*
+* [ ] [line-through]*eigenen Account eingeschränkt bearbeiten*
 * [ ] Kundenprofil
 - [ ] anlegen
 - [ ] löschen
-- [ ] bearbeiten
-- [ ] Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]
-* [ ] Kundenprofil bearbeiten
-- [ ] irgendwelche kritischen Daten aber nicht  Fehler [AT012]
+- [ ] [line-through]*bearbeiten (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])*
+- [ ] [line-through]*Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]*
+
 * [ ] Warenkorb
 - [ ] eines Kunden abrechnen
-- [ ] Option bezahlen [AT201]
 - [ ] Stornierung
 * [ ] Inventur durchführen [AT107]
 * [ ] Etiketten für Artikel drucken (die im Warenkorb sind [AT111]
@@ -44,7 +42,7 @@ Artikel in den Warenkorb legen
 - [ ] Anlegen
 - [ ] Löschen
 - [ ] Bearbeiten
-- [ ] Gehalt zahlen ?
+- [ ] [line-through]*Gehalt zahlen ?*
 * [ ] Artikel vom Lager in den Laden übertragen
 * [ ] Rabatt von … festlegen
 - [ ] Artikelgruppen
@@ -54,7 +52,7 @@ Artikel in den Warenkorb legen
 * [ ] Artikelliste importieren BNN [AT106]
 - [ ] Fehlerabfangung [AT]
 * [ ] Transaktionshistorie einsehen
-* [ ] Statistiken einsehen
+* [ ] [line-through]*Statistiken einsehen* -> funktioniert nicht
 * [ ] Artikel verwalten
 - [ ] Artikel erstellen
 ** [ ] Pflichtfelderhinweis [AT114]
@@ -95,10 +93,10 @@ Artikel in den Warenkorb legen
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
 
-|
-|
-|
-|
+|/catalog/item/(id)
+| uneingeloggt
+| man legt mehr Produkte in den Warenkorb als im Laden sind
+| wird einfach in den Warenkorb hinzugefügt ->Fehler erwartet
 
 |
 |
@@ -113,10 +111,10 @@ Artikel in den Warenkorb legen
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
 
-|
-|
-|
-|
+|/orders
+|Filter ändern
+|es passiert nichts, wenn man den Filter ändert und filtern drückt
+|nichts
 
 |
 |
