@@ -38,29 +38,10 @@ public class StatisticController {
 		Interval interval = Interval.from(businessTime.getTime().minusHours(1)).to(businessTime.getTime());
 		ChronoUnit resolution = ChronoUnit.MINUTES;
 
-		LineCharts customerChart = chartFactory.getBarChart(
-				resolution,
-				interval,
-				new Customer()
-		);
-
-		LineCharts salesChart = chartFactory.getBarChart(
-				resolution,
-				interval,
-				new ShoppingCartSale()
-		);
-
-		LineCharts cancelsChart = chartFactory.getBarChart(
-				resolution,
-				interval,
-				new ShoppingCartCancel()
-		);
-
-		LineCharts productsChart = chartFactory.getBarChart(
-				resolution,
-				interval,
-				new InventoryProduct()
-		);
+		LineCharts customerChart 	= chartFactory.getBarChart(resolution, interval, new Customer());
+		LineCharts salesChart 		= chartFactory.getBarChart(resolution, interval, new ShoppingCartSale());
+		LineCharts cancelsChart 	= chartFactory.getBarChart(resolution, interval, new ShoppingCartCancel());
+		LineCharts productsChart 	= chartFactory.getBarChart(resolution, interval, new InventoryProduct());
 
 
 		dataTable.put("Benutzer erstellt", String.valueOf(customerStatistic.amountOfCustomersCreatedBetween(interval)));
