@@ -298,8 +298,8 @@ public class CustomerController {
 		if (!phone.equals(phoneTmp) && StringUtils.isNotBlank(phone)){
 			customer.setPhone(phone);
 
-		}else if (address.equals(phone)){
-			customer.setStreet(phoneTmp);
+		}else if (phone.equals(phoneTmp)){
+			customer.setPhone(phoneTmp);
 		}
 
 		customer.setId(id);
