@@ -8,11 +8,131 @@ Welche Aufgabe/Problemstellung löst die Anwendung.
 
 == Fehler-Report
 // See http://asciidoctor.org/docs/user-manual/#tables
+
+=== Katalog
 [options="header"]
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
-|/users |username = admin |Man kann den admin Account löschen und sich anschließend noch mit dem Account einloggen |keine 
-|  |  |  |  
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Warenkorb
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Bestellübersicht
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Nutzer-Management
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|/users
+|username = admin
+|Man kann den admin Account löschen und sich anschließend noch mit dem Account einloggen
+|keine
+
+|
+|
+|
+|
+
+
+|===
+
+=== Transaktionen
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Statistik
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Sonstiges
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
 |===
 
 == Sonstiges
