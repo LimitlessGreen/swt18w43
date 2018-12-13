@@ -4,7 +4,70 @@ __Durchführende Gruppe:__ Gruppe 43 +
 __Anwendung von Gruppe:__ Gruppe 28
 
 == Getestetes System
-Welche Aufgabe/Problemstellung löst die Anwendung.
+=== Muss-Kriteren
+[options="interactive"]
+.Kunde:
+* [ ] Waren im Katalog ansehen
+- [ ] Suchfuntkion
+* [ ] Warenkorb erstellen
+Artikel in den Warenkorb legen
+- [ ] < Maximum zum Verkauf stehenden Artikel
+* [ ] Artikel aus dem Warenkorb stornieren
+* [ ] gesamten Warenkorb stornieren
+* [ ] Informationen zum Artikel [UC101]
+
+[options="interactive"]
+.Angestellte (employee):
+* [ ] einloggen
+* [ ] ausloggen
+- [ ] fragen ob er sich ausloggen möchte [AT002]
+* [ ] eigenen Account eingeschränkt bearbeiten
+* [ ] Kundenprofil
+- [ ] anlegen
+- [ ] löschen
+- [ ] bearbeiten
+- [ ] Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]
+* [ ] Kundenprofil bearbeiten
+- [ ] irgendwelche kritischen Daten aber nicht  Fehler [AT012]
+* [ ] Warenkorb
+- [ ] eines Kunden abrechnen
+- [ ] Option bezahlen [AT201]
+- [ ] Stornierung
+* [ ] Inventur durchführen [AT107]
+* [ ] Etiketten für Artikel drucken (die im Warenkorb sind [AT111]
+* [ ] Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen [AT004]
+
+[options="interactive"]
+.Geschäftsführer (CEO):
+* [ ] alles was Angestellte können
+* [ ] Angestelltenkonto
+- [ ] Anlegen
+- [ ] Löschen
+- [ ] Bearbeiten
+- [ ] Gehalt zahlen ?
+* [ ] Artikel vom Lager in den Laden übertragen
+* [ ] Rabatt von … festlegen
+- [ ] Artikelgruppen
+- [ ] Kundengruppen
+- [ ] Fehlerabfangung bei ungültigen Werten [AT115]
+* [ ] manueller Import von Artikeln (mit Auswahl d. Großhändlers)
+* [ ] Artikelliste importieren BNN [AT106]
+- [ ] Fehlerabfangung [AT]
+* [ ] Transaktionshistorie einsehen
+* [ ] Statistiken einsehen
+* [ ] Artikel verwalten
+- [ ] Artikel erstellen
+** [ ] Pflichtfelderhinweis [AT114]
+- [ ] Artikel löschen
+- [ ] Artikel bearbeiten
+- [ ] Einschränkung nach Berechtigung [AT104]
+- [ ] Lagerbestand erhöhen /senken [UC104]
+
+=== Kann-Kriterien
+[options="interactive"]
+* [ ] Mehrere Standorte
+* [ ] QR/Barcode Scanner
+
 
 == Fehler-Report
 // See http://asciidoctor.org/docs/user-manual/#tables
@@ -134,6 +197,7 @@ Welche Aufgabe/Problemstellung löst die Anwendung.
 
 
 |===
+
 
 == Sonstiges
 * Optik der Anwendung
