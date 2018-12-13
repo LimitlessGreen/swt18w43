@@ -247,9 +247,18 @@ z.B. Buchstaben bei Telefonnummer
 |===
 
 == Sonstiges
-* Optik der Anwendung
-* Fehlende Features
-* Interaktion mit der Anwendung (Usability)
+
+=== Optik der Anwendung
+
+
+=== Fehlende Features
+
+
+=== Interaktion mit der Anwendung (Usability)
+
+- /catalog/error -> Fehlermeldung ist scrollable
+- /catalog/item -> "Hinzufügen" Button ganz unten links
+- Fast alles linksbündig
 
 == Verbesserungsvorschläge
 * Was kann noch weiter verbessert werden?
