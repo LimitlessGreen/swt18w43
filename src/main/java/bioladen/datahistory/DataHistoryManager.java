@@ -51,9 +51,12 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 		DataEntry dataEntry = new DataEntry<>(name, entityLevel, thrownBy, entity);
 
 		if (entityLevel.equals(EntityLevel.MODIFIED)) {
-			dataEntry.setEntityBeforeModified(
-					findLatestCreatedOrModified(entity).getEntity()
-			);
+			try {
+				dataEntry.setEntityBeforeModified(
+						findLatestCreatedOrModified(entity).getEntity()
+				);
+			}
+			catch (NullPointerException e) { }
 		}
 
 		dataEntry.setMessage(message);
