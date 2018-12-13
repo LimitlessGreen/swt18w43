@@ -232,6 +232,19 @@ z.B. Buchstaben bei Telefonnummer
 
 |===
 
+=== Rechtschreibfehler
+[options="header"]
+|===
+|Pfad  |Beschreibung
+
+|/catalog/item
+|In der Pdf -> "Qaulität"
+
+|/statistic
+|Oben rechts über "search" Button -> "Wahlen den Zeitraum"
+
+
+|===
 
 == Sonstiges
 * Optik der Anwendung
