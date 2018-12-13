@@ -7,59 +7,61 @@ __Anwendung von Gruppe:__ Gruppe 28
 === Muss-Kriteren
 [options="interactive"]
 .Kunde:
-* [ ] Waren im Katalog ansehen
+* [x] Waren im Katalog ansehen
 - [ ] [line-through]*Suchfuntkion*
-* [ ] Warenkorb erstellen
+* [x] Warenkorb erstellen
 Artikel in den Warenkorb legen
-- [ ] [line-through]*< Maximum zum Verkauf stehenden Artikel*
-* [ ] Artikel aus dem Warenkorb stornieren
-* [ ] gesamten Warenkorb stornieren
-* [ ] Informationen zum Artikel [UC101]
+- [x] [line-through]*< Maximum zum Verkauf stehenden Artikel*
+* [x] Artikel aus dem Warenkorb stornieren
+* [x] gesamten Warenkorb stornieren
+* [x] Informationen zum Artikel [UC101]
 
 [options="interactive"]
 .Angestellte (employee):
-* [ ] einloggen
-* [ ] ausloggen
-- [ ] [line-through]*fragen ob er sich ausloggen möchte [AT002]*
-* [ ] [line-through]*eigenen Account eingeschränkt bearbeiten*
-* [ ] Kundenprofil
-- [ ] anlegen
-- [ ] löschen
+* [x] einloggen
+* [x] ausloggen
+- [x] [line-through]*fragen ob er sich ausloggen möchte [AT002]*
+* [x] [line-through]*eigenen Account eingeschränkt bearbeiten*
+* [x] Kundenprofil
+- [x] anlegen
+- [x] löschen
+- [x] filtern
 - [ ] [line-through]*bearbeiten (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])*
 - [ ] [line-through]*Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]*
 
-* [ ] Warenkorb
-- [ ] eines Kunden abrechnen
-- [ ] Stornierung
+* [x] Warenkorb
+- [x] eines Kunden abrechnen
+- [x] Stornierung
 * [ ] Inventur durchführen [AT107]
-* [ ] Etiketten für Artikel drucken (die im Warenkorb sind [AT111]
-* [ ] Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen [AT004]
+* [x] Etiketten für Artikel drucken (die im Warenkorb sind [AT111]
+* [ ] [line-through]*Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen [AT004]*
 
 [options="interactive"]
 .Geschäftsführer (CEO):
 * [ ] alles was Angestellte können
+* [x] Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen
 * [ ] Angestelltenkonto
-- [ ] Anlegen
-- [ ] Löschen
-- [ ] Bearbeiten
+- [x] Anlegen
+- [x] Löschen
+- [ ] [line-through]*Bearbeiten*
 - [ ] [line-through]*Gehalt zahlen ?*
-* [ ] Artikel vom Lager in den Laden übertragen
+* [x] Artikel vom Lager in den Laden übertragen
 * [ ] Rabatt von … festlegen
 - [ ] Artikelgruppen
 - [ ] Kundengruppen
 - [ ] Fehlerabfangung bei ungültigen Werten [AT115]
 * [ ] manueller Import von Artikeln (mit Auswahl d. Großhändlers)
-* [ ] Artikelliste importieren BNN [AT106]
+* [ ] [line-through]*Artikelliste importieren BNN [AT106]*
 - [ ] Fehlerabfangung [AT]
 * [ ] Transaktionshistorie einsehen
 * [ ] [line-through]*Statistiken einsehen* -> funktioniert nicht
-* [ ] Artikel verwalten
-- [ ] Artikel erstellen
-** [ ] Pflichtfelderhinweis [AT114]
-- [ ] Artikel löschen
-- [ ] Artikel bearbeiten
+* [x] Artikel verwalten
+- [x] Artikel erstellen
+** [x] Pflichtfelderhinweis [AT114]
+- [x] Artikel löschen
+- [x] Artikel bearbeiten
 - [ ] Einschränkung nach Berechtigung [AT104]
-- [ ] Lagerbestand erhöhen /senken [UC104]
+- [x] Lagerbestand erhöhen /senken [UC104]
 
 === Kann-Kriterien
 [options="interactive"]
@@ -206,10 +208,10 @@ z.B. Buchstaben bei Telefonnummer
 |Beim Drücken des Buttons "search" verschwinden Button und Diagramme
 |weniger als vorher
 
-|
-|
-|
-|
+|/statistic
+|uneingeloggt
+|man kann uneingeloggt die Statistik aufrufen über URL
+|man erhält die Statistik Seite
 
 
 |===
@@ -242,6 +244,9 @@ z.B. Buchstaben bei Telefonnummer
 
 |/statistic
 |Oben rechts über "search" Button -> "Wahlen den Zeitraum"
+
+|/cart
+|eingeloggt als CEO oder employee - der Kaufen-Button, steht auch da, wenn man was verkauft
 
 
 |===
