@@ -77,15 +77,15 @@ Artikel in den Warenkorb legen
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
 
-|
-|
-|
-|
+|/catalog/add
+|produktname, produzent, herkunft, qualität jeweils 2 Leerzeichen
+|Es wird ein Fehler geworfen, wenn Produkte mit eigentlich ungültigen Eingaben erstellt werden
+|Error Page
 
-|
-|
-|
-|
+|/catalog/add
+|produktname, produzent, herkunft, qualität
+|Es können eigentlich nicht zulässige Sonderzeichen und je nachdem Buchstaben und Zahlen eingegeben werden
+|Error Page
 
 
 |===
@@ -132,14 +132,40 @@ Artikel in den Warenkorb legen
 |Pfad |Parameter |Beschreibung |Rückgabe
 
 |/users
-|username = admin
+|username=admin
 |Man kann den admin Account löschen und sich anschließend noch mit dem Account einloggen
 |keine
 
-|
-|
-|
-|
+|/editOwnUser
+|keine
+|Wenn Button "Eigenen Nutzer bearbeiten" gedrückt wird, erscheint Fehler
+|Error Page
+
+|/addUser
+|benutzername, passwort, vorname, name, adresse, telefonnummer jeweils 2 Leerzeichen
+|Fehler bei eigentlich ungültiger Eingabe
+|Error Page
+
+|/login
+|username=admin, passwort=admin
+|Felder sind voreingetragen
+|erfolgreicher login
+
+|/editUser
+|uid=...
+|Beim klicken des Buttons "bearbeiten" von jeglichem Nutzer erscheint Fehler
+|Error Page
+
+|/addUser
+|jegliche Felder
+|Es können in Felder Sonderzeichen und je nachdem Buchstaben udn Zahlen eingegeben werden, wo diese nicht zugelassen werden sollten +
+z.B. Buchstaben bei Telefonnummer
+|User wird trotzdem erstellt
+
+|/addUser
+|username=admin
+|Wenn username bereits vergeben erscheint Fehler Seite
+|Error Page
 
 
 |===
