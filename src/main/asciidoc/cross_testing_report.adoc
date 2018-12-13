@@ -167,6 +167,16 @@ z.B. Buchstaben bei Telefonnummer
 |Wenn username bereits vergeben erscheint Fehler Seite
 |Error Page
 
+|/users
+|username=test_user
+|der test_user ist nicht löschbar
+|keine
+
+|/searchUser
+|search=
+|Beim Drücken des "Suchen" Buttons ohne Eingabe im Feld gibt es einen Fehler
+|Error Page
+
 
 |===
 
@@ -193,10 +203,10 @@ z.B. Buchstaben bei Telefonnummer
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
 
-|
-|
-|
-|
+|/statistic
+|keine
+|Beim Drücken des Buttons "search" verschwinden Button und Diagramme
+|weniger als vorher
 
 |
 |
