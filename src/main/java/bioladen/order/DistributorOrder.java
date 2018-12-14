@@ -7,7 +7,6 @@ import lombok.NonNull;
 import org.javamoney.moneta.Money;
 import org.salespointframework.useraccount.UserAccount;
 
-import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ public class DistributorOrder {
 	}
 
 	public void addItems(OrderCart orderCart, OrderItemRepository itemRepository) {
+		//TODO: Please follow the MVC pattern! Operations with repositories are not allowed here!
 		for (OrderCartItem item : orderCart) {
 			items.add(new OrderItem(item.getQuantity(), item.getProduct()));
 		}
@@ -58,6 +58,4 @@ public class DistributorOrder {
 
 		return price;
 	}
-
-
 }
