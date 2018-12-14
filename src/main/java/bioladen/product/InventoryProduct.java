@@ -182,7 +182,7 @@ public class InventoryProduct implements RawEntry {
 		LinkedHashMap<String, DataHistoryRequest> output = new LinkedHashMap<>();
 
 		output.put("Bestand (Lager)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
-		output.put("Bestand (Austellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Bestand (Ausstellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 		output.put("Gesamtwarenwert", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 
 		return output;
