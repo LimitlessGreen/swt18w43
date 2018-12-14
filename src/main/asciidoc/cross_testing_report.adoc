@@ -11,7 +11,7 @@ __Anwendung von Gruppe:__ Gruppe 28
 - [ ] [line-through]*Suchfuntkion*
 * [x] Warenkorb erstellen
 Artikel in den Warenkorb legen
-- [x] [line-through]*< Maximum zum Verkauf stehenden Artikel*
+- [ ] [line-through]*< Maximum zum Verkauf stehenden Artikel*
 * [x] Artikel aus dem Warenkorb stornieren
 * [x] gesamten Warenkorb stornieren
 * [x] Informationen zum Artikel [UC101]
@@ -20,8 +20,8 @@ Artikel in den Warenkorb legen
 .Angestellte (employee):
 * [x] einloggen
 * [x] ausloggen
-- [x] [line-through]*fragen ob er sich ausloggen möchte [AT002]*
-* [x] [line-through]*eigenen Account eingeschränkt bearbeiten*
+- [ ] [line-through]*fragen ob er sich ausloggen möchte [AT002]*
+* [ ] [line-through]*eigenen Account eingeschränkt bearbeiten*
 * [x] Kundenprofil
 - [x] anlegen
 - [x] löschen
@@ -32,13 +32,14 @@ Artikel in den Warenkorb legen
 * [x] Warenkorb
 - [x] eines Kunden abrechnen
 - [x] Stornierung
-* [ ] Inventur durchführen [AT107]
-* [x] Etiketten für Artikel drucken (die im Warenkorb sind [AT111]
-* [ ] [line-through]*Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen [AT004]*
+* [ ] [line-through]*Inventur durchführen [AT107]*
+* [x] Etiketten für Artikel drucken
+- [ ] [line-through]*die im Warenkorb sind [AT102]*
+* [ ] Übersicht der getätigten Transaktionen + [line-through]*verschiedene Anzeigeoptionen [AT004]*
 
 [options="interactive"]
 .Geschäftsführer (CEO):
-* [ ] alles was Angestellte können
+* [x] alles was Angestellte können
 * [x] Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen
 * [ ] Angestelltenkonto
 - [x] Anlegen
@@ -47,26 +48,28 @@ Artikel in den Warenkorb legen
 - [ ] [line-through]*Gehalt zahlen ?*
 * [x] Artikel vom Lager in den Laden übertragen
 * [ ] Rabatt von … festlegen
-- [ ] Artikelgruppen
-- [ ] Kundengruppen
-- [ ] Fehlerabfangung bei ungültigen Werten [AT115]
-* [ ] manueller Import von Artikeln (mit Auswahl d. Großhändlers)
+- [ ] [line-through]*Artikelgruppen*
+- [ ] [line-through]*Kundengruppen*
+- [x] einzelen Produkten
+- [x] Fehlerabfangung bei ungültigen Werten [AT115]
+* [x] manueller Import von Artikeln (mit Auswahl d. Großhändlers)
 * [ ] [line-through]*Artikelliste importieren BNN [AT106]*
-- [ ] Fehlerabfangung [AT]
-* [ ] Transaktionshistorie einsehen
-* [ ] [line-through]*Statistiken einsehen* -> funktioniert nicht
+- [ ] [line-through]*Fehlerabfangung [AT]*
+* [x] Transaktionshistorie einsehen
+* [x] Statistiken einsehen (Seite ist da)
+- [ ] [line-through]*Funktion*
 * [x] Artikel verwalten
 - [x] Artikel erstellen
 ** [x] Pflichtfelderhinweis [AT114]
 - [x] Artikel löschen
 - [x] Artikel bearbeiten
-- [ ] Einschränkung nach Berechtigung [AT104]
+- [x] Einschränkung nach Berechtigung [AT104]
 - [x] Lagerbestand erhöhen /senken [UC104]
 
 === Kann-Kriterien
 [options="interactive"]
-* [ ] Mehrere Standorte
-* [ ] QR/Barcode Scanner
+* [ ] [line-through]*Mehrere Standorte*
+* [ ] [line-through]*QR/Barcode Scanner*
 
 
 == Fehler-Report
@@ -87,6 +90,20 @@ Artikel in den Warenkorb legen
 |Es können eigentlich nicht zulässige Sonderzeichen und je nachdem Buchstaben und Zahlen eingegeben werden
 |Error Page
 
+|/catalog/item/(id)
+|username=admin
+|man kann mehr Produkte verschieben als man hat
+|error Page
+
+|/catalog/item/(id)
+|username=admin, oder uneingeloggt
+|man kann mehr Produkte in den Warenkorb hinzufügen als vorhanden sind z.B 0 Produkte vorhanden
+|wird einfach in den Warenkorb hinzugefügt ->Fehler erwartet
+
+|/catalog/item/(id)
+|username=admin
+|wird eine Anzahl von Produkten gekauft die höher als der Ladenbestand, wird nichts abgezogen (z.B 25 Produkte gekauft obwohl 24 vorhanden, sind immer noch 24 vorhanden -> unendlich viele Produkte)
+|nichts
 
 |===
 
@@ -95,10 +112,15 @@ Artikel in den Warenkorb legen
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
 
-|/catalog/item/(id)
-| uneingeloggt
-| man legt mehr Produkte in den Warenkorb als im Laden sind
-| wird einfach in den Warenkorb hinzugefügt ->Fehler erwartet
+|/cart
+|username=admin
+|der Kauf von Produkten, die  nicht mehr vorhanden sind (0), ist möglich
+|Fehler erwartet
+
+|/cart
+|username=admin
+|Rabatt für Kundengruppe funktioniert nicht
+|nichts
 
 |
 |
@@ -176,6 +198,16 @@ z.B. Buchstaben bei Telefonnummer
 |search=
 |Beim Drücken des "Suchen" Buttons ohne Eingabe im Feld gibt es einen Fehler
 |Error Page
+
+|/addUser
+|uneingeloggt
+|man erreicht ohne Authentifizierung die "User erstellen" Seite
+|User erstellen Seite wird angezeigt
+
+|/users
+|username=admin
+|test_user und admin besitzen keinen Vornamen, e-mail und Adresse. test_customer hat desweiteren keinen Namen
+|forename, e-mail, address = null
 
 
 |===
