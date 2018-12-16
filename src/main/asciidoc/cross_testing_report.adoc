@@ -292,9 +292,10 @@ z.B. Buchstaben bei Telefonnummer
 
 === Optik der Anwendung
 
-- Header zu groß
+- Header zu groß (z.B. padding entfernen)
 - Farbe Geschmackssache
 - Zu sehr linksbündig
+- 
 
 === Fehlende Features
 
@@ -333,3 +334,4 @@ Artikel in den Warenkorb legen
 
 - Mehr mittig zentrieren
 - Nicht unbedingt 250 user erstellen, welche alle generisch benannt sind
+- 
