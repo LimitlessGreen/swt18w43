@@ -339,3 +339,4 @@ Artikel in den Warenkorb legen
 - keine UUIDs sondern einfache Longs für die identifikation verwenden. (https://docs.jboss.org/hibernate/orm/5.0/mappingGuide/en-US/html/ch06.html[mal durchlesen!])
 - Layout überarbeiten. Ihr verwendet Bootstrap, welches ein recht ausgefeiltes Grid-System mitbringt. (https://getbootstrap.com/docs/4.0/layout/grid/[ist hier gut beschrieben!)]
 - eigenes Favicon setzen
+- https://howtodoinjava.com/java/date-time/java8-datetimeformatter-example/[DateTimeFormatter] verwenden, für lesbarere Datums und Zeitangaben.
