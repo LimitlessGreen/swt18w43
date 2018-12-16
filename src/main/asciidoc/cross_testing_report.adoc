@@ -105,6 +105,11 @@ Artikel in den Warenkorb legen
 |wird eine Anzahl von Produkten gekauft die höher als der Ladenbestand, wird nichts abgezogen (z.B 25 Produkte gekauft obwohl 24 vorhanden, sind immer noch 24 vorhanden -> unendlich viele Produkte)
 |nichts
 
+|/catalog/add
+|uasername=admin, png hochladen
+|erstellt man ein neues Produkt und möchte dort gleicht ein Bild hochladen, funktioniert es nicht ( nur beim nachträglichen bearbeiten wird das selbe Bild genommen)
+|error page
+
 |===
 
 === Warenkorb
@@ -298,7 +303,6 @@ z.B. Buchstaben bei Telefonnummer
 - Header zu groß (z.B. padding entfernen)
 - Farbe Geschmackssache (https://material.io/design/color/the-color-system.html[bewährtes Design] / https://flatuicolors.com/[vorgefertigte Farbtabellen])
 - Zu sehr linksbündig
-- 
 
 === Fehlende Features
 
@@ -345,3 +349,4 @@ Artikel in den Warenkorb legen
 - Layout überarbeiten. Ihr verwendet Bootstrap, welches ein recht ausgefeiltes Grid-System mitbringt. (https://getbootstrap.com/docs/4.0/layout/grid/[ist hier gut beschrieben!)]
 - eigenes Favicon setzen
 - https://howtodoinjava.com/java/date-time/java8-datetimeformatter-example/[DateTimeFormatter] verwenden, für lesbarere Datums und Zeitangaben.
+- Kasse: es ist für einen Kassierer sehr aufwändig Produkte hinzuzufügen (erst Produkt suchen und dann noch extra schauen müssen vom welchen Großhändler)
