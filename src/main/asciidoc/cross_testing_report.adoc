@@ -338,6 +338,7 @@ Artikel in den Warenkorb legen
 
 - /catalog/error -> Fehlermeldung ist scrollable
 - /catalog/item -> "Hinzufügen" Button ganz unten links
+- Kasse: es ist für einen Kassierer sehr aufwändig Produkte hinzuzufügen (erst Produkt suchen und dann noch extra schauen müssen vom welchen Großhändler)
 
 == Verbesserungsvorschläge
 
@@ -349,4 +350,4 @@ Artikel in den Warenkorb legen
 - Layout überarbeiten. Ihr verwendet Bootstrap, welches ein recht ausgefeiltes Grid-System mitbringt. (https://getbootstrap.com/docs/4.0/layout/grid/[ist hier gut beschrieben!)]
 - eigenes Favicon setzen
 - https://howtodoinjava.com/java/date-time/java8-datetimeformatter-example/[DateTimeFormatter] verwenden, für lesbarere Datums und Zeitangaben.
-- Kasse: es ist für einen Kassierer sehr aufwändig Produkte hinzuzufügen (erst Produkt suchen und dann noch extra schauen müssen vom welchen Großhändler)
+- sollte der Katalog leer sein, könnte dort ein kleiner Hinweis stehen, dass momentan keine Produkte vorhanden sind bzw. zum Verkauf stehen
