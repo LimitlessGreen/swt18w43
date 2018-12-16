@@ -173,6 +173,11 @@ Artikel in den Warenkorb legen
 |Felder sind voreingetragen
 |erfolgreicher login
 
+|/login
+|username, passwort = voreingetragen
+|Manchmal geschieht kein Login, obwohl die Credentials voreingetragen sind
+|kein erfolgreicher Login
+
 |/editUser
 |uid=...
 |Beim klicken des Buttons "bearbeiten" von jeglichem Nutzer erscheint Fehler
@@ -287,15 +292,44 @@ z.B. Buchstaben bei Telefonnummer
 
 === Optik der Anwendung
 
+- Header zu groß
+- Farbe Geschmackssache
+- Zu sehr linksbündig
 
 === Fehlende Features
 
+.Kunde:
+- *Suchfuntkion*
+Artikel in den Warenkorb legen
+- *< Maximum zum Verkauf stehenden Artikel*
+
+[options="interactive"]
+.Angestellte (employee):
+- *fragen ob er sich ausloggen möchte [AT002]*
+* *eigenen Account eingeschränkt bearbeiten*
+- *bearbeiten (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])*
+- *Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]*
+
+* *Inventur durchführen [AT107]*
+- *die im Warenkorb sind [AT102]*
+* *verschiedene Anzeigeoptionen [AT004]*
+
+[options="interactive"]
+.Geschäftsführer (CEO):
+- *Bearbeiten*
+- *Gehalt zahlen ?*
+- *Artikelgruppen*
+- *Kundengruppen*
+* *Artikelliste importieren BNN [AT106]*
+- *Fehlerabfangung [AT]*
+- *Funktion*
 
 === Interaktion mit der Anwendung (Usability)
 
 - /catalog/error -> Fehlermeldung ist scrollable
 - /catalog/item -> "Hinzufügen" Button ganz unten links
-- Fast alles linksbündig
 
 == Verbesserungsvorschläge
-* Was kann noch weiter verbessert werden?
+
+- Mehr mittig zentrieren
+- Nicht unbedingt 250 user erstellen, welche alle generisch benannt sind
