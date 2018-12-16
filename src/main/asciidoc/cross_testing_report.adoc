@@ -333,5 +333,7 @@ Artikel in den Warenkorb legen
 == Verbesserungsvorschläge
 
 - Mehr mittig zentrieren
-- Nicht unbedingt 250 user erstellen, welche alle generisch benannt sind
-- 
+- Nicht unbedingt 250 user erstellen
+- padding beim Header entfernen
+- Initialisierung der Daten mit zufälligen Namen, die *nicht* generisch sind
+- keine UUIDs sondern einfache Longs für die identifikation verwednden. (https://docs.jboss.org/hibernate/orm/5.0/mappingGuide/en-US/html/ch06.html[mal durchlesen!])
