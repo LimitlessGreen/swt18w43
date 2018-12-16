@@ -336,5 +336,6 @@ Artikel in den Warenkorb legen
 - Nicht unbedingt 250 user erstellen
 - padding beim Header entfernen
 - Initialisierung der Daten mit zufälligen Namen, die *nicht* generisch sind
-- keine UUIDs sondern einfache Longs für die identifikation verwednden. (https://docs.jboss.org/hibernate/orm/5.0/mappingGuide/en-US/html/ch06.html[mal durchlesen!])
+- keine UUIDs sondern einfache Longs für die identifikation verwenden. (https://docs.jboss.org/hibernate/orm/5.0/mappingGuide/en-US/html/ch06.html[mal durchlesen!])
 - Layout überarbeiten. Ihr verwendet Bootstrap, welches ein recht ausgefeiltes Grid-System mitbringt. (https://getbootstrap.com/docs/4.0/layout/grid/[ist hier gut beschrieben!)]
+- eigenes Favicon setzen
