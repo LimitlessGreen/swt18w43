@@ -293,7 +293,7 @@ z.B. Buchstaben bei Telefonnummer
 === Optik der Anwendung
 
 - Header zu groß (z.B. padding entfernen)
-- Farbe Geschmackssache https://material.io/design/color/the-color-system.html[bewährtes Design] https://flatuicolors.com/[vorgefertigte Farbtabellen]
+- Farbe Geschmackssache (https://material.io/design/color/the-color-system.html[bewährtes Design] / https://flatuicolors.com/[vorgefertigte Farbtabellen])
 - Zu sehr linksbündig
 - 
 
