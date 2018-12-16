@@ -125,22 +125,22 @@ public class OrderController {
 			bestPriceAll.compute(distributorProduct.getName(), (s, bigDecimal) -> smaller(bigDecimal, distributorProduct.getPrice()));
 		}
 
-		model.addAttribute("note", (Function<DistributorProduct, String>) product -> {
+		model.addAttribute("note", (Function<DistributorProduct, BestPriceInfo>) product -> {
 			if (product.getMinimumOrderAmount() > amount) {
 				if (product.getPrice().equals(bestPriceAll.get(product.getName()))) {
 
-					return "insgesamt bester Preis für " + product.getName();
+					return new BestPriceInfo("insgesamt bester Preis für " + product.getName(), "color:#666060");
 				}
 			} else {
 				if (product.getPrice().equals(bestPriceAmount.get(product.getName()))) {
 					if (product.getPrice().equals(bestPriceAll.get(product.getName()))) {
-						return "insgesamt bester Preis für " + product.getName();
+						return new BestPriceInfo("insgesamt bester Preis für " + product.getName(), "color:#666060");
 					}
-					return "bester Preis für die gewählte Menge " + product.getName();
+					return new BestPriceInfo("bester Preis für die gewählte Menge " + product.getName(), "color:#c1c1c1");
 				}
 			}
 
-			return "";
+			return null;
 		});
 
 
@@ -161,6 +161,32 @@ public class OrderController {
 		model.addAttribute("list", list);
 		model.addAttribute("inventoryProductCatalog", inventoryProductCatalog);
 		return "order";
+	}
+
+	public class BestPriceInfo {
+		private String displayName;
+		private String color;
+
+		public BestPriceInfo(String displayName, String icon) {
+			this.displayName = displayName;
+			this.color = icon;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+		public void setDisplayName(String displayName) {
+			this.displayName = displayName;
+		}
+
+		public String getColor() {
+			return color;
+		}
+
+		public void setColor(String color) {
+			this.color = color;
+		}
 	}
 
 	private long getInventoryAmount(DistributorProduct distributorProduct) {

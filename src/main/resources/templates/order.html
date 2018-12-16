@@ -58,7 +58,7 @@
                             <th>Gesamtpreis</th>
                             <th>Lagerbestand</th>
                             <th>Optionen</th>
-                            <th>Notizen</th>
+                            <th>Bester Preis</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -74,21 +74,19 @@
                             <div th:if="${product.getMinimumOrderAmount() <= amount}">
                                 <td style="padding: 9px;">
                                     <a th:href="'/order/add?id=' + ${product.getId()} + '&amount=' + ${amount}">
-                                        <button type="button" class="btn btn-info notika-btn-green">
-                                            Hinzufügen
-                                        </button>
+                                        <button type="button" class="btn btn-block btn-info notika-btn-green btn-xs">Hinzufügen</button>
                                     </a>
                                 </td>
                             </div>
                             <div th:if="${product.getMinimumOrderAmount() > amount}">
                                 <td style="padding: 9px;">
                                     <a th:href="'/order?name=' + ${product.getName()} + '&amount=' + ${#numbers.formatDecimal(product.getMinimumOrderAmount() , 1, 0)}">
-                                        <span class="label label-danger">Mindestbestellmenge: <span
-                                                th:text="${product.getMinimumOrderAmount()}"></span> </span>
+                                        <button type="button" class="btn btn-block btn-danger notika-btn-red btn-xs">Mindestbestellmenge:
+                                            <span th:text="${product.getMinimumOrderAmount()}"></span></button>
                                     </a>
                                 </td>
                             </div>
-                            <th th:text="${note.apply(product)}"></th>
+                            <td align="center" th:if="${note.apply(product) != null}"> <a th:title="${note.apply(product).getDisplayName()}"><i th:style="${note.apply(product).getColor()}" class="fas fa-2x fa-coins"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
