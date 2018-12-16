@@ -180,7 +180,7 @@ Artikel in den Warenkorb legen
 
 |/login
 |username, passwort = voreingetragen
-|Manchmal geschieht kein Login, obwohl die Credentials voreingetragen sind
+|Manchmal geschieht kein Login, obwohl die Credentials voreingetragen sind (scheint vermehrt kurz nach dem Start der Anwendung aufzutreten, passiert aber auch, nach dem die Anwendung mehrere Stunden lief)
 |kein erfolgreicher Login
 
 |/editUser
