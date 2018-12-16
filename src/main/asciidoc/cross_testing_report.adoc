@@ -214,7 +214,10 @@ z.B. Buchstaben bei Telefonnummer
 |test_user und admin besitzen keinen Vornamen, e-mail und Adresse. test_customer hat desweiteren keinen Namen
 |forename, e-mail, address = null
 
-
+|/users
+|username=mmustermann
+|Angestellter kann auch den Manager löschen
+|wird einfach gelöscht -> Fehler erwartet bzw. keine Änderung
 |===
 
 === Transaktionen
@@ -300,30 +303,32 @@ z.B. Buchstaben bei Telefonnummer
 === Fehlende Features
 
 .Kunde:
-- *Suchfuntkion*
+- Suchfuntkion im Warenkorb
 Artikel in den Warenkorb legen
-- *< Maximum zum Verkauf stehenden Artikel*
+- < Maximum zum Verkauf stehenden Artikel(Artikel in den Warenkorb legen)
 
 [options="interactive"]
 .Angestellte (employee):
-- *fragen ob er sich ausloggen möchte [AT002]*
-* *eigenen Account eingeschränkt bearbeiten*
-- *bearbeiten (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])*
-- *Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]*
+- fragen ob er sich ausloggen möchte [AT002]
+- eigenen Account eingeschränkt bearbeiten
+- bearbeiten vom Kundenprofil (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])
+- Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]
 
-* *Inventur durchführen [AT107]*
-- *die im Warenkorb sind [AT102]*
-* *verschiedene Anzeigeoptionen [AT004]*
+- Inventur durchführen [AT107]
+- Etikett drucken, die im Warenkorb sind [AT102]
+- verschiedene Anzeigeoptionen bei Übersicht der getätigten Transaktionen [AT004]
 
 [options="interactive"]
 .Geschäftsführer (CEO):
-- *Bearbeiten*
-- *Gehalt zahlen ?*
-- *Artikelgruppen*
-- *Kundengruppen*
-* *Artikelliste importieren BNN [AT106]*
-- *Fehlerabfangung [AT]*
-- *Funktion*
+- Angestelltenkonto
+* Bearbeiten
+* Gehalt zahlen (Aufgabenstellung)
+- Rabatt von ... festlegen
+* Artikelgruppen
+* Kundengruppen
+- Artikelliste importieren BNN [AT106]
+* Fehlerabfangung [AT]
+- Funktion von der Statistik
 
 === Interaktion mit der Anwendung (Usability)
 
