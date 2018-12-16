@@ -351,3 +351,4 @@ Artikel in den Warenkorb legen
 - eigenes Favicon setzen
 - https://howtodoinjava.com/java/date-time/java8-datetimeformatter-example/[DateTimeFormatter] verwenden, für lesbarere Datums und Zeitangaben.
 - sollte der Katalog leer sein, könnte dort ein kleiner Hinweis stehen, dass momentan keine Produkte vorhanden sind bzw. zum Verkauf stehen
+- Bessere Preisangaben (z.B. nicht sowas wie EUR 10.7). DIN-5008 sollte ein guter Anhaltspunkt sein.
