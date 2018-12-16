@@ -2,6 +2,11 @@ package bioladen.customer;
 
 import lombok.Getter;
 
+/**
+ * Customer sex with translation
+ * @author Lisa Riedel
+ */
+
 public enum Sex {
 	MALE(
 			"männlich"

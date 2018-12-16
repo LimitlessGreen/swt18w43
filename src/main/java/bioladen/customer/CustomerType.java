@@ -1,6 +1,11 @@
 package bioladen.customer;
 
 import lombok.Getter;
+
+/**
+ * Customer Types with German translation and discount
+ * @author Lisa Riedel
+ */
 public enum CustomerType {
 	HOUSE_CUSTOMER(
 			"Hauskunde",
