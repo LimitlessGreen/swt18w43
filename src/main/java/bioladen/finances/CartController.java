@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * Controller for the wishlist.
+ *
  * @author Lukas Petzold
  */
 @Controller

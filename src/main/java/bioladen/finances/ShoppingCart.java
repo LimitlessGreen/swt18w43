@@ -241,6 +241,11 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 		return money;
 	}
 
+	/**
+	 * Get the taxation portion of the products in the ShoppingCart.
+	 *
+	 * @return the sum of the taxation portion.
+	 */
 	public BigDecimal getMwstMoney() {
 
 		BigDecimal money = BigDecimal.valueOf(0);
@@ -254,6 +259,11 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 		return money;
 	}
 
+	/**
+	 * Get the money without taxation and pfand but with user discount -> turnover
+	 *
+	 * @return the sum of the products in the ShoppingCart with discount
+	 */
 	public BigDecimal getSaleMoney() {
 		BigDecimal money = BigDecimal.valueOf(0);
 
@@ -278,7 +288,6 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 		return items.values().iterator();
 	}
 
-	//TODO: pls implement!
 	@Override
 	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
 		return null;

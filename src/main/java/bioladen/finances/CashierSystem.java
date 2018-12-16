@@ -175,6 +175,13 @@ public class CashierSystem {
 		}
 	}
 
+	/**
+	 * Adds the pfandValue of a product to the pfand map of the ShoppingCart.
+	 *
+	 * @param product The product with the pid.
+	 * @param amount The amount of the product to be added to the pfand map.
+	 * @param shoppingCart the pfandValues get added the the pfand map in the ShoppingCart.
+	 */
 	@PostMapping("/cashiersystemPfand")
 	String addPfand(@RequestParam("pid") Long product,
 					@RequestParam("amount") Long amount,
@@ -195,6 +202,7 @@ public class CashierSystem {
 
 	/**
 	 * Finish the sale and clears the shoppingCart.
+	 * Pushes a Created Event for the sale.
 	 *
 	 * @param shoppingCart gets cleared and user set to null.
 	 */
@@ -219,6 +227,7 @@ public class CashierSystem {
 
 	/**
 	 * Aborts the sale and clears the shoppingCart.
+	 * Pushes a Deleted Event for the cancellation.
 	 *
 	 * @param shoppingCart gets cleared and user set to null.
 	 */

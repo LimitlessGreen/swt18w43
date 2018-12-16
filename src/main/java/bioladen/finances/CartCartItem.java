@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
+ * Items that get placed in the ShoppingCart.
+ *
  * @author Lukas Petzold
  */
 @Getter
@@ -49,9 +51,7 @@ public class CartCartItem {
 
 
 	/**
-	 * Returns the name of the inventoryProduct associated with the CartCartItem.
-	 *
-	 * @return
+	 * @return the name of the inventoryProduct associated with the CartCartItem.
 	 */
 	public final String getProductName() {
 		return inventoryProduct.getName();
@@ -61,7 +61,7 @@ public class CartCartItem {
 	 * Returns a new CartCartItem that has the given Quantity added to the current one.
 	 *
 	 * @param quantity must not be {@literal null}.
-	 * @return
+	 * @return the new CartCartItem.
 	 */
 	final CartCartItem add(long quantity) {
 

@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+/**
+ * A subclass of the ShoppingCart to make it easier for the statistics to distinguish between a sale and a cancellation.
+ *
+ * @author Lukas Petzold
+ */
 @NoArgsConstructor
 public class ShoppingCartSale extends ShoppingCart {
 
