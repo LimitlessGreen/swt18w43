@@ -4,6 +4,7 @@ import bioladen.product.InventoryProductCatalog;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -46,8 +47,15 @@ public class CartController {
 	 */
 	@GetMapping("/addToWishlist")
 	String addToWishlist(@RequestParam("productId") Long pid, @ModelAttribute ShoppingCart shoppingCart, Model model) {
-		shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(pid).get(), 1);
-		model.addAttribute("shoppingCart", shoppingCart);
+
+		Assert.notNull(pid, "Product must not be null!");
+
+		try {
+			shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(pid).get(), 1);
+			model.addAttribute("shoppingCart", shoppingCart);
+		} catch (Exception e) {
+		model.addAttribute("errorInWishlist", true);
+		}
 
 		return "redirect:/productlist";
 	}
@@ -63,8 +71,15 @@ public class CartController {
 			@RequestParam("productId") String pid,
 			@ModelAttribute ShoppingCart shoppingCart,
 			Model model) {
-		shoppingCart.removeItem(pid);
-		model.addAttribute("shoppingCart", shoppingCart);
+
+		Assert.notNull(pid, "Product must not be null!");
+
+		try {
+			shoppingCart.removeItem(pid);
+			model.addAttribute("shoppingCart", shoppingCart);
+		} catch (Exception e) {
+			model.addAttribute("errorInWishlist", true);
+		}
 
 		return "wishlist";
 	}
@@ -80,8 +95,15 @@ public class CartController {
 			@RequestParam("productId") String pid,
 			@ModelAttribute ShoppingCart shoppingCart,
 			Model model) {
-		shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getInventoryProduct(), 1);
-		model.addAttribute("shoppingCart", shoppingCart);
+
+		Assert.notNull(pid, "Product must not be null!");
+
+		try {
+			shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getInventoryProduct(), 1);
+			model.addAttribute("shoppingCart", shoppingCart);
+		} catch (Exception e) {
+			model.addAttribute("errorInWishlist", true);
+		}
 
 		return "wishlist";
 	}
@@ -97,12 +119,20 @@ public class CartController {
 			@RequestParam("productId") String pid,
 			@ModelAttribute ShoppingCart shoppingCart,
 			Model model) {
-		if (shoppingCart.getItem(pid).get().getQuantity() == 1) {
-			shoppingCart.removeItem(pid);
-		} else {
-			shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getInventoryProduct(), -1);
-			model.addAttribute("shoppingCart", shoppingCart);
+
+		Assert.notNull(pid, "Product must not be null!");
+
+		try {
+			if (shoppingCart.getItem(pid).get().getQuantity() == 1) {
+				shoppingCart.removeItem(pid);
+			} else {
+				shoppingCart.addOrUpdateItem(shoppingCart.getItem(pid).get().getInventoryProduct(), -1);
+				model.addAttribute("shoppingCart", shoppingCart);
+			}
+		} catch (Exception e) {
+			model.addAttribute("errorInWishlist", true);
 		}
+
 
 		return "wishlist";
 	}
