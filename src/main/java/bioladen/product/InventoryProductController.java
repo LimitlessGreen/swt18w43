@@ -6,6 +6,7 @@ import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.label.PdfLabelGenerator;
 import bioladen.product.stock_taking.StockTaking;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.compress.utils.IOUtils;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.core.io.FileSystemResource;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,49 +58,17 @@ public class InventoryProductController {
 	}
 
 	@GetMapping("/product/label")
-	public HttpEntity<Resource> downloadLabel(@RequestParam(value = "id") long id) {
-
+	public void downloadLabel(HttpServletResponse response, @RequestParam(value = "id") long id) throws IOException {
 		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator(inventoryProductCatalog);
-		pdfLabelGenerator.generate(id);
-
-		File file = new File("src/main/resources/generated/p" + id + ".pdf");
-
-		ContentDisposition disposition = ContentDisposition //
-				.builder("inline") //
-				.filename(file.getName()) //
-				.build();
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_PDF);
-		headers.setContentDisposition(disposition);
-		headers.setContentLength(file.length());
-
-		return ResponseEntity.ok() //
-				.headers(headers) //
-				.body(new FileSystemResource(file));
+		response.setContentType(MediaType.APPLICATION_PDF.toString());
+		pdfLabelGenerator.generate(id, response.getOutputStream());
 	}
 
 	@GetMapping("/productlist/labels")
-	public HttpEntity<Resource> downloadAllLabels() {
-
+	public void downloadAllLabel(HttpServletResponse response) throws IOException {
 		PdfLabelGenerator pdfLabelGenerator = new PdfLabelGenerator(inventoryProductCatalog);
-		pdfLabelGenerator.generateAll(inventoryProductCatalog.findAll());
-
-		File file = new File("src/main/resources/generated/pAll.pdf");
-
-		ContentDisposition disposition = ContentDisposition //
-				.builder("inline") //
-				.filename(file.getName()) //
-				.build();
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_PDF);
-		headers.setContentDisposition(disposition);
-		headers.setContentLength(file.length());
-
-		return ResponseEntity.ok() //
-				.headers(headers) //
-				.body(new FileSystemResource(file));
+		response.setContentType(MediaType.APPLICATION_PDF.toString());
+		pdfLabelGenerator.generateAll(inventoryProductCatalog.findAll(), response.getOutputStream());
 	}
 
 	@PostMapping("/product/move")
