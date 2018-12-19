@@ -35,7 +35,8 @@ public class LineCharts extends DateTimeCharts {
 			color = new Color(
 					(color.getR() + colorRandomizingOffset) % 0x100,
 					(color.getG() + colorRandomizingOffset) % 0x100,
-					(color.getB() + colorRandomizingOffset) % 0x100);
+					(color.getB() + colorRandomizingOffset) % 0x100
+			);
 
 			LineDataset dataSet = new LineDataset()
 					.setLabel(chart.getKey())

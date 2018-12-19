@@ -1,20 +1,22 @@
 package bioladen.customer;
 
-import org.apache.commons.lang3.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.salespointframework.useraccount.UserAccount;
+import org.apache.commons.lang3.StringUtils;
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.Password;
 import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.salespointframework.useraccount.AuthenticationManager;
-import org.salespointframework.useraccount.Password;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Locale;
+/**
+ * @author Lisa Riedel
+ */
 
 @Controller
 @Transactional
@@ -30,6 +32,14 @@ public class UserAccController {
 		return "profil";
 	}
 
+	/**
+	 * gets the password change (from profil)
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param newPasswordAgain
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')||hasRole('ROLE_STAFF')")
 	@PostMapping("/profil")
 	public String changePassword(@RequestParam("oldPassword") String oldPassword,
@@ -43,10 +53,10 @@ public class UserAccController {
 			model.addAttribute("errorPassword", true);
 			model.addAttribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt.");
 
-		} else if (checkEqual(newPassword,newPasswordAgain)){
+		} else if (newPassword.equals(newPasswordAgain)){
 			if (authenticationManager.matches(Password.unencrypted(oldPassword),
 					authenticationManager.getCurrentUser().get().getPassword())) {
-				if (checkEqual(newPassword, oldPassword)){
+				if (newPassword.equals(oldPassword)){
 					model.addAttribute("errorPassword", true);
 					model.addAttribute("errorPasswordMsg", "Neues Passwort stimmt mit dem alten überein.");
 
@@ -66,10 +76,12 @@ public class UserAccController {
 		return "profil";
 	}
 
-	public boolean checkEqual(String firstPassword, String secondPassword){
-		return firstPassword.equals(secondPassword);
-	}
-
+	/**
+	 * resets a password from customer
+	 * @param email
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/customerlist/resetPassword")
 	String resetPassword(@RequestParam String email, Model model) {

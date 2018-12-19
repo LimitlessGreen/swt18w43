@@ -31,9 +31,10 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 	private String thrownBy;
 	private String publisherName = "unknown";
 	private String message = "No message";
-	private LinkedHashMap<String, Object> declaredFields = new LinkedHashMap<>();
+	private LinkedHashMap<String, String> declaredFields = new LinkedHashMap<>();
+	private LinkedHashMap<String, String> declaredModifiedFields = new LinkedHashMap<>();
 
-	private @Setter T entityBeforeModified = null;
+	private T entityBeforeModified = null;
 	private @Setter String name = null;
 	private @Setter Customer involvedCustomer = null;
 	private @Setter LocalDateTime saveTime = null;
@@ -56,20 +57,27 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 			}
 		}
 
+		this.declaredFields = searchDeclaredFields(entity);
+	}
+
+	private LinkedHashMap<String, String> searchDeclaredFields(T entity) {
+		LinkedHashMap<String, String> output = new LinkedHashMap<>();
+
 		// fill the declared fields to show in frontend
 		Field[] fields = entity.getClass().getDeclaredFields();
 		for (Field field : fields) {
 			try {
-					declaredFields.put(field.getName(),
-							entity.getClass()
-									.getMethod("get" + field.getName().substring(0, 1).toUpperCase()
-													+ field.getName().substring(1)).invoke(entity));
-				}
-				catch (NoSuchMethodException e) { }
-				catch (IllegalAccessException e) { }
-				catch (InvocationTargetException e) { }
-				catch (NullPointerException e) { }
+				output.put(field.getName(),
+						String.valueOf(entity.getClass()
+								.getMethod("get" + field.getName().substring(0, 1).toUpperCase()
+										+ field.getName().substring(1)).invoke(entity)));
 			}
+			catch (NoSuchMethodException e) { }
+			catch (IllegalAccessException e) { }
+			catch (InvocationTargetException e) { }
+			catch (NullPointerException e) { }
+		}
+		return output;
 	}
 
 	/**
@@ -93,6 +101,11 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 		this.message = (message != null) ? message : this.message;
 	}
 
+	public void setEntityBeforeModified(T entityBeforeModified) {
+		this.entityBeforeModified = entityBeforeModified;
+		this.declaredModifiedFields = searchDeclaredFields(entityBeforeModified);
+	}
+
 	/**
 	 * Returns an user readable String of DataEntry
 	 *
@@ -104,6 +117,16 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 				this.thrownBy,
 				this.entityLevel,
 				this.message);
+	}
+
+	public boolean isModified(String field) {
+		if (this.entityLevel.equals(EntityLevel.MODIFIED)) {
+			try {
+				return !this.declaredModifiedFields.get(field).equals(this.declaredFields.get(field));
+			}
+			catch (NullPointerException e) { }
+		}
+		return false;
 	}
 
 	//TODO: pls implement!

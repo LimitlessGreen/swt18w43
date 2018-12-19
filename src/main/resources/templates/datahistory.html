@@ -40,7 +40,8 @@
                                 <table class="info-box-entity-attributes-table">
                                     <tr th:each="field : ${dataEntry.getDeclaredFields()}" class="info-box-entity-attributes-table-attribute">
                                         <td class="info-box-entity-attributes-table-attribute-name" th:text="${field.key}">ENTITY_ATTRIBUTE_NAME</td>
-                                        <td class="info-box-entity-attributes-table-attribute-value" th:text="${field.value}">ENTITY_ATTRIBUTE_VALUE</td>
+                                        <td class="info-box-entity-attributes-table-attribute-value" style="background-color: #FFC107" th:if="${dataEntry.isModified(field.key)}" th:text="${field.value}">ENTITY_ATTRIBUTE_VALUE</td>
+                                        <td class="info-box-entity-attributes-table-attribute-value" th:unless="${dataEntry.isModified(field.key)}" th:text="${field.value}">ENTITY_ATTRIBUTE_VALUE</td>
                                     </tr>
                                 </table>
                             </div>

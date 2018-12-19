@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Contains convert functions
+ * @author Jairus Behrisch, Lisa Riedel
+ */
+
 @Service
 @RequiredArgsConstructor
 public class CustomerTools {

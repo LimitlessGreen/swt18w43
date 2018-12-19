@@ -111,29 +111,18 @@
     ============================================ -->
 <script src="/js/charts/Chart.js"></script>
 
-<script th:inline="javascript">
+<script th:each="chart : ${charts}" th:inline="javascript">
     /*[+
 
     /**/
+
     (function ($) {
         "use strict";
-
-        var ctx = document.getElementById("customerChart");
-        var customer = new Chart(ctx, [(${customerJson})]);
-
-        var ctx = document.getElementById("salesChart");
-        var sales = new Chart(ctx, [(${salesJson})]);
-
-        var ctx = document.getElementById("cancelsChart");
-        var cancels = new Chart(ctx, [(${cancelsJson})]);
-
-        var ctx = document.getElementById("productsChart");
-        var products = new Chart(ctx, [(${productsJson})]);
+        var blub = new Chart([(${chart.key})], [(${chart.value})]);
     })
     (jQuery);
 
     +]*/
-
 </script>
 
 </body>

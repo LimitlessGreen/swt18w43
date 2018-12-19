@@ -67,4 +67,50 @@ class CustomerControllerTest {
 				.andExpect(status().isOk());
 	}
 
+	@Test
+	void registerIsAccessibleForPersonal() throws Exception {
+		mvc.perform(get("/register").with(user("manager").roles("MANAGER")))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void registerPreventPublicAccess() throws Exception {
+		mvc.perform(get("/register"))
+				.andExpect(status().isFound())
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+	}
+
+	@Test
+	void deletePreventPublicAccess() throws Exception {
+		mvc.perform(get("/customerlist/delete?id=2"))
+				.andExpect(status().isFound())
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+	}
+
+	@Test
+	void deleteIsAccessibleForManager() throws Exception {
+		mvc.perform(get("/customerlist/delete?id=2").with(user("feldfreude@bio.de").roles("MANAGER")))
+				.andExpect(redirectedUrl("/customerlist"));
+	}
+
+	@Test
+	void customerModify() throws Exception {
+		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("firstname", "Berta")).param("lastname", "Balsamico")
+				.param("phone", "235235").param("email", "bertabunt@bio.de"))
+				.param("sex", "weiblich")).param("address", "Essig 1 032423 Mozarella").param("type", "Manager").param("id", "2"))
+				.andDo(print())
+				.andExpect(redirectedUrl("/customerlist"));
+
+	}
+
+	@Test
+	void modifyPreventPublicAccess() throws Exception {
+		mvc.perform(get("/customerlist/modify?id=2"))
+				.andExpect(status().isFound())
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+	}
+
+
+
 }

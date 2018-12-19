@@ -3,6 +3,7 @@ package bioladen.product.label;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -19,19 +20,21 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import lombok.RequiredArgsConstructor;
+import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 @RequiredArgsConstructor
 public class PdfLabelGenerator {
 	private final InventoryProductCatalog inventoryProductCatalog;
 
-	private static final String BASE_PATH = "src/main/resources/generated/";
+	private static final String BASE_PATH =  "generated/";
 
 	private static final float MM_TO_PT = 2.834645669291f;
 
@@ -68,17 +71,16 @@ public class PdfLabelGenerator {
 	private PDDocument document = new PDDocument();
 
 	private PDFont roboto400i, roboto500, robotoSlab700, robotoMono400;
-
 	{
 		try {
 			roboto400i = PDType0Font.load(document,
-					new File("src/main/resources/static/pdffonts/Roboto/Roboto-Italic.ttf"));
+					getClass().getClassLoader().getResourceAsStream("static/pdffonts/Roboto/Roboto-Italic.ttf"));
 			roboto500  = PDType0Font.load(document,
-					new File("src/main/resources/static/pdffonts/Roboto/Roboto-Medium.ttf"));
+					getClass().getClassLoader().getResourceAsStream("static/pdffonts/Roboto/Roboto-Medium.ttf"));
 			robotoSlab700 = PDType0Font.load(document,
-					new File("src/main/resources/static/pdffonts/Roboto_Slab/RobotoSlab-Bold.ttf"));
+					getClass().getClassLoader().getResourceAsStream("static/pdffonts/Roboto_Slab/RobotoSlab-Bold.ttf"));
 			robotoMono400 = PDType0Font.load(document,
-					new File("src/main/resources/static/pdffonts/Roboto_Mono/RobotoMono-Regular.ttf"));
+					getClass().getClassLoader().getResourceAsStream("static/pdffonts/Roboto_Mono/RobotoMono-Regular.ttf"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,12 +131,7 @@ public class PdfLabelGenerator {
 							+ "8080" // TODO: Dynamic Port Fill-In
 							+ "/product?id=" + inventoryProduct.getId(),
 					BarcodeFormat.QR_CODE, 1024, 1024, hints);
-			Path path = FileSystems.getDefault().getPath(BASE_PATH + "qrc" + inventoryProduct.getId() + ".png");
-			MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-
-			PDImageXObject qrCode = PDImageXObject.createFromFile(
-					BASE_PATH + "qrc" + inventoryProduct.getId() + ".png",
-					document);
+			PDImageXObject qrCode = LosslessFactory.createFromImage(document, MatrixToImageWriter.toBufferedImage(bitMatrix));
 			cs.drawImage(qrCode, LABEL_MARGIN, LABEL_MARGIN, QR_CODE_SIZE, QR_CODE_SIZE);
 
 			MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -142,12 +139,7 @@ public class PdfLabelGenerator {
 			hints.put(EncodeHintType.MARGIN, 0);
 			bitMatrix = multiFormatWriter.encode(Long.toString(inventoryProduct.toEan13(inventoryProduct.getId())),
 					BarcodeFormat.EAN_13, 2048, 1024, hints);
-			path = FileSystems.getDefault().getPath(BASE_PATH + "brc" + inventoryProduct.getId() + ".png");
-			MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-
-			PDImageXObject barCode = PDImageXObject.createFromFile(
-					BASE_PATH + "brc" + inventoryProduct.getId() + ".png",
-					document);
+			PDImageXObject barCode = LosslessFactory.createFromImage(document, MatrixToImageWriter.toBufferedImage(bitMatrix));
 			cs.drawImage(barCode, BARCODE_POS_X, BARCODE_POS_Y, BARCODE_WIDTH, BARCODE_HEIGHT);
 
 			cs.setNonStrokingColor(Color.WHITE);
@@ -177,28 +169,26 @@ public class PdfLabelGenerator {
 		}
 	}
 
-	public void generate(long id) {
+	public void generate(long id, OutputStream outputStream) {
 		InventoryProduct inventoryProduct = inventoryProductCatalog.findById(id).orElse(null);
 
 		try {
-			new File(BASE_PATH).mkdirs();
 			if (inventoryProduct != null) {
 				addLabel(inventoryProduct);
 			}
-			document.save(BASE_PATH + "p" + id + ".pdf");
+			document.save(outputStream);
 			document.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void generateAll(Iterable<InventoryProduct> inventoryProducts) {
+	public void generateAll(Iterable<InventoryProduct> inventoryProducts, OutputStream outputStream) {
 		try {
-			new File(BASE_PATH).mkdirs();
 			for (InventoryProduct inventoryProduct : inventoryProducts) {
 				addLabel(inventoryProduct);
 			}
-			document.save(BASE_PATH + "pAll.pdf");
+			document.save(outputStream);
 			document.close();
 		} catch (IOException e) {
 			e.printStackTrace();

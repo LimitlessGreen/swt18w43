@@ -14,9 +14,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static java.lang.Math.toIntExact;
 
 /**
  * A product.
@@ -160,7 +159,7 @@ public class InventoryProduct implements RawEntry {
 
 	@Override
 	public int hashCode() {
-		return toIntExact(id);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -183,7 +182,7 @@ public class InventoryProduct implements RawEntry {
 		LinkedHashMap<String, DataHistoryRequest> output = new LinkedHashMap<>();
 
 		output.put("Bestand (Lager)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
-		output.put("Bestand (Austellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
+		output.put("Bestand (Ausstellfläche)", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 		output.put("Gesamtwarenwert", new DataHistoryRequest(this.getClass(), EntityLevel.CREATED));
 
 		return output;

@@ -94,7 +94,8 @@ class ShoppingCartTest {
 	void getPrice() {
 		shoppingCart.setCustomer(customer);
 
-		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(3L).get(), distributorProductCatalog);
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(6L).get(), distributorProductCatalog);
+		inventoryProduct.setPfandPrice(BigDecimal.valueOf(0.15));
 
 		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, one);
 		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice(); // quantity = one --> price = price of product
@@ -110,10 +111,12 @@ class ShoppingCartTest {
 	void getBasicPrice() {
 		shoppingCart.setCustomer(customer);
 
-		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(3L).get(), distributorProductCatalog);
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(6L).get(), distributorProductCatalog);
+		inventoryProduct.setPfandPrice(BigDecimal.valueOf(0.15));
 
 		CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProduct, one);
-		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice().add(item.getInventoryProduct().getPfandPrice()); // quantity = one --> price = price of product
+		BigDecimal price = shoppingCart.getItem(item.getId()).get().getPrice(); // quantity = one --> price = price of product
+		price = price.add(item.getInventoryProduct().getPfandPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
 		double discount = customer.getCustomerType().getDiscount();
 
 		assertEquals(price.setScale(two, RoundingMode.HALF_EVEN), shoppingCart.getBasicPrice());

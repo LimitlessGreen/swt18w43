@@ -10,12 +10,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ *@author  Lisa Riedel
+ */
 @Service
 @RequiredArgsConstructor
 public class UserAccEventListener {
 
 	private final UserAccountManager userAccountManager;
 
+	/**
+	 * listen to Events from Customer and adjusts the associated accounts
+	 * @param event must not be	{@literal null}
+	 */
 	@EventListener
 	public void listenCustomerEvent(DataEntry<Customer> event) {
 		Customer customer = event.getEntity();
@@ -38,6 +45,12 @@ public class UserAccEventListener {
 		}
 	}
 
+	/**
+	 * save oder disable an existing account
+	 * @param customer must not be	{@literal null}
+	 * @param role must not be	{@literal null}
+	 */
+
 	private void save(Customer customer, String role) {
 		if (!userAccountManager.findByUsername(customer.getEmail()).isPresent()) {
 			UserAccount userAccount = userAccountManager.create(customer.getEmail(), "blattgrün43", Role.of(role));
@@ -49,6 +62,10 @@ public class UserAccEventListener {
 		}
 	}
 
+	/**
+	 * Disable an existing account
+	 * @param customer must not be	{@literal null}
+	 */
 	private void delete(Customer customer){
 		if (customer.isCustomerType(CustomerType.STAFF)) {
 			userAccountManager.disable(Objects.requireNonNull(
@@ -58,6 +75,10 @@ public class UserAccEventListener {
 		}
 	}
 
+	/**
+	 * Create an account with role
+	 * @param customer must not be	{@literal null}
+	 */
 	private void create(Customer customer){
 		if (customer.isCustomerType(CustomerType.STAFF)) {
 			this.save(customer, "ROLE_STAFF");
@@ -66,7 +87,13 @@ public class UserAccEventListener {
 		}
 	}
 
-	private void update(Customer oldCustomer, Customer customer,String oldRole, String role){
+	/**
+	 * Update role
+	 * @param customer must not be	{@literal null}
+	 * @param oldRole must not be	{@literal null}
+	 * @param role must not be	{@literal null}
+	 */
+	private void update(Customer customer,String oldRole, String role){
 		UserAccount userAccount = userAccountManager.findByUsername(customer.getEmail()).orElse(null);
 		if (userAccount != null) {
 			userAccount.remove(Role.of(oldRole));
@@ -76,13 +103,18 @@ public class UserAccEventListener {
 
 	}
 
-	private<T extends Customer> void modified(T oldCustomer, T customer){
+	/**
+	 * arranges the types of modification
+	 * @param oldCustomer must not be	{@literal null}
+	 * @param customer must not be	{@literal null}
+	 */
+	private void modified(Customer oldCustomer, Customer customer){
 		if (!oldCustomer.getCustomerType().equals(customer.getCustomerType())){
 			if (oldCustomer.isCustomerType(CustomerType.STAFF) && customer.isCustomerType(CustomerType.MANAGER)){
-				this.update(oldCustomer, customer,"ROLE_STAFF", "ROLE_MANAGER");
+				this.update(customer,"ROLE_STAFF", "ROLE_MANAGER");
 
 			} else if (oldCustomer.isCustomerType(CustomerType.MANAGER) && customer.isCustomerType(CustomerType.STAFF)){
-				this.update(oldCustomer, customer,"ROLE_MANAGER", "ROLE_STAFF");
+				this.update(customer,"ROLE_MANAGER", "ROLE_STAFF");
 			}
 			if ((oldCustomer.isCustomerType(CustomerType.MANAGER) ||
 					oldCustomer.isCustomerType(CustomerType.STAFF)) &&
