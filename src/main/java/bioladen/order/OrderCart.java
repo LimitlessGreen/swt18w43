@@ -10,11 +10,18 @@ import org.springframework.util.Assert;
 import javax.money.MonetaryAmount;
 import java.util.*;
 
+/**
+ * Class to store items before they get ordered
+ */
 public class OrderCart implements Streamable<OrderCartItem> {
 
 	private final Map<DistributorProduct, OrderCartItem> items = new HashMap<>();
 
 
+	/**
+	 * Calculates the total price
+	 * @return the total price
+	 */
 	public MonetaryAmount getPrice() {
 
 		return items.values().stream() //
@@ -23,6 +30,12 @@ public class OrderCart implements Streamable<OrderCartItem> {
 				.orElse(Money.of(0, Currencies.EURO));
 	}
 
+	/**
+	 * Adds or updates the count of a item in the Cart
+	 * @param product {@link DistributorProduct} to be added or updated
+	 * @param quantity Amount
+	 * @return the new {@link OrderCartItem}
+	 */
 	public OrderCartItem addOrUpdateItem(DistributorProduct product, Quantity quantity) {
 
 		Assert.notNull(product, "InventoryProduct must not be null!");
@@ -43,15 +56,32 @@ public class OrderCart implements Streamable<OrderCartItem> {
 	}
 
 
+	/**
+	 * Same as {@link #addOrUpdateItem(DistributorProduct, Quantity)} but with a long as amount
+	 * @param product
+	 * @param amount
+	 * @return
+	 */
 	public OrderCartItem addOrUpdateItem(DistributorProduct product, long amount) {
 		return addOrUpdateItem(product, Quantity.of(amount));
 	}
 
 
+	/**
+	 * Same as {@link #addOrUpdateItem(DistributorProduct, Quantity)} but with a double as amount
+	 * @param product
+	 * @param amount
+	 * @return
+	 */
 	public OrderCartItem addOrUpdateItem(DistributorProduct product, double amount) {
 		return addOrUpdateItem(product, Quantity.of(amount));
 	}
 
+	/**
+	 * Removes a item from the card based on the id
+	 * @param identifier random generated id of the item
+	 * @return {@link Optional<OrderCartItem>} containing the item if it was removed/found
+	 */
 	public Optional<OrderCartItem> removeItem(String identifier) {
 
 		Assert.notNull(identifier, "CartItem identifier must not be null!");
@@ -60,6 +90,11 @@ public class OrderCart implements Streamable<OrderCartItem> {
 				.map(item -> items.remove(item.getProduct()));
 	}
 
+	/**
+	 * Gets a item based on the id
+	 * @param identifier random generated id of the item
+	 * @return {@link Optional<OrderCartItem>} containing the item if it was found
+	 */
 	public Optional<OrderCartItem> getItem(String identifier) {
 
 		Assert.notNull(identifier, "OrderCartItem identifier must not be null!");
@@ -71,11 +106,18 @@ public class OrderCart implements Streamable<OrderCartItem> {
 	}
 
 
+	/**
+	 * Iterator for all cart items
+	 * @return Iterator containing all items
+	 */
 	@Override
 	public Iterator iterator() {
 		return items.values().iterator();
 	}
 
+	/**
+	 * Removes all items from the cart
+	 */
 	public void clear() {
 		items.clear();
 

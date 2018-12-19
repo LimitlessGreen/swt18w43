@@ -10,6 +10,9 @@ import javax.money.MonetaryAmount;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * Represent a ordered product
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -23,6 +26,11 @@ public class OrderItem {
 	@ManyToOne
 	private DistributorProduct product;
 
+	/**
+	 * Default constructor to create a new instance
+	 * @param quantity Amount to be ordered
+	 * @param product Product to be ordered
+	 */
 	public OrderItem(Quantity quantity, DistributorProduct product) {
 		this.quantity = quantity;
 		this.product = product;

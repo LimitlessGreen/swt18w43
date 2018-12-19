@@ -12,6 +12,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Order to get new products from a distributor
+ */
 @Entity
 @Table(name = "DISTRIBUTOR_ORDERS")
 @Getter
@@ -34,20 +37,35 @@ public class DistributorOrder {
 	@NonNull
 	private List<OrderItem> items = new ArrayList<>();
 
+	/**
+	 * Constructor to create a new Order
+	 * @param userAccount {@link UserAccount} creating the order
+	 * @param distributor {@link Distributor} which delivers the products
+	 */
 	public DistributorOrder(UserAccount userAccount, Distributor distributor) {
 		this.userAccount = userAccount;
 		this.distributor = distributor;
 	}
 
-	public void addItems(OrderCart orderCart, OrderItemRepository itemRepository) {
-		//TODO: Please follow the MVC pattern! Operations with repositories are not allowed here!
+
+	/**
+	 * Adds items from a cart to the order and clears the cart afterwards
+	 *
+	 * @param orderCart Cart containing the items to be added
+	 * @param orderManager Manager to store the orderitems with
+	 */
+	public void addItems(OrderCart orderCart, OrderManager orderManager ) {
 		for (OrderCartItem item : orderCart) {
-			items.add(new OrderItem(item.getQuantity(), item.getProduct()));
+			items.add(orderManager.createOrderItem( item.getProduct(), item.getQuantity()));
 		}
-		itemRepository.saveAll(items);
 		orderCart.clear();
 	}
 
+	/**
+	 * Calculates the total price
+	 *
+	 * @return the total price of the order
+	 */
 	public MonetaryAmount getPrice() {
 		MonetaryAmount price = Money.of(0, "EUR");
 

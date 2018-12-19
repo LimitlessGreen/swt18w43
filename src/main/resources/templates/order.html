@@ -65,11 +65,11 @@
 
                         <tr th:each="product : ${list}">
                             <td th:text="${product.getName()}"></td>
-                            <td th:text="${#numbers.formatDecimal(product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                            <td th:text="${product.getPrice()} + ' €'"></td>
                             <td th:text="${amount.toString()}"></td>
-                            <td th:text="${#numbers.formatDecimal(product.getUnit(), 0, 'POINT', 2, 'COMMA')}"></td>
+                            <td th:text="${#numbers.formatDecimal(product.getUnit(), 1, 'POINT', 2, 'COMMA')}"></td>
                             <td th:text="${(product.getProductCategory().getDescriptionDe())}"></td>
-                            <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                            <td th:text="${#numbers.formatDecimal(amount * product.getPrice().doubleValue(), 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td th:text="${storage.apply(product)}"></td>
                             <div th:if="${product.getMinimumOrderAmount() <= amount}">
                                 <td style="padding: 9px;">
@@ -114,9 +114,9 @@
                         <tbody>
                         <tr th:each="item : ${cart}">
                             <td th:text="${item.getProductName()}"></td>
-                            <td th:text="${#numbers.formatDecimal(item.getProduct().getPrice().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                            <td th:text="${item.getProduct().getPrice()} + ' €'"></td>
                             <td th:text="${item.getQuantity().toString()}"></td>
-                            <td th:text="${#numbers.formatDecimal(item.getQuantity().getAmount().doubleValue() * item.getPrice().getNumber().doubleValue(), 0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                            <td th:text="${#numbers.formatDecimal(item.getQuantity().getAmount().doubleValue() * item.getPrice().getNumber().doubleValue(), 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
                             <td th:text="${storage.apply(item.getProduct())}"></td>
                             <td style="padding: 9px;">
                                 <a th:href="'/order/remove?id=' + ${item.getId()}">
