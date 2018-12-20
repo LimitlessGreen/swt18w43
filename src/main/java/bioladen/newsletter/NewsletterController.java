@@ -1,4 +1,4 @@
-package bioladen.controller;
+package bioladen.newsletter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class AdminController {
+public class NewsletterController {
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@RequestMapping("/admin")
