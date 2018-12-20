@@ -26,3 +26,7 @@ Desktop.ini
 
 # Generated QRCodes, Barcodes and Label PDFs
 src/main/resources/generated/
+
+report/
+
+crosstesting/
