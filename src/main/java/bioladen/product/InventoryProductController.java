@@ -6,12 +6,9 @@ import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.label.PdfLabelGenerator;
 import bioladen.product.stock_taking.StockTaking;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.compress.utils.IOUtils;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -93,7 +89,7 @@ public class InventoryProductController {
 
 	@PostMapping("/setProfitMargin")
 	public String setProfitMargin() {
-		return "redirect:/statistic";
+		return "redirect:/admin";
 	}
 
 	/* TODO: Event for inventory product deletions
