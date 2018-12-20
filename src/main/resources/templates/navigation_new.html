@@ -32,6 +32,11 @@
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="header-top-menu">
                         <ul class="nav navbar-nav notika-top-nav">
+                            <li sec:authorize="hasAnyRole('ROLE_MANAGER')">
+                                <a th:href="@{/admin}">
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-cogs"></i></button>
+                                </a>
+                            </li>
                             <li sec:authorize="isAuthenticated()">
                                 <a th:href="@{/profil}">
                                     <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-user-circle"></i><x th:text="${' '+#authentication?.name}"></x></button>
