@@ -59,14 +59,6 @@ public class ShoppingCart implements Streamable<CartCartItem>, RawEntry {
 
 
 	/**
-	 * Calls addOrUpdateItem with a double amount.
-	 */
-	public CartCartItem addOrUpdateItem(InventoryProduct inventoryProduct, double amount) {
-		return addOrUpdateItem(inventoryProduct, (long) amount);
-	}
-
-
-	/**
 	 * Removes an item from the shoppingCart.
 	 *
 	 * @param identifier Searches the Map {@link} items for the item with the identifier.

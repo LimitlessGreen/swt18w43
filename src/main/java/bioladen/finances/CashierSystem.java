@@ -74,7 +74,7 @@ public class CashierSystem {
 				inventoryProductCatalog.findById(product).get().removeDisplayedAmount(amount);
 				CartCartItem item = shoppingCart.addOrUpdateItem(inventoryProductCatalog.findById(product).get(), amount);
 				inventoryProductCatalog.save(inventoryProductCatalog.findById(product).get());
-				if (item.getQuantity() - 1 == 0 && amount < 0) {
+				if (item.getQuantity() - 1 <= 0 && amount < 0) {
 					shoppingCart.removeItem(item.getId());			// delete item when amount is negative and the remaining quantity is 1
 				}
 			} else {
