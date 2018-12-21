@@ -60,9 +60,9 @@ class CustomerControllerTest {
 	@Test
 	void customerRegister() throws Exception {
 		mvc.perform((((post("/register").with(user("manager").roles("MANAGER"))
-				.param("firstname", "Flori")).param("lastname", "Feldfreude")
-				.param("phone", "123123739").param("email", "flori@feldfreude.de"))
-				.param("sex", "male")).param("address", "Feldweg 43, 24242 Felde").param("type", "Manager"))
+				.param("firstname", "Peter")).param("lastname", "Wurst")
+				.param("phone", "23623626").param("email", "wurstpeter@gmx.de"))
+				.param("sex", "male")).param("address", "Fleischerrei 67, 16928 Kuhbier").param("type", "House"))
 				.andDo(print())
 				.andExpect(status().isOk());
 	}
@@ -82,23 +82,56 @@ class CustomerControllerTest {
 
 	@Test
 	void deletePreventPublicAccess() throws Exception {
-		mvc.perform(get("/customerlist/delete?id=2"))
+		mvc.perform(get("/customerlist/delete").param("id", "2"))
 				.andExpect(status().isFound())
 				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
 	}
 
 	@Test
 	void deleteIsAccessibleForManager() throws Exception {
-		mvc.perform(get("/customerlist/delete?id=2").with(user("feldfreude@bio.de").roles("MANAGER")))
+		mvc.perform(get("/customerlist/delete").with(user("feldfreude@bio.de").roles("MANAGER")).param("id", "2"))
 				.andExpect(redirectedUrl("/customerlist"));
 	}
 
 	@Test
-	void customerModify() throws Exception {
+	void customerModifyStaffToManager() throws Exception {
 		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
 				.param("firstname", "Berta")).param("lastname", "Balsamico")
 				.param("phone", "235235").param("email", "bertabunt@bio.de"))
-				.param("sex", "weiblich")).param("address", "Essig 1 032423 Mozarella").param("type", "Manager").param("id", "2"))
+				.param("sex", "female")).param("address", "Essig 1 032423 Mozzarella").param("type", "Manager").param("id", "2"))
+				.andDo(print())
+				.andExpect(redirectedUrl("/customerlist"));
+
+	}
+
+	@Test
+	void customerModifyStaffToNormalCustomer() throws Exception {
+		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("firstname", "Berta")).param("lastname", "Balsamico")
+				.param("phone", "235235").param("email", "bertabunt@bio.de"))
+				.param("sex", "female")).param("address", "Essig 1 032423 Mozzarella").param("type", "House").param("id", "2"))
+				.andDo(print())
+				.andExpect(redirectedUrl("/customerlist"));
+
+	}
+
+	@Test
+	void customerModifyCustomerToStaff() throws Exception {
+		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("firstname", "Hilde")).param("lastname", "Garten")
+				.param("phone", "  ").param("email", "garten@obst.de"))
+				.param("sex", "female")).param("address", "Hof 4, 06862 Hundeluft").param("type", "Staff").param("id", "3"))
+				.andDo(print())
+				.andExpect(redirectedUrl("/customerlist"));
+
+	}
+
+	@Test
+	void customerModifyOtherCases() throws Exception {
+		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("firstname", "Hildegard")).param("lastname", "Garten-Obst")
+				.param("phone", "").param("email", "garten@obst.de"))
+				.param("sex", "female")).param("address", "").param("type", "Major").param("id", "3"))
 				.andDo(print())
 				.andExpect(redirectedUrl("/customerlist"));
 
@@ -106,7 +139,7 @@ class CustomerControllerTest {
 
 	@Test
 	void modifyPreventPublicAccess() throws Exception {
-		mvc.perform(get("/customerlist/modify?id=2"))
+		mvc.perform(get("/customerlist/modify").param("id", "2"))
 				.andExpect(status().isFound())
 				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
 	}
