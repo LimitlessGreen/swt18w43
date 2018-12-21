@@ -70,9 +70,9 @@
 
                                 <select id="inputCustomer" class="form-control" name="type" required>
                                     <option disabled selected>Bitte den Typ bestätigen</option>
-                                    <option value="Hauskunde" >Hauskunde</option>
-                                    <option value="Großkunde" sec:authorize="hasAnyRole('ROLE_MANAGER')">Großkunde</option>
-                                    <option value="Personal" sec:authorize="hasAnyRole('ROLE_MANAGER')">Personal</option>
+                                    <option value="House" >Hauskunde</option>
+                                    <option value="Major" sec:authorize="hasAnyRole('ROLE_MANAGER')">Großkunde</option>
+                                    <option value="Staff" sec:authorize="hasAnyRole('ROLE_MANAGER')">Personal</option>
                                     <option value="Manager" sec:authorize="hasAnyRole('ROLE_MANAGER')">Manager</option>
                                 </select>
                                 <div class="help-block">Alter Typ: <x th:text="${type}"></x></div>
@@ -81,9 +81,9 @@
                                 <label for="inputsex">Geschlecht</label>
                                 <select id="inputsex" class="form-control" name="sex" required>
                                     <option disabled selected>Bitte das Geschlecht bestätigen</option>
-                                    <option value="männlich">männlich</option>
-                                    <option value="weiblich">weiblich</option>
-                                    <option value="divers">divers</option>
+                                    <option value="male">männlich</option>
+                                    <option value="female">weiblich</option>
+                                    <option value="various">divers</option>
                                 </select>
                                 <div class="help-block">Altes Geschlecht: <x th:text="${sex}"></x></div>
                             </div>

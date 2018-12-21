@@ -31,7 +31,7 @@ public class CustomerDataInitializer implements DataInitializer {
 		Customer staff = new Customer("Berta", "Bunt", "bertabunt@bio.de", Sex.FEMALE, CustomerType.STAFF);
 		staff.setStreet("Bergstraße 69, 57612 Busenhausen");
 
-		Customer majorCustomer = new Customer("Hilde", "Gard", "garden@obst.de", Sex.FEMALE, CustomerType.MAJOR_CUSTOMER);
+		Customer majorCustomer = new Customer("Hilde", "Garten", "garten@obst.de", Sex.FEMALE, CustomerType.MAJOR_CUSTOMER);
 		majorCustomer.setStreet("Hof 4, 06862 Hundeluft");
 		majorCustomer.setPhone("012412515");
 

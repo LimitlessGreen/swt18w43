@@ -113,6 +113,49 @@ public class CustomerManager {
 		return customerTmp;
 	}
 
+	/*------------------------*/
+	/*  5. Types
+	/*------------------------*/
+
+	public CustomerType type(String type){
+		CustomerType customerType;
+		switch (type) {
+			case "Manager":
+				customerType = CustomerType.MANAGER;
+				break;
+			case "Staff":
+				customerType = CustomerType.STAFF;
+				break;
+			case "Major":
+				customerType = CustomerType.MAJOR_CUSTOMER;
+				break;
+			case "House":
+				customerType = CustomerType.HOUSE_CUSTOMER;
+				break;
+			default:
+				throw new IllegalArgumentException(type);
+		}
+		return customerType;
+	}
+
+	public Sex sex(String sex){
+		Sex customerSex;
+		switch (sex) {
+			case "male":
+				customerSex = Sex.MALE;
+				break;
+			case "female":
+				customerSex = Sex.FEMALE;
+				break;
+			case "various":
+				customerSex = Sex.VARIOUS;
+				break;
+			default:
+				throw new IllegalArgumentException(sex);
+		}
+		return customerSex;
+	}
+
 	/*
          _________________
         < Event publisher >

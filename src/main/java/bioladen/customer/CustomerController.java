@@ -61,36 +61,9 @@ public class CustomerController {
 		CustomerType customerType;
 		Sex customerSex;
 
-		switch (sex) {
-			case "male":
-				customerSex = Sex.MALE;
-				break;
-			case "female":
-				customerSex = Sex.FEMALE;
-				break;
-			case "various":
-				customerSex = Sex.VARIOUS;
-				break;
-			default:
-				throw new IllegalArgumentException(sex);
-		}
+		customerSex= customerManager.sex(sex);
 
-		switch (type) {
-			case "Manager":
-				customerType = CustomerType.MANAGER;
-				break;
-			case "Staff":
-				customerType = CustomerType.STAFF;
-				break;
-			case "Major":
-				customerType = CustomerType.MAJOR_CUSTOMER;
-				break;
-			case "House":
-				customerType = CustomerType.HOUSE_CUSTOMER;
-				break;
-			default:
-				throw new IllegalArgumentException(type);
-		}
+		customerType= customerManager.type(type);
 
 		String safeFirstName;
 		String safeLastName;
@@ -228,38 +201,13 @@ public class CustomerController {
 		CustomerType customerType;
 		Sex customerSex;
 
-		switch (sex) {
-			case "männlich":
-				customerSex = Sex.MALE;
-				break;
-			case "weiblich":
-				customerSex = Sex.FEMALE;
-				break;
-			case "divers":
-				customerSex = Sex.VARIOUS;
-				break;
-			default:
-				throw new IllegalArgumentException(sex);
-		}
+		customerSex= customerManager.sex(sex);
+
+
 
 		if (!authenticationManager.getCurrentUser().get().getUsername().
 				equals(customerManager.get(id).getEmail())) {
-			switch (type) {
-				case "Manager":
-					customerType = CustomerType.MANAGER;
-					break;
-				case "Personal":
-					customerType = CustomerType.STAFF;
-					break;
-				case "Großkunde":
-					customerType = CustomerType.MAJOR_CUSTOMER;
-					break;
-				case "Hauskunde":
-					customerType = CustomerType.HOUSE_CUSTOMER;
-					break;
-				default:
-					throw new IllegalArgumentException(type);
-			}
+			customerType= customerManager.type(type);
 		} else {
 			customerType = customerManager.get(id).getCustomerType();
 		}
