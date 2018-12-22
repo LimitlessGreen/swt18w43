@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -64,25 +64,66 @@ class UserAccControllerTest {
 
 	@Test
 	void resetPreventPublicAccess() throws Exception {
-		mvc.perform(get("/customerlist/resetPassword?email=bertabunt@bio.de"))
+		mvc.perform(get("/customerlist/resetPassword").param("email", "bertabunt@bio.de"))
 				.andExpect(status().isFound())
 				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
 	}
 
 	@Test
 	void resetIsAccessibleForManager() throws Exception {
-		mvc.perform(get("/customerlist/resetPassword?email=bertabunt@bio.de").with(user("feldfreude@bio.de").roles("MANAGER")))
+		mvc.perform(get("/customerlist/resetPassword").with(user("feldfreude@bio.de").roles("MANAGER")).param("email", "bertabunt@bio.de"))
 				.andExpect(redirectedUrl("/customerlist"));
 	}
 
 	@Test
-	void customerModify() throws Exception {
+	void postiveResetPassword() throws Exception {
 		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
 				.param("oldPassword", "blattgrün43")).param("newPassword", "Feldfreude43")
-				.param("newPasswordAgaim", "Feldfreude43"))))
+				.param("newPasswordAgain", "Feldfreude43"))))
+				.andDo(print());
+		mvc.perform(get("/customerlist/resetPassword").with(user("feldfreude@bio.de").roles("MANAGER")).param("email", "feldfreude@bio.de"))
+				.andExpect(redirectedUrl("/customerlist"));
+	}
+
+	@Test
+	void userAccModify() throws Exception {
+		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("oldPassword", "blattgrün43")).param("newPassword", "Feldfreude43")
+				.param("newPasswordAgain", "Feldfreude43"))))
 				.andDo(print());
 
 	}
+
+	@Test
+	void errorUserAccModify() throws Exception {
+		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("oldPassword", "IDontKnow")).param("newPassword", "Feldfreude43")
+				.param("newPasswordAgain", "Feldfreude43"))))
+				.andExpect(model().attribute("errorPasswordMsg", "Altes Passwort ist inkorrekt."))
+				.andDo(print());
+		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("oldPassword", "blattgrün43")).param("newPassword", "feldfreude43")
+				.param("newPasswordAgain", "Feldfreude43"))))
+				.andExpect(model().attribute("errorPasswordMsg", "Die neuen Passwörter stimmen nicht überein."))
+				.andDo(print());
+		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("oldPassword", "blattgrün43")).param("newPassword", "blattgrün43")
+				.param("newPasswordAgain", "blattgrün43"))))
+				.andExpect(model().attribute("errorPasswordMsg", "Neues Passwort stimmt mit dem alten überein."))
+				.andDo(print());
+		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("oldPassword", "   ")).param("newPassword", "            ")
+				.param("newPasswordAgain", ""))))
+				.andExpect(model().attribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt."))
+				.andDo(print());
+		mvc.perform((((post("/profil").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("oldPassword", "blattgrün43")).param("newPassword", "            ")
+				.param("newPasswordAgain", ""))))
+				.andExpect(model().attribute("errorPasswordMsg", "Einige Felder wurden nicht ausgefüllt."))
+				.andDo(print());
+	}
+
+
 
 
 }

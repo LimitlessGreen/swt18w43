@@ -1,0 +1,68 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--Title-->
+    <title>Newsletter</title>
+
+    <!--Import CSS-->
+    <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
+</head>
+
+<body>
+<!--Navigation-->
+<nav th:include="navigation_new :: navigation"></nav>
+
+<div class="form-element-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-element-list">
+                <div>
+                    <h1 align="center">Wollen Sie sich wirklich von dem tollen Newsletter abmelden?</h1>
+                    <br>
+                    <form method="post" th:action="@{/cancel_newsletter}" data-toggle="validator">
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label for="email" class="control-label">E-Mail*</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                           placeholder="E-Mail" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="alert alert-success alert-dismissible" role="alert" th:if="${successCancel}">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <x>Sie haben sich erfolgreich von dem Newsletter abgemeldet.</x>
+                                    </div>
+                                    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${errorCancel}">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <x>Diese E-Mail ist nicht bei unserem tollen Newsletter angemeldet. Bitte überprüfen Sie ihre Eingabe oder melden Sie sich mit dieser E-Mail an. &#x1F609;</x>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-danger" style="margin-left: 15px; float: left">Abmelden</button>
+
+                    </form>
+                    <a th:href="@{/}">
+                        <button class="btn btn-success" style="float:right">Zur Startseite</button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="footer :: footer"></div>
+<!-- Footer area END -->
+
+<!--Import JS-->
+<!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+<!-- Validator.js -->
+<script src="/js/validator.js"></script>
+
+
+</body>
+</html>

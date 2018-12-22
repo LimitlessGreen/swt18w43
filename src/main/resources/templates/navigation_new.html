@@ -32,6 +32,11 @@
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="header-top-menu">
                         <ul class="nav navbar-nav notika-top-nav">
+                            <li sec:authorize="hasAnyRole('ROLE_MANAGER')">
+                                <a th:href="@{/admin}">
+                                    <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-tools"></i></button>
+                                </a>
+                            </li>
                             <li sec:authorize="isAuthenticated()">
                                 <a th:href="@{/profil}">
                                     <button class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0px"><i class="fas fa-user-circle"></i><x th:text="${' '+#authentication?.name}"></x></button>
@@ -79,7 +84,7 @@
                                         <li><a th:href="@{/distributorproductlist}">Großhändlerprodukte verwalten</a>
                                         </li>
                                         <li><a th:href="@{/productlist}">Produkte verwalten</a></li>
-                                        <li><a th:href="@{/stockTaking}">Inventurverwaltung</a></li>
+                                        <li><a th:href="@{/stockTaking}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Inventurverwaltung</a></li>
                                     </ul>
                                 </li>
                                 <li><a data-toggle="collapse" data-target="#m_personmanagement" href="#" sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_STAFF')">Personenverwaltung</a>
@@ -145,7 +150,7 @@
                         </li>
                         <li><a th:href="@{/productlist}">Produkte verwalten</a>
                         </li>
-                        <li><a th:href="@{/stockTaking}">Inventurverwaltung</a>
+                        <li><a th:href="@{/stockTaking}" sec:authorize="hasAnyRole('ROLE_MANAGER')">Inventurverwaltung</a>
                         </li>
                     </ul>
                 </div>
