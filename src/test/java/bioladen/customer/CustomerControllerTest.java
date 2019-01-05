@@ -144,6 +144,19 @@ class CustomerControllerTest {
 				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
 	}
 
+	@Test
+	void modifyFunction() throws Exception {
+		mvc.perform(get("/customerlist/modify").with(user("feldfreude@bio.de").roles("MANAGER")).param("id", "2"))
+				.andExpect(model().attribute("firstname", "Berta"))
+				.andExpect(model().attribute("lastname", "Bunt"))
+				.andExpect(model().attribute("email", "bertabunt@bio.de"))
+				.andExpect(model().attribute("street", "Bergstraße 69, 57612 Busenhausen"))
+				.andExpect(model().attributeDoesNotExist("phone"))
+				.andExpect(model().attribute("sex", "weiblich"))
+				.andExpect(model().attribute("type", "Personal"))
+				.andExpect(model().attributeExists("id"))
+				.andDo(print());
+	}
 
 
 }
