@@ -404,26 +404,34 @@
 
                             <br>
 
-                        </div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block waves-effect mg-b-15" data-toggle="modal" data-target="#CustomerPref">Vorliebe für Kunden</button>
+                            <div class="modal fade" id="CustomerPref" role="dialog">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2>Der Kunde kaufte in letzter Zeit vor Allem:</h2>
+                                            <p align="center">Produkt</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <script>
-                            function QrCodeChange() {
-                                var qrCode = document.getElementById('qrcode');
-                                var qrCodeText = document.getElementById('qrcodeText');
-
-                                if (qrCode.style.visibility === 'hidden') {
-                                    qrCode.style.visibility = 'visible';
-                                    qrCodeText.value = 'QR-Code ausblenden';
-                                } else {
-                                    qrCode.style.visibility = 'hidden';
-                                    qrCodeText.value = 'QR-Code anzeigen';
-                                }
-                            }
-                        </script>
-
-                        <div align="center">
-                            <input type="button" id="qrcodeText" class="btn btn-primary" value="QR-Code anzeigen" onclick="QrCodeChange()" style="background-color: #337ab7;">
-                            <div id="qrcode" style="visibility: hidden"></div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block waves-effect mg-b-15" data-toggle="modal" data-target="#QRCodeModal">QR-Code anzeigen</button>
+                            <div class="modal fade" id="QRCodeModal" role="dialog">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div id="qrcode">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
 
                     </div>
