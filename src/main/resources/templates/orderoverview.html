@@ -7,39 +7,49 @@
 
     <!--Import CSS-->
     <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
+    <link rel="stylesheet" type="text/css" href="/css/info-box.css">
 </head>
 <body>
 <!--Navigation-->
 <nav th:include="navigation_new :: navigation"></nav>
 
-
-<div class="container">
-    <div class="normal-table-list">
+<div class="data-table-area">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="basic-tb-hd" style="margin-bottom: 0px;">
-                    <h2>offene Bestellungen</h2>
-                    <div class="bsc-tbl-hvr">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>bestellt am</th>
-                                <th>Lieferant</th>
-                                <th>Anzahl Artikel</th>
-                                <th>Gesamtpreis</th>
-                                <th>Optionen</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="order : ${orders}">
-                                <td></td>
-                                <td th:text="${order.getDistributor().getName()}"></td>
-                                <td th:text="${order.getItems().size()}"></td>
-                                <td th:text="${#numbers.formatDecimal(order.getPrice().getNumber().doubleValue(),0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                                <td>
+                <div class="data-table-list">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="basic-tb-hd">
+                                <h2>Offene Bestellungen</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <th:block th:each="order : ${orders}">
+                        <div class="info-box info-box--add info-box--hidden">
+                            <div class="info-box-entity">
+                                <div class="info-box-entity-heading">
+                                    <div class="info-box-entity-heading-name" th:text="${order.getDistributor().getName()}"></div>
+                                    <div class="info-box-entity-heading-class" th:text="${#numbers.formatDecimal(order.getPrice().getNumber().doubleValue(),0, 'POINT', 2, 'COMMA')} + ' €'"></div>
+                                </div>
+                                <table class="info-box-entity-attributes-table" width="50%">
+                                    <tr>
+                                        <th>Produkt</th>
+                                        <th>Anzahl</th>
+                                        <th>Preis</th>
+                                    </tr>
+                                    <tr th:each="product : ${order.getItems()}">
+                                        <td th:text="${product.getProduct().getName()}"></td>
+                                        <td th:text="${product.getQuantity()}"></td>
+                                        <td th:text="${product.getPrice()} + ' €'"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="info-box-infos" style="flex-flow: column wrap;">
+                                <div style="flex-flow: column wrap;">
                                     <a th:href="@{/orders/complete(id = ${order.getId()})}">
                                         <button type="button" class="btn btn-info notika-btn-green">
-                                            <i class="fas fa-truck-loading"></i></i>
+                                            <i class="fas fa-truck-loading"></i>
                                         </button>
                                     </a>
                                     <a th:href="@{/orders/delete(id = ${order.getId()})}">
@@ -47,12 +57,45 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </th:block>
                 </div>
+                <!--<div class="bsc-tbl-hvr">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>bestellt am</th>
+                            <th>Lieferant</th>
+                            <th>Anzahl Artikel</th>
+                            <th>Gesamtpreis</th>
+                            <th>Optionen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td></td>
+                            <td th:text="${order.getDistributor().getName()}"></td>
+                            <td th:text="${order.getItems().size()}"></td>
+                            <td th:text="${#numbers.formatDecimal(order.getPrice().getNumber().doubleValue(),0, 'POINT', 2, 'COMMA')} + ' €'"></td>
+                            <td>
+                                <a th:href="@{/orders/complete(id = ${order.getId()})}">
+                                    <button type="button" class="btn btn-info notika-btn-green">
+                                        <i class="fas fa-truck-loading"></i></i>
+                                    </button>
+                                </a>
+                                <a th:href="@{/orders/delete(id = ${order.getId()})}">
+                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>-->
             </div>
         </div>
     </div>
@@ -64,6 +107,8 @@
 
 <!--Import JS-->
 <!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+<script src="/js/info-box.js"></script>
+
 
 </body>
 </html>

@@ -60,8 +60,9 @@ public class OrderCartItem {
 	 * @return the new item
 	 */
 	final OrderCartItem add(Quantity quantity) {
-
-		Assert.notNull(quantity, "Quantity must not be null!");
+		if (quantity == null){
+			throw new IllegalArgumentException("Quantity must not be null!");
+		}
 
 		return new OrderCartItem(this.id, this.quantity.add(quantity), this.product);
 	}
