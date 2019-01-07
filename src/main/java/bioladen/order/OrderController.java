@@ -61,7 +61,9 @@ public class OrderController {
 	public String deleteOrder(@RequestParam Long id) {
 		DistributorOrder order = orderRepository.findById(id).orElse(null);
 
-		orderManager.delete(order);
+		if (order != null) {
+			orderManager.delete(order);
+		}
 		return "redirect:/orders";
 	}
 
