@@ -1,6 +1,9 @@
 package bioladen.newsletter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,18 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class NewsletterController {
+public class NewsletterController /*implements EmailService*/ {
+
+	@Autowired
+	private JavaMailSender emailSender;
+
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@RequestMapping("/admin")
 	public String admin() {
 
-		return "admin";
-	}
-
-	@PostMapping("/newsletter")
-	public String newsletter(@RequestParam String message) {
-		//TODO write Newsletter
 		return "admin";
 	}
 
@@ -46,4 +47,18 @@ public class NewsletterController {
 		//TODO register Newsletter
 		return "welcome";
 	}
+
+	@PostMapping("/sendEmail")
+	public String sendEmail(@RequestParam String message,
+							@RequestParam String subject) {
+
+		SimpleMailMessage email = new SimpleMailMessage();
+		email.setTo("jairus.behrisch@hotmail.de");
+		email.setSubject(subject);
+		email.setText(message);
+		emailSender.send(email);
+		return "redirect:/admin";
+	}
+
 }
+
