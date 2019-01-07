@@ -1,0 +1,52 @@
+= Protokoll Gruppe 43
+
+Treffen am 07.01.2019
+
+Ort:      APB +
+Beginn:   09:20 Uhr +
+Ende:     10:00 Uhr
+
+__Schriftführer:__ Lukas Petzold
+
+*Nächstes Treffen:* +
+Abschlusspräsentation
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor)
+- Adrian Kulisch
+- Josefin Hübner
+- Jairus Behrisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Abschlusspräsentation nächste Woche
+- Abgabe des Projekts am Freitag 23:59Uhr
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#28     |Sprint 8       |offen      |Fehlende Features, Javadoc, Tests etc.
+|===
+
+
+== Aktueller Stand
+- Kundenwunsch, Gewinnprozentsatz und Vorliebe der Kunden sind die noch fehlenden Features
+- Ansonsten müssen nur noch einige Tests geschrieben werden und Diagramme überarbeitet
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#28     |Sprint 8     |Fehlende Features, Javadoc, Tests etc.            |alle                |offen
+|===
