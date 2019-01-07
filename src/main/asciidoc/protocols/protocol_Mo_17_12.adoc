@@ -1,0 +1,65 @@
+= Protokoll Gruppe 43
+
+Treffen am 17.12.2018
+
+Ort:      APB +
+Beginn:   09:20 Uhr +
+Ende:     10:50 Uhr
+
+__Schriftführer:__ Lisa Riedel
+
+*Nächstes Treffen:* +
+07.1.2019, 09:20 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Florentin Dörre (Tutor, Kunde)
+- Adrian Kulisch
+- Josefin Hübner
+- Jairus Behrisch
+- Lisa Riedel
+- Lukas Petzold
+
+== Bemerkungen
+- Beide CrossTesting Reports kommen ins GitHub Rep
+- Anwenderdoku, Tests schreiben
+- Kundenwunsch: Newsletter
+    * Manager schreibt Text an alle Customer die in die Mailing Liste eingetragen sind
+    * Man kann sich für den Newsletter an- und abmelden
+    * Man kann sich auch für den Newsletter an- und abmelden, wenn man keinen Account hat
+- Bemerkungen für die Endpräsentation:
+    * Uns vorstellen
+    * Was ist an unserem Projekt anders? -> Entwurfsentscheidungen
+    * Wahrscheinlich Aufgabenstellung nicht erklären -> macht andere Gruppe
+    * Auch kurz Analyse vorstellen
+    * Wie haben wir kommuniziert? Wie verlief die Gruppenkommunikation?
+    * Nicht jeder muss reden
+    * Teile der Diagramme nur zeigen
+    * Idee: Rollenspiel für Vorstellung (auch mit Requisiten)
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|#28     |Sprint 8       |offen      |Tests, Javadoc, einige fehlende Kriterien
+|===
+
+
+== Aktueller Stand
+- Anwendung fast fertig
+- Einige Tests bereits geschrieben und etwas javadoc
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|#28     |Sprint 8     |Tests, Javadoc, einige fehlende Kriterien + Kundenwunsch           |alle                |offen
+|===

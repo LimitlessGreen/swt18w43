@@ -68,6 +68,39 @@ class CustomerControllerTest {
 	}
 
 	@Test
+	void customerRegisterErrorCases() throws Exception {
+		mvc.perform((((post("/register").with(user("manager").roles("MANAGER"))
+				.param("firstname", "  ")).param("lastname", "Wurst")
+				.param("phone", "23623626").param("email", "wurstpeter@gmx.de"))
+				.param("sex", "male")).param("address", "").param("type", "House"))
+				.andExpect(model().attribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt."))
+				.andDo(print());
+		mvc.perform((((post("/register").with(user("manager").roles("MANAGER"))
+				.param("firstname", "Peter")).param("lastname", "")
+				.param("phone", "23623626").param("email", "wurstpeter@gmx.de"))
+				.param("sex", "male")).param("address", "").param("type", "House"))
+				.andExpect(model().attribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt."))
+				.andDo(print());
+		mvc.perform((((post("/register").with(user("manager").roles("MANAGER"))
+				.param("firstname", "Peter")).param("lastname", "Wurst")
+				.param("phone", "23623626").param("email", " "))
+				.param("sex", "male")).param("address", "").param("type", "House"))
+				.andExpect(model().attribute("errorRegisterMsg", "Pflichtfelder wurde nicht aufgefüllt."))
+				.andDo(print());
+		mvc.perform((((post("/register").with(user("manager").roles("MANAGER"))
+				.param("firstname", "Peter")).param("lastname", "Wurst")
+				.param("phone", "  ").param("email", "wurstpeter@gmx.de"))
+				.param("sex", "male")).param("address", "").param("type", "House"))
+				.andDo(print());
+		mvc.perform((((post("/register").with(user("manager").roles("MANAGER"))
+				.param("firstname", "Peter")).param("lastname", "Wurst")
+				.param("phone", "").param("email", "wurstpeter@gmx.de"))
+				.param("sex", "male")).param("address", "").param("type", "House"))
+				.andExpect(model().attribute("errorRegisterMsg", "E-Mail ist bereits im System registriert"))
+				.andDo(print());
+	}
+
+	@Test
 	void registerIsAccessibleForPersonal() throws Exception {
 		mvc.perform(get("/register").with(user("manager").roles("MANAGER")))
 				.andExpect(status().isOk());
@@ -119,11 +152,21 @@ class CustomerControllerTest {
 	void customerModifyCustomerToStaff() throws Exception {
 		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
 				.param("firstname", "Hilde")).param("lastname", "Garten")
-				.param("phone", "  ").param("email", "garten@obst.de"))
+				.param("phone", "012412515").param("email", "garten@obst.de"))
 				.param("sex", "female")).param("address", "Hof 4, 06862 Hundeluft").param("type", "Staff").param("id", "3"))
 				.andDo(print())
 				.andExpect(redirectedUrl("/customerlist"));
 
+	}
+
+	@Test
+	void adminModify() throws Exception {
+		mvc.perform((((post("/modified").with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("firstname", "Flori")).param("lastname", "Feldfreude")
+				.param("phone", "23525252").param("email", "blattgrün@bio.de"))
+				.param("sex", "male")).param("address", "Hof 4, 06862 Hundeluft").param("type", "Manager").param("id", "1"))
+				.andDo(print())
+				.andExpect(redirectedUrl("/customerlist"));
 	}
 
 	@Test
@@ -157,6 +200,7 @@ class CustomerControllerTest {
 				.andExpect(model().attributeExists("id"))
 				.andDo(print());
 	}
+
 
 
 }

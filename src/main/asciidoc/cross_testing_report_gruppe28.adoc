@@ -1,0 +1,49 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:__ 28
+
+__Anwendung von Gruppe:__ 43
+
+== Getestetes System
+Bio-Laden "Blattgrün"
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/bioUser-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+|`/product/label`|`id=1`|Etikett anzeigen funktioniert nicht|Whitelabel Error Page
+|`/productlist`|Warenbewegung|Warenbewegung zeigt keinen Fehler an, wenn die zu Bewegende Anzahl größer als die Anzahl im Lager ist|`productlist`, wie vorher
+|`/productlist/labels`||s. oben|Whitelabel Error Page
+|`/statistic`||Typo bei "Gewinnprozentsatz"|
+|`/cashiersystemUser`|KundenID = 0.5|Die Eingabe von nicht-geradzahligen Kunden-IDs < 1 wird nicht abgefangen.|WLEP: Failed to convert value of type 'java.lang.String' to required type 'long'; nested exception is java.lang.NumberFormatException: For input string: "0.5"
+|`/distributorlist`|`delete?id=1`|Löschen von Großhändler schlägt fehl bzw. zeigt WLEP statt entsprechender Fehlermeldung auf der Website|WLEP: could not execute statement; SQL [n/a]; constraint ["FK64O3WIAP3E7F14TGO0GN0D7NJ: PUBLIC.DISTRIBUTOR_PRODUCT FOREIGN KEY(DISTRIBUTOR_ID) REFERENCES PUBLIC.DISTRIBUTOR(ID) (1)"; SQL statement: delete from distributor where id=? [23503-197]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+|`/distributorlist`|Großhändler hinzufügen|Typo im Placeholder für "Kontaktperson"|
+|`/statistic`|eingeloggt als STAFF|WLEP statt Fehlermeldung auf der Website|Whitelabel Error Page
+|`/datahistory`||`DataHistory` wird nicht persistent nach aus- und einloggen gespeichert|
+|`/customerlist`|Passwort zurücksetzen|Eingeloggt als Manager, Passwort-zürcksetzen-knopf lädt nur die seite neu, nichts weiter passiert (bei sowohl manager als auch Staff)|
+|`/stockTaking`|Inventur Starten|Einmal eine Inventur gestarted -> inventur durhgeführt -> ein Eintrag in /stockTaking -> dann wieder auf Inventur Starten geklickt -> WLEP|WhiteLabelErrorPage status=500
+|`/product`||Großhändlerproduktliste—>Als Produkt hinzufügen|Whitelabel Error Page,There was an unexpected error (type=Internal Server Error, status=500).
+|`/personenverwaltung`||personenverwaltung—>User verwalten-->Aktion|Die Funktion kann nicht funktionieren
+|`/product`|Das Produkt existiert bereits von einem anderen Großhändler|Großhändlerproduktliste—>Als Produkt hinzufügen|Whitelabel Error Page, Internal Error -> Der Katalog kann keine Produkte von verschiedenen Großhändlern gleichzeitig beinhalten. 
+|===
+
+== Sonstiges
+Optik der Anwendung, Fehlende Features, Interaktion mit der Anwendung (Usability)
+
+- Personenverwaltung, Statistik, Aktionsverlauf, Kasse sehr leicht verständlich
+- Das Produkte nur über die ID zur Kasse hinugefügt werden können, macht den Vorgang sehr langsam wenn man immer erst die ID nachschlagen muss. Bzw. wenn es viele Produkte gibt muss man viele ID im Kopf haben.
+- Produktverwaltung und Bestellen etwas unübersichtlich (evt. Tutorial Page für Staff hinzufügen)
+- Es ist etwas umständlich und unintuitiv, dass man Bestellungen beim Großhändler seperat abschicken und abschließen muss, der Extraschritt erscheint mir hier überflüssig.
+- Artikel mit Preis < 1,00 € werden in der Bestellübersicht (`/order`) mit ",xx €" statt "0,xx €" angezeigt.
+- Direktlink von `/productList` zu `/order` wäre praktisch...
+- Inventur hat keine Auswirkung auf die Anzahl im Lager/Laden. Sie zeigt nur, dass die Anzahl nicht stimmt, updated die Azanhl in der Datenbank nicht.
+
+== Verbesserungsvorschläge
+Was kann noch weiter verbessert werden?
+
+- Muss sich der Footer beim Scrollen mitbewegen? Könnte der nicht auch einfach am Ende der Seite angezeigt werden...?
+- Wenn versucht wird Manager zu löschen, noch Fehlermeldung anzeigen, dass der einzige Managaer nicht gelöscht werden kann.
+- allgemein mehr fehlermeldungen, damit klar ist warum etwas nicht ausgeführt wurde. z.b. wenn man mehr produkte aus dem lager in die austellfläche bewegen möchte als auf lager ist, passiert einfach nichts. Dort wäre fehlermeldung gut.
+- Übersicht mit allen abgeschlossenen Bestellungen/Einkäufen. Im Moment sieht man nur die Anzahl der Einkäufe.
+- Produktübersicht zu Staff und Manger hinzufügen, damit Produkte einfach zur Kasse hinzugefügt werden können ohne, dass die Produkt ID gewusst werden muss

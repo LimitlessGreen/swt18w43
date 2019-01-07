@@ -1,0 +1,354 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:__ Gruppe 43 +
+__Anwendung von Gruppe:__ Gruppe 28
+
+== Getestetes System
+=== Muss-Kriteren
+[options="interactive"]
+.Kunde:
+* [x] Waren im Katalog ansehen
+- [ ] [line-through]*Suchfuntkion*
+* [x] Warenkorb erstellen
+Artikel in den Warenkorb legen
+- [ ] [line-through]*< Maximum zum Verkauf stehenden Artikel*
+* [x] Artikel aus dem Warenkorb stornieren
+* [x] gesamten Warenkorb stornieren
+* [x] Informationen zum Artikel [UC101]
+
+[options="interactive"]
+.Angestellte (employee):
+* [x] einloggen
+* [x] ausloggen
+- [ ] [line-through]*fragen ob er sich ausloggen möchte [AT002]*
+* [ ] [line-through]*eigenen Account eingeschränkt bearbeiten*
+* [x] Kundenprofil
+- [x] anlegen
+- [x] löschen
+- [x] filtern
+- [ ] [line-through]*bearbeiten (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])*
+- [ ] [line-through]*Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]*
+
+* [x] Warenkorb
+- [x] eines Kunden abrechnen
+- [x] Stornierung
+* [ ] [line-through]*Inventur durchführen [AT107]*
+* [x] Etiketten für Artikel drucken
+- [ ] [line-through]*die im Warenkorb sind [AT102]*
+* [ ] Übersicht der getätigten Transaktionen + [line-through]*verschiedene Anzeigeoptionen [AT004]*
+
+[options="interactive"]
+.Geschäftsführer (CEO):
+* [x] alles was Angestellte können
+* [x] Übersicht der getätigten Transaktionen + verschiedene Anzeigeoptionen
+* [ ] Angestelltenkonto
+- [x] Anlegen
+- [x] Löschen
+- [ ] [line-through]*Bearbeiten*
+- [ ] [line-through]*Gehalt zahlen ?*
+* [x] Artikel vom Lager in den Laden übertragen
+* [ ] Rabatt von … festlegen
+- [ ] [line-through]*Artikelgruppen*
+- [ ] [line-through]*Kundengruppen*
+- [x] einzelen Produkten
+- [x] Fehlerabfangung bei ungültigen Werten [AT115]
+* [x] manueller Import von Artikeln (mit Auswahl d. Großhändlers)
+* [ ] [line-through]*Artikelliste importieren BNN [AT106]*
+- [ ] [line-through]*Fehlerabfangung [AT]*
+* [x] Transaktionshistorie einsehen
+* [x] Statistiken einsehen (Seite ist da)
+- [ ] [line-through]*Funktion*
+* [x] Artikel verwalten
+- [x] Artikel erstellen
+** [x] Pflichtfelderhinweis [AT114]
+- [x] Artikel löschen
+- [x] Artikel bearbeiten
+- [x] Einschränkung nach Berechtigung [AT104]
+- [x] Lagerbestand erhöhen /senken [UC104]
+
+=== Kann-Kriterien
+[options="interactive"]
+* [ ] [line-through]*Mehrere Standorte*
+* [ ] [line-through]*QR/Barcode Scanner*
+
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+
+=== Katalog
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|/catalog/add
+|produktname, produzent, herkunft, qualität jeweils 2 Leerzeichen
+|Es wird ein Fehler geworfen, wenn Produkte mit eigentlich ungültigen Eingaben erstellt werden
+|Error Page
+
+|/catalog/add
+|produktname, produzent, herkunft, qualität
+|Es können eigentlich nicht zulässige Sonderzeichen und je nachdem Buchstaben und Zahlen eingegeben werden
+|Error Page
+
+|/catalog/item/(id)
+|username=admin
+|man kann mehr Produkte verschieben als man hat
+|error Page
+
+|/catalog/item/(id)
+|username=admin, oder uneingeloggt
+|man kann mehr Produkte in den Warenkorb hinzufügen als vorhanden sind z.B 0 Produkte vorhanden
+|wird einfach in den Warenkorb hinzugefügt ->Fehler erwartet
+
+|/catalog/item/(id)
+|username=admin
+|wird eine Anzahl von Produkten gekauft die höher als der Ladenbestand, wird nichts abgezogen (z.B 25 Produkte gekauft obwohl 24 vorhanden, sind immer noch 24 vorhanden -> unendlich viele Produkte)
+|nichts
+
+|/catalog/add
+|uasername=admin, png hochladen
+|erstellt man ein neues Produkt und möchte dort gleicht ein Bild hochladen, funktioniert es nicht ( nur beim nachträglichen bearbeiten wird das selbe Bild genommen)
+|error page
+
+|===
+
+=== Warenkorb
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|/cart
+|username=admin
+|der Kauf von Produkten, die  nicht mehr vorhanden sind (0), ist möglich
+|Fehler erwartet
+
+|/cart
+|username=admin
+|Rabatt für Kundengruppe funktioniert nicht
+|nichts
+
+|
+|
+|
+|
+
+
+|===
+
+=== Bestellübersicht
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|/orders
+|Filter ändern
+|es passiert nichts, wenn man den Filter ändert und filtern drückt
+|nichts
+
+|
+|
+|
+|
+
+
+|===
+
+=== Nutzer-Management
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|/users
+|username=admin
+|Man kann den admin Account löschen und sich anschließend noch mit dem Account einloggen
+|keine
+
+|/editOwnUser
+|keine
+|Wenn Button "Eigenen Nutzer bearbeiten" gedrückt wird, erscheint Fehler
+|Error Page
+
+|/addUser
+|benutzername, passwort, vorname, name, adresse, telefonnummer jeweils 2 Leerzeichen
+|Fehler bei eigentlich ungültiger Eingabe
+|Error Page
+
+|/login
+|username=admin, passwort=admin
+|Felder sind voreingetragen
+|erfolgreicher login
+
+|/login
+|username, passwort = voreingetragen
+|Manchmal geschieht kein Login, obwohl die Credentials voreingetragen sind (scheint vermehrt kurz nach dem Start der Anwendung aufzutreten, passiert aber auch, nach dem die Anwendung mehrere Stunden lief)
+|kein erfolgreicher Login
+
+|/editUser
+|uid=...
+|Beim klicken des Buttons "bearbeiten" von jeglichem Nutzer erscheint Fehler
+|Error Page
+
+|/addUser
+|jegliche Felder
+|Es können in Felder Sonderzeichen und je nachdem Buchstaben udn Zahlen eingegeben werden, wo diese nicht zugelassen werden sollten +
+z.B. Buchstaben bei Telefonnummer
+|User wird trotzdem erstellt
+
+|/addUser
+|username=admin
+|Wenn username bereits vergeben erscheint Fehler Seite
+|Error Page
+
+|/users
+|username=test_user
+|der test_user ist nicht löschbar
+|keine
+
+|/searchUser
+|search=
+|Beim Drücken des "Suchen" Buttons ohne Eingabe im Feld gibt es einen Fehler
+|Error Page
+
+|/addUser
+|uneingeloggt
+|man erreicht ohne Authentifizierung die "User erstellen" Seite
+|User erstellen Seite wird angezeigt
+
+|/users
+|username=admin
+|test_user und admin besitzen keinen Vornamen, e-mail und Adresse. test_customer hat desweiteren keinen Namen
+|forename, e-mail, address = null
+
+|/users
+|username=mmustermann
+|Angestellter kann auch den Manager löschen
+|wird einfach gelöscht -> Fehler erwartet bzw. keine Änderung
+|===
+
+=== Transaktionen
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Statistik
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|/statistic
+|keine
+|Beim Drücken des Buttons "search" verschwinden Button und Diagramme
+|weniger als vorher
+
+|/statistic
+|uneingeloggt
+|man kann uneingeloggt die Statistik aufrufen über URL
+|man erhält die Statistik Seite
+
+
+|===
+
+=== Sonstiges
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+
+|
+|
+|
+|
+
+|
+|
+|
+|
+
+
+|===
+
+=== Rechtschreibfehler
+[options="header"]
+|===
+|Pfad  |Beschreibung
+
+|/catalog/item
+|In der Pdf -> "Qaulität"
+
+|/statistic
+|Oben rechts über "search" Button -> "Wahlen den Zeitraum"
+
+|/cart
+|eingeloggt als CEO oder employee - der Kaufen-Button, steht auch da, wenn man was verkauft
+
+
+|===
+
+== Sonstiges
+
+=== Optik der Anwendung
+
+- Header zu groß (z.B. padding entfernen)
+- Farbe Geschmackssache (https://material.io/design/color/the-color-system.html[bewährtes Design] / https://flatuicolors.com/[vorgefertigte Farbtabellen])
+- Zu sehr linksbündig
+
+=== Fehlende Features
+
+.Kunde:
+- Suchfuntkion im Warenkorb
+Artikel in den Warenkorb legen
+- < Maximum zum Verkauf stehenden Artikel(Artikel in den Warenkorb legen)
+
+[options="interactive"]
+.Angestellte (employee):
+- fragen ob er sich ausloggen möchte [AT002]
+- eigenen Account eingeschränkt bearbeiten
+- bearbeiten vom Kundenprofil (irgendwelche kritischen Daten aber nicht -> Fehler [AT012])
+- Nachfrage, ob Angestellter wirklich gelöscht werden soll [AT013]
+
+- Inventur durchführen [AT107]
+- Etikett drucken, die im Warenkorb sind [AT102]
+- verschiedene Anzeigeoptionen bei Übersicht der getätigten Transaktionen [AT004]
+
+[options="interactive"]
+.Geschäftsführer (CEO):
+- Angestelltenkonto
+* Bearbeiten
+* Gehalt zahlen (Aufgabenstellung)
+- Rabatt von ... festlegen
+* Artikelgruppen
+* Kundengruppen
+- Artikelliste importieren BNN [AT106]
+* Fehlerabfangung [AT]
+- Funktion von der Statistik
+
+=== Interaktion mit der Anwendung (Usability)
+
+- /catalog/error -> Fehlermeldung ist scrollable
+- /catalog/item -> "Hinzufügen" Button ganz unten links
+- Kasse: es ist für einen Kassierer sehr aufwändig Produkte hinzuzufügen (erst Produkt suchen und dann noch extra schauen müssen vom welchen Großhändler)
+
+== Verbesserungsvorschläge
+
+- Mehr mittig zentrieren
+- Nicht unbedingt 250 user erstellen
+- padding beim Header entfernen
+- Initialisierung der Daten mit zufälligen Namen, die *nicht* generisch sind
+- keine UUIDs sondern einfache Longs für die identifikation verwenden. (https://docs.jboss.org/hibernate/orm/5.0/mappingGuide/en-US/html/ch06.html[mal durchlesen!])
+- Layout überarbeiten. Ihr verwendet Bootstrap, welches ein recht ausgefeiltes Grid-System mitbringt. (https://getbootstrap.com/docs/4.0/layout/grid/[ist hier gut beschrieben!)]
+- eigenes Favicon setzen
+- https://howtodoinjava.com/java/date-time/java8-datetimeformatter-example/[DateTimeFormatter] verwenden, für lesbarere Datums und Zeitangaben.
+- sollte der Katalog leer sein, könnte dort ein kleiner Hinweis stehen, dass momentan keine Produkte vorhanden sind bzw. zum Verkauf stehen
+- Bessere Preisangaben (z.B. nicht sowas wie EUR 10.7). DIN-5008 sollte ein guter Anhaltspunkt sein.

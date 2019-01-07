@@ -26,6 +26,7 @@ class InventoryProductControllerTest {
 	@Autowired WebApplicationContext context;
 	@Autowired FilterChainProxy securityFilterChain;
 	@Autowired DistributorProductCatalog distributorProductCatalog;
+	@Autowired InventoryProductCatalog inventoryProductCatalog;
 
 
 	protected MockMvc mvc;
@@ -61,4 +62,18 @@ class InventoryProductControllerTest {
 				.andExpect(redirectedUrl("/productlist"));
 	}
 
+	@Test
+	void labelTest() throws Exception {
+		mvc.perform(get("/product/label").with(user("manager").roles("MANAGER"))
+				.param("id", "1"))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void labelsTest() throws Exception {
+		mvc.perform(get("/productlist/labels").with(user("manager").roles("MANAGER")))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
 }
