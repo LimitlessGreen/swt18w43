@@ -7,23 +7,25 @@ rectangle Bioladen {
     namespace bioladen.finances {
 
         class CashierSystem <<Controller>> {
-            -productCatalog : ProductCatalog
+            -inventoryProductCatalog : InventoryProductCatalog
             -customerRepository : CustomerRepository
+            -authenticationManager : AuthenticationManager
 
-            +CashierSystem(ProductCatalog, CustomerRepository)
+            +CashierSystem(InventoryProductCatalog, CustomerRepository, AuthenticationManager)
             +addProduct(String, long, ShoppingCart) : String
             +deleteProduct(String, ShoppingCart) : String
             +calcChange(double, ShoppingCart) : String
             +userId(long, ShoppingCart) : String
+            +addPfand(Long, Long) : String
             +finish(ShoppingCart) : String
             +abort(ShoppingCart) : String
-            +publishSaleCreatedEvent(ShoppingCart) : void
+            +pushShoppingCart(ShoppingCart, EntityLevel, String) : void
         }
 
         class CartController <<Controller>> {
-            -productCatalog : ProductCatalog
+            -inventoryProductCatalog : InventoryProductCatalog
 
-            +CartController(ProductCatalog)
+            +CartController(InventoryProductCatalog)
             +addToWishlist(String, ShoppingCart) : String
             +deleteFromWishlist(String, ShoppingCart) : String
             +addOneToWishlist(String, ShoppingCart) : String
@@ -31,10 +33,11 @@ rectangle Bioladen {
         }
 
         class ShoppingCart <<Entity>> {
-            -items : Map<Product, CartCartItem>
+            -items : Map<InventoryProduct, CartCartItem>
+            -pfand : Map<BigDecimal, Long>
             -customer : Customer
 
-            +addOrUpdateItem(Product, long) : CartCartItem
+            +addOrUpdateItem(InventoryProduct, long) : CartCartItem
             +removeItem(String) : Optional<CartCartItem>
             +getItem(String) : Optional<CartCartItem>
             +clear() : void
@@ -44,18 +47,40 @@ rectangle Bioladen {
             +getAmountOfItems() : int
             +getCustomerDiscountString() : String
             +getDiscount() : double
+            +addOrUpdatePfand(BigDecimal, Long) : Long
+            +getPfandMoney() : BigDecimal
+            +getMwstMoney() : BigDecimal
+            +getSaleMoney() : BigDecimal
         }
 
         class CartCartItem <<Entity>> {
-        -id : String
-        -price : BigDecimal
-        -quantity : long
-        -product : Product
+            -id : String
+            -price : BigDecimal
+            -quantity : long
+            -inventoryProduct : InventoryProduct
 
-        +CartCartItem(Product, long)
-        -CartCartItem(String, Product, long)
-        +getProductName() : String
-        +add(long) : CartCartItem
+            +CartCartItem(InventoryProduct, long)
+            -CartCartItem(String, Product, long)
+            +getProductName() : String
+            +add(long) : CartCartItem
+        }
+
+        class ShoppingCartCancel <<Entity>> extends ShoppingCart {
+            -customer : Customer
+            -amountOfItems: int
+
+            +defineCharts() : Map<String, DataHistoryRequest>
+            +sumUp(String, Double) : Double
+        }
+
+        class ShoppingCartSale <<Entity>> extends ShoppingCart {
+            -customer : Customer
+            -pfandMoney : BigDecimal
+            -mwstMoney : BigDecimal
+            -saleMoney : BigDecimal
+
+            +defineCharts() : Map<String, DataHistoryRequest>
+            +sumUp(String, Double) : Double
         }
 
         CashierSystem --> ShoppingCart
