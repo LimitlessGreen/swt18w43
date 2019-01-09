@@ -67,7 +67,8 @@
                                 <td th:text="${inventoryProduct.getId()}">1</td>
                                 <td th:text="${inventoryProduct.getName()}">Kartofeel</td>
                                 <td th:text="${inventoryProduct.getPrice()}">27.99</td>
-                                <td th:text="${inventoryProduct.getUnit()}">5.0</td>
+                                <td th:text="${inventoryProduct.getUnit() + ' Stk.'}" th:if="${inventoryProduct.getUnitMetric().getAbbreviation().equals('')}">5.0</td>
+                                <td th:text="${inventoryProduct.getUnit() + ' ' + inventoryProduct.getUnitMetric().getAbbreviation()}" th:unless="${inventoryProduct.getUnitMetric().getAbbreviation().equals('')}">5.0</td>
                                 <td th:text="${inventoryProduct.getInventoryAmount()}" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">42</td>
                                 <td style="padding: 9px;" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${stockTaking.isOnGoing()}">
                                     <button type="button" class="btn btn-info notika-btn-green green-icon-notika btn-reco-mg btn-button-mg waves-effect" data-toggle="modal" th:data-target="${'#inventoryStockTakingModal' + inventoryProduct.getId()}">
