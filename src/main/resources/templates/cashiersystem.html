@@ -411,10 +411,19 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
-                                        <div class="modal-body">
-                                            <h2>Der Kunde kaufte in letzter Zeit vor Allem:</h2>
-                                            <p align="center">Produkt</p>
+
+                                        <div th:unless="${shoppingCart.getCustomer() != null}">
+                                            <div class="modal-body">
+                                                <h2 align="center">Es ist kein Kunde ausgewählt</h2>
+                                            </div>
                                         </div>
+                                        <div th:if="${shoppingCart.getCustomer() != null}">
+                                            <div class="modal-body">
+                                                <h2 align="center">Der Kunde kaufte in letzter Zeit vor Allem:</h2>
+                                                <p align="center">Kartoffeln</p>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
