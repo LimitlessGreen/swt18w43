@@ -131,6 +131,18 @@ image::pictures/2.PNG[100%, 100%, pdfwidth=100%, align=center]
 Großhändlerprodukte, wie zum Beispiel hier die Kartoffel können nicht mehr zu den Produkten hinzu gefügt werden, da es sich bereits in der Produktliste befindet.
 Der Knopf dafür kann deshalb nicht mehr betätigt werden.
 
+== Produktseiten
+Zu den Produktseiten kann man über zwei Wege gelangen:
+Weg 1:
+
+image::pictures/5.PNG[100%, 100%, pdfwidth=100%, align=center]
+man klickt in der Produktliste auf den Names des Produktes
+
+Weg2:
+
+image::pictures/6.PNG[100%, 50%, pdfwidth=100%, align=center]
+einscannen des QR-Codes vom Label
+
 == Kasse
 image::pictures/3.PNG[100%, 100%, pdfwidth=100%, align=center]
 
