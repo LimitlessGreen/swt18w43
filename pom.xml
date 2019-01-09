@@ -160,6 +160,7 @@
 
 	</dependencies>
 
+
 	<repositories>
 
 		<repository>
@@ -172,6 +173,11 @@
 			<url>https://repo1.maven.org/</url>
 		</repository>
 
+
 	</repositories>
+
+	<properties>
+		<salespoint.version>7.0.0.RELEASE</salespoint.version>
+	</properties>
 
 </project>
