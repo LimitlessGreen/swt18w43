@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.salespointframework.quantity.Metric;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class DistributorProduct implements RawEntry, Comparable<DistributorProdu
 	private @NonNull @Getter @Setter String          name;
 	private @NonNull @Getter @Setter BigDecimal      price;
 	private @NonNull @Getter @Setter BigDecimal      unit;
+	private @NonNull @Getter @Setter Metric          unitMetric;
 	private          @Getter @Setter long            minimumOrderAmount;
 	private @NonNull @Getter @Setter ProductCategory productCategory;
 	private @NonNull @Getter @Setter MwStCategory    mwStCategory;
@@ -48,6 +50,7 @@ public class DistributorProduct implements RawEntry, Comparable<DistributorProdu
 			Distributor     distributor,
 			BigDecimal      price,
 			BigDecimal      unit,
+			Metric          unitMetric,
 			long            minimumOrderAmount,
 			ProductCategory productCategory,
 			MwStCategory    mwStCategory,
@@ -57,6 +60,7 @@ public class DistributorProduct implements RawEntry, Comparable<DistributorProdu
 		this.distributor        = distributor;
 		this.price              = price;
 		this.unit               = unit;
+		this.unitMetric         = unitMetric;
 		this.minimumOrderAmount = minimumOrderAmount;
 		this.productCategory    = productCategory;
 		this.mwStCategory       = mwStCategory;

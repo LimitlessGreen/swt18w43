@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.salespointframework.quantity.Metric;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -36,6 +37,7 @@ public class InventoryProduct implements RawEntry {
 	private @NonNull @Getter @Setter String          name;
 	private @NonNull @Getter @Setter BigDecimal      price;
 	private @NonNull @Getter @Setter BigDecimal      unit;
+	private @NonNull @Getter @Setter Metric          unitMetric;
 	private          @Getter @Setter long            inventoryAmount;
 	private          @Getter @Setter long            displayedAmount;
 	private @NonNull @Getter @Setter ProductCategory productCategory;
@@ -54,16 +56,17 @@ public class InventoryProduct implements RawEntry {
 		this.distributorProducts = distributorProductCatalog.findAll().stream()
 				.filter(dp -> dp.getName().equals(this.name)).collect(Collectors.toList());
 
-		this.price = distributorProduct.getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN));
-		this.unit = distributorProduct.getUnit();
+		this.price      = distributorProduct.getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN));
+		this.unit       = distributorProduct.getUnit();
+		this.unitMetric = distributorProduct.getUnitMetric();
 
 		this.inventoryAmount = 0;
 		this.displayedAmount = 0;
 
 		this.productCategory = distributorProduct.getProductCategory();
-		this.mwStCategory = distributorProduct.getMwStCategory();
-		this.pfandPrice = distributorProduct.getPfandPrice();
-		this.organization = distributorProduct.getOrganization();
+		this.mwStCategory    = distributorProduct.getMwStCategory();
+		this.pfandPrice      = distributorProduct.getPfandPrice();
+		this.organization    = distributorProduct.getOrganization();
 	}
 
 	/**
