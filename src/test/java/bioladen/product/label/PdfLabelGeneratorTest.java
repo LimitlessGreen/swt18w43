@@ -8,6 +8,7 @@ import bioladen.product.distributor_product.DistributorProductCatalog;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.salespointframework.quantity.Metric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.web.FilterChainProxy;
@@ -60,7 +61,8 @@ public class PdfLabelGeneratorTest {
 						"Kakao",
 						distributorRepository.findById(1L).get(),
 						BigDecimal.valueOf(1.50),
-						BigDecimal.valueOf(1), // KG
+						BigDecimal.valueOf(1),
+						Metric.KILOGRAM,
 						4,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
