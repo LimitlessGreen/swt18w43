@@ -86,6 +86,8 @@ rectangle Bioladen {
             +registerNew(String, String, String, String, String, String, String, String) : String
             +customerRepository() : String
             +deleteCustomer(Long) : String
+            +modifyCustomer(Long) : String
+            +modifiedCustomer(String, String, String, String, String, String, String, Long) : String
 
         }
 
@@ -95,14 +97,15 @@ rectangle Bioladen {
             -lastname : String
             -email : String
             -phone : String
-            -id : CustomerIdentifier
+            -id : Long
             -customerType : CustomerType
             -sex : Sex
 
             Customer(String, String, String, Sex, CustomerType)
-            publishCustomerCreatedEvent(Customer) : void
             +isCustomerType(CustomerType) : Boolean
             +getName() : String
+            +defineCharts() : Map<String, DataHistoryRequest>
+            +sumUp(String, Double) : Double
 
         }
 
@@ -132,9 +135,10 @@ rectangle Bioladen {
             +saveAll(Iterable<S >) : <S extends Customer> Iterable<S>
             +save(S) : <S extends Customer> S
             +delete(Long) : void
-            +customerToUser(Customer) : UserAccount
-            +userToCustomer(UserAccount) : Optional<Customer>
-            +publishEvent(Customer, EntityLevel) : void
+            +modified(Customer) : Customer
+            +type(String) : CustomerType
+            +sex(String): Sex
+            +pushCustomer(Customer, EntityLevel) : void
 
         }
 
@@ -154,12 +158,22 @@ rectangle Bioladen {
         
 
         class UserAccEventListener {
-            -logger : Logger
             -userAccountManager : UserAccountManager
 
             UserAccEventListener(UserAccountManager, CustomerRepository)
-            +listenCustomerEvent(EntityEvent<Customer>) : void
+            +listenCustomerEvent(DataEntry<Customer>) : void
             +save(Customer, String) : void
+            +delete(Customer) : void
+            +create(Customer) : void
+            +update(Customer, String, String) : void
+            +modified(Customer, Customer) : void
+        }
+
+        class CustomerTools {
+            -userAccountManager : UserAccountManager
+            -customerRepository : CustomerRepository
+            +customerToUser(Customer) : UserAccount
+            +userToCustomer(UserAccount) : Optional<Customer>
         }
         note right: listen to CustomerEvent
 
@@ -170,6 +184,7 @@ rectangle Bioladen {
         CustomerController --> Customer
         CustomerManager --> Customer
         CustomerManager --> CustomerRepository
+        CustomerTools --> org.salespointframework.useraccount.UserAccountManager
     }
 
 
