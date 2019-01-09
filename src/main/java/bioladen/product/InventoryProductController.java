@@ -29,6 +29,8 @@ public class InventoryProductController {
 	private final AuthenticationManager authenticationManager;
 	private final StockTaking stockTaking;
 
+
+
 	@RequestMapping("/productlist")
 	String showProducts(Model model) {
 		List<InventoryProduct> inventoryProductList = inventoryProductCatalog.findAll();
@@ -37,6 +39,12 @@ public class InventoryProductController {
 		model.addAttribute("stockTaking", stockTaking);
 
 		return "productlist";
+	}
+
+	@GetMapping("/product")
+	String productInfo(@RequestParam Long id, Model model) {
+		model.addAttribute("product", inventoryProductCatalog.findById(id).get());
+		return "productpage";
 	}
 
 	@GetMapping("/productlist/add")

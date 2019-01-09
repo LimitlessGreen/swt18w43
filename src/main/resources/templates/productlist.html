@@ -65,7 +65,13 @@
                             <tbody th:remove="all-but-first">
                             <tr th:each="inventoryProduct : ${inventoryProductList}">
                                 <td th:text="${inventoryProduct.getId()}">1</td>
-                                <td th:text="${inventoryProduct.getName()}">Kartofeel</td>
+                                <td><a  th:href="@{/product(id = ${inventoryProduct.getId()})}">
+                                    <button type="submit" style="background:transparent; border:none; color:transparent;color:black;padding-left: 0px;padding-left: 0px;padding-right: 0px;">
+                                        <x th:text="${inventoryProduct.getName()}">Kartofeel</x>
+                                    </button>
+
+                                </a></td>
+
                                 <td th:text="${inventoryProduct.getPrice()}">27.99</td>
                                 <td th:text="${inventoryProduct.getUnit() + ' Stk.'}" th:if="${inventoryProduct.getUnitMetric().getAbbreviation().equals('')}">5.0</td>
                                 <td th:text="${inventoryProduct.getUnit() + ' ' + inventoryProduct.getUnitMetric().getAbbreviation()}" th:unless="${inventoryProduct.getUnitMetric().getAbbreviation().equals('')}">5.0</td>
