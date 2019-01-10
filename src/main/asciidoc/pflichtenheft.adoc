@@ -546,6 +546,8 @@ ID: 1. Buchstabe: A - Allgemein U - UserDepartment, P - ProductDepartment , D - 
 2. Buchstabe: F - Funktionale Anforderung
 3. Zeichen: Fortlaufende Nummer für jeweiliges Department
 
+Funktionen, die mit :heavy_check_mark: markiert wurden, sind Basisfunktionalitäten.
+
 *1. Allgemein*
 
 [options="header"]
