@@ -6,6 +6,7 @@ import bioladen.product.ProductCategory;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
 import org.salespointframework.core.DataInitializer;
+import org.salespointframework.quantity.Metric;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -46,7 +47,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						"Kartoffeln",
 						distributorRepository.findById(1L).get(),
 						BigDecimal.valueOf(4.99),
-						BigDecimal.valueOf(5), // KG
+						BigDecimal.valueOf(5),
+						Metric.KILOGRAM,
 						10,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
@@ -60,7 +62,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						"Kartoffeln",
 						distributorRepository.findById(2L).get(),
 						BigDecimal.valueOf(4.49),
-						BigDecimal.valueOf(5), // KG
+						BigDecimal.valueOf(5),
+						Metric.KILOGRAM,
 						15,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
@@ -74,7 +77,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						"Kartoffeln",
 						distributorRepository.findById(2L).get(),
 						BigDecimal.valueOf(3.50),
-						BigDecimal.valueOf(5), // KG
+						BigDecimal.valueOf(5),
+						Metric.KILOGRAM,
 						3,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
@@ -88,7 +92,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						"Kakao",
 						distributorRepository.findById(2L).get(),
 						BigDecimal.valueOf(1.50),
-						BigDecimal.valueOf(1), // KG
+						BigDecimal.valueOf(1),
+						Metric.KILOGRAM,
 						4,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
@@ -102,7 +107,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						"Kakao",
 						distributorRepository.findById(1L).get(),
 						BigDecimal.valueOf(59.00),
-						BigDecimal.valueOf(1), // KG
+						BigDecimal.valueOf(1),
+						Metric.KILOGRAM,
 						4,
 						ProductCategory.FOOD_FRUIT_VEG,
 						MwStCategory.REDUCED,
@@ -116,7 +122,8 @@ public class DistributorProductDataInitializer implements DataInitializer {
 						"Milch",
 						distributorRepository.findById(2L).get(),
 						BigDecimal.valueOf(1.50),
-						BigDecimal.valueOf(1), // L
+						BigDecimal.valueOf(1),
+						Metric.LITER,
 						6,
 						ProductCategory.FOOD_DAIRY,
 						MwStCategory.REDUCED,

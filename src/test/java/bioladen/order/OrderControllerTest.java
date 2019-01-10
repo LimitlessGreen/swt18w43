@@ -1,6 +1,6 @@
 package bioladen.order;
 
-import bioladen.product.distributor_product.DistributorProductCatalog;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,9 +17,7 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -27,10 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OrderControllerTest {
 
 	@Autowired
-	WebApplicationContext context;
+	private DistributorOrderRepository orderRepository;
 	@Autowired
-	FilterChainProxy securityFilterChain;
-
+	private WebApplicationContext context;
+	@Autowired
+	private FilterChainProxy securityFilterChain;
 
 	protected MockMvc mvc;
 
@@ -43,6 +42,44 @@ class OrderControllerTest {
 				addFilters(securityFilterChain).//
 				build();
 	}
+
+	@Test
+	void completeOrder() throws Exception {
+
+		DistributorOrder distributorOrder = new DistributorOrder();
+		distributorOrder = orderRepository.save(distributorOrder);
+
+		mvc.perform(get("/orders/complete")
+				.with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("id", String.valueOf(distributorOrder.getId())))
+				.andExpect(redirectedUrl("/orders"));
+	}
+
+	@Test
+	void deleteOrder() throws Exception {
+
+		DistributorOrder distributorOrder = new DistributorOrder();
+		distributorOrder = orderRepository.save(distributorOrder);
+
+		mvc.perform(get("/orders/delete")
+				.with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("id", String.valueOf(distributorOrder.getId())))
+				.andExpect(redirectedUrl("/orders"));
+
+		Assertions.assertThat(orderRepository.findById(distributorOrder.getId()).isPresent()).isFalse();
+	}
+
+	@Test
+	void order() throws Exception {
+
+		mvc.perform(get("/order")
+				.with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("name", "Kartoffeln")
+				.param("amount", "1"))
+				.andExpect(status().isOk());
+
+	}
+
 
 	@Test
 	void orderPagePublicAccess() throws Exception {
@@ -108,7 +145,6 @@ class OrderControllerTest {
 		mvc.perform(get("/orders").with(user("manager").roles("MANAGER")))
 				.andExpect(status().isOk());
 	}
-
 
 
 }

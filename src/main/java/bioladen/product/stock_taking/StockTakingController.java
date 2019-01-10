@@ -48,6 +48,24 @@ public class StockTakingController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	@RequestMapping("/stockTaking/finish")
+	String finishStockTaking() {
+		stockTaking.finishStockTaking();
+
+		for (InventoryProduct ip : inventoryProductCatalog.findAll()) {
+			if (stockTaking.getCountedInventoryAmount().containsKey(ip)) {
+				ip.setInventoryAmount(stockTaking.getCountedInventoryAmount().get(ip));
+			}
+			if (stockTaking.getCountedDisplayedAmount().containsKey(ip)) {
+				ip.setDisplayedAmount(stockTaking.getCountedDisplayedAmount().get(ip));
+			}
+			inventoryProductCatalog.save(ip);
+		}
+
+		return "redirect:/productlist";
+	}
+
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@RequestMapping("/stockTaking")
 	String stockTakingTable(Model model) {
 		Map<InventoryProduct, String[]> stockTakingTable = new HashMap<>();
@@ -79,6 +97,7 @@ public class StockTakingController {
 		}
 
 		model.addAttribute("stockTakingTable", stockTakingTable);
+		model.addAttribute("onGoing", stockTaking.isOnGoing());
 
 		return "stockTaking";
 	}

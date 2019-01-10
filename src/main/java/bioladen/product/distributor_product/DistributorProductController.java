@@ -6,6 +6,7 @@ import bioladen.product.*;
 import bioladen.product.distributor.Distributor;
 import bioladen.product.distributor.DistributorRepository;
 import lombok.RequiredArgsConstructor;
+import org.salespointframework.quantity.Metric;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,6 +67,7 @@ public class DistributorProductController {
 						  @RequestParam("distributor")        Long            distributorId,
 						  @RequestParam("price")              String          priceString,
 						  @RequestParam("unit")               String          unitString,
+						  @RequestParam("unitMetric")         Metric          unitMetric,
 						  @RequestParam("minimumOrderAmount") long            minimumOrderAmount,
 						  @RequestParam("productCategory")    ProductCategory productCategory,
 						  @RequestParam("mwStCategory")       MwStCategory    mwStCategory,
@@ -82,6 +84,7 @@ public class DistributorProductController {
 				                                                       distributor,
 				                                                       price,
 				                                                       unit,
+				                                                       unitMetric,
 				                                                       minimumOrderAmount,
 				                                                       productCategory,
 				                                                       mwStCategory,
@@ -106,9 +109,16 @@ public class DistributorProductController {
 		for (Object line : br.lines().toArray()) {
 			String[] lineFields = line.toString().split(";");
 			pushDistributorProduct(distributorProductCatalog.save(new DistributorProduct(
-					lineFields[0], distributor, new BigDecimal(lineFields[1]), new BigDecimal(lineFields[2]),
-					Long.valueOf(lineFields[3]), ProductCategory.valueOf(lineFields[4]), MwStCategory.valueOf(lineFields[5]),
-					new BigDecimal(lineFields[6]), Organization.valueOf(lineFields[7])
+					lineFields[0],
+					distributor,
+					new BigDecimal(lineFields[1]),
+					new BigDecimal(lineFields[2]),
+					Metric.from(lineFields[3]),
+					Long.valueOf(lineFields[4]),
+					ProductCategory.valueOf(lineFields[5]),
+					MwStCategory.valueOf(lineFields[6]),
+					new BigDecimal(lineFields[7]),
+					Organization.valueOf(lineFields[8])
 				)), EntityLevel.CREATED);
 		}
 

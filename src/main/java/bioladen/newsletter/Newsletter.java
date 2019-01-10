@@ -1,6 +1,7 @@
 package bioladen.newsletter;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.security.MessageDigest;
 
 @Entity
 @Table(name = "NEWSLETTER")
+@NoArgsConstructor
 public class Newsletter {
 
 	@Id
@@ -16,7 +18,7 @@ public class Newsletter {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 
-	private String mail;
+	private @Getter @Setter String mail;
 
 	@Setter
 	private boolean subscribed;

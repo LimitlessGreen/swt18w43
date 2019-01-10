@@ -4,7 +4,6 @@ import bioladen.product.distributor_product.DistributorProduct;
 import lombok.Getter;
 import org.javamoney.moneta.Money;
 import org.salespointframework.quantity.Quantity;
-import org.springframework.util.Assert;
 
 import javax.money.MonetaryAmount;
 import java.util.UUID;
@@ -34,15 +33,15 @@ public class OrderCartItem {
 	 * Internal constructor with a given id
 	 * @param id
 	 * @param quantity
-	 * @param product
+	 * @param distributorProduct
 	 */
-	private OrderCartItem(String id, Quantity quantity, DistributorProduct product) {
+	private OrderCartItem(String id, Quantity quantity, DistributorProduct distributorProduct) {
 
 		this.id = id;
 		this.quantity = quantity;
-		this.product = product;
+		this.product = distributorProduct;
 
-		this.price = Money.of(product.getPrice().doubleValue() * quantity.getAmount().signum(), "EUR");
+		this.price = Money.of(distributorProduct.getPrice().doubleValue() * quantity.getAmount().signum(), "EUR");
 
 	}
 

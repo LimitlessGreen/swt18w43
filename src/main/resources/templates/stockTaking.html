@@ -25,19 +25,24 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="basic-tb-hd">
-                                <h2><Inventurliste></Inventurliste></h2>
+                                <h2>Inventurliste</h2>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <a href="/stockTaking/begin" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')">
+                            <a href="/stockTaking/begin" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${!onGoing}">
                                 <button type="button" class="btn btn-info notika-btn-green" style="float: right">
                                     <i class="fas fa-clipboard-list"></i> Inventur starten
+                                </button>
+                            </a>
+                            <a href="/stockTaking/finish" sec:authorize="hasAnyRole('ROLE_MANAGER') || hasAnyRole('ROLE_STAFF')" th:if="${onGoing}">
+                                <button type="button" class="btn btn-info notika-btn-green" style="float: right">
+                                    <i class="fas fa-clipboard-check"></i> Zählungen übernehmen
                                 </button>
                             </a>
                         </div>
                     </div>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" th:if="${onGoing}">
                         <table id="data-table-basic" class="table table-striped">
 
                             <thead>

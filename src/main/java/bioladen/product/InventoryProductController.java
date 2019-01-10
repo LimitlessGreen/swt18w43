@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,8 @@ public class InventoryProductController {
 	private final AuthenticationManager authenticationManager;
 	private final StockTaking stockTaking;
 
+	private static final BigDecimal PERCENT_TO_DECIMAL = BigDecimal.valueOf(1.0/100);
+
 	@RequestMapping("/productlist")
 	String showProducts(Model model) {
 		List<InventoryProduct> inventoryProductList = inventoryProductCatalog.findAll();
@@ -37,6 +40,12 @@ public class InventoryProductController {
 		model.addAttribute("stockTaking", stockTaking);
 
 		return "productlist";
+	}
+
+	@GetMapping("/product")
+	String productInfo(@RequestParam Long id, Model model) {
+		model.addAttribute("product", inventoryProductCatalog.findById(id).get());
+		return "productpage";
 	}
 
 	@GetMapping("/productlist/add")
@@ -88,7 +97,14 @@ public class InventoryProductController {
 	}
 
 	@PostMapping("/setProfitMargin")
-	public String setProfitMargin() {
+	public String setProfitMargin(@RequestParam("profitMargin") BigDecimal profitMarginPercent) {
+		InventoryProduct.setProfitMargin(profitMarginPercent.multiply(PERCENT_TO_DECIMAL));
+
+		for (InventoryProduct ip : inventoryProductCatalog.findAll()) {
+			ip.calculatePrice();
+			inventoryProductCatalog.save(ip);
+		}
+
 		return "redirect:/admin";
 	}
 

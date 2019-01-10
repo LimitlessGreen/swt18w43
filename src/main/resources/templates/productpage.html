@@ -1,0 +1,72 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--Title-->
+    <title>Produktinformation</title>
+
+    <!--Import CSS-->
+    <!--/*/ <th:block th:include="_includes :: css_includes"></th:block> /*/-->
+</head>
+
+<body>
+<!--Navigation-->
+<nav th:include="navigation_new :: navigation"></nav>
+
+
+<div class="form-element-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-element-list">
+
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="font-size: larger; padding-left: 45px;padding-right: 45px; padding-bottom: 15px;">
+                            <h1 align="center"  th:text="${product.getName()}"></h1>
+                            <br>
+                            Kategorie: <x th:text="${(product.getProductCategory().getDescriptionDe())}"></x> <br><br>
+
+                            Preis: <x th:text="${(product.getPrice())}"></x> <br><br>
+
+
+                            Grundeinheit:  <x th:text="${product.getUnit() + ' Stk.'}" th:if="${product.getUnitMetric().getAbbreviation().equals('')}">x</x>
+                            <x th:text="${product.getUnit() + ' ' + product.getUnitMetric().getAbbreviation()}" th:unless="${product.getUnitMetric().getAbbreviation().equals('')}">x</x> <br><br>
+
+                            MWst-Kategorie: <x th:text="${(product.getMwStCategory().getLongName())}"> </x> <br><br>
+
+                            <div th:if="${(product.getOrganization()) == null} ">
+                                Anbauverband: keine Zugehörigkeit <br><br>
+                            </div>
+                            <div th:if="${(product.getOrganization()) != null} ">
+                                Anbauverband: <x th:text="${(product.getOrganization().getName())}"></x> <br><br>
+                            </div>
+
+                            <div th:if="${(product.getPfandPrice()) == 0 || (product.getPfandPrice()) == null} ">
+                                <i>der Artikel hat kein Pfand</i>
+                            </div>
+                            <div th:if="${(product.getPfandPrice()) != 0 && product.getPfandPrice() != null}">
+                                Pfand: <x th:text="${(product.getPfandPrice())}"></x>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding-top: 45px;" align="center">
+                            <i class="fab fa-earlybirds fa-10x" ></i>
+                            <p>Hier könnte später ein Bild stehen</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="footer :: footer"></div>
+<!-- Footer area END -->
+
+<!--Import JS-->
+<!--/*/ <th:block th:include="_includes :: js_includes"></th:block> /*/-->
+
+</body>
+</html>
