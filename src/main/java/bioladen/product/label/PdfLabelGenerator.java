@@ -25,10 +25,14 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RequiredArgsConstructor
 public class PdfLabelGenerator {
 	private final InventoryProductCatalog inventoryProductCatalog;
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private static final float MM_TO_PT = 2.834645669291f;
 
@@ -84,7 +88,7 @@ public class PdfLabelGenerator {
 			robotoMono400 = PDType0Font.load(document,
 					getClass().getClassLoader().getResourceAsStream("static/pdffonts/Roboto_Mono/RobotoMono-Regular.ttf"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.toString());
 		}
 	}
 
@@ -178,7 +182,7 @@ public class PdfLabelGenerator {
 
 			cs.close();
 		} catch (WriterException | IOException e) {
-			e.printStackTrace();
+			log.error(e.toString());
 		}
 	}
 
@@ -192,7 +196,7 @@ public class PdfLabelGenerator {
 			document.save(outputStream);
 			document.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.toString());
 		}
 	}
 
@@ -204,7 +208,7 @@ public class PdfLabelGenerator {
 			document.save(outputStream);
 			document.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.toString());
 		}
 	}
 }
