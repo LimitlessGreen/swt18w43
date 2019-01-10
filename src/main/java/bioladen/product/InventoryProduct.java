@@ -35,28 +35,30 @@ public class InventoryProduct implements RawEntry {
 	private @Getter Long id;
 
 	private @NonNull @Getter @Setter String          name;
+	private @NonNull @Getter @Setter BigDecimal      basePrice;
 	private @NonNull @Getter @Setter BigDecimal      price;
 	private @NonNull @Getter @Setter BigDecimal      unit;
 	private @NonNull @Getter @Setter Metric          unitMetric;
-	private          @Getter @Setter long            inventoryAmount;
-	private          @Getter @Setter long            displayedAmount;
+	private @NonNull @Getter @Setter long            inventoryAmount;
+	private @NonNull @Getter @Setter long            displayedAmount;
 	private @NonNull @Getter @Setter ProductCategory productCategory;
 	private @NonNull @Getter @Setter MwStCategory    mwStCategory;
 	private          @Getter @Setter BigDecimal      pfandPrice;
 	private          @Getter @Setter Organization    organization;
 
+	private static @NonNull @Getter @Setter BigDecimal profitMargin = BigDecimal.valueOf(0.20);
+
 	@OneToMany(cascade=CascadeType.ALL)
 	private @Getter @Setter List<DistributorProduct> distributorProducts;
 
 	public InventoryProduct(DistributorProduct distributorProduct, DistributorProductCatalog distributorProductCatalog) {
-		final double PROFIT_MARGIN = 0.20;
-
 		this.name = distributorProduct.getName();
 
 		this.distributorProducts = distributorProductCatalog.findAll().stream()
 				.filter(dp -> dp.getName().equals(this.name)).collect(Collectors.toList());
 
-		this.price      = distributorProduct.getPrice().multiply(BigDecimal.valueOf(1.0 + PROFIT_MARGIN));
+		this.basePrice  = distributorProduct.getPrice();
+		calculatePrice();
 		this.unit       = distributorProduct.getUnit();
 		this.unitMetric = distributorProduct.getUnitMetric();
 
@@ -151,6 +153,13 @@ public class InventoryProduct implements RawEntry {
 		checkSum = (10 - (checkSum % 10)) % 10;
 
 		return checkSum;
+	}
+
+	/**
+	 * Calculates and sets the price of the product based on the the profitMargin and the basePrice.
+	 */
+	public void calculatePrice() {
+		this.price = this.basePrice.multiply(BigDecimal.valueOf(1).add(profitMargin));
 	}
 
 	@Override
