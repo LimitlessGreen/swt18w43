@@ -1,0 +1,47 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2017/18
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:** Lukas Petzold
+
+**Gruppe:** 43 (Bioladen)
+
+== Was habe ich gelernt?
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+Ich habe vor Allem meine Java Kenntnisse verbessern können.
+Auch die Arbeit mit Frameworks war einmal sehr hilfreich.
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+An sich lief die Zusammenarbeit im Team ziemlich gut.
+Leider ist das Problems an Teams, das es zu leicht für einige ist weniger zu machen,
+wodurch andere mehr machen müssen.
+Dadurch lässt die Motivation natürlich gegen Ende hin nach.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+// Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
+Es war am Anfang relativ schwer sich erstmal in Salespoint und Spring einzuarbeiten,
+da die Dokumentation verbesserungswürdig war.
+Nachdem man dies allerdings erst einmal geschafft hatte, lief es eigentlich ganz gut.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+// Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
+Es wäre schön, wenn SonarQube auch den develop branch analysieren würde.
+Damit würde man sich das ständige mergen sparen.
+
+Außerdem war der Arbeitsaufwand in einigen Wochen extrem hoch.
+In der ersten Woche konnte man allerdings nicht wirklich was machen.
+Vielleicht könnte man da schon einige Aufgaben geben.
+
+Außerdem wäre es wichtig die Inhalte der Entwicklerdoku/Pflichtenheft oder z.B. die Dialoglandkarte etwas genauer zu beschreiben/erklären.
+Wir wussten da oftmals nicht, was oder wie genau wir etwas hinschreiben sollten.
+
+== Feedback für den Tutor
+// Fühlten Sie sich durch den vom Lehrstuhl bereitgestellten Tutor gut betreut? Was war positiv? Was war verbesserungswürdig?
+Ich fühlte mich durch den Tutor sehr gut betreut.
+Er hat auch immer schnell auf Fragen (in Form von EMail oder Discord) geantwortet.
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
+Keine
