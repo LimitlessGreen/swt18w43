@@ -3,6 +3,7 @@ package bioladen.product.label;
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.util.EnumMap;
 import java.util.Map;
@@ -115,9 +116,18 @@ public class PdfLabelGenerator {
 
 			cs.setFont(roboto400i, PRODUCT_DESCRIPTION_FONT_SIZE);
 			cs.setLeading(PRODUCT_DESCRIPTION_FONT_SIZE);
-			cs.showText(inventoryProduct.getUnit() + " Metrik");
+
+			String unitMetricString;
+			if (inventoryProduct.getUnitMetric().getAbbreviation().equals("")) {
+				unitMetricString = "Stk.";
+				cs.showText(inventoryProduct.getUnit().longValue() + " " + unitMetricString);
+			} else {
+				unitMetricString = inventoryProduct.getUnitMetric().getAbbreviation();
+				cs.showText(inventoryProduct.getUnit().floatValue() + " " + unitMetricString);
+			}
+
 			cs.newLine();
-			cs.showText("(Grundpreis)");
+			cs.showText(inventoryProduct.getPrice().divide(inventoryProduct.getUnit(), RoundingMode.HALF_UP) + " € pro " + unitMetricString);
 			cs.endText();
 
 			cs.beginText();
