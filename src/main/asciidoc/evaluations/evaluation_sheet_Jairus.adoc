@@ -1,0 +1,47 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2017/18
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:** Jairus Behrisch
+
+**Gruppe:** 43
+
+== Was habe ich gelernt?
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+- Einblick in Spring und der Erfahrung, es eher nicht in eigenen Projekten einzusetzen
+- (unfreiwillig) vertiefende Einblicke in Datenbanktechniken und Datenbanksysteme
+- Arbeit mit Maven
+- Weiterführende Arbeit mit PlantUML
+- Arbeit mit MongoDB
+- Arbeit mit Key-Value Stores
+
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+- Besprechungen Abends über Discord waren sehr hilfreich
+- Leistung sehr ungleichmäßig verteilt
+- Selbst wenn Aufgabenpläne erstellt werden heißt es noch lange nicht, dass darauf auch geachtet wird
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+- Salespoint meistens zu unflexibel
+- richtige Einarbeitung zu zeitaufwändig
+- Probleme bei Funktionalitäten, die über Salespoint hinaus gehen (hat manchmal zum kompletten und sehr zeitaufwändigen Umbau von Klassen geführt.
+- Debugging von Spring und vor allem Hibernate so gut wie unmöglich
+- Eigendtlicher Fehler war zu 95% nicht im (sehr unübersuchtlichen) Stacktrace enthalten
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+- mehr auf die Arbeit der einzelnen achten
+- Note vergeben. Da man nur "Bestehen" muss, fehlt der Arbeitsanreiz und die Gefahr ist sehr hoch, das sich Mitglieder auf den Schultern anderer ausruhen.
+- Nicht Arbeit oder Zeit bemessen sondern Leistung. (Arbeit / Zeit)
+- Möglichkeit, SalesPoint den eigenen Bedürfnissen anzupassen
+- In Salespoint Einführung fehlte Fokus auf Hibernate sogut wie ganz
+- Bessere Debuggingmöglichkeiten bereit stellen
+
+== Feedback für den Tutor
+Bester Tutor ever!
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
+- Für ein einfaches Bestehen definitiv zu Zeitaufwändig
+- Den master branch zu sperren ist sinnlos. Selbst nach einem `git reset --hard` verbleiben alle Commits (unreachable) auf dem Repo. Ein vorheriger Zustand kann zu jedem Zeitpunkt und ohne größeren Aufwand wiederhergestellt werden. Ersparen Sie den Gruppen Nerven und sperren Sie den master nicht.
