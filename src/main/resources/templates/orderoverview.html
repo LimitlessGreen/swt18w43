@@ -63,39 +63,6 @@
 
                     </th:block>
                 </div>
-                <!--<div class="bsc-tbl-hvr">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>bestellt am</th>
-                            <th>Lieferant</th>
-                            <th>Anzahl Artikel</th>
-                            <th>Gesamtpreis</th>
-                            <th>Optionen</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="order : ${orders}">
-                            <td></td>
-                            <td th:text="${order.getDistributor().getName()}"></td>
-                            <td th:text="${order.getItems().size()}"></td>
-                            <td th:text="${#numbers.formatDecimal(order.getPrice().getNumber().doubleValue(),0, 'POINT', 2, 'COMMA')} + ' €'"></td>
-                            <td>
-                                <a th:href="@{/orders/complete(id = ${order.getId()})}">
-                                    <button type="button" class="btn btn-info notika-btn-green">
-                                        <i class="fas fa-truck-loading"></i></i>
-                                    </button>
-                                </a>
-                                <a th:href="@{/orders/delete(id = ${order.getId()})}">
-                                    <button class="btn btn-danger danger-icon-notika btn-reco-mg btn-button-mg waves-effect">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>-->
             </div>
         </div>
     </div>

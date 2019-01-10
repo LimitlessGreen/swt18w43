@@ -76,7 +76,6 @@ public class OrderController {
 	 * @param id Id of the finished order
 	 * @return Returns the command to redirect to orders
 	 */
-
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/complete")
 	public String completeOrder(@RequestParam Long id) {
