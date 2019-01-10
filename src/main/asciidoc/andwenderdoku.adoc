@@ -133,15 +133,16 @@ Der Knopf dafür kann deshalb nicht mehr betätigt werden.
 
 == Produktseiten
 Zu den Produktseiten kann man über zwei Wege gelangen:
-Weg 1:
+
+Weg 1: man klickt in der Produktliste auf den Names des Produktes
 
 image::pictures/5.PNG[100%, 100%, pdfwidth=100%, align=center]
-man klickt in der Produktliste auf den Names des Produktes
 
-Weg2:
+
+Weg2: Einscannen des QR-Codes vom Label
 
 image::pictures/6.PNG[100%, 50%, pdfwidth=100%, align=center]
-einscannen des QR-Codes vom Label
+
 
 == Kasse
 image::pictures/3.PNG[100%, 100%, pdfwidth=100%, align=center]
@@ -156,7 +157,8 @@ image::pictures/4.PNG[100%, 100%, pdfwidth=100%, align=center]
 
 Im Aktionsverlauf kann der Manager alle Aktivitäten der Anwendungen sehen. Dabei stehen die neusten Elemente oben. Zur besseren Erfassung, können die Elemente aus und eingeklappt werden.
 Links wird mithilfe der farblichen Leiste und eines Emoji dargestellt, was passiert ist:
-grün - hinzugefügt
-rot - gelöscht
+
+grün - hinzugefügt +
+rot - gelöscht +
 orange - modifiziert (modifizierte Zeile wird nochmals farbig hervor gehoben)
 
