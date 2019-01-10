@@ -66,8 +66,9 @@ class DistributorProductControllerTest {
 	void distributorProductAdd() throws Exception {
 		mvc.perform(post("/addDistributorProduct").with(user("manager").roles("MANAGER"))
 				.param("name", "Milch").param("distributor", "1").param("price", "2.00")
-				.param("unit", "1").param("minimumOrderAmount", "12").param("productCategory", "FOOD_DAIRY")
-				.param("mwStCategory", "REDUCED").param("pfandPrice", "0.15").param("organization", "BIOLAND"))
+				.param("unit", "1").param("unitMetric", "LITER").param("minimumOrderAmount", "12")
+				.param("productCategory", "FOOD_DAIRY").param("mwStCategory", "REDUCED")
+				.param("pfandPrice", "0.15").param("organization", "BIOLAND"))
 				.andDo(print())
 				.andExpect(redirectedUrl("/distributorproductlist"));
 	}
