@@ -145,6 +145,8 @@
 			<version>2.5.0</version>
 		</dependency>
 
+		<!-- Email stuff -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
@@ -154,9 +156,14 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>5.0.3.RELEASE</version>
+			<version>5.0.1.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.2</version>
+		</dependency>
 
 	</dependencies>
 

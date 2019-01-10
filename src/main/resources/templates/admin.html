@@ -46,13 +46,6 @@
                 </div>
             </div>
 
-            <script>
-                function getMessage() {
-                    var message = document.getElementById("EmailMessage").value;
-                    document.getElementById("message").value = message;
-                }
-            </script>
-
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <form class="form-group" method="post" th:action="@{/sendEmail}">
                     <div class="summernote-wrap">
@@ -61,9 +54,8 @@
                         </div>
                         <input class="form-control" name="subject" placeholder="Betreff">
                         <div class="form-group">
-                            <textarea class="form-control" id="EmailMessage" rows="3" onkeydown="getMessage()" placeholder="Hier Text eingeben ..."></textarea>
+                            <textarea class="form-control" name="text" rows="3" placeholder="Hier Text eingeben ..."></textarea>
                         </div>
-                        <input type="hidden" class="form-control" id="message" name="message">
                         <button type="submit" class="btn btn-success">Nachricht abschicken</button>
                     </div>
                 </form>

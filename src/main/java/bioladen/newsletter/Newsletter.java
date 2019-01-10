@@ -16,7 +16,7 @@ public class Newsletter {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 
-	private String mail;
+	private @Getter @Setter String mail;
 
 	@Setter
 	private boolean subscribed;
