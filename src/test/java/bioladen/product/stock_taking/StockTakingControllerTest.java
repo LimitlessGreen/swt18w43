@@ -1,5 +1,7 @@
-package bioladen.product;
+package bioladen.product.stock_taking;
 
+import bioladen.product.InventoryProduct;
+import bioladen.product.InventoryProductCatalog;
 import bioladen.product.distributor_product.DistributorProductCatalog;
 import bioladen.product.stock_taking.StockTaking;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,7 +28,8 @@ public class StockTakingControllerTest {
 	@Autowired WebApplicationContext context;
 	@Autowired FilterChainProxy securityFilterChain;
 	@Autowired DistributorProductCatalog distributorProductCatalog;
-	@Autowired InventoryProductCatalog inventoryProductCatalog;
+	@Autowired
+	InventoryProductCatalog inventoryProductCatalog;
 	@Autowired StockTaking stockTaking;
 
 	protected MockMvc mvc;
@@ -53,9 +56,9 @@ public class StockTakingControllerTest {
 			stockTaking.beginStockTaking();
 		}
 
-		stockTaking.registerInventoryAmount(inventoryProductCatalog.findById(1L).get(), 1);
-		stockTaking.registerDisplayedAmount(inventoryProductCatalog.findById(1L).get(), 2);
-		stockTaking.registerDisplayedAmount(inventoryProductCatalog.findById(2L).get(), 3);
+		stockTaking.registerInventoryAmount(inventoryProduct, 1);
+		stockTaking.registerDisplayedAmount(inventoryProduct, 2);
+		stockTaking.registerDisplayedAmount(inventoryProduct1, 3);
 
 		mvc.perform(get("/stockTaking").with(user("manager").roles("MANAGER")))
 				.andExpect(status().isOk());
