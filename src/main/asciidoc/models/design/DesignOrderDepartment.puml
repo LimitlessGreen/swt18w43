@@ -231,9 +231,7 @@ rectangle Bioladen {
 
         OrderCart "1"  *-- "*" OrderCartItem
         DistributorOrder "1" *-- "*" OrderItem
-        OrderController --> order.html
-        OrderController --> orderfinished.html
-        OrderController --> orderoverview.html
+
         OrderManager --> OrderItemRepository
         OrderManager --> DistributorOrderRepository
         OrderManager "1" -- "*" DistributorOrder
@@ -260,17 +258,12 @@ rectangle Bioladen {
 
         }
 
+        bioladen.order.OrderController --> DistributorProductCatalog
 
 
-    }
-
-    namespace Amount {
-        class Amount {
-            +of(long) : Amount
-
-        }
 
     }
+
 
     namespace ressources.templates {
 
@@ -284,7 +277,11 @@ rectangle Bioladen {
 
         VIEW(orderoverview.html) {
 
-                }
+        }
+
+        bioladen.order.OrderController --> order.html
+        bioladen.order.OrderController --> orderfinished.html
+        bioladen.order.OrderController --> orderoverview.html
 
     }
 
