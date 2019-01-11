@@ -318,8 +318,10 @@ bioladen.product.InventoryProductCatalog --|> org.springframework.data.repositor
 bioladen.product.InventoryProductController --> bioladen.product.InventoryProductCatalog
 bioladen.product.InventoryProductController --> bioladen.product.distributor_product.DistributorProductCatalog
 bioladen.product.InventoryProductController --> bioladen.product.stock_taking.StockTaking
+bioladen.product.InventoryProductController --> ressources.templates
 
 bioladen.product.distributor.DistributorController --> bioladen.product.distributor.DistributorRepository
+bioladen.product.distributor.DistributorController --> ressources.templates
 
 bioladen.product.distributor.DistributorRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<Distributor, Long>
 
@@ -333,6 +335,7 @@ bioladen.product.distributor_product.DistributorProductCatalog --|> org.springfr
 bioladen.product.distributor_product.DistributorProductController --> bioladen.product.InventoryProductCatalog
 bioladen.product.distributor_product.DistributorProductController --> bioladen.product.distributor_product.DistributorProductCatalog
 bioladen.product.distributor_product.DistributorProductController --> bioladen.product.distributor.DistributorRepository
+bioladen.product.distributor_product.DistributorProductController --> ressources.templates
 
 bioladen.product.distributor_product.DistributorProductDataInitializer --> bioladen.product.distributor_product.DistributorProductCatalog
 bioladen.product.distributor_product.DistributorProductDataInitializer --> bioladen.product.distributor.DistributorRepository
@@ -343,5 +346,6 @@ bioladen.product.label.PdfLabelGenerator --> bioladen.product.InventoryProductCa
 
 bioladen.product.stock_taking.StockTakingController --> bioladen.product.stock_taking.StockTaking
 bioladen.product.stock_taking.StockTakingController --> bioladen.product.InventoryProductCatalog
+bioladen.product.stock_taking.StockTakingController --> ressources.templates
 
 @enduml
