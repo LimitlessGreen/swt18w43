@@ -21,6 +21,10 @@ public class LineCharts extends DateTimeCharts {
 		super(resolution, interval, inputMap);
 	}
 
+	/**
+	 * Returns the JavaScript Json-string for a chart (frontend)
+	 * @return
+	 */
 	@Override
 	public String getJsonCharts() {
 

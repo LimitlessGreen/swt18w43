@@ -23,6 +23,16 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 	/*  1. Log
 	/*----------------------*/
 
+	/**
+	 * the log routine for the datahistory
+	 * @param name
+	 * @param entity
+	 * @param entityLevel
+	 * @param message
+	 * @param publisherName
+	 * @param involvedUser
+	 * @return
+	 */
 	private DataEntry log(
 			String name,
 			T entity, EntityLevel entityLevel,
@@ -101,6 +111,13 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 	/*  2. FindBys
 	/*----------------------*/
 
+	/**
+	 * find data entries by the following params
+	 * @param entityClass
+	 * @param entityLevel
+	 * @param interval
+	 * @return
+	 */
 	public LinkedList<DataEntry> findBy(Class entityClass, EntityLevel entityLevel, Interval interval) {
 
 		LinkedList<DataEntry> output = new LinkedList<>();
@@ -117,7 +134,7 @@ public class DataHistoryManager<T extends RawEntry> implements ApplicationEventP
 
 	}
 
-	public DataEntry findLatestCreatedOrModified(T entity) {
+	private DataEntry findLatestCreatedOrModified(T entity) {
 
 		Class entityClass = entity.getClass();
 

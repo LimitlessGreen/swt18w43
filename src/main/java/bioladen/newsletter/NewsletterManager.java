@@ -53,4 +53,8 @@ public class NewsletterManager {
 		return newsletterRepository.findBySubscribedTrue();
 	}
 
+	public ArrayList<Newsletter> getUnsubscribed() {
+		return newsletterRepository.findBySubscribedFalse();
+	}
+
 }

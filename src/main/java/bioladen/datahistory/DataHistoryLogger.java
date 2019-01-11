@@ -13,6 +13,10 @@ public class DataHistoryLogger {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	/**
+	 * listen for any events (DataEntry) and log them to console
+	 * @param event
+	 */
 	@Async
 	@EventListener
 	public void listenEvent(DataEntry event) {

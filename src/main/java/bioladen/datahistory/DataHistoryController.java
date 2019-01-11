@@ -12,6 +12,12 @@ public class DataHistoryController {
 	DataHistoryController(DataEntryRepository dataEntryRepository) {
 		this.dataEntryRepository = dataEntryRepository;
 	}
+
+	/**
+	 * route for datahistory
+	 * @param model
+	 * @return
+	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/datahistory")
 	String datahistory(Model model){

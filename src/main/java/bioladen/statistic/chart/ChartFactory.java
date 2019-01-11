@@ -20,10 +20,13 @@ public class ChartFactory {
 
 	private final DataHistoryManager dataHistoryManager;
 
-	public Charts getPieChart() {
-		return new PieCharts();
-	}
-
+	/**
+	 *
+	 * @param resolution
+	 * @param interval
+	 * @param entry
+	 * @return
+	 */
 	public LineCharts getBarChart(ChronoUnit resolution, Interval interval, RawEntry entry) {
 
 		LinkedHashMap<String, List<DataEntry>> inputMap = new LinkedHashMap<>();

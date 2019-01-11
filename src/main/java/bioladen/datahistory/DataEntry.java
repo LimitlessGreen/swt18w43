@@ -15,6 +15,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 
+
+/**
+ * An combined class. It is event and entity at once.
+ * @param <T>
+ */
 @Getter
 @NoArgsConstructor
 @KeySpace("dataHistory")
@@ -87,21 +92,32 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 	 * @return formatted saveTime String
 	 */
 	public String getFormattedSaveTime(String format) {
+
 		return this.saveTime.format(DateTimeFormatter.ofPattern(format));
 	}
 
 
 	@Override
 	public ResolvableType getResolvableType() {
-		return ResolvableType.forClassWithGenerics(getClass(),
-				ResolvableType.forInstance(entity));
+
+		return ResolvableType.forClassWithGenerics(getClass(), ResolvableType.forInstance(entity));
 	}
 
+	/**
+	 * Set the message (shown in data history)
+	 * @param message
+	 */
 	public void setMessage(String message) {
+
 		this.message = (message != null) ? message : this.message;
 	}
 
-	public void setEntityBeforeModified(T entityBeforeModified) {
+	/**
+	 * save an entity before modification, to resolve changes
+	 * @param entityBeforeModified
+	 */
+	protected void setEntityBeforeModified(T entityBeforeModified) {
+
 		this.entityBeforeModified = entityBeforeModified;
 		this.declaredModifiedFields = searchDeclaredFields(entityBeforeModified);
 	}
@@ -119,6 +135,11 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 				this.message);
 	}
 
+	/**
+	 * check, if a field is modified (used in frontend)
+	 * @param field
+	 * @return
+	 */
 	public boolean isModified(String field) {
 		if (this.entityLevel.equals(EntityLevel.MODIFIED)) {
 			try {
@@ -129,7 +150,6 @@ public class DataEntry<T extends RawEntry> implements RawEntry, ResolvableTypePr
 		return false;
 	}
 
-	//TODO: pls implement!
 	@Override
 	public LinkedHashMap<String, DataHistoryRequest> defineCharts() {
 		return null;

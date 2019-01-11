@@ -8,6 +8,8 @@ public interface NewsletterRepository extends CrudRepository<Newsletter, Long> {
 
 	ArrayList<Newsletter> findBySubscribedTrue();
 
+	ArrayList<Newsletter> findBySubscribedFalse();
+
 	Newsletter findByMail(String mail);
 
 	boolean existsByMail(String mail);
