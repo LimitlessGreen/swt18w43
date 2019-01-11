@@ -29,6 +29,9 @@ public class NewsletterManager {
 			newsletter.setSubscribed(true);
 
 			newsletterRepository.save(newsletter);
+		} else {
+
+			throw new IllegalArgumentException();
 		}
 	}
 
@@ -40,6 +43,9 @@ public class NewsletterManager {
 			newsletter.setUnsubscribeId(null);
 
 			newsletterRepository.save(newsletter);
+		} else {
+
+			throw new IllegalArgumentException();
 		}
 	}
 
