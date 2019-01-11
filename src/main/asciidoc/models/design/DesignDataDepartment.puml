@@ -3,46 +3,10 @@
 !include stylesheet.iuml
 
 rectangle Bioladen {
-    namespace bioladen.event {
-
-
-
-        class EntityEvent<T>{
-            -entity : T
-            -eventLevel : EntityLevel
-            -message : String
-            -name : String
-            -publisherName : String
-            -involvedUser : UserAccount
-            -resolvableType : ResolvableType
-
-            EntityEvent(T, EntityLevel)
-            EntityEvent(T, EntityLevel, String)
-            EntityEvent(T, EntityLevel, UserAccount)
-            EntityEvent(T, EntityLevel, UserAccount, String)
-            +getResolvableType() : ResolvableType
-        }
-    }
-
 
     namespace bioladen.datahistory {
 
-        class DataHistoryManager <<Service>> {
-            -customerManager : CustomerManager
-            -dataEntryRepository : DataEntryRepository
-            -businessTime : BusinessTime
-            -publisher : ApplicationEventPublisher
-            
-            -log(EntityLevel, T, String message, String publisherName, Customer) : <T> DataEntry
-            +push(T, EntityLevel, String, Customer) : <T> DataEntry
-            +push(T, EntityLevel, String) : <T> DataEntry
-            +push(T, EntityLevel, Customer) : <T> DataEntry
-            +push(T, EntityLevel) : <T> DataEntry
-            +push(T) : <T extends EntityEvent> DataEntry 
-            -publishEvent(DataEntry, String) : void
-        }
-
-        class DataEntry<T> <<Entity>>{
+        class DataEntry<T> <<Entity>> implements RawEntry{
             -id : Long
             -entityLevel : EntityLevel
             -thrownBy : String
@@ -63,22 +27,48 @@ rectangle Bioladen {
             +setMessage(String) : void
             +setEntityBeforeModified(T) : void
             +isModified(String) : boolean
-            
         }
 
-        class EntityEventListener <<Service>> {
+        class DataHistoryLogger <<Service>> {
             -dataHistoryManager: DataHistoryManager
             -logger : Logger
 
-            EntityEventListener(DataHistoryManager, Logger)
-            -listenEvent(EntityEvent) : void
+            DataHistoryLogger(DataHistoryManager, Logger)
+            -listenEvent(DataEntry) : void
         }
 
         interface DataEntryRepository <<Repository>> {
-            +findAllByOrderBySaveTimeDesc() : ArrayList<DataEntry>
+            +findAllByOrderById() : ArrayList<DataEntry>
+            +findAllByOrderByIdDesc() : ArrayList<DataEntry>
+            +findByEntityLevelAndSaveTimeBetweenOrderBySaveTimeDesc() : ArrayList<DataEntry>
+        }
+
+        class DataHistoryManager<T> {
+            -customerTools : CustomerTools
+            -dataEntryRepository : DataEntryRepository
+            -businessTime : BusinessTime
+
+            -log(String, T, EntityLevel, String, String, UserAccount) : DataEntry
+            +push(String, T, EntityLevel, String, UserAccount) : DataEntry
+            +push(String, T, EntityLevel, String) : DataEntry
+            +push(String, T, EntityLevel, UserAccount) : DataEntry
+            +push(String, T, EntityLevel) : DataEntry
+            +findBy(Class, EntityLevel, Interval) : Listy<DataEntry>
+            +findLatestCreatedOrModified(T) : DataEntry
+            +setApplicationEventPublisher(ApplicationEventPublisher) : void
+            -publishEvent(DataEntry) : void
+        }
+
+        class DataHistoryRequest {
+            -clazz : Class
+            -entityLevel : EntityLevel
+
+            +DataHistoryRequest(Class, EntityLevel)
         }
 
         class DataHistoryController <<Controller>> {
+            -dataEntryRepository : DataEntryRepository
+
             +dataHistory() : String
         }
 
@@ -90,9 +80,17 @@ rectangle Bioladen {
             -className : String
         }
 
-        DataEntry "1" --> "1" bioladen.event.EntityLevel
+        interface RawEntry {
+            +getId() : Long
+            +sumUp(String, Double) : Double
+            +defineCharts() : Map<String, DataHistoryRequest>
+        }
+
+        DataEntry "1" --> "1" EntityLevel
         DataEntry "0..*" --* "1" DataHistoryManager
-        EntityEventListener --> DataHistoryManager
+        DataHistoryLogger --> DataHistoryManager
+        DataHistoryRequest --> EntityLevel
+        DataHistoryController --> DataEntryRepository
 
     }
 
@@ -100,19 +98,76 @@ rectangle Bioladen {
 
     namespace bioladen.statistic {
         class StatisticController <<Controller>> {
-            +statistic() : String
+            -businessTime : BusinessTime
+            -dataHistoryManager DataHistoryManager;
+            -chartFactory ChartFactory;
+            -customerStatistic CustomerStatistic;
+            -financesStatistic FinancesStatistic;
+
+            +datahistory() : String
         }
 
-        enum ChartType {
-            BARCHART
-            PIECHART
-            LINECHART
+        class FinancesStatistic {
+            -dataHistoryManager : DataHistoryManager
+
+            +amountOfSalesBetween(Interval) : int
+            +amountOfCancelsBetween(Interval) : int
+            +salesBetween(Interval) : List
+            +cancelsBetween(Interval) : List
         }
 
-        class ChartFactory {
+        class CustomerStatistic {
+            -dataHistoryManager : DataHistoryManager
 
+            +amountOfCustomersCreatedBetween(Interval) : int
+            +amountOfCustomersDeletedBetween(Interval) : int
+            +amountOfCustomersModifiedBetween(Interval) : int
+            +customersCreatedBetween(Interval) : List
+            +customersDeletedBetween(Interval) : List
+            +customersModifiedBetween(Interval) : List
         }
 
+        StatisticController --> FinancesStatistic
+        StatisticController --> CustomerStatistic
+
+
+        namespace bioladen.chart {
+
+            class ChartFactory {
+                -dataHistoryManager : DataHistoryManager
+
+                +getBarChart(ChronoUnit, Interval, RawEntry) : LineCharts
+                +getRequest(DataHistoryRequest, Interval) : List
+            }
+
+            interface Charts {
+                +getJsonCharts() : String
+                +size() : int
+            }
+
+            class DateTimeCharts implements Charts {
+                -currentResolution : ChronoUnit
+                -currentInterval : Interval
+                -inputMap : Map<String, List<DataEntry>>
+                -zeroMap : Map<LocalDateTime, Double>
+                -chartData : Map<String, double[]>
+                -chartLabels : List<String>
+
+                +DateTimeCharts(ChronoUnit, Interval, Map<String, List<DataEntry>>)
+                -fillCharts() : void
+                -generateRawMap(ChronoUnit, Interval) : Map<LocalDateTime, Double>
+                -truncate(LocalDateTime, ChronoUnit) : LocalDateTime
+                -doubleConverter(List<Double>) : double[]
+                +getChartLabels() : String[]
+                +size() : int
+            }
+
+            class LineCharts extends DateTimeCharts {
+                +LineCharts(ChronoUnit, Interval, Map<String, List<DataEntry>>)
+                +getJsonCharts() : String
+            }
+
+        }
 
     }
 
