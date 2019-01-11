@@ -2,26 +2,7 @@
 
 !include stylesheet.iuml
 
-rectangle salespoint-framework-7.0.0.RELEASE.jar {
-
-    package org.salespointframework.time {
-        interface BusinessTime <<Salespoint>> {
-
-        }
-    }
-
-    namespace org.salespointframework.context {
-            class ApplicationEvent <<Salespoint>>{
-
-            }
-
-        }
-
-}
-
-
 rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
-
     namespace org.springframework.data.repository {
         interface CrudRepository <T, ID> <<Spring>>{
             <S extends T> +save(S) : S
@@ -42,150 +23,325 @@ rectangle spring-data-comments-2.1.0.RELEASE.jar as spring {
 rectangle Bioladen {
 
     namespace bioladen.product {
-
-        interface InventoryProductCatalog <<Repository>> extends org.springframework.data.repository.CrudRepository {
-            +findAll() : ArrayList<InventoryProduct>
-        }
-
-        interface DistributorProductCatalog <<Repository>> extends org.springframework.data.repository.CrudRepository {
-            +findAll() : ArrayList<DistributorProduct>
-        }
-
-        class DistributorProduct <<Entity>> {
-            -distributorProductIdentifier : Long
-            -unit : BigDecimal
-            -price : BigDecimal
-            -distributor : Distributor
-            -minimumOrderAmount : long
-
-            +DistributorProduct(String, Distributor, BigDecimal, BigDecimal, long)
-        }
-
         class InventoryProduct <<Entity>> {
-            -productIdentifier : Long
-            -name : String
-            -price : BigDecimal
-            -unit : BigDecimal
-            -inventoryAmount : long
-            -displayedAmount : long
-            -distributorProducts : List<DistributorProducts>
-
-            +InventoryProduct(String, DistributorProductCatalog)
-            +removeDisplayedAmount(long): boolean
-            +toEan13(Long) : long
-            +fromEan13(Long) : long
-            -getCheckSum(String) : int
-        }
-
-        class Distributor <<Entity>> {
             -id : Long
             -name : String
-            -email : String
-            -contactName : String
-            -phoneNr : String
+            -basePrice : BigDecimal
+            -price : BigDecimal
+            -unit : BigDecimal
+            -unitMetric : Metric
+            -inventoryAmount : long
+            -displayedAmount : long
+            -productCategory : ProductCategory
+            -mwStCategory : MwStCategory
+            -pfandPrice : BigDecimal
+            -organization : Organization
+            {static} -profitMargin : BigDecimal
+            -distributorProducts : List<DistributorProduct>
 
-            +Distributor(String, String, String, String)
-            +publishDistributorCreatedEvent(Distributor) : void
-         }
+            +InventoryProduct(String, DistributorProductCatalog)
+            +addInventoryAmount(long) : void
+            +moveAmountFromInventoryToDisplay(long) : boolean
+            +removeDisplayedAmount(long) : void
+            {static} +toEan13(Long) : long
+            {static} +fromEan13(Long) : long
+            {static} -getCheckSum(String) : int
+            +calculatePrice() : void
+            +hashCode() : int
+            +equals(Object) : boolean
+            +defineCharts() : LinkedHashMap<String, DataHistoryRequest>
+            +sumUp(String, Double) : Double
+        }
 
-        
-
-
-        InventoryProduct  o--  DistributorProduct
-        DistributorProduct  --* "1" DistributorProductCatalog
-        InventoryProduct --* "1" InventoryProductCatalog
-
+        interface InventoryProductCatalog <<Repository>> {
+            +findAll() : ArrayList<InventoryProduct>
+            +findByName(String) : InventoryProduct
+        }
 
         class InventoryProductController <<Controller>> {
             -inventoryProductCatalog : InventoryProductCatalog
             -distributorProductCatalog : DistributorProductCatalog
+            -authenticationManager : AuthenticationManager
+            -stockTaking : StockTaking
+            -dataHistoryManager : dataHistoryManager
 
-            +InventoryProductController(InventoryProductCatalog, DistributorProductCatalog)
-            +showProducts() : String
+            +showProducts(Model) : String
+            +productInfo(Long, Model) : String
             +addProduct(Long) : String
+            +downloadLabel(HttpServletResponse, Long) : void
+            +downloadAllLabel(HttpServletResponse) : void
+            +moveAmount(Long, Long, Model) : String
+            +setProfitMargin(BigDecimal) : String
+            +publishEvent(InventoryProduct, EntityLevel) : void
         }
 
-        class DistributorController <<Controller>> {
-            -distributorRepository : DistributorRepository
-
-            +DistributorController(DistributorRepository)
-            +showDistributors() : String
-            +addDistributor(String, String, String, String) : String
-            +removeDistributor(Long) : String
+        enum MwStCategory {
+            REGULAR
+            REDUCED
+            EXEMPT
+            --
+            -name : String
+            -percentage : double
+            --
+            -MwStCategory(String, double)
+            +getLongName : String
         }
 
-        interface DistributorRepository <<Repository>> {
-            +findAll() : ArrayList<Distributor>
+        enum Organization {
+            BIOLAND
+            BIOPARK
+            DEMETER
+            ECOVIN
+            EG_BIO
+            GAEA
+            NATURLAND
+            --
+            -name : String
+            --
+            -Organization(String)
         }
 
-        class DistributorProductController <<Controller>> {
-            -distributorProductCatalog : DistributorProductCatalog
-            -distributorRepository : DistributorRepository
-
-            +DistributorProductController(DistributorProductCatalog. DistributorRepository)
-            +showDistributorProducts() : String
-            +distributorForm() : String
-            +addDistributor(String, Long, String, String, long) : String
+        enum ProductCategory {
+            FOOD_DAIRY
+            FOOD_EGG
+            FOOD_MEAT
+            FOOD_FISH
+            FOOD_FAT_OIL
+            FOOD_SOUP_SAUCE
+            FOOD_BAKERY
+            FOOD_FRUIT_VEG
+            FOOD_HERB_SPICE
+            FOOD_NON_ALC_BEV
+            FOOD_WINE
+            FOOD_ALC_BEV
+            FOOD_ICE_DESSERT
+            FOOD_COCOA_COFFEE_TEA
+            FOOD_CONFECTIONARY
+            FOOD_NUT_SNACK
+            FOOD_PREPARED
+            FOOD_NUTRITIONAL
+            FOOD_ADDITIVE
+            FOOD_MATERIAL
+            FOOD_OTHER
+            --
+            -descriptionEn : String
+            -descriptionDe : String
+            --
+            -ProductCategory(String, String)
         }
 
+        namespace distributor {
+            class Distributor <<Entity>> {
+                -id : Long
+                -name : String
+                -email : String
+                -contactName : String
+                -phone : String
 
+                +Distributor(String, String, String, String)
+                +toString() : String
+            }
 
-        InventoryProductController --> InventoryProduct
-        DistributorController --> Distributor
-        DistributorProductController --> DistributorProduct
+            class DistributorController <<Controller>> {
+                -distributorRepository : DistributorRepository
 
+                +DistributorController(DistributorRepository)
+                +showDistributors() : String
+                +addDistributor(String, String, String, String) : String
+                +removeDistributor(Long) : String
+            }
+
+            interface DistributorRepository <<Repository>> {
+                +findAll() : ArrayList<Distributor>
+            }
+        }
+
+        namespace distributor_product {
+            class DistributorProduct <<Entity>> {
+                -id : Long
+                -name : String
+                -price : BigDecimal
+                -unit : BigDecimal
+                -unitMetric : Metric
+                -minimumOrderAmount : long
+                -productCategory : ProductCategory
+                -mwStCategory : MwStCategory
+                -pfandPrice : BigDecimal
+                -organization : Organization
+                -distributor : Distributor
+
+                +DistributorProduct(String, Distributor, BigDecimal, BigDecimal, Metric, long, ProductCategory, MwStCategory, BigDecimal, Organization)
+                +toString() : String
+                +compareTo(DistributorProduct) : int
+            }
+
+            interface DistributorProductCatalog <<Repository>> {
+                +findAll() : ArrayList<DistributorProduct>
+            }
+
+            class DistributorProductController <<Controller>> {
+                -distributorProductCatalog : DistributorProductCatalog
+                -distributorRepository : DistributorRepository
+                -authenticationManager : AuthenticationManager
+                -inventoryProductCatalog : InventoryProductCatalog
+
+                +showDistributorProducts(Model) : String
+                +distributorForm(Model) : String
+                +addDistributor(String, Long, String, String, Metric, long, ProductCategory, MwStCategory, String, Organization) : String
+                +readBnn(Long, MultipartFile) : String
+            }
+
+            class DistributorProductDataInitializer <<Initializer>> {
+                -distributorProductCatalog : DistributorProductCatalog
+                -distributorRepository : DistributorRepository
+                {static} -DISTRIBUTOR1 : Distributor
+                {static} -DISTRIBUTOR2 : Distributor
+                {static} -DISTRIBUTOR_PRODUCT1 : DistributorProduct
+                {static} -DISTRIBUTOR_PRODUCT2 : DistributorProduct
+                {static} -DISTRIBUTOR_PRODUCT3 : DistributorProduct
+                {static} -DISTRIBUTOR_PRODUCT4 : DistributorProduct
+                {static} -DISTRIBUTOR_PRODUCT5 : DistributorProduct
+                {static} -DISTRIBUTOR_PRODUCT6 : DistributorProduct
+
+                +initialize() : void
+            }
+        }
+
+        namespace label {
+            class PdfLabelGenerator <<Entity>> {
+                -inventoryProductCatalog : InventoryProductCatalog
+                -log : Logger
+                -MM_TO_PT : float
+                -FONT_UNIT_TO_PT : float
+                -HALF : float
+                -LABEL_WIDTH : float
+                -LABEL_HEIGHT : float
+                -LABEL_MARGIN : float
+                -PRODUCT_NAME_FONT_SIZE : float
+                -PRODUCT_NAME_POS_X : float
+                -PRODUCT_NAME_POS_Y : float
+                -PRODUCT_DESCRIPTION_FONT_SIZE : float
+                -PRODUCT_DESCRIPTION_POS_X : float
+                -PRODUCT_DESCRIPTION_POS_Y : float
+                -PRODUCT_DESCRIPTION_MARGIN_BOTTOM : float
+                -PRODUCT_PRICE_POS_Y : float
+                -PRODUCT_PRICE_FONT_SIZE : float
+                -QR_CODE_RENDER_SIZE : int
+                -QR_CODE_SIZE : float
+                -BARCODE_RENDER_WIDTH : int
+                -BARCODE_RENDER_HEIGHT : int
+                -BARCODE_FONT_SIZE : float
+                -BARCODE_WIDTH : float
+                -BARCODE_HEIGHT : float
+                -BARCODE_POS_X : float
+                -BARCODE_POS_Y : float
+                -BARCODE_LINE_WIDTH : float
+                -BARCODE_PREFIX_POS_X : float
+                -BARCODE_WHITESPACE0_LEFT : float
+                -BARCODE_WHITESPACE_WIDTH : float
+                -BARCODE_WHITESPACE1_LEFT : float
+                -document : PDDocument
+                -roboto400i : PDFont
+                -roboto500 : PDFont
+                -robotoSlab700 : PDFont
+                -robotoMono400 : PDFont
+
+                -addLabel(InventoryProduct) : void
+                +generate(long, OutputStream) : void
+                +generateAll(Iterable<InventoryProduct>, OutputStream) : void
+            }
+        }
+
+        namespace stock_taking {
+            class StockTaking <<Entity>> {
+                -onGoing : boolean
+                -countedInventoryAmount : Map<InventoryProduct, Long>
+                -countedDisplayedAmount : Map<InventoryProduct, Long>
+
+                +beginStockTaking() : void
+                +finishStockTaking() : void
+                +registerInventoryAmount(InventoryProduct, long) : void
+                +registerDisplayedAmount(InventoryProduct, long) : void
+            }
+
+            class StockTakingController <<Controller>> {
+                -stockTaking : StockTaking
+                -inventoryProductCatalog : InventoryProductCatalog
+
+                +inventoryStockTaking(long, long) : String
+                +displayedStockTaking(long, long) : String
+                +beginStockTaking() : String
+                +finishStockTaking() : String
+                +stockTakingTable(Model) : String
+            }
+        }
     }
 
-
-    namespace bioladen.event {
-        class EntityCreatedEvent {
-
-        }
-        EntityCreatedEvent --|> org.salespointframework.context.ApplicationEvent
-    }
-
-
-
-
-    
     namespace ressources.templates {
     
         VIEW(product.html) {
-
         }
 
         VIEW(productlist.html) {
+        }
 
+        VIEW(productpage.html) {
         }
         
         VIEW(distributor.html) {
-            
         }
         
         VIEW(distributorlist.html) {
-        
+        }
+
+        VIEW(distributorform.html) {
         }
         
         VIEW(distributorproductlist.html) {
-        
         }
 
-        bioladen.product.InventoryProductController --> product.html
-        bioladen.product.InventoryProductController --> productlist.html
-        bioladen.product.DistributorController --> distributor.html
-        bioladen.product.DistributorController --> distributorlist.html
-        bioladen.product.DistributorProductController --> distributorproductlist.html
+        VIEW(distributorproductform.html) {
+        }
 
+        VIEW(stockTaking.html) {
+        }
     }
-
-
-
-
-
 }
 
-bioladen.product.Distributor --> bioladen.event.EntityCreatedEvent
-bioladen.product.Distributor "1" *--  bioladen.product.DistributorProduct
-bioladen.product.DistributorRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<Distributor, DistributorIdentifier>
+bioladen.product.InventoryProduct --> bioladen.product.ProductCategory
+bioladen.product.InventoryProduct --> bioladen.product.MwStCategory
+bioladen.product.InventoryProduct --> bioladen.product.Organization
+bioladen.product.InventoryProduct "1" o-- "*" bioladen.product.distributor_product.DistributorProduct
+
+bioladen.product.InventoryProductCatalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<InvenotryProduct, Long>
+
+bioladen.product.InventoryProductController --> bioladen.product.InventoryProductCatalog
+bioladen.product.InventoryProductController --> bioladen.product.distributor_product.DistributorProductCatalog
+bioladen.product.InventoryProductController --> bioladen.product.stock_taking.StockTaking
+
+bioladen.product.distributor.DistributorController --> bioladen.product.distributor.DistributorRepository
+
+bioladen.product.distributor.DistributorRepository --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<Distributor, Long>
+
+bioladen.product.distributor_product.DistributorProduct --> bioladen.product.ProductCategory
+bioladen.product.distributor_product.DistributorProduct --> bioladen.product.MwStCategory
+bioladen.product.distributor_product.DistributorProduct --> bioladen.product.Organization
+bioladen.product.distributor_product.DistributorProduct "*" o-- "1" bioladen.product.distributor.Distributor
+
+bioladen.product.distributor_product.DistributorProductCatalog --|> org.springframework.data.repository.CrudRepository: <<binds>>\n<DistributorProduct, Long>
+
+bioladen.product.distributor_product.DistributorProductController --> bioladen.product.InventoryProductCatalog
+bioladen.product.distributor_product.DistributorProductController --> bioladen.product.distributor_product.DistributorProductCatalog
+bioladen.product.distributor_product.DistributorProductController --> bioladen.product.distributor.DistributorRepository
+
+bioladen.product.distributor_product.DistributorProductDataInitializer --> bioladen.product.distributor_product.DistributorProductCatalog
+bioladen.product.distributor_product.DistributorProductDataInitializer --> bioladen.product.distributor.DistributorRepository
+bioladen.product.distributor_product.DistributorProductDataInitializer --> bioladen.product.distributor_product.DistributorProduct
+bioladen.product.distributor_product.DistributorProductDataInitializer --> bioladen.product.distributor.Distributor
+
+bioladen.product.label.PdfLabelGenerator --> bioladen.product.InventoryProductCatalog
+
+bioladen.product.stock_taking.StockTakingController --> bioladen.product.stock_taking.StockTaking
+bioladen.product.stock_taking.StockTakingController --> bioladen.product.InventoryProductCatalog
 
 @enduml
