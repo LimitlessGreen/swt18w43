@@ -1,5 +1,7 @@
 package bioladen.order;
 
+import bioladen.product.InventoryProductCatalog;
+import bioladen.product.distributor_product.DistributorProductCatalog;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -30,7 +32,12 @@ class OrderControllerTest {
 	private WebApplicationContext context;
 	@Autowired
 	private FilterChainProxy securityFilterChain;
-
+	@Autowired
+	private OrderManager orderManager;
+	@Autowired
+	private DistributorProductCatalog distributorProductCatalog;
+	@Autowired
+	private InventoryProductCatalog inventoryProductCatalog;
 	protected MockMvc mvc;
 
 	@BeforeAll
@@ -43,12 +50,38 @@ class OrderControllerTest {
 				build();
 	}
 
-	@Test
+	/*@Test
 	void completeOrder() throws Exception {
 
-		DistributorOrder distributorOrder = new DistributorOrder();
-		distributorOrder = orderRepository.save(distributorOrder);
+		DistributorProduct distributorProduct = distributorProductCatalog.findById(6L).get();
+		OrderCart cart = new OrderCart();
+		cart.addOrUpdateItem(distributorProduct, Quantity.of(1));
 
+
+		mvc.perform(get("/orderFinished")
+				.with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("cart", String.valueOf(cart)))
+				.andExpect(redirectedUrl("/orderfinished"));
+	}
+*/
+	@Test
+	void completeEmptyOrder() throws Exception {
+
+		OrderCart cart = new OrderCart();
+
+		mvc.perform(get("/orderFinished")
+				.with(user("feldfreude@bio.de").roles("MANAGER"))
+				.param("cart", String.valueOf(cart)))
+				.andExpect(redirectedUrl("/order"));
+	}
+
+	@Test
+	void arrivedOrder() throws Exception {
+		DistributorOrder distributorOrder = new DistributorOrder();
+		OrderCart orderCart = new OrderCart();
+		orderCart.addOrUpdateItem(distributorProductCatalog.findById(6L).get(), 1);
+		distributorOrder.addItems(orderCart, orderManager);
+		distributorOrder = orderRepository.save(distributorOrder);
 		mvc.perform(get("/orders/complete")
 				.with(user("feldfreude@bio.de").roles("MANAGER"))
 				.param("id", String.valueOf(distributorOrder.getId())))

@@ -70,7 +70,7 @@ public class OrderController {
 	/**
 	 *  Mapping which gets called when
 	 *  the user clicks the button to mark
-	 *  a order as finished
+	 *  a order as arrived
 	 *  (Inventory Amount gets adjusted)
 	 *
 	 * @param id Id of the finished order
@@ -78,7 +78,7 @@ public class OrderController {
 	 */
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	@GetMapping("/orders/complete")
-	public String completeOrder(@RequestParam Long id) {
+	public String arrivedOrder(@RequestParam Long id) {
 		DistributorOrder order = orderRepository.findById(id).orElse(null);
 
 
@@ -244,7 +244,7 @@ public class OrderController {
 	}
 
 	/**
-	 * Compares to Comparables and returns the smaller one
+	 * Compares two Comparables and returns the smaller one
 	 *
 	 * @param o1 Object 1
 	 * @param o2 Object 2

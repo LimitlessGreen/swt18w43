@@ -1,0 +1,51 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2017/18
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:**
+
+**Gruppe:**
+
+== Was habe ich gelernt?
+- vor allem Java-Kenntnisse
+- Arbeit mit Frameworks
+- Aufbau und Planung großer Projekte (z.B. wie können Probleme durch gute Planung vermieden werden)
+
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+Unser Team bestand anfangs aus 6 Leuten. 1 Person kannte ich sehr gut, diese hat allerdings leider schon ganz zu Anfang aufgehört.
+Die anderen 4 kannte ich flüchtig, sie sich untereinander allerdings sehr gut. Meine Kommilitonen brachten deutlich mehr Grundwissen
+und Zeit mit als ich selbst, dadurch gestaltete es sich für mich schwierig in die Gruppenarbeit hinein zu finden. Die Kommunikation
+lief großteils über Discord ab, was grundsätzlich eine gute Basis für gemeinsame Arbeit lieferte.
+Leider musste ich an dieser Stelle mal wieder für mich selbst feststellen, dass es mir sehr schwer fällt, mich am Gespräch zu
+beteiligen, wenn 4 Andere da sind und ich nicht das Gefühl habe, ausreichend Wissen bieten zu können. Erschwerend kam hinzu, dass ich
+mich selber eher als Außenseiter sah (aufgrund dessen, dass die Anderen sich schon so gut vorher kannten), auch wenn die
+Anderen mir dieses Gefühl nicht unbedingt absichtlich vermittelt haben.
+Meine dadurch teils mangelnde Teilnahme am Gespräch wurde dann auch recht schnell als mangelndes Interesse und Einbringen gesehen,
+was ich auch verstehen kann. Dies verunsicherte mich andererseits aber auch. Deshalb, und weil mir diese Gespräche schwer fielen
+und ich mich bei so vielen Leuten schwer konzentrieren konnte, habe ich mich dann teilweise zu sehr aus dem Discord rausgehalten.
+Ich habe gemerkt, dass ich damit der Gruppendynamik teils geschadet habe und versucht mich zu verbessern, dies ist mir leider nur
+teilweise gelungen. Ich habe daraus aber auch gelernt, dass ich hierbei meine Fähigkeiten noch verbessern muss.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+Ich habe die Erfahrung gemacht, dass die Arbeit mit Frameworks sich gerade für Programmieranfänger als sehr schwer erweist,
+vor allem wenn die Dokumentation teils noch echt verbesserungswürdig ist.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+Es wäre sehr sinnvoll, wenn SonarQube nicht nur auf dem MasterBranch funktionieren würde. Das Zusammenstellen der Gruppen sollte
+auch noch überarbeitet werden. Hierbei wäre es schön gewesen, wenn offengelegt worden wäre, dass Gruppenwünsche nur dann angenommen werden,
+wenn alle im Wunsch Genannten die Prüfung mitgeschrieben und bestanden haben, das hätte eine Motivation zum Schreiben gegeben. Auch sehe ich es
+als nicht förderlich wenn Gruppen aus Leuten gebildet werden, die sich laut Gruppenwunsch offensichtlich kennen und dann mit einzelnen Leuten
+aufgefüllt werden, da diese es dann von vorn herein schwerer haben, in der Gruppe Anschluss zu finden. (Auch wenn das vlt. im späteren
+Berufsleben auch so ist, allerdings bietet dieses Praktikum auch so schon genug Herausforderungen). Es sollte außerdem über eine
+Einkürzung des Projektes nachgedacht werden, da der Zeitaufwand es teilweise sehr schwer macht, sich ausreichend auf andere Studien-
+fächer zu konzentrieren und die Zeit für Hobbies / Freizeit teils sehr stark einschränkt wird. In der Entwicklerdoku wären an einigen Stellen
+ausführlichere Erklärungen über die zu tätigenden Dinge angebracht, da das Aufgabenziel teils sehr unklar ist.
+Zuletzt finde es bisschen doof, dass es keine Möglichkeit gibt, die Evaluation anonym einzureichen.
+== Feedback für den Tutor
+Unser Tutor war sehr engagiert und ein guter Ansprechpartner. Bei Fragen antwortete er meist schnell (über Mail oder Discord) und gab
+uns gute Tipps, wenn wir bei der Umsetzung irgendwo nicht weiterkamen. Alles in allem kann ich nur sagen: Super Tutor :)
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
