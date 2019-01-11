@@ -16,6 +16,9 @@ Arbeiten mit großen Frameworks, Java und PlantUML
 Mit dem meisten Teammitgliedern eine gute Zusammenarbeit. Jedoch gab es da auch ein "schwarzes" Loch, wo man kein Stand wusste, erst dann Sonntag 23 Uhr gefragt wurde ob einer nicht noch helfen könnte, damit es ja noch "pünktlich" zur Abgabe fertig ist.
 Damit war teilweise die Arbeit nur auf 4 statt 5 Personen aufteilbar (siehe z.B Git-Statistic), was einen selbst ziemlich viel Zeitaufwand brachte.
 
+Auch nach persönlichen Gespräch hat sich weder an der Kommunikation was geändert, noch an den späten bzw. auch großen Blocks von Commits. Nur bei nicht SWT relevanten Themen wurde sich eingebracht, sodass es nicht an der Fähigkeit liegt sich in Gespräche einzubringen. Wir konnten damit auch erschwert Sie Einbringen, da wird nicht dauernd über SWT unrelevante Dinge reden konnten, damit wir Ihre Stimme mal überhaupt hören (das bringt uns nicht vorran), und Sie auch selbst wenig Zeit in Discord verbracht hat. Auch nachdem wir mit dem Tutor darüber gesprochen haben, hat sich nichts geändert. Auch bei den Treffen hielt Sie sich raus und ich bekam das Gefühl, dass die Aufmerksamkeit auch woanders war, sodass man später nochmal ihr erklären durfte was Z.B SonarQube ist oder was sie alles denn noch machen soll. Es gab keine selbständige Arbeitssuche, was ich von Menschen, die studieren schon erwarte (das braucht man auch im Arbeitsleben) und es wurde damit nur das nötiste auf dem letzten Drücker (also meist am WE) gemacht.
+
+Jedoch verlief mit den anderen die Kommunikation sehr gut und reibungslos. Leider sank auch bei uns allen am Ende wegen diesen unveränderten Probleme die Motivation.
 
 == Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
 // Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
@@ -25,8 +28,8 @@ Das Reinarbeiten in die Frameworks war am Anfang schwer, nach einer Zeit ging es
 // Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
 Zeitaufwand in einigen Wochen sehr hoch, in der ersten Woche dafür sehr gering, weil man nicht wirklich schon was machen kann.
 
-Jedes Gruppenmitglied sollte einzeln bewertet werden, da sich sonst einige Mitglieder durchziehen lassen können auf kosten der Anderen.
-Denn wenn jemand sich nicht an Absprachen etc. leidet auch die eigene Bewertung drunter.
+Jedes Gruppenmitglied sollte einzeln bewertet werden, da sich sonst einige Mitglieder durchziehen lassen können auf Kosten der Anderen.
+Denn wenn jemand sich nicht an Absprachen etc. leidet auch die eigene Bewertung drunter (Wenn jemand nicht Termin gerecht abgibt oder statt Basiskriterien einfach andere macht).
 Vielleicht könnte man auch das Punktesystem, was die Tutoren haben um dem Umfang/Arbeitsaufwandes des Projektes mit nutzen, da es auch unfair ist, wenn man viel mehr macht (damit es Termin gerecht fertig ist) und andere Mitglieder nur das nötigste machen bzw auch spät ihr Zeug pushen und damit es nicht gleichmäßig aufgeteilt werden kann.
 Damit könnte man dafür sorgen, dass man kaum was machen muss um das Projekt zu bestehen (und das zu Leiden der anderen Gruppenmitglieder darunter verringern).
 Die Punktzahl aus dem Elementen, was man gemacht hat sind aussagekräftiger als die Zeit, da einige viel/weniger Zeit für manche Dinge brauchen (das ist ja normal).
