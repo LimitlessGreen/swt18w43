@@ -9,13 +9,13 @@
 
 == Was habe ich gelernt?
 // Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
-Arbeiten mit großen Frameworks. (und Java)
+Arbeiten mit großen Frameworks, Java und PlantUML
 
 == Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
 // Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
 Mit dem meisten Teammitgliedern eine gute Zusammenarbeit. Jedoch gab es da auch ein "schwarzes" Loch, wo man kein Stand wusste, erst dann Sonntag 23 Uhr gefragt wurde ob einer nicht noch helfen könnte, damit es ja noch "pünktlich" zur Abgabe fertig ist.
 Damit war teilweise die Arbeit nur auf 4 statt 5 Personen aufteilbar (siehe z.B Git-Statistic), was einen selbst ziemlich viel Zeitaufwand brachte.
-kurz: TEAM - Toll Ein Anderer Machts
+
 
 == Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
 // Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
@@ -30,6 +30,8 @@ Denn wenn jemand sich nicht an Absprachen etc. leidet auch die eigene Bewertung 
 Vielleicht könnte man auch das Punktesystem, was die Tutoren haben um dem Umfang/Arbeitsaufwandes des Projektes mit nutzen, da es auch unfair ist, wenn man viel mehr macht (damit es Termin gerecht fertig ist) und andere Mitglieder nur das nötigste machen bzw auch spät ihr Zeug pushen und damit es nicht gleichmäßig aufgeteilt werden kann.
 Damit könnte man dafür sorgen, dass man kaum was machen muss um das Projekt zu bestehen (und das zu Leiden der anderen Gruppenmitglieder darunter verringern).
 Die Punktzahl aus dem Elementen, was man gemacht hat sind aussagekräftiger als die Zeit, da einige viel/weniger Zeit für manche Dinge brauchen (das ist ja normal).
+
+Außerdem sollte es für das Projekt am Ende eine Note geben, da später sonst der Anreiz fehlt, mehr zu machen.
 
 Wäre schön wenn SonarQube auf dem develop auch bauen würde.
 
