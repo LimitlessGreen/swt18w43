@@ -420,7 +420,7 @@
                                         <div th:if="${shoppingCart.getCustomer() != null}">
                                             <div class="modal-body">
                                                 <h2 align="center">Der Kunde kaufte in letzter Zeit vor Allem:</h2>
-                                                <p align="center">Kartoffeln</p>
+                                                <p align="center" th:text="${recommendedProduct}">Kartoffeln</p>
                                             </div>
                                         </div>
 

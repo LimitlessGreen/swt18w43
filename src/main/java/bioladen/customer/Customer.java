@@ -3,11 +3,13 @@ package bioladen.customer;
 import bioladen.datahistory.DataHistoryRequest;
 import bioladen.datahistory.EntityLevel;
 import bioladen.datahistory.RawEntry;
+import bioladen.product.InventoryProduct;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * a Customer
@@ -49,6 +51,8 @@ public class Customer implements RawEntry {
 	private @Getter
 	@Setter
 	CustomerType customerType;
+	
+	private LinkedHashMap<String, Integer> purchasedProducts = new LinkedHashMap<>();
 
 	/**
 	 * empty Constructor
@@ -79,6 +83,32 @@ public class Customer implements RawEntry {
 	 */
 	public boolean isCustomerType(CustomerType customerType) {
 		return customerType == this.customerType;
+	}
+
+	/**
+	 *Add purchases to a specific customer (one per purchase, not amount of products)
+	 */
+	public void addPurchase(InventoryProduct inventoryProduct) {
+		int amount = (this.purchasedProducts.containsKey(inventoryProduct.getName()))
+				? this.purchasedProducts.get(inventoryProduct.getName()) + 1
+				: 0;
+		this.purchasedProducts.put(inventoryProduct.getName(), amount);
+	}
+
+	/**
+	 * get the product, max purchased for a specific customer.
+	 * @return InventoryProduct
+	 */
+	public String getMaxPurchasedProduct() {
+		int maxValue = 0;
+		String tmpProduct = null;
+		for (Map.Entry<String, Integer> entry : this.purchasedProducts.entrySet()) {
+			if (entry.getValue() >= maxValue) {
+				maxValue = entry.getValue();
+				tmpProduct = entry.getKey();
+			}
+		}
+		return tmpProduct;
 	}
 
 	/**

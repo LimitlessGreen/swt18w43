@@ -1,5 +1,6 @@
 package bioladen.finances;
 
+import bioladen.customer.Customer;
 import bioladen.customer.CustomerRepository;
 import bioladen.datahistory.DataHistoryManager;
 import bioladen.datahistory.EntityLevel;
@@ -164,7 +165,13 @@ public class CashierSystem {
 		model.addAttribute("hostname", InetAddress.getLocalHost().getHostName());
 
 		try {
-			shoppingCart.setCustomer(customerRepository.findById(userId).get());
+			Customer customer = customerRepository.findById(userId).get();
+			shoppingCart.setCustomer(customer);
+			String maxPurchasedProduct = customer.getMaxPurchasedProduct();
+			model.addAttribute("recommendedProduct",
+					(maxPurchasedProduct == null)
+							? "Zur Zeit gibt es hier keine Empfehlungen"
+							: maxPurchasedProduct);
 
 			return "cashiersystem";
 		} catch (Exception e) {
@@ -213,6 +220,14 @@ public class CashierSystem {
 																 shoppingCart.getPfandMoney(),
 																 shoppingCart.getMwstMoney(),
 																 shoppingCart.getSaleMoney());
+
+		Customer customer = shoppingCart.getCustomer();
+		if (customer != null) {
+			for (Map.Entry<InventoryProduct, CartCartItem> item : shoppingCart.getItems().entrySet()) {
+				customer.addPurchase(item.getKey());
+			}
+			customerRepository.save(customer);
+		}
 
 		// (👁 ᴥ 👁) Event
 		pushShoppingCart(shoppingCartSale, EntityLevel.CREATED, "Verkauf");
