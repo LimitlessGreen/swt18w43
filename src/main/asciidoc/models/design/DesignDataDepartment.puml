@@ -5,11 +5,7 @@
 rectangle Bioladen {
     namespace bioladen.event {
 
-        enum EntityLevel {
-            CREATED
-            MODIFIED
-            DELETED
-        }
+
 
         class EntityEvent<T>{
             -entity : T
@@ -47,16 +43,26 @@ rectangle Bioladen {
         }
 
         class DataEntry<T> <<Entity>>{
+            -id : Long
             -entityLevel : EntityLevel
             -thrownBy : String
+            -publisherName : String
             -saveTime : LocalDateTime
             -entity : T
             -message : String
             -name : String
             -involvedCustomer : Customer
+            -declaredFields : Map<String, String>
+            -declaredModifiedFields : Map<String, String>
+            -entityBeforeModified : T
             
             DataEntry(String name, EntityLevel, String thrownBy, T)
+            -searchDeclaredFields(T) : Map<String, String>
             +getFormattedSaveTime(String) : String
+            +getResolvableType() : ResolvableType
+            +setMessage(String) : void
+            +setEntityBeforeModified(T) : void
+            +isModified(String) : boolean
             
         }
 
@@ -74,6 +80,14 @@ rectangle Bioladen {
 
         class DataHistoryController <<Controller>> {
             +dataHistory() : String
+        }
+
+        enum EntityLevel {
+            CREATED
+            MODIFIED
+            DELETED
+
+            -className : String
         }
 
         DataEntry "1" --> "1" bioladen.event.EntityLevel
