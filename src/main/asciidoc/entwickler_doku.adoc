@@ -256,8 +256,14 @@ image::models/design/DesignProductDepartment.svg[title= "ProductDepartment"]
 
 === Persistenz
 Wir haben uns für eine persistente, relationale Datenbank entschieden, weil wir eine Vielzahl von Produkten und Kunden
-haben. Für das Log verwenden wir einen Key-Value Store.
+haben.
 
+Für das Log verwenden wir einen Key-Value Store, welcher nicht persistent ist.
+
+=== Konzeptbrechende Entscheidungen
+- Das Log wurde in DataHistory umbenannt, um verwechslungen mit einem Konsolenlog zu umgehen.
+- Die DataHistory nutzt statt einer persistenten relationalen Datenbank einen einfachen Key-Value Store. Alte Objekte werden so auch nach Änderung in alter Form erhalten.
+- Eine vormals vorhandene Event-Klasse wurde mit dem DataEntity zusammengelegt, da sich viele Attribute doppelten.
 
 === Benutzeroberfläche
 
