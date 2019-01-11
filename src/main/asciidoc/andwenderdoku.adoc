@@ -124,12 +124,10 @@ Der Manger erhält nach Login folgende Navigationspunkte:
 
 == Großhändlerproduktliste
 
-image::pictures/2.PNG[100%, 100%, pdfwidth=100%, align=center]
-
-
-
 Großhändlerprodukte, wie zum Beispiel hier die Kartoffel können nicht mehr zu den Produkten hinzu gefügt werden, da es sich bereits in der Produktliste befindet.
-Der Knopf dafür kann deshalb nicht mehr betätigt werden.
+Der Knopf dafür kann deshalb nicht mehr betätigt werden (ausgerauter Button).
+
+image::pictures/2.PNG[100%, 100%, pdfwidth=100%, align=center]
 
 == Produktseiten
 Zu den Produktseiten kann man über zwei Wege gelangen:
@@ -137,23 +135,37 @@ Zu den Produktseiten kann man über zwei Wege gelangen:
 Weg 1: man klickt in der Produktliste auf den Names des Produktes
 
 image::pictures/5.PNG[100%, 100%, pdfwidth=100%, align=center]
+⠀
 
-
-Weg2: Einscannen des QR-Codes vom Label
+Weg 2: Einscannen des QR-Codes vom Label
 
 image::pictures/6.PNG[100%, 50%, pdfwidth=100%, align=center]
 
 
 == Kasse
+=== Allgemeines
+(1) Wurden Werte, wie in das Kunden-ID Feld eingeben, (2) muss die Eingabe erst mit dem Häkchen bestätigt werden , (3) damit eine Ausgabe (z.B Prozentsatz) erfolgen kann.
+
+
 image::pictures/3.PNG[100%, 100%, pdfwidth=100%, align=center]
 
-Wurden Werte, wie in das Kunden-ID Feld eingeben muss die Eingabe erst mit dem Häkchen bestätigt werden, damit eine Ausgabe (z.B Prozentsatz) erfolgen kann.
+=== Einscannen von Produkten
+Die Anwendung stellt die Funtkion zur Verfügung Barcodes einzuscannen, und somit eine erleichtere Bedienung der Kasse für das Personal zu ermöglichen.
+Dafür müssen folgende Schritte durchgeführt werden:
+
+1. öffnen Sie die Kasse und klicken sie auf "QR-Code anzeigen"
+2. scannen Sie mit ihrem Smartphone den QR-Code ein und schließen das Fenster mit dem QR-Code (erlauben Sie den Zugriff auf die Kamera bitte)
+3. scannen Sie nun den Barcode des Labels mithilfe des Smartphones, die ID des Produktes sollte nun markierten Feld erscheinen
+
+[NOTE]
+ Dafür mussen beide Geräte im selben Netzwerk, indem einem Kommunikation ziwschen den Geräten erlaubt ist, befinden
+
+image::pictures/7.PNG[100%, 100%, pdfwidth=100%, align=center]
 
 == Personenverwaltung - User hinzufügen
 Wird eine neue Person mit der Rolle Manager oder Personal erstellt, kann sich nun das neue Personal mit seiner angegebenen Email und dem Standardpassword "blattgrün43" anmelden. Das Passwort kann vom Nutzer später selbst unter Nutzereinstellungen ändern.
 
 == Aktionsverlauf
-image::pictures/4.PNG[100%, 100%, pdfwidth=100%, align=center]
 
 Im Aktionsverlauf kann der Manager alle Aktivitäten der Anwendungen sehen. Dabei stehen die neusten Elemente oben. Zur besseren Erfassung, können die Elemente aus und eingeklappt werden.
 Links wird mithilfe der farblichen Leiste und eines Emoji dargestellt, was passiert ist:
@@ -162,3 +174,4 @@ grün - hinzugefügt +
 rot - gelöscht +
 orange - modifiziert (modifizierte Zeile wird nochmals farbig hervor gehoben)
 
+image::pictures/4.PNG[100%, 100%, pdfwidth=100%, align=center]
