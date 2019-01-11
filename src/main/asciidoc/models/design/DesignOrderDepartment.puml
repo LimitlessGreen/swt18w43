@@ -156,21 +156,33 @@ rectangle Bioladen {
 
     namespace bioladen.order {
 
-        enum AvailabilityFlag {
-            UNDER_MINIMUM_ORDER_AMOUNT(CHEAPEST)
-            OVER_MINIMUM_ORDER_AMOUNT
-
-        }
-
         class OrderController <<Controller>> {
             -orderRepository : DistributorOrderRepository
             -distributorProductCatalog : DistributorProductCatalog
-            -itemRepository : OrderItemRepository
-            +order(Model, String, Integer : String
-            +completeOrder(OrderCart, Optional<UserAccount>) : String
+            -inventoryProductCatalog : InventoryProductCatalog
+            -orderManager : OrderManager
+            +orders(Model) : String
+            +deleteOrder(long) : String
+            +completeOrder(long) : String
+            +order(Model, String, Integer) : String
+            +BestPriceInfo()
+            +getInventoryAmount(DistributorProduct) : long
+            +smaller<Comparable -> T>(T , T) : T
             +completeOrder(Model, OrderCart, Optional<UserAccount>) : String
             +removeOrder(Model, String, OrderCart) : String
-        }
+            +addItem(Model, OrderCart, Long, Integer, Optional<DistributorProduct> : String
+            +initializeCart() : OrderCart
+            }
+
+        class DistributorOrder <<Entity>> {
+            - id : long
+            - distributor : Distributor
+            - userAccount : UserAccount
+            - items : List<OrderItem>
+            +DistributorOrder(UserAccount, Distributor)
+            +addItems(OrderCart, OrderManager)
+            +getPrice() : MonetaryAmount
+            }
 
         class OrderCartItem <<Entity>>{
             -id : String
@@ -180,19 +192,19 @@ rectangle Bioladen {
             +OrderCartItem(String, Quantity, DistributorProduct)
             +getProductName() : String
             +add(Quantity) : OrderCartItem
-        }
+            }
 
         class OrderCart <<Entity>>{
             -items : Map <DistributorProduct, OrderCartItem>
+            +getPrice() : MonetaryAmount
             +addOrUpdateItem(DistributorProduct, Quantity) : OrderCartItem
             +addOrUpdateItem(DistributorProduct, long) : OrderCartItem
             +addOrUpdateItem(DistributorProduct, double) : OrderCartItem
-            +getPrice() : MonetaryAmount
             +removeItem(String) : Optional<OrderCartItem>
             +getItem(String) : Optional<OrderCartItem>
             +iterator() : Iterator
             +clear()
-        }
+            }
 
         class OrderItem <<Entity>>{
             - id : long
@@ -200,6 +212,15 @@ rectangle Bioladen {
             - quantity : Quantity
             - product : DistributorProduct
             + OrderItem(Quantity, DistributorProduct)
+            }
+
+        class OrderManager <<Service>>{
+            -distributorOrderRepository : DistributorOrderRepository
+            -orderItemRepository : OrderItemRepository
+            +createOrderItem(DistributorProduct, Quantity) : OrderItem
+            +delete(DistributorOrder)
+            +createOrder(DistributorOrder)
+            }
 
         interface DistributorOrderRepository <<Repository>> extends org.springframework.data.repository.CrudRepository {
         }
@@ -207,13 +228,20 @@ rectangle Bioladen {
         interface OrderItemRepository <<Repository>> extends org.springframework.data.repository.CrudRepository {
         }
 
-        org.salespointframework.support.ConsoleWritingMailSender <-- bioladen.order.OrderAssistant
-        OrderAssistant "1" o-- "1" Order
-        OrderAssistantController --> Order
-        OrderAssistantController --> OrderAssistant
-        OrderAssistantController --> org.salespointframework.order.OrderManager
-        OrderController --> org.salespointframework.order.OrderManager
-        OrderController --> Order
+
+        OrderCart "1"  *-- "*" OrderCartItem
+        DistributorOrder "1" *-- "*" OrderItem
+        OrderController --> order.html
+        OrderController --> orderfinished.html
+        OrderController --> orderoverview.html
+        OrderManager --> OrderItemRepository
+        OrderManager --> DistributorOrderRepository
+        OrderManager "1" -- "*" DistributorOrder
+        OrderController o-- OrderManager
+        OrderController --> OrderCart
+
+
+
     }
 
     namespace bioladen.event {
@@ -222,7 +250,6 @@ rectangle Bioladen {
         }
 
         org.salespointframework.context.ApplicationEvent <|-- bioladen.event.EntityCreatedEvent
-        bioladen.order.OrderAssistant --> EntityCreatedEvent
     }
 
     namespace bioladen.product {
@@ -235,9 +262,6 @@ rectangle Bioladen {
 
 
 
-        bioladen.order.OrderAssistant "1" *-- "1" DistributorProductCatalog
-
-
     }
 
     namespace Amount {
@@ -245,7 +269,7 @@ rectangle Bioladen {
             +of(long) : Amount
 
         }
-        Amount <-- bioladen.order.OrderAssistant
+
     }
 
     namespace ressources.templates {
@@ -262,8 +286,6 @@ rectangle Bioladen {
 
                 }
 
-        bioladen.order.OrderAssistantController --> orderassistant.html
-        bioladen.order.OrderController --> order.html
     }
 
 }
