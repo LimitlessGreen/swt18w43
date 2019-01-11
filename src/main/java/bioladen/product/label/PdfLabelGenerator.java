@@ -36,6 +36,9 @@ public class PdfLabelGenerator {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private static final float MM_TO_PT = 2.834645669291f;
+	private static final float FONT_UNIT_TO_PT = 1000.0f;
+
+	private static final float HALF = 0.5f;
 
 	private static final float LABEL_WIDTH  = 70 * MM_TO_PT;
 	private static final float LABEL_HEIGHT = 50 * MM_TO_PT;
@@ -127,14 +130,15 @@ public class PdfLabelGenerator {
 			}
 
 			cs.newLine();
-			cs.showText(inventoryProduct.getPrice().divide(inventoryProduct.getUnit(), RoundingMode.HALF_UP) + " € pro " + unitMetricString);
+			cs.showText(inventoryProduct.getPrice().divide(inventoryProduct.getUnit(), RoundingMode.HALF_UP)
+					+ " € pro " + unitMetricString);
 			cs.endText();
 
 			cs.beginText();
 			cs.setFont(robotoSlab700, PRODUCT_PRICE_FONT_SIZE);
 			cs.newLineAtOffset(
 					LABEL_WIDTH - LABEL_MARGIN
-							- (robotoSlab700.getStringWidth(inventoryProduct.getPrice().toString()) / 1000.0f) * PRODUCT_PRICE_FONT_SIZE,
+							- (robotoSlab700.getStringWidth(inventoryProduct.getPrice().toString()) / FONT_UNIT_TO_PT) * PRODUCT_PRICE_FONT_SIZE,
 					PRODUCT_PRICE_POS_Y);
 			cs.showText(inventoryProduct.getPrice().toString());
 			cs.endText();
@@ -174,19 +178,19 @@ public class PdfLabelGenerator {
 
 			cs.beginText();
 			cs.setFont(robotoMono400, BARCODE_FONT_SIZE);
-			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE0_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (robotoMono400.getStringWidth(
+			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE0_LEFT + HALF * BARCODE_WHITESPACE_WIDTH
+					- HALF * (robotoMono400.getStringWidth(
 					Long.toString(InventoryProduct.toEan13(inventoryProduct.getId())).substring(1, 7)
-			) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+			) / FONT_UNIT_TO_PT) * BARCODE_FONT_SIZE, LABEL_MARGIN);
 			cs.showText(Long.toString(InventoryProduct.toEan13(inventoryProduct.getId())).substring(1, 7));
 			cs.endText();
 
 			cs.beginText();
 			cs.setFont(robotoMono400, BARCODE_FONT_SIZE);
-			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE1_LEFT + 0.5f * BARCODE_WHITESPACE_WIDTH
-					- 0.5f * (robotoMono400.getStringWidth(
+			cs.newLineAtOffset(BARCODE_POS_X + BARCODE_WHITESPACE1_LEFT + HALF * BARCODE_WHITESPACE_WIDTH
+					- HALF * (robotoMono400.getStringWidth(
 					Long.toString(InventoryProduct.toEan13(inventoryProduct.getId())).substring(7)
-			) / 1000.0f) * BARCODE_FONT_SIZE, LABEL_MARGIN);
+			) / FONT_UNIT_TO_PT) * BARCODE_FONT_SIZE, LABEL_MARGIN);
 			cs.showText(Long.toString(InventoryProduct.toEan13(inventoryProduct.getId())).substring(7));
 			cs.endText();
 
