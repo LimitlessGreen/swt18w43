@@ -64,6 +64,10 @@ class InventoryProductControllerTest {
 
 	@Test
 	void labelTest() throws Exception {
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+		inventoryProduct.setDisplayedAmount(5);
+		inventoryProductCatalog.save(inventoryProduct);
+
 		mvc.perform(get("/product/label").with(user("manager").roles("MANAGER"))
 				.param("id", "1"))
 				.andDo(print())
@@ -72,6 +76,10 @@ class InventoryProductControllerTest {
 
 	@Test
 	void labelsTest() throws Exception {
+		InventoryProduct inventoryProduct = new InventoryProduct(distributorProductCatalog.findById(1L).get(), distributorProductCatalog);
+		inventoryProduct.setDisplayedAmount(5);
+		inventoryProductCatalog.save(inventoryProduct);
+
 		mvc.perform(get("/productlist/labels").with(user("manager").roles("MANAGER")))
 				.andDo(print())
 				.andExpect(status().isOk());
